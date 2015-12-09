@@ -1,0 +1,26 @@
+syntax = "proto2";
+
+package match;
+
+option java_package = "com.oneroadtrip.matcher";
+option java_multiple_files = true;
+
+// TODO(xiaofengguo
+message Time {
+  optional int32 year = 1;
+  optional int32 month = 2;
+  optional int32 date = 3;
+  optional int32 hour = 4;
+  optional int32 minute = 5;
+  optional int32 second = 6;
+}
+
+message Photo {
+  optional string path = 1;
+  optional string checksum = 2;
+  optional Time time = 3; // DateTime
+  optional string make = 4; // Make
+  optional string model = 5; // Model
+  optional int32 image_width = 6;  // ExifImageWidth
+  optional int32 image_length = 7;  // ExifImageLength
+}
