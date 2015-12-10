@@ -16,7 +16,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 public class App {
   private static final Logger LOG = LogManager.getLogger();
 
-  private static final URI BASE_URI = URI.create("http://localhost:8080/base/");
+  private static final URI BASE_URI = URI.create("http://0.0.0.0:8080/base/");
   public static final String ROOT_PATH = "helloworld";
 
   public static void main(String[] args) {
