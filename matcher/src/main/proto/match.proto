@@ -21,7 +21,7 @@ message TravelRequest {
   optional bool need_vip = 13;
 }
 
-message TravelResponse {
+message ChosenGuide {
   optional string name = 1;
   optional string photo_id = 2;
   optional float score = 3;
@@ -34,4 +34,12 @@ message TravelResponse {
   optional float price_usd = 10;
   optional float price_cny = 11;
 }
-  
+
+message TravelResponse {
+  enum Status {
+    SUCCESS = 0;
+    INCORRECT_REQUEST = 1;
+  }
+  optional Status status = 1 [ default = SUCCESS ];
+  repeated ChosenGuide guide = 2;
+}

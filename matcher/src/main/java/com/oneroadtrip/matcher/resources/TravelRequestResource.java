@@ -12,6 +12,8 @@ import org.apache.logging.log4j.Logger;
 import com.googlecode.protobuf.format.JsonFormat;
 import com.googlecode.protobuf.format.JsonFormat.ParseException;
 import com.oneroadtrip.matcher.TravelRequest;
+import com.oneroadtrip.matcher.TravelResponse;
+import com.oneroadtrip.matcher.TravelResponse.Status;
 
 @Path("travelrequest")
 public class TravelRequestResource {
@@ -22,15 +24,28 @@ public class TravelRequestResource {
   @Produces(MediaType.APPLICATION_JSON)
   public String post(String post) {
     LOG.info("xfguo: start parsing travelrequest: {}", post);
+    
+    // Got the request.
     TravelRequest.Builder builder = TravelRequest.newBuilder();
+    TravelResponse.Builder respBuilder = TravelResponse.newBuilder().setStatus(Status.SUCCESS);
     try {
       JsonFormat.merge(post, builder);
     } catch (ParseException e) {
       LOG.error("failed to parse the json: {}", e);
+      return JsonFormat.printToString(respBuilder.setStatus(Status.INCORRECT_REQUEST).build()); 
     }
+
+    // 这里我们不做user validatation，我们把validation留到出order的时候做。
     
-    TravelRequest request = builder.build();
-    LOG.info("xfguo: get travelrequest proto: {}", builder.build());
-    return JsonFormat.printToString(request) + "\n";
+    // 1. Choose guide candidates:
+    //   - filters: destination / num_persons = adults + kids + seniors / level.
+    //   - range: (startdate, enddate)
+    //   - Unknown how to use: need_air_ticket / need_hotel / need_transportation / need_vip / interests
+    
+    // 2. Make sure all candidates are avail during (startdate..enddate).
+
+    // 3. Provide a random order of accepted guides.
+    
+    return JsonFormat.printToString(respBuilder.build()); 
   }
 }
