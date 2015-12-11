@@ -10,7 +10,7 @@ import javax.ws.rs.Produces;
  */
 @Path("helloworld")
 public class HelloWorldResource {
-  public static final String CLICHED_MESSAGE = "Hello World!";
+  public static final String CLICHED_MESSAGE = "Hello World!\n";
 
   @GET
   @Produces("text/plain")

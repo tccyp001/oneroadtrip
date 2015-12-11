@@ -1,6 +1,1 @@
-CREATE TABLE TestT (
-	ID INT NOT NULL,
-	NAME CHAR(35)
-);
-
-INSERT INTO TestT (ID, NAME) values (101, 'test1'), (102, 'test2');
+INSERT INTO Users(user_id, user_name) values (101, 'test1'), (102, 'test2');

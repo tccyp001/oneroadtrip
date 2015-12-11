@@ -1,0 +1,26 @@
+div.message {
+    border-radius: 10px;
+    border: thin solid #444444;
+    margin: 10px;
+    width: 300px;
+    padding: 10px;
+    box-shadow: 5px 5px 5px #888888;
+    font-family: Helvetica, serif;
+    color: #333333;
+}
+
+div.items {
+    border-radius: 10px;
+    border: thin dotted #AAAAFF;
+    margin: 10px;
+    padding: 10px;
+    font-family: Helvetica, serif;
+    color: #4444FF;
+}
+
+div.messags {
+    border-radius: 10px;
+    border: thin dotted #888888;
+    margin: 10px;
+    padding: 10px;
+}

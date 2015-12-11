@@ -5,22 +5,33 @@ package match;
 option java_package = "com.oneroadtrip.matcher";
 option java_multiple_files = true;
 
-// TODO(xiaofengguo
-message Time {
-  optional int32 year = 1;
-  optional int32 month = 2;
-  optional int32 date = 3;
-  optional int32 hour = 4;
-  optional int32 minute = 5;
-  optional int32 second = 6;
+message TravelRequest {
+  optional string token = 1;
+  optional string destination = 2;
+  optional int32 startdate = 3;
+  optional int32 enddate = 4;
+  optional int32 adults = 5;
+  optional int32 kids = 6;
+  optional int32 seniors = 7;
+  repeated string interests = 8;
+  optional int32 level = 9;
+  optional bool need_air_ticket = 10;
+  optional bool need_hotel = 11;
+  optional bool need_transportation = 12;
+  optional bool need_vip = 13;
 }
 
-message Photo {
-  optional string path = 1;
-  optional string checksum = 2;
-  optional Time time = 3; // DateTime
-  optional string make = 4; // Make
-  optional string model = 5; // Model
-  optional int32 image_width = 6;  // ExifImageWidth
-  optional int32 image_length = 7;  // ExifImageLength
+message TravelResponse {
+  optional string name = 1;
+  optional string photo_id = 2;
+  optional float score = 3;
+  optional string description = 4;
+  optional int32 experience = 5;
+  optional bool has_car = 6;
+  optional int32 max_people = 7;
+  repeated string language = 8;
+  optional string citizenship = 9;  // 国籍
+  optional float price_usd = 10;
+  optional float price_cny = 11;
 }
+  

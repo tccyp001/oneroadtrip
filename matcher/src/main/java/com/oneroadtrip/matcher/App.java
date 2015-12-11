@@ -9,6 +9,8 @@ import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
+import com.oneroadtrip.matcher.resources.TravelRequestResource;
+
 /**
  * Hello world!
  *
@@ -16,22 +18,24 @@ import org.glassfish.jersey.server.ResourceConfig;
 public class App {
   private static final Logger LOG = LogManager.getLogger();
 
-  private static final URI BASE_URI = URI.create("http://0.0.0.0:8080/base/");
+  private static final URI BASE_URI = URI.create("http://0.0.0.0:8080/api/");
   public static final String ROOT_PATH = "helloworld";
 
   public static void main(String[] args) {
     try {
-//      App app = new App();  // Just a dummy one.
-//      URL resourceUrl = app.getClass().getResource("src/main/webapp/index.html");
-//
-//      LOG.info("\"Hello World\" Jersey Example App");
-//      LOG.info("xfguo: webapp: {}", resourceUrl);
+      // App app = new App(); // Just a dummy one.
+      // URL resourceUrl =
+      // app.getClass().getResource("src/main/webapp/index.html");
+      //
+      // LOG.info("\"Hello World\" Jersey Example App");
+      // LOG.info("xfguo: webapp: {}", resourceUrl);
 
-      final ResourceConfig resourceConfig = new ResourceConfig(HelloWorldResource.class);
+      final ResourceConfig resourceConfig = new ResourceConfig(HelloWorldResource.class,
+          TravelRequestResource.class);
       final HttpServer server = GrizzlyHttpServerFactory.createHttpServer(BASE_URI, resourceConfig,
           false);
-//      server.getServerConfiguration().addHttpHandler(
-//          new StaticHttpHandler(resourceUrl.getPath()), "/static");
+      // server.getServerConfiguration().addHttpHandler(
+      // new StaticHttpHandler(resourceUrl.getPath()), "/static");
       Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
         public void run() {
           server.shutdownNow();
