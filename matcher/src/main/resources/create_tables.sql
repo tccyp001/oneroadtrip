@@ -5,9 +5,10 @@ CREATE TABLE Users(
   user_id INT PRIMARY KEY AUTO_INCREMENT,
   user_name VARCHAR(100),
   email VARCHAR(100),
-  password CHAR(40),
+  password CHAR(64),
   photo_id INT
 );
+CREATE INDEX UsersUserName ON Users(user_name);
 
 /*
  * About user expiration: 对于一个用户而言，有可能对应有多个tokens，有些过期了，有些没有。
@@ -16,7 +17,7 @@ CREATE TABLE Users(
  * is_expired: client端可以显式的设置这个域来废弃这个token，这有可能发生在更新token的情况下。
  */
 CREATE TABLE Tokens (
-  token VARCHAR(100) PRIMARY KEY,
+  token VARCHAR(40) PRIMARY KEY,
   user_id INT,
   expired_ts TIMESTAMP,
   is_expired BOOLEAN
