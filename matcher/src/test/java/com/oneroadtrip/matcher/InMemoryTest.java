@@ -27,7 +27,7 @@ public class InMemoryTest {
 
     // TODO(lamuguo): Add run sql script.
     ScriptRunner runner = new ScriptRunner(conn, true, false);
-    runner.runScript(new BufferedReader(new FileReader("src/main/resources/create_database.sql")));
+    runner.runScript(new BufferedReader(new FileReader("src/main/resources/create_tables.sql")));
     runner.runScript(new BufferedReader(new FileReader("src/test/resources/test.sql")));
     LOG.info("xfguo: testing database is created");
 

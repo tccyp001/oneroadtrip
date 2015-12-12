@@ -11,9 +11,9 @@ import org.apache.logging.log4j.Logger;
 
 import com.googlecode.protobuf.format.JsonFormat;
 import com.googlecode.protobuf.format.JsonFormat.ParseException;
+import com.oneroadtrip.matcher.Status;
 import com.oneroadtrip.matcher.TravelRequest;
 import com.oneroadtrip.matcher.TravelResponse;
-import com.oneroadtrip.matcher.TravelResponse.Status;
 
 @Path("travelrequest")
 public class TravelRequestResource {
