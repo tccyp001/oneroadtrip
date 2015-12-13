@@ -1,7 +1,6 @@
 package com.oneroadtrip.matcher;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.Arrays;
 import java.util.EnumSet;
 
@@ -9,7 +8,11 @@ import javax.servlet.DispatcherType;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.DefaultHandler;
+import org.eclipse.jetty.server.handler.HandlerList;
+import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -61,14 +64,21 @@ public class App {
 
       ServletHolder sh = new ServletHolder(servletContainer);
       ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-      context.setContextPath("/");
+      context.setContextPath("/api");
 
       FilterHolder filterHolder = new FilterHolder(GuiceFilter.class);
       context.addFilter(filterHolder, "/*", EnumSet.allOf(DispatcherType.class));
 
       context.addServlet(sh, "/*");
       server.setHandler(context);
-
+      
+      ResourceHandler resource_handler=new ResourceHandler();
+      resource_handler.setResourceBase("src/main/webapp");
+      
+      HandlerList handlers = new HandlerList();
+      handlers.setHandlers(new Handler[]{resource_handler,context, new DefaultHandler()});
+      server.setHandler(handlers);
+      
       try {
         server.start();
         server.join();
