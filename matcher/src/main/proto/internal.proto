@@ -1,0 +1,19 @@
+syntax = "proto2";
+
+package match;
+
+option java_package = "com.oneroadtrip.matcher.internal";
+option java_multiple_files = true;
+
+message GuideCandidate {
+  optional int64 guide_id = 1;
+  optional string user_name = 10;
+  optional string description = 2;
+  optional int32 level = 3;
+  optional int32 max_persons = 4;
+  optional string citizenship = 5;
+  optional bool has_car = 6;
+  optional float score = 7;
+  optional float price_usd = 8;
+  optional float price_cny = 9;
+}

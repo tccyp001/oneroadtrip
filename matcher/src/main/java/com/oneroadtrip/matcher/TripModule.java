@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import javax.annotation.Nullable;
 import javax.inject.Named;
 
 import org.apache.logging.log4j.LogManager;
@@ -27,7 +26,8 @@ public class TripModule extends AbstractModule {
     Connection conn = null;
     try {
       conn = DriverManager
-          .getConnection("jdbc:mysql://tech-meetup.com:4407/oneroadtrip?user=oneroadtrip&password=oneroadtrip123");
+          .getConnection("jdbc:mysql://tech-meetup.com:4407/oneroadtrip"
+              + "?characterEncoding=UTF-8&user=oneroadtrip&password=oneroadtrip123");
     } catch (SQLException e) {
       LOG.info("xfguo: failed to connect the database");
       return null;

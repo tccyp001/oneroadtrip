@@ -7,7 +7,7 @@ CREATE TABLE Users(
   email VARCHAR(100),
   password CHAR(64),
   photo_id INT
-);
+) DEFAULT CHARSET=utf8;
 CREATE INDEX UsersUserName ON Users(user_name);
 
 /*
@@ -21,7 +21,7 @@ CREATE TABLE Tokens (
   user_id INT,
   expired_ts TIMESTAMP,
   is_expired BOOLEAN
-);
+) DEFAULT CHARSET=utf8;
 
 /*
  * 每个用户都有可能同时是一个导游。
@@ -37,7 +37,7 @@ CREATE TABLE Guides (
 	citizenship VARCHAR(2),
 	has_car BOOLEAN,
 	score FLOAT
-);
+) DEFAULT CHARSET=utf8;
 CREATE INDEX GuidesUserId ON Guides(user_id);
 
 /*
@@ -49,13 +49,15 @@ CREATE TABLE GuideReservations (
 	guide_id INT,
 	reserved_date INT,
 	location_id INT 
-);
+) DEFAULT CHARSET=utf8;
 CREATE INDEX GuideReservationsGuideId ON GuideReservations(guide_id);
 
 CREATE TABLE GuideLanguages (
-  guide_id INT PRIMARY KEY,
+  guide_language_id INT PRIMARY KEY AUTO_INCREMENT,
+  guide_id INT,
   language_id INT
-);
+) DEFAULT CHARSET=utf8;
+CREATE INDEX GuideLanguagesGuideId ON GuideLanguages(guide_id);
 CREATE INDEX GuideLanguagesLanguageId ON GuideLanguages(language_id);
 
 /*
@@ -71,14 +73,15 @@ CREATE TABLE GuideLocations (
 	price_usd FLOAT,
 	price_cny FLOAT,
 	is_effective BOOLEAN
-);
+) DEFAULT CHARSET=utf8;
 CREATE INDEX GuideLocationsGuideId ON GuideLocations(guide_id);
 CREATE INDEX GuideLocationsLocationId ON GuideLocations(location_id);
 
 CREATE TABLE GuideBillingMethods (
-  guide_id INT PRIMARY KEY,
+  guide_billing_method_id INT PRIMARY KEY AUTO_INCREMENT,
+  guide_id INT,
   billing_method_id INT
-);
+) DEFAULT CHARSET=utf8;
 
 /*
  * guide_location_id: 里面含价格和旅游点
@@ -90,14 +93,14 @@ CREATE TABLE Orders (
   guide_id INT,
   guide_location_id INT,
   reservation_id INT
-);
+) DEFAULT CHARSET=utf8;
 CREATE INDEX OrdersUserId ON Orders(user_id);
 CREATE INDEX OrdersGuideId ON Orders(guide_id);
 
 CREATE TABLE Photos(
   photo_id INT PRIMARY KEY AUTO_INCREMENT,
   content BLOB
-);
+) DEFAULT CHARSET=utf8;
 
 -- Const tables --
 
@@ -111,20 +114,20 @@ CREATE TABLE Locations (
   city VARCHAR(20),
   region VARCHAR(20),
   zipcode INT
-);
+) DEFAULT CHARSET=utf8;
 
 CREATE TABLE Levels (
   level INT PRIMARY KEY,
   description VARCHAR(100)
-);
+) DEFAULT CHARSET=utf8;
 
 CREATE TABLE Languages (
   language_id INT PRIMARY KEY,
   code CHAR(2),
   description VARCHAR(100)
-);
+) DEFAULT CHARSET=utf8;
 
 CREATE TABLE BillingMethods (
   billing_method_id INT PRIMARY KEY,
   description VARCHAR(100)  -- VISA / Master / AE / 银联 / Paypal / Alipay
-);
+) DEFAULT CHARSET=utf8;

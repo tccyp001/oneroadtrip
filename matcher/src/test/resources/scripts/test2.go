@@ -3,23 +3,32 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"flag"
 	"fmt"
 	"net/http"
 	"io/ioutil"
 	"log"
 )
 
-type mytype []map[string]string
+type mytype []map[string] interface{}
 
 func main() {
+	json_file := flag.String("json_file", "test.json", "json file for reading request")
+	host := flag.String("host", "127.0.0.1", "oneroadtrip service host")
+	port := flag.Int("port", 8080, "oneroadtrip service port")
+
+	flag.Parse();
+
 	log.Println("Start...")
 	var data mytype
-	file, err := ioutil.ReadFile("test.json")
+	file, err := ioutil.ReadFile(*json_file)
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = json.Unmarshal(file, &data)
-	if err != nil {
+
+  d := json.NewDecoder(bytes.NewReader(file))
+  d.UseNumber()
+	if err := d.Decode(&data); err != nil {
 		log.Fatal(err)
 	}
 
@@ -27,8 +36,7 @@ func main() {
 		req := data[i]
 		resp := data[i+1]
 
-		tt,ok := req["request"]
-//		request_type, ok := req["request"]
+		request_type, ok := req["request"]
 		if !ok {
 			log.Println("xfguo: not fonud request type")
 			continue
@@ -38,9 +46,11 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		log.Printf("xfguo: req = %v, resp = %v", req_json, resp)
 
-		res, err := http.Post("http://127.0.0.1:8080/" + tt, "application/json", bytes.NewReader(req_json))
+		url := fmt.Sprintf("http://%v:%v/%v", *host, *port, request_type)
+		log.Printf("xfguo: url = %v, req = %v, resp = %v, req_json = %v",
+			url, req, resp, string(req_json))
+		res, err := http.Post(url, "application/json; charset=utf-8", bytes.NewReader(req_json))
 		if err != nil {
 			log.Fatal(err)
 		}
