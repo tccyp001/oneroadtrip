@@ -152,6 +152,11 @@
       <version>${jetty.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-servlets</artifactId>
+      <version>${jetty.version}</version>
+    </dependency>
+    <dependency>
       <groupId>com.squarespace.jersey2-guice</groupId>
       <artifactId>jersey2-guice</artifactId>
       <version>0.5</version>

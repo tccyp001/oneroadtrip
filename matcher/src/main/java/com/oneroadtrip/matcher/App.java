@@ -16,6 +16,7 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
@@ -68,6 +69,7 @@ public class App {
 
       FilterHolder filterHolder = new FilterHolder(GuiceFilter.class);
       context.addFilter(filterHolder, "/*", EnumSet.allOf(DispatcherType.class));
+      context.addFilter(new FilterHolder(CrossOriginFilter.class), "/*", EnumSet.allOf(DispatcherType.class));
 
       context.addServlet(sh, "/*");
       server.setHandler(context);
