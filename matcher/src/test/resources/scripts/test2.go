@@ -47,7 +47,7 @@ func main() {
 			log.Fatal(err)
 		}
 
-		url := fmt.Sprintf("http://%v:%v/%v", *host, *port, request_type)
+		url := fmt.Sprintf("http://%v:%v/api/%v", *host, *port, request_type)
 		log.Printf("xfguo: url = %v, req = %v, resp = %v, req_json = %v",
 			url, req, resp, string(req_json))
 		res, err := http.Post(url, "application/json; charset=utf-8", bytes.NewReader(req_json))

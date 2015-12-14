@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -35,12 +37,13 @@ public class TravelRequestResource {
 
   @Inject
   @Nullable
-  private Connection connection;
+  private Optional<Connection> connection;
 
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public String post(String post) {
+    LOG.info("xfguo: start parsing travel request: {}", post);
     TravelResponse.Builder respBuilder = TravelResponse.newBuilder().setStatus(Status.SUCCESS);
     if (connection == null) {
       LOG.error("No DB connection");
@@ -106,8 +109,8 @@ public class TravelRequestResource {
     Map<Long, GuideCandidate> guides = Maps.newHashMap();
     Set<Long> reservedGuideIds = Sets.newHashSet();
 
-    try (PreparedStatement pStmtQueryGuides = connection.prepareStatement(queryGuides);
-        PreparedStatement pStmtQueryReservations = connection.prepareStatement(queryReservations)) {
+    try (PreparedStatement pStmtQueryGuides = connection.get().prepareStatement(queryGuides);
+        PreparedStatement pStmtQueryReservations = connection.get().prepareStatement(queryReservations)) {
       int numPeople = request.getAdults() + request.getKids() + request.getSeniors();
       pStmtQueryGuides.setInt(1, numPeople);
       pStmtQueryGuides.setString(2, request.getDestination());
@@ -148,31 +151,34 @@ public class TravelRequestResource {
           reservedGuideIds.add(guide_id);
         }
       }
+
+      // Filter unaccepted candidates
+      for (Map.Entry<Long, GuideCandidate> e : guides.entrySet()) {
+        if (reservedGuideIds.contains(e.getKey())) {
+          continue;
+        }
+        GuideCandidate candiadate = e.getValue();
+        ChosenGuide.Builder builder = ChosenGuide.newBuilder();
+        builder.setName(candiadate.getUserName());
+        builder.setScore(candiadate.getScore());
+        builder.setDescription(candiadate.getDescription());
+        builder.setExperience(-1);  // TODO(lamuguo): add this.
+        builder.setHasCar(candiadate.getHasCar());
+        builder.setMaxPeople(candiadate.getMaxPersons());
+        builder.addLanguage("unknown");  // TODO(lamuguo): add this.
+        builder.setCitizenship(candiadate.getCitizenship());
+        builder.setPriceUsd(candiadate.getPriceUsd());
+        builder.setPriceCny(candiadate.getPriceCny());
+        respBuilder.addGuide(builder);
+      }
     } catch (SQLException e) {
       LOG.error("Errors in running SQL", e);
       respBuilder.setStatus(Status.ERROR_IN_SQL);
+    } catch (NoSuchElementException e) {
+      LOG.error("No DB connection");
+      respBuilder.setStatus(Status.NO_DB_CONNECTION);
     }
     LOG.info("guides = {}, reservations = {}", guides, reservedGuideIds);
-    
-    // Filter unaccepted candidates
-    for (Map.Entry<Long, GuideCandidate> e : guides.entrySet()) {
-      if (reservedGuideIds.contains(e.getKey())) {
-        continue;
-      }
-      GuideCandidate candiadate = e.getValue();
-      ChosenGuide.Builder builder = ChosenGuide.newBuilder();
-      builder.setName(candiadate.getUserName());
-      builder.setScore(candiadate.getScore());
-      builder.setDescription(candiadate.getDescription());
-      builder.setExperience(-1);  // TODO(lamuguo): add this.
-      builder.setHasCar(candiadate.getHasCar());
-      builder.setMaxPeople(candiadate.getMaxPersons());
-      builder.addLanguage("unknown");  // TODO(lamuguo): add this.
-      builder.setCitizenship(candiadate.getCitizenship());
-      builder.setPriceUsd(candiadate.getPriceUsd());
-      builder.setPriceCny(candiadate.getPriceCny());
-      respBuilder.addGuide(builder);
-    }
     
     return JsonFormat.printToString(respBuilder.build()); 
   }

@@ -6,10 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -34,23 +35,14 @@ public class LoginResource {
 
   @Inject
   @Nullable
-  private Connection connection;
-
-  @Inject
-  @Named("content")
-  private String content;
+  private Optional<Connection> connection;
 
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public String post(String post) throws SQLException {
     LoginResponse.Builder respBuilder = LoginResponse.newBuilder().setStatus(Status.SUCCESS);
-    if (connection == null) {
-      LOG.error("No DB connection");
-      return JsonFormat.printToString(respBuilder.setStatus(Status.NO_DB_CONNECTION).build());
-    }
     LOG.info("xfguo: start parsing login request: {}", post);
-    LOG.info("xfguo: get content = '{}'", content);
 
     // Got the request.
     LoginRequest.Builder builder = LoginRequest.newBuilder();
@@ -63,7 +55,7 @@ public class LoginResource {
       String getToken = "SELECT token FROM Tokens "
           + "INNER JOIN Users USING(user_id) "
           + "WHERE user_name = ? AND password = ? AND is_expired = false";
-      PreparedStatement pStmt = SqlUtil.addPreparedStatement(connection, getToken, pStmts);
+      PreparedStatement pStmt = SqlUtil.addPreparedStatement(connection.get(), getToken, pStmts);
       pStmt.setString(1, request.getUsername());
       pStmt.setString(2, HashUtil.getOneWayHash(request.getPassword()));
       ResultSet rs = SqlUtil.addResultSet(pStmt, resultSets);
@@ -86,6 +78,9 @@ public class LoginResource {
     } catch (SQLException e) {
       LOG.error("Errors in running SQL", e);
       respBuilder.setStatus(Status.ERROR_IN_SQL);
+    } catch (NoSuchElementException e) {
+      LOG.error("No DB connection");
+      respBuilder.setStatus(Status.NO_DB_CONNECTION);
     } finally {
       for (ResultSet rs : resultSets) {
         rs.close();
@@ -94,7 +89,7 @@ public class LoginResource {
         pStmt.close();
       }
       if (connection != null)
-        connection.close();
+        connection.get().close();
     }
 
     return JsonFormat.printToString(respBuilder.build());

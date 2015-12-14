@@ -21,6 +21,7 @@ import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
+import com.beust.jcommander.JCommander;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.ServletModule;
@@ -39,6 +40,24 @@ public class App {
   public static final String ROOT_PATH = "helloworld";
 
   public static void main(String[] args) throws Exception {
+    ArgumentManager am = new ArgumentManager();
+    JCommander jc = new JCommander(am, args);
+    if (am.help) {
+        jc.usage();
+        return;
+    }
+    
+    LOG.info("mysql_host = {}, mysql_port = {}", am.mysql_host, am.mysql_port);
+    
+    String connection_str = String.format(
+        "jdbc:mysql://%s:%d/%s?characterEncoding=UTF-8&user=%s&password=%s", am.mysql_host,
+        am.mysql_port, am.mysql_db, am.mysql_user, am.mysql_password);
+    LOG.info(
+        "mysql connect: {}",
+        String.format(
+            "jdbc:mysql://%s:%d/%s?characterEncoding=UTF-8&user=%s&password=%s",
+            am.mysql_host, am.mysql_port, am.mysql_db, am.mysql_user, am.mysql_password));
+    
     try {
       // Notice, do not import com.mysql.jdbc.*
       // or you will have problems!
@@ -55,7 +74,7 @@ public class App {
 
       ServiceLocator locator = BootstrapUtils.newServiceLocator();
       Injector injector = BootstrapUtils.newInjector(locator,
-          Arrays.asList(new ServletModule(), new TripModule()));
+          Arrays.asList(new ServletModule(), new TripModule(connection_str)));
       BootstrapUtils.install(locator);
 
       Server server = new Server(PORT);

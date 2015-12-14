@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -33,7 +35,7 @@ public class SignupResource {
 
   @Inject
   @Nullable
-  private Connection connection;
+  private Optional<Connection> connection;
 
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
@@ -60,7 +62,7 @@ public class SignupResource {
       {
         // Deduplicate
         String dedupSignup = "SELECT COUNT(user_id) AS rowcount FROM Users WHERE user_name = ?";
-        PreparedStatement pStmt = connection.prepareStatement(dedupSignup);
+        PreparedStatement pStmt = connection.get().prepareStatement(dedupSignup);
         pStmts.add(pStmt);
         pStmt.setString(1, request.getUsername());
         ResultSet rs = pStmt.executeQuery();
@@ -82,29 +84,32 @@ public class SignupResource {
             + "VALUES (?, LAST_INSERT_ID(), CURRENT_TIMESTAMP(), false)";
 
         // Start the transaction.
-        connection.setAutoCommit(false);
-        PreparedStatement pStmt1 = SqlUtil.addPreparedStatement(connection, insertUser, pStmts);
+        connection.get().setAutoCommit(false);
+        PreparedStatement pStmt1 = SqlUtil.addPreparedStatement(connection.get(), insertUser, pStmts);
         pStmt1.setString(1, request.getUsername());
         pStmt1.setString(2, request.getEmail());
         pStmt1.setString(3, HashUtil.getOneWayHash(request.getPassword()));
         pStmt1.executeUpdate();
-        PreparedStatement pStmt2 = SqlUtil.addPreparedStatement(connection, insertToken, pStmts);
+        PreparedStatement pStmt2 = SqlUtil.addPreparedStatement(connection.get(), insertToken, pStmts);
         pStmt2.setString(1, token);
         pStmt2.executeUpdate();
-        connection.commit();
+        connection.get().commit();
       }
       LOG.info("xfguo: signup 4");
       respBuilder.setToken(token);
       LOG.info("xfguo: signup 5");
     } catch (ParseException e) {
       LOG.error("failed to parse the json: {}", e);
-      return JsonFormat.printToString(respBuilder.setStatus(Status.INCORRECT_REQUEST).build());
+      respBuilder.setStatus(Status.INCORRECT_REQUEST);
     } catch (NoSuchAlgorithmException e) {
       LOG.error("No SHA-256 algorithm", e);
       respBuilder.setStatus(Status.SERVER_ERROR);
     } catch (SQLException e) {
       LOG.error("Errors in running SQL", e);
       respBuilder.setStatus(Status.ERROR_IN_SQL);
+    } catch (NoSuchElementException e) {
+      LOG.error("No DB connection");
+      respBuilder.setStatus(Status.NO_DB_CONNECTION);
     } finally {
       for (ResultSet rs : resultSets) {
         rs.close();
@@ -113,7 +118,7 @@ public class SignupResource {
         pStmt.close();
       }
       if (connection != null)
-        connection.close();
+        connection.get().close();
     }
 
     return JsonFormat.printToString(respBuilder.build());
