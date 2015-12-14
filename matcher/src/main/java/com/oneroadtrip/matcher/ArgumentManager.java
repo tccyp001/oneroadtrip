@@ -16,7 +16,7 @@ public class ArgumentManager {
   public String mysql_user = "oneroadtrip";
 
   @Parameter(names = "--mysql_password", description = "Hostname of mysql", required = false)
-  public String mysql_password = "oneroadtrip098";
+  public String mysql_password = "oneroadtrip123";
 
   @Parameter(names = { "-h", "--help" }, description = "print help message")
   public boolean help = false;
