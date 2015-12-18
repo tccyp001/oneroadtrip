@@ -39,6 +39,9 @@
 		 	width: 80%;
 		 	padding-left: 20%;
 		}
+		&:hover {
+			cursor: pointer;
+		}
 	}
 
 	.tour-content-body {
@@ -58,7 +61,7 @@
 				text-align: center;
 				img {
 					width: 80%;
-				}	
+				}
 			}
 			.head-right {
 				width: 80%;
@@ -75,9 +78,12 @@
 		}
 		.section {
 			display: flex;
+			position: relative;
+
 			.section-left{
 				width: 20%;
 				align-self: center;
+				height: 100%;
 				.circle {
 					background: $traverllerOrange;
 					width: 20px;
@@ -85,6 +91,17 @@
 					border-radius: 50%;
 					margin: 0 auto;
 				
+				}
+				&::after {
+				  content: "";
+				  display: block;
+				  background: $traverllerOrange;
+				  height: 100%;
+				  width: 1px;
+				  position: absolute;;
+				  left: 10%;
+				  top: 0;
+				  bottom: 0;
 				}
 			}
 			.section-right {
@@ -97,6 +114,7 @@
 					margin-bottom: 5px;
 					justify-content: space-between;
 					background: white;
+					cursor: pointer;
 					i {
 						font-size: 1.68rem;
 						&:hover {
@@ -115,4 +133,105 @@
 
 .tour-map {
 	width: 70%;
+}
+
+.guide-content {
+	border: 1px solid #E9E5DC;
+	margin-left: 20px;
+	width: 30%;
+	display: flex;
+	flex-direction: column;
+	.guide-content-header {
+		padding: 10px;
+		padding-left: 20px;
+		color:$traverllerOrange;
+		font-size: 2rem;
+		i {
+			margin-right: 20px;
+			&:hover {
+			 	cursor: pointer;
+			}
+		}
+	}
+	.guide-content-body {
+		width: 100%;
+		height: 500px;
+		padding: 20px;
+		background: $travellerLightGray;
+		display: flex;
+		flex-direction: column;
+		overflow: auto;
+		.guide-content-section {
+			width: 100%;
+			position: relative;
+			margin-bottom: 20px;
+			.guide-section-left {
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
+				img {
+					width: 70%;
+				}
+			}
+			.guide-section-middle {
+				background: white;
+				width: 80%;
+				margin: 0 auto;
+				font-size: 1.5rem;
+				font-weight: 500;
+				padding: 10px 50px 10px 50px;
+				&>div {
+					display: flex;
+					justify-content: space-between;
+					margin: 5px 0;
+				}
+				.middle-header {
+					color: $traverllerOrange;
+				}
+				hr {
+					width: 100%;
+					margin: 0;
+				}
+			}
+			.guide-section-right {
+				position: absolute;
+				right: 2%;
+				top: 50%;
+				transform: translateY(-50%);
+				div {
+					background: $traverllerOrange;
+					color: white; 
+					font-size: 1.6rem;
+					padding: 15px 10px;
+					border-radius: 50%;
+					font-weight: 500;
+					&:hover {
+						cursor: pointer;
+						opacity: 0.6;
+					}
+				}
+			}
+		}
+	}
+	.guide-content-footer{
+		widht: 100%;
+		background: $traverllerOrange;
+		color: white;
+		font-weight: 500;
+		font-size: 2rem;
+		padding: 10px 0 10px 0;
+		display:flex;
+		.icon {
+			width: 20%;
+			padding-left: 15%;
+			font-size: 2.2rem;
+		}
+		.content {
+		 	width: 80%;
+		 	padding-left: 25%;
+		}
+		&:hover {
+			cursor: pointer;
+		}
+	}
 }
