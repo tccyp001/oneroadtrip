@@ -1,3 +1,13 @@
 **/.classpath
 **/.project
 **/.settings/**
+
+code/node_modules/
+code/bower_components/
+code/.tmp/
+code/.DS*
+code/npm-debug.log
+code/dist/
+code/.sass*
+code/production/
+code/dump.rdb
