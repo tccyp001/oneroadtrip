@@ -4,46 +4,32 @@
 			<img src="images/logo.png">
 		</div>
 		<div class="tour-content-body">
-			<div class="head">
-				<div class="head-left">
-					<img src="images/tour/tour-icon.png">
-				</div>
-				<div class="head-right">
-					<div>洛杉矶</div>
-					<div>
-						<i class="fa fa-plus-circle"></i> 5 <i class="fa fa-minus-circle"></i>
+			<div class="tour-content-section" ng-repeat = "tour in tour.data">
+				<div class="head">
+					<div class="head-left">
+						<img src="images/tour/tour-icon.png">
 					</div>
-				</div>	
-			</div>
-			<div class="section">
-				<div class="section-left">
+					<div class="head-right">
+						<div>{{tour.city}}</div>
+						<div>
+							<i class="fa fa-plus-circle"></i> {{tour.date}} <i class="fa fa-minus-circle"></i>
+						</div>
+					</div>	
 				</div>
+				<div class="section" ng-repeat="(key, value) in tour.content">
+					<div class="section-left">
+						<div class="circle"></div>
+					</div>
 
-				<div class="section-right">
-					<div class="section-right-title">第一天</div>
-					<div class="section-right-content">洛杉矶是加州的第一大城（拥有超过400万人口），也是美国的第二大城[8]，仅次于纽约市。它的面积为469.1平方英里（1214.9平方公里）。洛杉矶-长滩-圣安娜都会区拥有1300万人口。</div>
-				</div>
-			</div>
-			<div class="section">
-				<div class="section-left">
-				</div>
-
-				<div class="section-right">
-					<div class="section-right-title">第二天</div>
-					<div class="section-right-content">洛杉矶是加州的第一大城（拥有超过400万人口），也是美国的第二大城[8]，仅次于纽约市。它的面积为469.1平方英里（1214.9平方公里）。洛杉矶-长滩-圣安娜都会区拥有1300万人口。</div>
-				</div>
-			</div>
-			<div class="section">
-				<div class="section-left">
-				</div>
-
-				<div class="section-right">
-					<div class="section-right-title">第三天</div>
-					<div class="section-right-content">洛杉矶是加州的第一大城（拥有超过400万人口），也是美国的第二大城[8]，仅次于纽约市。它的面积为469.1平方英里（1214.9平方公里）。洛杉矶-长滩-圣安娜都会区拥有1300万人口。</div>
+					<div class="section-right">
+						<div class="section-right-title" ng-click="toggleContent(tour, key)">
+							<div>第 {{key + 1}} 天</div>
+							<i class="fa fa-caret-down"></i>
+						</div>
+						<div class="section-right-content" ng-if="tour[key].contentStatus">{{tour.content[key]}}</div>
+					</div>
 				</div>
 			</div>
-
-
 		</div>
 		<div class="tour-content-footer">
 			<div class="icon"><i class="fa fa-user"></i></div>
