@@ -54,6 +54,46 @@ message CityResponse {
   repeated City city = 2;
 }
 
+message TripDraftRequest {
+  optional string source = 1;
+  optional string destination = 2;
+  repeated string via = 3;
+  optional int32 startdate = 4;
+  optional int32 enddate = 5;  // 不包括enddate这天！
+}
+
+message VisitCity {
+  optional int64 city_id = 1;
+  optional int32 date = 2;
+  optional string content = 3;
+}
+
+message TripDraftResponse {
+  repeated VisitCity visit = 1;
+}
+
+message VisitSpot {
+  optional int64 spot_id = 1;
+  optional int64 spot_name = 2;
+  optional string description = 3;
+  optional int32 visit_hours = 4;
+  optional int32 visit_date = 5;
+}
+
+message VisitDayPlan {
+	optional int32 date = 1;
+	repeated VisitSpot spot = 2;
+}
+
+message ContentRequest {
+	optional VisitCity visit_city = 1;
+}
+
+message ContentResponse {
+	repeated VisitDayPlan visit_dayplan = 1;
+}
+
+// TODO(xfguo): GuideRequest and GuideResponse
 message TravelRequest {
   optional string token = 1;
   optional string destination = 2;
