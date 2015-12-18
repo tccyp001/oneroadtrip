@@ -1,3 +1,12 @@
+CREATE TABLE Cities(
+  city_id INT PRIMARY KEY AUTO_INCREMENT,
+  city_name VARCHAR(100),
+  suggest INT,
+  min INT,
+  max INT
+) DEFAULT CHARSET=utf8;
+CREATE INDEX CitiesCityName On Cities(city_name);
+
 /*
  * password: one-way-hash
  */

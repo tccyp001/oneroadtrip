@@ -1,0 +1,7 @@
+syntax = "proto2";
+
+package match;
+
+option java_package = "com.oneroadtrip.matcher.testing";
+option java_multiple_files = true;
+

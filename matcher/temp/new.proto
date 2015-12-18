@@ -1,0 +1,88 @@
+message LoginRequest {
+  optional string username = 1;
+  optional string password = 2;
+}
+
+message LoginResponse {
+  optional Status status = 1 [ default = SUCCESS ];
+  optional string token = 2;
+}
+
+message StoreAuthRequest {
+  optional string email = 1;
+  optional string username = 2;
+  optional string token = 3;
+}
+
+message CityRequest {
+}
+
+message CityResponse {
+    message City {
+      optional string name = 1;
+      optional int suggest = 2;
+      optional int min = 3;
+      optional int max = 4;
+    }
+    repeated City city = 1;
+}
+
+message TravelRequest {
+  optional string source = 1;
+  repeated string desination = 2;
+  optional int32 startdate = 3;
+  optional int32 enddate = 4;
+}
+
+message Visit {
+  optional string city = 1;  // TODO(xfguo): city_id
+  optional int32 date = 2;
+  optional string content = 3;
+}
+
+message TravelResponse {
+  repeated Visit visit = 1;
+}
+
+message ContentRequest {
+  optional Visit visit = 1;
+}
+
+message Content Response {
+  optional string content = 1;
+}
+
+message GuideRequest {
+  repeated Visit visit = 1;
+  optional int32 adults = 5;
+  optional int32 kids = 6;
+  optional int32 seniors = 7;
+  repeated string interests = 8;
+  optional int32 level = 9;
+}
+
+source=上海
+destination=纽约
+
+message ChosenGuide {
+  optional string name = 1;
+  optional string photo_url = 2;
+  optional float score = 3;
+  optional string description = 4;
+  optional int32 experience = 5;
+  optional bool has_car = 6;
+  optional int32 max_people = 7;
+  repeated string language = 8;
+  optional string citizenship = 9;  // 国籍
+  optional float price_usd = 10;
+  optional float price_cny = 11;
+}
+
+message GuideResponse {
+  optional Status status = 1 [ default = SUCCESS ];
+  repeated ChosenGuide guide = 2;
+}
+
+
+
+

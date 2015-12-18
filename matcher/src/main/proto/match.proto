@@ -4,7 +4,6 @@ package match;
 
 option java_package = "com.oneroadtrip.matcher";
 option java_multiple_files = true;
-
 enum Status {
   SUCCESS = 0;
   INCORRECT_REQUEST = 1;
@@ -35,8 +34,24 @@ message LoginRequest {
 }
 
 message LoginResponse {
-  optional Status status = 1 [ default = SUCCESS ];
+  optional Status status = 1 [default = SUCCESS];
   optional string token = 2;
+}
+
+message CityRequest {
+}
+
+message CityResponse {
+  message City {
+    optional int64 city_id = 1;
+    optional string name = 2;
+    optional int32 suggest = 3;
+    optional int32 min = 4;
+    optional int32 max = 5;
+  }
+
+  optional Status status = 1;
+  repeated City city = 2;
 }
 
 message TravelRequest {
@@ -64,12 +79,12 @@ message ChosenGuide {
   optional bool has_car = 6;
   optional int32 max_people = 7;
   repeated string language = 8;
-  optional string citizenship = 9;  // 国籍
+  optional string citizenship = 9; // 国籍
   optional float price_usd = 10;
   optional float price_cny = 11;
 }
 
 message TravelResponse {
-  optional Status status = 1 [ default = SUCCESS ];
+  optional Status status = 1 [default = SUCCESS];
   repeated ChosenGuide guide = 2;
 }

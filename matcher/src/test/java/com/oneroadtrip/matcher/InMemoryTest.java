@@ -9,7 +9,7 @@ import java.sql.Statement;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import com.oneroadtrip.matcher.util.ScriptRunner;
 
