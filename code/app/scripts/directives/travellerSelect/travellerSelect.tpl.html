@@ -1,0 +1,12 @@
+<div class="form-select">
+	<div class="inputgroups">
+		<input class="form-control" placeholder="{{placeholder}}" ng-model="selected">
+		<span ng-click="show()">
+			<i class="fa fa-plus" ></i>
+		</span>
+	</div>
+
+	<div class="selectlayer" ng-if="showlayer">
+		<p ng-repeat="option in options" ng-click="select(option)">{{option.name}}</p>
+	</div>
+</div>

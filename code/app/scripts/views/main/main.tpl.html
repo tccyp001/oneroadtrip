@@ -1,0 +1,99 @@
+<traveller-banner></traveller-banner>
+
+
+<div class="main-tour">
+	<p> 我们的推荐 </p>
+	<p class="p-sm"> 更智能的旅行方式 </p>
+	<div class="tourgrid">
+		<div class="tourgrid-section">
+			<div ng-repeat="tour in tours.left" style="background-image:url({{tour.image}}); width: 100%; height: 620px; background-size: cover; display: flex; justify-content: flex-end; flex-direction: column">
+				<div class="grid-name">{{tour.name}}</div>
+				<div class="grid-description">{{tour.description}}</div>
+			</div>			
+		</div>
+		<div class="tourgrid-section">
+			<div ng-repeat="tour in tours.middle" style="background-image:url({{tour.image}}) ;width: 100%;  background-size: cover; display: flex; justify-content: flex-end; flex-direction: column">
+				<div class="grid-name">{{tour.name}}</div>
+				<div class="grid-description">{{tour.description}}</div>
+			</div>
+		</div>
+		<div class="tourgrid-section">
+			<div ng-repeat="tour in tours.right" style="background-image:url({{tour.image}}) ;width: 100% ; background-size: cover; display: flex; justify-content: flex-end; flex-direction: column">
+				<div class="grid-name">{{tour.name}}</div>
+				<div class="grid-description">{{tour.description}}</div>
+			</div>
+		</div>
+	</div>
+</div> 
+
+
+<div class="main-map">
+	<div class="main-map-body">
+		<div class="main-map-img"><img src="images/map.png">
+		</div>
+		<div class="main-map-content">
+			<p> 现在已覆盖美国100多个城市 </p>
+			<p class="p-sm"> 更智能的旅行方式 </p>
+		</div>
+	</div>
+	<div class="main-map-points point-NY">
+		<p>New York</p>
+	</div>
+	<div class="main-map-points point-SF">
+		<p>New York</p>
+	</div>
+	<div class="main-map-points point-NY2">
+		<p>New York</p>
+	</div>
+	<div class="main-map-points point-SF2">
+		<p>New York</p>
+	</div>
+	<div class="main-map-points point-NY3">
+		<p>New York</p>
+	</div>
+	<div class="main-map-points point-SF3">
+		<p>New York</p>
+	</div>
+</div> 
+
+
+<div class="main-feature">
+	<p> 我们的特点 </p>
+	<p class="p-sm"> 更智能的旅行方式 </p>
+	<div class="features">
+		<div ng-repeat="feature in features" class="feature-section">
+			<div class="feature-img">
+				<img ng-src="{{feature.icon}}">
+			</div>
+			<div class="feature-title">
+				<div>
+					<i class="fa {{feature.icon}} fa-2x"></i> 
+				</div>
+				<div>
+					{{feature.title}}
+				</div>
+			</div>
+			<div class="feature-content">{{feature.content}}</div>
+		</div>
+	</div>
+</div> 
+
+
+<div class="main-text">
+	<div class="main-text-icon"><img src="images/header.png"></div>
+	<div><span>“</span></div>
+	<div class="main-text-text">想要自由掌控行程节奏？喜欢与众不同的游玩路线？我们能满足旅行中的各种小任性，同时让你享受最划算的价格.</div>
+	<div><span>”</span></div>
+</div> 
+
+
+
+<div class="main-corp">
+	<p> 合作伙伴 </p>
+	<p class="p-sm"> 更智能的旅行方式 </p>
+	<div class="corps">
+		<div ng-repeat="corp in corps" class="corp-name">
+			
+		</div>
+	</div>
+</div> 

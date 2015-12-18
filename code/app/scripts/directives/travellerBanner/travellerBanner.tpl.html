@@ -1,0 +1,23 @@
+<div class="main-banner">
+	<div class="main-form">
+		<div class="main-slogon" >聪明的选择，让旅行更完美</div>
+		<div class="banner-form-group">
+			<div><traveller-select options="options.depart" selected="tourForm.Depart" placeholder="出发地"></traveller-select></div>
+			<div><traveller-select options="options.middle" selected="tourForm.Middle" placeholder="途经"></traveller-select></div>
+			<div><traveller-select options="options.des" selected="tourForm.Des" placeholder="目的地"></traveller-select></div>
+		</div>
+
+		  <div class="banner-form-group">
+			<div style="flex: 2"><traveller-select options="options.des" selected="tourForm.Des" placeholder="天数"></traveller-select></div>
+		    <div style="flex: 1"><traveller-select options="options.people" selected="tourForm.PeopleYoung" placeholder="人数/房间"></traveller-select></div>
+		  </div>
+
+		  <div class="banner-form-group">
+		    <div style="flex: 2"><traveller-select options="options.topic" selected="tourForm.Topic" placeholder="旅游主题" style="width: 30%"></traveller-select></div>
+		   	<div style="flex: 1"><traveller-select options="options.cars" selected="tourForm.Car" placeholder="宾馆等级" style="width: 30%"></traveller-select></div>
+		  </div>
+
+		  <div class="form-button"><button type="submit" class="btn" ng-click="submitTour()">开始订制</button></div>
+	</div>
+</div>
+

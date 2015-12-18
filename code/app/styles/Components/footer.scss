@@ -1,0 +1,58 @@
+@import 'variables';
+
+
+
+/*Footer*/
+
+footer {
+    background-color: $travelllerGray;
+    width: 100%;
+    color: white;
+    padding: 40px 0 60px 0;
+}
+
+.footer-end {
+  width: 70%;
+  margin: 0 auto;
+  font-size: 1.8rem;
+  display: flex;
+
+  .footer-left {
+  	width: 70%;
+  	display: flex;
+  	flex-direction: column;
+  	.footer-lists {
+		display: flex;
+		justify-content: flex-start;
+		font-size: 1.6rem;
+		opacity: 0.7;
+		div {
+			margin: 20px 30px 20px 0 ;
+		}
+	}
+	.footer-copyright {
+		font-size: 1.1rem;
+	}
+  }
+  .footer-right {
+  	display: flex;
+  	div i{
+  		background: white;
+  		color: black;
+  		padding: 10px;
+  		margin: 20px 10px 10px 10px;
+  		font-size: 2rem;
+  		border-radius: 50%;
+  	}
+  	div i:hover {
+  		cursor: pointer;
+      color: $traverllerOrange;
+  	}
+  }
+}
+
+
+.footer-lists div:hover {
+	cursor: pointer;
+}
+

@@ -1,0 +1,37 @@
+<header>
+	<nav class="navbar navbar-modified">
+      <div class="container-fluid">
+
+		   <div class="navbar-header">
+		      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		      </button>
+					<a class="navbar-brand" ui-sref="main">
+					<img alt="Brand" src="images/logo.png" style="width: 100%">
+					</a>
+		    </div>
+
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right nav-modify" style="margin-top: 10px">
+
+					<li style="padding-top: 10px"><a ui-sref="main">成为认证导游</a></li>
+					<li ng-if="!isLoggin"><a><div class="headerbutton" ng-click="openModal('login')" >登陆</div></a></li>
+					<li ng-if="!isLoggin"><a><div class="headerbutton2" ng-click="openModal('signup')">注册</div></a></li>
+
+					<li ng-if="isLoggin" ng-mouseenter="ShowDropdown()" ng-mouseleave="HideDropdown()" style="cursor: pointer"> 
+						<a class="header-dropdown" > 欢迎: {{loginName}} <span class="caret"></span></a>
+						<div class="header-dropdown-manu" ng-if="showDropdownStatus" ng-mouseleave="HideDropdown()">
+							<div>个人中心</div>
+							<div ng-click="logout()">退出</div>				  
+							</ul>
+						</div>
+					</li>
+				</ul>
+			</div>
+
+		</div>
+	</nav>
+</header>

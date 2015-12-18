@@ -1,0 +1,297 @@
+@import 'variables';
+
+
+body {
+  font-family: '微软雅黑', '兰亭黑-简', 'Lantinghei SC', 'Microsoft YaHei', 微软雅黑, sans-serif;
+  font-size: 100%;
+  color: rgba(102, 102, 102, 1);
+}
+
+a {
+  color: #00B7FF;
+}
+
+/*Main*/
+.main-banner {
+  margin: 10px 0;
+  background-image:url(../images/banner.jpg);
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 500px;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.main-slogon {
+  color: white;
+  font-size: 4rem;
+  margin: 0 auto;
+}
+
+
+.main-form {
+  color: white;
+  width: 45%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.main-form-group {
+  display: flex;
+  align-items: center;
+  font-size: 1.6em;
+  width: 45%;
+  justify-content: space-between;
+}
+
+.main-form-group>div {
+  margin-bottom: 20px;
+}
+
+.main-form .form-button {
+  width: 100%;
+  margin-top: 20px;
+  text-align: center;
+}
+
+
+/*Tour*/
+
+
+.main-tour {
+  width: 70%;
+  margin: 100px auto 0 auto;
+}
+
+.tourgrid {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  .tourgrid-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    min-width: 200px;
+  }
+
+}
+
+
+.tourgrid-section>div {
+  width: 350px;
+  height: 300px;
+  overflow: hidden;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tourgrid-section>div:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.grid-name {
+  color: white;
+  font-size: 2rem;
+  padding: 10px;
+  font-weight: 600;
+  background: $traverllerOrange;
+}
+
+.grid-description {
+  padding: 0 10px 10px 10px;
+  color: white;
+  font-size: 1.4rem;
+  background: $traverllerOrange;
+}
+
+.main-feature {
+  width: 70%;
+  margin: 100px auto;
+  .features {
+    display: flex;
+    justify-content: center;
+  }
+  .feature-section {
+    flex: 1; 
+    display: flex; 
+    justify-content: space-around; 
+    flex-direction: column;
+    margin-top: 20px;
+    .feature-img {
+      text-align: center;
+      width: 100%;
+    }
+  }
+  .feature-title {
+    font-size: 1.8rem;
+    padding: 20px 0 0 0;
+    display: flex;
+    color: $traverllerOrange;
+    align-items: center;
+        margin: 10px auto;
+  }
+  .feature-content {
+    width: 80%;
+    font-size: 1.4rem;
+    margin: 0 auto;
+    line-height: 3rem;
+  }  
+}
+
+
+.main-tour p, .main-feature p, .main-corp p, .main-map p{
+  text-align: center;
+  font-size: 3.5rem;
+  font-weight: 600;
+  color: $traverllerOrange;
+}
+
+.main-tour .p-sm, .main-feature .p-sm, .main-corp .p-sm, .main-map .p-sm{
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 400;
+  color: gray;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+
+
+
+
+.main-text {
+  width: 100%;
+  display: flex;
+  background: $traverllerOrange;
+  color: white;
+  font-size: 3rem;
+  padding: 40px 0;
+  justify-content: center;
+  overflow: hidden;
+  .main-text-icon img{
+    width: 100%;
+    border-radius: 50%;
+  }
+  span {
+    font-size: 11rem;
+    font-weight: 800;
+  }
+  .main-text-text {
+    width: 50%;
+    padding-top: 20px;
+    padding-left: 20px;
+  }
+  div:last-child {
+    align-self: flex-end;
+    overflow: hidden;
+    height: 80px;
+  }
+}
+
+
+
+.main-corp {
+  width: 80%;
+  margin: 80px auto;
+  .corps {
+    display: flex;
+    justify-content: center;
+    div {
+      width: 120px;
+      height: 80px;
+      margin: 10px;
+    }
+  }
+  .corp-name {
+    margin-top: 10px;
+    padding: 10px 20px ;
+    font-size: 1.6rem;
+    background: #DDDDDD;
+    opacity: 0.8;
+    color: white;
+    border-radius: 10px;
+  }
+  .corp-name:hover {
+    opacity: 0.6;
+    cursor: pointer;
+  }
+}
+
+
+.main-map {
+  margin: 80px auto 40px auto;
+  background: #e5e5e5 ;
+  background-repeat: no-repeat;
+  width: 100%;
+  background-size: cover;
+  position: relative;
+  .main-map-body {
+    width: 70%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 30px;
+  }
+  .main-map-img img {
+    width: 100%;
+  }
+  .main-map-points {
+    background-image:url(../images/location.png);
+    background-size: cover;
+    width: 100px;
+    height: 80px;
+    position: absolute;
+    p {
+      color: $traverllerOrange;
+      font-weight: 500;
+      font-size: 1.3rem;
+      padding-top: 30px;
+    }
+    &:hover {
+      cursor: pointer;
+      opacity: 0.7;
+    }
+  }
+  .point-NY {
+    top: 20%;
+    left: 40%;
+  }
+  .point-NY2 {
+    top: 10%;
+    left: 50%;
+  }
+  .point-NY3{
+    top: 10%;
+    left: 30%;
+  }
+  .point-SF {
+    top: 30%;
+    left: 55%;    
+  }
+  .point-SF2 {
+    top: 30%;
+    left: 35%;    
+  }
+  .point-SF3 {
+    top: 0;
+    left: 40%;    
+  }
+}
+
+
+
+/*jquery appear*/
+.object-non-visible {
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.object-visible,
+.touch .object-non-visible {
+  opacity: 1 !important;
+  filter: alpha(opacity=100) !important;
+}

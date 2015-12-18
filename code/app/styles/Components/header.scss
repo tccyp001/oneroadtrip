@@ -1,0 +1,81 @@
+@import 'variables';
+
+header {
+  width: 100%;
+}
+
+
+
+header .navbar-modified .navbar-brand img{
+  margin-left: 60%;
+  width: 60%;
+}
+
+
+header .navbar-modified .navbar-right{
+  margin-right: 5%;
+}
+
+header .navbar-modified .navbar-right li a{
+  font-size: 1.6rem;
+  color: $traverllerOrange;
+}
+
+.nav-modify li a:hover {
+	background: none;
+  color: $traverllerOrange;
+}
+
+.nav-modify li {
+    font-size: 1.5rem;
+    color: $traverllerOrange;
+    padding-top: 5px;
+    div {
+      width: 70px;
+      height: 28px;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 500;
+      border: 2px solid $traverllerOrange;
+      padding-top: 2px; 
+    }
+    div:hover {
+      cursor: pointer;
+      opacity: 0.6;
+    }
+   .headerbutton {
+    color: white;
+    border-radius: 20px;
+    background: $traverllerOrange; 
+
+}
+  .headerbutton2 {
+    border: 2px solid $traverllerOrange;
+    color: $traverllerOrange;
+    border-radius: 20px;
+    background: white;
+  }
+}
+
+
+.header-dropdown {
+  
+}
+
+.header-dropdown-manu {
+  position: absolute;
+  background: white;
+  font-size: 1.3rem;
+  width: 100%;
+  cursor: pointer;
+}
+
+.header-dropdown-manu>div {
+  padding: 10px;
+}
+
+.header-dropdown-manu>div:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+

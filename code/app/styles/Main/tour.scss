@@ -1,0 +1,99 @@
+@import 'variables';
+
+.tour {
+	width: 100%;
+	display: flex;
+	margin: 50px auto;
+	padding: 0 10px;
+}
+
+.tour-content {
+	border: 1px solid #E9E5DC;
+	margin-left: 20px;
+	width: 30%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	.tour-content-header {
+		padding: 10px;
+		img{
+			width: 50%;
+		}
+	}
+
+	.tour-content-footer{
+		widht: 100%;
+		background: $traverllerOrange;
+		color: white;
+		font-weight: 500;
+		font-size: 2rem;
+		padding: 10px 0 10px 0;
+		display:flex;
+		.icon {
+			width: 20%;
+			padding-left: 15%;
+			font-size: 2.2rem;
+		}
+		.content {
+		 	width: 80%;
+		 	padding-left: 20%;
+		}
+	}
+
+	.tour-content-body {
+		width: 100%;
+		height: 500px;
+		padding: 20px;
+		background: $travellerLightGray;
+		overflow: scroll;
+		display: flex;
+		flex-direction: column;
+		.head {
+			width: 100%;
+			display: flex;
+			font-size: 1.5rem;
+			align-items: center;
+			.head-left {
+				width: 20%;	
+				img {
+					width: 80%;
+				}	
+			}
+			.head-right {
+				width: 80%;
+				height: 100%;
+				padding: 10px;
+				background: white;
+				font-weight: 500;
+				display: flex;
+				justify-content: space-between;
+				i {
+					color: $traverllerOrange;
+				}
+			}
+		}
+		.section {
+			display: flex;
+			.section-left{
+				width: 20%;
+			}
+			.section-right {
+				width: 80%;
+				background: white;
+				font-size: 1.4rem;
+				
+				.section-right-title {
+					padding: 10px;
+					font-weight: 500;
+				}
+				.section-right-content {
+					padding: 10px;
+				}
+			}
+		}
+	}
+}
+
+.tour-map {
+	width: 70%;
+}

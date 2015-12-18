@@ -1,0 +1,132 @@
+@import 'variables';
+
+
+/*Modal*/
+
+.modal-dialog {
+  margin-top: 200px;
+
+}
+
+.modal-content {
+  width: 50%;
+  min-width: 600px;
+  margin: 0 auto;
+  border: none;
+  padding: 0;
+}
+
+.modal-body {
+  display: flex;
+  padding: 0;
+}
+
+.modal-left {
+  color: white;
+  flex: 3;
+  background: #F73146;
+  border-radius: 5px 0 0 5px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 30px 0;
+
+  .modal-left-icon {
+    font-size: 4rem;
+    margin: 0 auto;
+  }
+  .modal-left-title {
+    font-size: 2rem;
+    margin: 10px auto;
+  }
+  .modal-left-oauth {
+    padding-top: 100px;
+    font-size: 2rem;
+    margin: 0 auto; 
+      i {
+        border: 1px solid white;
+        background: white;
+        padding: 5px;
+        border-radius: 50%;
+        color: red;
+        cursor: pointer
+        }
+  }
+  .modal-left-login {
+    padding-top: 20px;
+    font-size: 1.3rem;
+    margin: 0 auto;
+      span {
+
+      }
+      span:hover {
+        text-decoration: underline;
+        cursor: pointer;
+      }
+  }
+}
+
+.modal-right {
+  flex: 5;
+  display: flex;
+  flex-direction: column;
+  padding: 40px 0 0 40px;  
+  font-size: 1.5rem;
+  .modal-title {
+    font-size: 2.4rem;
+    color: #D5D3D3;
+    font-weight: 600;
+    margin-bottom: 40px;
+    cursor: pointer;
+    .modalTitleRed {
+      color: #F73146;
+    }
+  }
+  .modal-form-input {
+    width: 80%;
+    margin: 10px 0;
+  }
+  .modal-submit {
+    width: 80%;
+    background: #F73146;
+    color: white;
+    padding: 8px;
+    border-radius: 5px;
+    margin: 20px 0;
+    text-align: center;
+    cursor: pointer;
+  }
+}
+
+.modal-close {
+  font-size: 2rem;
+  padding: 5px 10px 0 0;
+}
+
+.modal-close:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.modal-aggrement {
+  font-size: 1.2rem;
+  opacity: 0.6;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.modal-content .control-label{
+    margin-right: 30px;
+    font-size: 1.2rem;
+}
+
+
+.modal-body .form-input {
+  display: flex;
+}
+
+
+.modal-toast {
+  font-size: 1.6rem;
+  font-weight: 600;
+}

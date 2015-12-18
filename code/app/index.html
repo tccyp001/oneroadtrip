@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app="app">
+	<head>
+		<meta charset="UTF-8" />
+		<meta property="qc:admins" content="17134714776457761347263757" />
+		<title>Traveller</title>
+
+	    <!-- build:css({.tmp,app}) styles/vendor.css -->
+	        <!-- bower:css -->
+	        <!-- run `gulp inject` to automatically populate bower styles dependencies -->
+	        <!-- endbower -->
+	    <!-- endbuild -->
+
+	    <!-- build:css({.tmp,app}) styles/app.css -->
+	        <!-- inject:vendor -->
+	        <!-- endinject -->
+
+	        <!-- inject:css -->
+	        <!-- endinject -->
+	    <!-- endbuild -->
+	</head>
+
+	<body>
+		<traveller-header></traveller-header>
+
+	    <div class="main">
+	    	<div ui-view></div>
+		</div>
+
+		<traveller-footer></traveller-footer>
+
+    <!-- build:js(app) scripts/vendor.js -->
+        <!-- bower:js -->
+        <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/app.js -->
+        <!-- inject:js -->
+        <!-- endinject -->
+
+        <!-- inject:scripts -->
+        <!-- endinject -->
+
+        <!-- inject:partials -->
+        <!-- endinject -->
+    <!-- endbuild -->
+
+	</body>
+</html>

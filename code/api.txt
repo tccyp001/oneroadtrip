@@ -1,0 +1,17 @@
+http://www.legovictor.com/?#access_token=CB1551A90B3308CAB76603B47625C516&expires_in=7776000
+
+http://www.legovictor.com/user/snsLogin
+
+
+
+
+
+https://graph.qq.com/oauth/show?which=ConfirmPage&display=pc&client_id=101277978&redirect_uri=http://www.legovictor.com/user/snsLogin&scope=get_user_info,list_album,upload_pic,add_feeds,do_like&response_type=token
+
+
+https://graph.qq.com/oauth/show?which=ConfirmPage&display=pc&client_id=101045717&redirect_uri=http%3A%2F%2Fwww.mioji.com%2Fuser%2FsnsLogin%3Fsnstype%3Dqq&response_type=code&state=d3d9446802a44259755d38e6d163e820
+
+https://graph.qq.com/oauth/show?which=ConfirmPage&display=pc&client_id=101045717&redirect_uri=http://www.mioji.com/user/snsLogin?snstype=qq&response_type=code&state=d3d9446802a44259755d38e6d163e820
+
+
+http://www.mioji.com/user/snsLogin?snstype=qq&code=B84CA2A6B38015CA3E8F5E718E02A4DB&state=d3d9446802a44259755d38e6d163e820
