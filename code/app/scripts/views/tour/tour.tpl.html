@@ -74,7 +74,6 @@
 				</div>
 			</div>
 		</div>
-
 	</div>
 
 
@@ -123,6 +122,15 @@
 
 
 	<div class="tour-map" ng-if="showMap">
-		<ng-map center="[40.74, -74.18]" style="height: 600px"></ng-map>
+		<ng-map zoom="8" center="{{tour.data[0].city}}" style="height: 100%" zoom-to-include-markers="true">
+			<custom-marker ng-repeat="tour in tour.data"
+			  position="{{tour.city}}">
+			  <div class="mapmarker">
+			    <div>{{tour.city}}</div>
+			    <div>停留: {{tour.date}}天</div>
+			  </div>
+			</custom-marker>
+		</ng-map>
 	</div>
+
 </div>
