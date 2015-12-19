@@ -18,16 +18,49 @@ function BannerCtrl($scope, $http, $state) {
 	$scope.options = {};
 	$scope.options.depart = [
 		{
-			name: '上海'
+			name: '西雅图'
 		},
 		{
-			name: '北京'
+			name: '旧金山'
 		},
 		{
-			name: '广州'
+			name: '洛杉矶'
 		},
 		{
-			name: '成都'
+			name: '拉斯维加斯'
+		},
+		{
+			name: '盐湖城'
+		},
+		{
+			name: '黄石'
+		},
+		{
+			name: '丹佛'
+		},
+		{
+			name: '休斯顿'
+		},
+		{
+			name: '纽约'
+		},
+		{
+			name: '华盛顿'
+		},
+		{
+			name: '波士顿'
+		},
+		{
+			name: '迈阿密'
+		},
+		{
+			name: '夏威夷'
+		},
+		{
+			name: '芝加哥'
+		},
+		{
+			name: '亚特兰大'
 		},
 	];
 
@@ -97,13 +130,16 @@ function BannerCtrl($scope, $http, $state) {
 
 	$scope.options.cars = [
 		{
-			name: '三星'
+			name: '四星级'
 		},
 		{
-			name: '两星'
+			name: '三星级'
 		},
 		{
-			name: '一星'
+			name: '两星级'
+		},
+		{
+			name: '一星级'
 		}
 	];
 
