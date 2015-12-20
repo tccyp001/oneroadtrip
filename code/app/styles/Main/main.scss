@@ -246,6 +246,7 @@ a {
     width: 100px;
     height: 80px;
     position: absolute;
+    transition: transform 0.4s;
     p {
       color: $traverllerOrange;
       font-weight: 500;
@@ -254,8 +255,9 @@ a {
     }
     &:hover {
       cursor: pointer;
-      opacity: 0.7;
+      transform: translateY(-10%) ;
     }
+    
   }
   .point-NY {
     top: 20%;
