@@ -28,10 +28,10 @@ public class CityRequestHandler implements RequestHandler {
   @Inject
   private Optional<Connection> connection;
 
-  // TODO(xfguo): Hoist the function to abstract class.
+  // TODO(xfguo): in case we use grpc in the future.
   @Override
   public String process(String post) {
-    CityResponse.Builder respBuilder = CityResponse.newBuilder().setStatus(Status.SUCCESS);
+    CityResponse.Builder respBuilder = CityResponse.newBuilder();
     try {
       // TODO(xiaofengguo): Remove the parse for CityRequest, it by-default is
       // empty.

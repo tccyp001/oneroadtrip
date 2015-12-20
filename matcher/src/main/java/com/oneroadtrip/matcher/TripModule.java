@@ -13,8 +13,10 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import com.oneroadtrip.matcher.data.PreloadedDataModule;
 import com.oneroadtrip.matcher.resources.LoginResource;
 
+// TODO(xfguo): All modules should be installed here, or have an abstract module in main().
 public class TripModule extends AbstractModule {
   private static final Logger LOG = LogManager.getLogger();
 
@@ -27,6 +29,11 @@ public class TripModule extends AbstractModule {
   @Override
   protected void configure() {
     bind(LoginResource.class);
+    
+    // TODO(xfguo): Install DB module
+    
+    // install preloaded data module.
+    install(new PreloadedDataModule());
   }
 
   @Provides

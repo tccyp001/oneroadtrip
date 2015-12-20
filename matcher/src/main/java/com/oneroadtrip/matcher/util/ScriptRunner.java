@@ -159,7 +159,7 @@ public class ScriptRunner {
           command.append(" ");
           Statement statement = conn.createStatement();
 
-          LOG.debug("xfguo: {}", command);
+          LOG.info("xfguo: {}", command);
 
           boolean hasResults = false;
           try {

@@ -22,12 +22,7 @@ public class CityRequestHandlerTest extends DbTest {
   @Test
   public void test() throws Exception {
     CityRequestHandler handler = injector.getInstance(CityRequestHandler.class);
-
-    // TODO(xfguo): Add run sql script.
-    Connection conn = h2Info.connection.get();
-
-    File testFile = new File(TESTDATA_PATH + "city_request_handler.data");
-    TestingDataProcessor processor = TestingDataProcessor.loadData(conn,
+    TestingDataProcessor processor = TestingDataProcessor.loadData(h2Info.connection.get(),
         Files.toString(new File(TESTDATA_PATH + "city_request_handler.data"), Charsets.UTF_8));
 
     for (Pair<String, String> entry : processor.getCases()) {

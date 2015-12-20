@@ -1,7 +1,7 @@
 ==INSERT_DATA==
-INSERT INTO Cities (city_name, suggest, min, max) VALUES
-('New York', 3, 2, 5),
-('San Francisco', 3, 1, 4);
+INSERT INTO Cities (city_id, city_name, suggest, min, max) VALUES
+(1, 'New York', 3, 2, 5),
+(2, 'San Francisco', 3, 1, 4);
 
 ==========
 ==TESTCASE_DATA==

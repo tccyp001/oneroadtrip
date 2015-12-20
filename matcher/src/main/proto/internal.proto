@@ -17,3 +17,8 @@ message GuideCandidate {
   optional float price_usd = 8;
   optional float price_cny = 9;
 }
+
+message CityConnectionInfo {
+  optional int32 distance = 1;
+  optional int32 hours = 2;
+}
