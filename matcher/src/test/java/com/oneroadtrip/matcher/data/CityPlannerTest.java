@@ -73,7 +73,7 @@ public class CityPlannerTest {
 
       @Provides
       @Named(Constants.SUGGEST_DAYS_FOR_CITIES)
-      ImmutableMap<Long, Integer> getSuggestDaysForCities(PreloadedData data) {
+      ImmutableMap<Long, Integer> getSuggestDaysForCities() {
         return ImmutableMap.copyOf(suggestDaysForCities);
       }
     });

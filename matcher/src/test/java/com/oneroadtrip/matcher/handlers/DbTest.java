@@ -16,6 +16,8 @@ import com.google.inject.Injector;
 import com.oneroadtrip.matcher.OneRoadTripConfig;
 import com.oneroadtrip.matcher.data.PreloadedDataModule;
 import com.oneroadtrip.matcher.handlers.DbTestingModule.H2Info;
+import com.oneroadtrip.matcher.module.DbModule;
+import com.oneroadtrip.matcher.module.HandlerModule;
 import com.oneroadtrip.matcher.util.ScriptRunner;
 
 public abstract class DbTest {
@@ -34,8 +36,13 @@ public abstract class DbTest {
         OneRoadTripConfig config = new OneRoadTripConfig();
         config.preload_period_in_seconds = TimeUnit.SECONDS.toSeconds(1);
         bind(OneRoadTripConfig.class).toInstance(config);
+
+        install(new DbTestingModule());
+        install(new DbModule());
+        install(new PreloadedDataModule());
+        install(new HandlerModule());
       }
-    }, new DbTestingModule(), new PreloadedDataModule());
+    });
     h2Info = injector.getInstance(H2Info.class);
 
     // Create tables in the database.

@@ -50,35 +50,19 @@ public class App {
 
     LOG.info("mysql_host = {}, mysql_port = {}", config.mysql_host, config.mysql_port);
 
-    String connection_str = String.format(
+    String connectionUrl = String.format(
         "jdbc:mysql://%s:%d/%s?characterEncoding=UTF-8&user=%s&password=%s", config.mysql_host,
         config.mysql_port, config.mysql_db, config.mysql_user, config.mysql_password);
-    LOG.info("mysql connect: {}", String.format(
-        "jdbc:mysql://%s:%d/%s?characterEncoding=UTF-8&user=%s&password=%s", config.mysql_host,
-        config.mysql_port, config.mysql_db, config.mysql_user, config.mysql_password));
+    LOG.info("mysql connect: {}", connectionUrl);
 
     try {
-      // Notice, do not import com.mysql.jdbc.*
-      // or you will have problems!
-
-      // The newInstance() call is a work around for some
-      // broken Java implementations
-
-      Class.forName("com.mysql.jdbc.Driver").newInstance();
-    } catch (Exception ex) {
-      // handle the error
-    }
-
-    try {
-
       ServiceLocator locator = BootstrapUtils.newServiceLocator();
-      Injector injector = BootstrapUtils.newInjector(locator,
-          Arrays.asList(new ServletModule(), new TripModule(connection_str), new AbstractModule() {
-            @Override
-            protected void configure() {
-              bind(OneRoadTripConfig.class);
-            }
-          }));
+      Injector injector = BootstrapUtils.newInjector(locator, Arrays.asList(new AbstractModule() {
+        @Override
+        protected void configure() {
+          bind(OneRoadTripConfig.class).toInstance(config);
+        }
+      }, new ServletModule(), new TripModule(connectionUrl)));
       BootstrapUtils.install(locator);
 
       Server server = new Server(PORT);

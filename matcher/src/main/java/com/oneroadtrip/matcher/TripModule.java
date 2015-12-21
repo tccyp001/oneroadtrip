@@ -1,51 +1,58 @@
 package com.oneroadtrip.matcher;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Optional;
+import java.io.IOException;
 
-import javax.annotation.Nullable;
 import javax.inject.Named;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import javax.inject.Singleton;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import com.oneroadtrip.matcher.common.Constants;
 import com.oneroadtrip.matcher.data.PreloadedDataModule;
+import com.oneroadtrip.matcher.module.DbModule;
+import com.oneroadtrip.matcher.module.HandlerModule;
 import com.oneroadtrip.matcher.resources.LoginResource;
 
 // TODO(xfguo): All modules should be installed here, or have an abstract module in main().
 public class TripModule extends AbstractModule {
-  private static final Logger LOG = LogManager.getLogger();
+  private final String connectionUrl;
 
-  private final String connection_str;
-
-  public TripModule(String connection_str) {
-    this.connection_str = connection_str;
+  public TripModule(String connectionUrl) {
+    this.connectionUrl = connectionUrl;
   }
 
   @Override
   protected void configure() {
     bind(LoginResource.class);
-    
-    // TODO(xfguo): Install DB module
-    
-    // install preloaded data module.
-    install(new PreloadedDataModule());
-  }
 
-  @Provides
-  @Nullable
-  public Optional<Connection> provideConnection() {
-    Connection conn = null;
-    try {
-      conn = DriverManager.getConnection(connection_str);
-    } catch (SQLException e) {
-      LOG.info("xfguo: failed to connect the database, connection_str = {}", connection_str);
-    }
-    return Optional.ofNullable(conn);
+    install(new AbstractModule() {
+      // DB required info module
+      @Override
+      protected void configure() {
+      }
+
+      @Provides
+      @Named(Constants.CONNECTION_URI)
+      String provideConnectionUrl() throws IOException {
+        return connectionUrl;
+      }
+
+      @Provides
+      @Named(Constants.PRELOADED_JDBC_DRIVER)
+      @Singleton
+      boolean providePreloadedJdbcDriver() {
+        try {
+          Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+          e.printStackTrace();
+          return false;
+        }
+        return true;
+      }
+    });
+    install(new DbModule());
+    install(new PreloadedDataModule());
+    install(new HandlerModule());
   }
 
   // TODO(xfguo): clean up.
