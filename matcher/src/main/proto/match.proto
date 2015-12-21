@@ -76,7 +76,7 @@ message Edge {
   optional int64 to_city_id = 2;
   optional int32 distance = 3;
   optional int32 hours = 4;
-  optional TransportationType transportation_type = 5;
+  optional TransportationType transportation_type = 5 [ default = SHUTTLE ];
 }
 
 message PlanRequest {
@@ -94,7 +94,7 @@ message PlanRequest {
 }
 
 message PlanResponse {
-	optional Status status = 1;
+	optional Status status = 1 [ default = SUCCESS ];
 
   // visit + edge 组成一条路线。这里有些细节需要注意：
   // - 首先，一开始的城市有可能不是visit中的第一个城市，同样，离开的城市也有可能不是最后一个

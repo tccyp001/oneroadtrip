@@ -80,7 +80,6 @@ public class PreloadedData {
     private static final String GET_ALL_CITY_CONNECTIONS = "SELECT from_city_id, to_city_id, distance, hours FROM CityConnections";
 
     private PreloadedData reload() {
-      ImmutableList<Long> allCityIds = null;
       ImmutableMap<Pair<Long, Long>, CityConnectionInfo> cityNetwork = null;
       ImmutableMap<Long, Integer> suggestDaysForCities = null;
 
@@ -95,7 +94,6 @@ public class PreloadedData {
             b.add(cityId);
             b2.put(cityId, suggest);
           }
-          allCityIds = b.build();
           suggestDaysForCities = b2.build();
         }
 
@@ -111,7 +109,11 @@ public class PreloadedData {
             cn.put(Pair.with(from, to), info);
             cn.put(Pair.with(to, from), info);
           }
-          cityNetwork = ImmutableMap.copyOf(Util.propagateNetwork(allCityIds, cn));
+          
+          for (Long cityId : suggestDaysForCities.keySet()) {
+            cn.put(Pair.with(cityId, cityId), Util.createConnectionInfo(0, 0));
+          }
+          cityNetwork = ImmutableMap.copyOf(Util.propagateNetwork(suggestDaysForCities.keySet(), cn));
         }
       } catch (NoSuchElementException e) {
         LOG.error("No DB connection in preloading...");
@@ -119,36 +121,24 @@ public class PreloadedData {
         LOG.error("DB query errors in reloading city data...");
       }
 
-      if (allCityIds == null || cityNetwork == null || suggestDaysForCities == null
-          || allCityIds.size() == 0 || cityNetwork.size() == 0 || suggestDaysForCities.size() == 0) {
+      if (cityNetwork == null || suggestDaysForCities == null
+          || cityNetwork.size() == 0 || suggestDaysForCities.size() == 0) {
         LOG.info("Errors in reloading data");
         return null;
       }
-      return new PreloadedData(allCityIds, cityNetwork, suggestDaysForCities);
+      return new PreloadedData(cityNetwork, suggestDaysForCities);
     }
 
   }
 
-  ImmutableList<Long> allCityIds;
   ImmutableMap<Pair<Long, Long>, CityConnectionInfo> cityNetwork;
   ImmutableMap<Long, Integer> suggestDaysForCities;
 
-  PreloadedData() {
-    allCityIds = ImmutableList.of();
-    cityNetwork = ImmutableMap.of();
-    suggestDaysForCities = ImmutableMap.of();
-  }
-
-  PreloadedData(ImmutableList<Long> allCityIds,
+  PreloadedData(
       ImmutableMap<Pair<Long, Long>, CityConnectionInfo> cityNetwork,
       ImmutableMap<Long, Integer> suggestDaysForCities) {
-    this.allCityIds = allCityIds;
     this.cityNetwork = cityNetwork;
     this.suggestDaysForCities = suggestDaysForCities;
-  }
-
-  public ImmutableList<Long> getAllCityIds() {
-    return allCityIds;
   }
 
   public ImmutableMap<Pair<Long, Long>, CityConnectionInfo> getCityNetwork() {

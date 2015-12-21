@@ -7,7 +7,6 @@ import javax.inject.Singleton;
 
 import org.javatuples.Pair;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -27,12 +26,6 @@ public class PreloadedDataModule extends AbstractModule {
 
     bind(CityRequestHandler.class);
     bind(PlanRequestHandler.class);
-  }
-
-  @Provides
-  @Named(Constants.ALL_CITY_IDS)
-  ImmutableList<Long> provideAllCityIds(PreloadedData data) {
-    return data.getAllCityIds();
   }
 
   @Provides

@@ -1,6 +1,5 @@
 package com.oneroadtrip.matcher.handlers;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -14,7 +13,6 @@ import com.googlecode.protobuf.format.JsonFormat.ParseException;
 import com.oneroadtrip.matcher.PlanRequest;
 import com.oneroadtrip.matcher.PlanResponse;
 import com.oneroadtrip.matcher.Status;
-import com.oneroadtrip.matcher.VisitCity;
 import com.oneroadtrip.matcher.data.CityPlanner;
 import com.oneroadtrip.matcher.util.ProtoUtil;
 import com.oneroadtrip.matcher.util.Util;
@@ -45,12 +43,9 @@ public class PlanRequestHandler implements RequestHandler {
     PlanResponse.Builder respBuilder = PlanResponse.newBuilder().setStatus(Status.SUCCESS);
 
     try {
-      List<VisitCity> visitCities = cityPlanner.get().makePlan(request.getStartCityId(),
+      respBuilder = cityPlanner.get().makePlan(request.getStartCityId(),
           request.getEndCityId(), request.getVisitCityList(), request.getKeepOrderOfViaCities(),
           Util.getDays(request.getStartdate(), request.getEnddate()));
-      for (VisitCity visitCity : visitCities) {
-        respBuilder.addVisit(visitCity);
-      }
     } catch (NoSuchElementException e) {
       LOG.error("No city planner");
       respBuilder.setStatus(Status.SERVER_ERROR);

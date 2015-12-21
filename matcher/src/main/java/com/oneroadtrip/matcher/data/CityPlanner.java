@@ -11,34 +11,40 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.javatuples.Pair;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.oneroadtrip.matcher.Edge;
+import com.oneroadtrip.matcher.PlanResponse;
+import com.oneroadtrip.matcher.Status;
 import com.oneroadtrip.matcher.VisitCity;
 import com.oneroadtrip.matcher.common.Constants;
 import com.oneroadtrip.matcher.internal.CityConnectionInfo;
+import com.oneroadtrip.matcher.internal.EngageType;
+import com.oneroadtrip.matcher.internal.SuggestCityInfo;
+import com.oneroadtrip.matcher.util.CityVisitor;
+import com.oneroadtrip.matcher.util.Util;
 
 // Not thread-safe, need to create a new one for each request.
 public class CityPlanner {
   private static final Logger LOG = LogManager.getLogger();
   // TODO(xiaofengguo): Make this as constant in protobuf enum.
-  private static final int MUST_SELECT_CITY_RATE = 100;
+  private static final float MUST_SELECT_CITY_RATE = 1.0f;
+
+  // Incoming data
+  final ImmutableMap<Pair<Long, Long>, CityConnectionInfo> cityNetwork;
+  final ImmutableMap<Long, Integer> suggestDaysForCities;
 
   @Inject
-  @Named(Constants.ALL_CITY_IDS)
-  ImmutableList<Long> allCityIds;
+  public CityPlanner(
+      @Named(Constants.CITY_NETWORK) ImmutableMap<Pair<Long, Long>, CityConnectionInfo> cityNetwork,
+      @Named(Constants.SUGGEST_DAYS_FOR_CITIES) ImmutableMap<Long, Integer> suggestDaysForCities) {
+    this.cityNetwork = cityNetwork;
+    this.suggestDaysForCities = suggestDaysForCities;
+  }
 
-  @Inject
-  @Named(Constants.CITY_NETWORK)
-  ImmutableMap<Pair<Long, Long>, CityConnectionInfo> cityNetwork;
-
-  @Inject
-  @Named(Constants.SUGGEST_DAYS_FOR_CITIES)
-  ImmutableMap<Long, Integer> suggestDaysForCities;
-
-  public List<VisitCity> makePlan(long startCityId, long endCityId, List<VisitCity> visitCities,
+  public PlanResponse.Builder makePlan(long startCityId, long endCityId, List<VisitCity> visitCities,
       boolean keepOrderOrViaCities, int days) {
     CityVisitor visitor = new CityVisitor(startCityId, endCityId, visitCities, cityNetwork);
     visitor.visit(startCityId, 0L);
@@ -46,110 +52,46 @@ public class CityPlanner {
     long minDistance = visitor.getMinDistance();
     List<Long> minDistancePath = visitor.getMinDistancePath();
 
-    Set<Long> dispatchedCities = dispatchOtherCitiesIntoThePath(minDistance, minDistancePath);
+    Map<Long, SuggestCityInfo> suggestCityToData = chooseOtherCities(minDistance, minDistancePath);
 
-    // TODO(xfguo): Arrive here.
-    List<VisitCity> citiesOnPath = convertPathToCities(minDistancePath, dispatchedCities);
-    // setNumDaysAndSuggestRate(citiesOnPath, dispatchedCities);
-
-    return citiesOnPath;
+    return buildResponse(startCityId, endCityId, visitCities, minDistance, minDistancePath, suggestCityToData);
   }
 
-  private List<VisitCity> convertPathToCities(List<Long> path, Set<Long> dispatchedCities) {
-    List<VisitCity> result = Lists.newArrayList();
-    for (Long cityId : path) {
-      int suggestDays = 0;
-      if (!suggestDaysForCities.containsKey(cityId)) {
-        LOG.info("No suggest days for city ({})", cityId);
+  PlanResponse.Builder buildResponse(long startCityId, long endCityId, List<VisitCity> visitCities,
+      long minDistance, List<Long> path, Map<Long, SuggestCityInfo> suggestCityToData) {
+    PlanResponse.Builder builder = PlanResponse.newBuilder().setStatus(Status.SUCCESS)
+        .setStartCityId(startCityId).setEndCityId(endCityId);
+
+    for (VisitCity city : visitCities) {
+      VisitCity.Builder cityBuilder = VisitCity.newBuilder(city);
+      if (city.getNumDays() == 0) {
+        cityBuilder.setNumDays(suggestDaysForCities.get(city.getCityId()));
       }
-      suggestDays = suggestDaysForCities.get(cityId);
-      result.add(VisitCity.newBuilder().setCityId(cityId).setSuggestRate(MUST_SELECT_CITY_RATE)
-          .setNumDays(suggestDays).build());
+      cityBuilder.setSuggestRate(MUST_SELECT_CITY_RATE);
+      builder.addVisit(cityBuilder);
     }
-    return result;
+
+    for (int i = 0; i < path.size() - 1; ++i) {
+      long from = path.get(i);
+      long to = path.get(i + 1);
+      CityConnectionInfo info = cityNetwork.get(Pair.with(from, to));
+      Preconditions.checkNotNull(info);
+
+      builder.addEdge(Edge.newBuilder().setFromCityId(from).setToCityId(to)
+          .setDistance(info.getDistance()).setHours(info.getHours()));
+    }
+    
+    for (SuggestCityInfo suggest : suggestCityToData.values()) {
+      Integer suggestDays = suggestDaysForCities.get(suggest.getCityId());
+      builder.addSuggestCity(VisitCity.newBuilder().setCityId(suggest.getCityId())
+          .setNumDays(suggestDays == null ? 0 : suggestDays)
+          .setSuggestRate(getSuggestRate(minDistance, suggest)));
+    }
+    return builder;
   }
 
-  //
-  // private void setNumDaysAndSuggestRate(List<VisitCity> cities, Set<Long>
-  // dispatchedCities) {
-  // }
-
-  private VisitCity createDefaultVisitCity(long cityId) {
-    return VisitCity.newBuilder().setCityId(cityId).setSuggestRate(MUST_SELECT_CITY_RATE).build();
-  }
-
-  // 寻找途径所有这些城市的最短路径。用全遍历即可，因为输入的城市不可能超过十个，如果这里碰到问题我们再优化。
-  // 这是哈密尔顿通路问题，所以我们就先别费事在这里优化了，先给出一个解再说。
-  static class CityVisitor {
-    ImmutableMap<Pair<Long, Long>, CityConnectionInfo> cityNetwork;
-
-    long startId;
-    long endId;
-    List<VisitCity> visitCities;
-
-    Set<Long> visited = Sets.newTreeSet();
-    List<Long> visitPath = Lists.newArrayList();
-
-    long minDistance = Long.MAX_VALUE;
-    List<Long> minDistancePath;
-
-    public CityVisitor(long startId, long endId, List<VisitCity> visitCities,
-        ImmutableMap<Pair<Long, Long>, CityConnectionInfo> cityNetwork) {
-      this.startId = startId;
-      this.endId = endId;
-      this.visitCities = visitCities;
-      this.cityNetwork = cityNetwork;
-    }
-
-    public List<Long> getMinDistancePath() {
-      return minDistancePath;
-    }
-
-    public long getMinDistance() {
-      return minDistance;
-    }
-
-    private static final long REJECT_EDGE = -1;
-
-    long chooseEdge(long from, long to, long distance) {
-      Pair<Long, Long> edge = Pair.with(from, to);
-      if (!cityNetwork.containsKey(edge)) {
-        return REJECT_EDGE;
-      }
-      int edgeLength = cityNetwork.get(edge).getDistance();
-      if (edgeLength + distance > minDistance) {
-        return REJECT_EDGE;
-      }
-      return edgeLength;
-    }
-
-    void visit(long current, long distance) {
-      if (visited.size() == visitCities.size()) {
-        long edge = chooseEdge(current, endId, distance);
-        if (edge == REJECT_EDGE) {
-          return;
-        }
-        minDistancePath = Lists.newLinkedList();
-        for (Long cityId : visitPath) {
-          minDistancePath.add(cityId);
-        }
-        minDistancePath.add(endId);
-        minDistance = distance + edge;
-        return;
-      }
-      for (VisitCity city : visitCities) {
-        long cityId = city.getCityId();
-        long edge = chooseEdge(current, cityId, distance);
-        if (edge == REJECT_EDGE) {
-          return;
-        }
-        visitPath.add(cityId);
-        visited.add(cityId);
-        visit(cityId, distance + edge);
-        visited.remove(cityId);
-        visitPath.remove(cityId);
-      }
-    }
+  private float getSuggestRate(long minDistance, SuggestCityInfo suggest) {
+    return 1.0f - suggest.getAdditionalDistance() * 1.0f / minDistance;
   }
 
   // 把其它城市放到现在的路径当中。
@@ -157,32 +99,59 @@ public class CityPlanner {
   // - 目前还是不要用太复杂的算法了，就是每个城市在每两个城市之间试一下，找一个增加距离最短的地方放进去。当然，放进去后可能还不是
   // 最短的距离，可能还需要我们调整的，这个以后再做。
   // - 一个简单的Filter是：如果这个城市添加到起点和终点城市之间会让路程加倍，那么我们就不把它放进来。
-  private Set<Long> dispatchOtherCitiesIntoThePath(long minDistance, List<Long> cities) {
-    Map<Integer, List<Long>> indexToCities = Maps.newTreeMap();
-
-    Set<Long> selectedCities = Sets.newTreeSet(cities);
-    for (Long cityId : allCityIds) {
+  public Map<Long, SuggestCityInfo> chooseOtherCities(long acceptableAdditionalDistance,
+      List<Long> chosenPath) {
+    Map<Long, SuggestCityInfo> suggestCityToData = Maps.newTreeMap();
+    Set<Long> selectedCities = Sets.newTreeSet();
+    // 起点和终点并不一定是要玩的，我们这里要把它们挖掉。
+    for (int i = 1; i < chosenPath.size() - 1; ++i) {
+      selectedCities.add(chosenPath.get(i));
+    }
+    for (Long cityId : suggestDaysForCities.keySet()) {
       if (selectedCities.contains(cityId)) {
         continue;
       }
-
-      long min = Long.MAX_VALUE;
+      int min = Integer.MAX_VALUE;
       int index = -1;
-      for (int i = 0; i < cities.size() - 1; ++i) {
-        Pair<Long, Long> e1 = Pair.with(cities.get(i), cityId);
-        Pair<Long, Long> e2 = Pair.with(cityId, cities.get(i + 1));
+      EngageType engageType = EngageType.ON_NODE;
+
+      // 下面这个循环检查把节点挂到路径中一个节点的话，是否不用显著增加旅行距离。
+      for (int i = 0; i < chosenPath.size(); ++i) {
+        long x = chosenPath.get(i);
+        Pair<Long, Long> e = Pair.with(x, cityId);
+        if (!cityNetwork.containsKey(e)) {
+          continue;
+        }
+        int eDistance = cityNetwork.get(e).getDistance();
+        if (2 * eDistance > acceptableAdditionalDistance || 2 * eDistance >= min) {
+          continue;
+        }
+        min = 2 * eDistance;
+        index = i;
+      }
+
+      // 下面这个循环检查把节点作为路径中一个边的中间节点，是否不显著增加旅行距离。
+      for (int i = 0; i < chosenPath.size() - 1; ++i) {
+        long x = chosenPath.get(i);
+        long y = chosenPath.get(i + 1);
+        if (x == y) {
+          // 我们不检查在回环路径。
+          continue;
+        }
+        Pair<Long, Long> e1 = Pair.with(x, cityId);
+        Pair<Long, Long> e2 = Pair.with(cityId, y);
         if (!cityNetwork.containsKey(e1) || !cityNetwork.containsKey(e2)) {
           continue;
         }
         int e1Distance = cityNetwork.get(e1).getDistance();
         int e2Distance = cityNetwork.get(e2).getDistance();
-        int originDistance = cityNetwork.get(Pair.with(cities.get(i), cities.get(i + 1)))
-            .getDistance();
-        if (e1Distance + e2Distance > originDistance + minDistance) {
+        int originDistance = cityNetwork.get(Pair.with(x, y)).getDistance();
+        if (e1Distance + e2Distance > originDistance + acceptableAdditionalDistance) {
           // 路程加倍，不予选中。
           continue;
         }
         if (e1Distance + e2Distance - originDistance < min) {
+          engageType = EngageType.ON_EDGE;
           min = e1Distance + e2Distance - originDistance;
           index = i;
         }
@@ -193,23 +162,8 @@ public class CityPlanner {
         continue;
       }
 
-      if (!indexToCities.containsKey(index)) {
-        indexToCities.put(index, Lists.<Long> newArrayList());
-      }
-      indexToCities.get(index).add(cityId);
+      suggestCityToData.put(cityId, Util.createSuggestCityInfo(cityId, index, engageType, min));
     }
-
-    Set<Long> result = Sets.newTreeSet();
-    for (int i = cities.size() - 2; i >= 0; --i) {
-      if (!indexToCities.containsKey(i)) {
-        continue;
-      }
-      for (Long cityId : indexToCities.get(i)) {
-        cities.add(i, cityId);
-        result.add(cityId);
-      }
-    }
-
-    return result;
+    return suggestCityToData;
   }
 }
