@@ -146,10 +146,8 @@ CREATE TABLE Locations (
 
 CREATE TABLE Levels (
   level_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  level INT,
   description VARCHAR(100)
 ) DEFAULT CHARSET=utf8;
-CREATE INDEX LevelsLevel ON Levels(level);
 
 CREATE TABLE Languages (
   language_id BIGINT PRIMARY KEY AUTO_INCREMENT,
