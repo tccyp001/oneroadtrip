@@ -1,5 +1,4 @@
 START TRANSACTION;
-
 # Const tables
 INSERT INTO Levels (level_id, description) VALUES
   (1, '普通'), (2, '特色'), (3, '高档');
@@ -13,7 +12,12 @@ INSERT INTO BillingMethods (billing_method_id, description) VALUES
   (1, 'VISA / Master / AE'),
   (2, 'Paypal'),
   (3, 'Alipay');
+INSERT INTO Interests (interest_id, interest_name) VALUES
+  (1, '浪漫'),
+  (2, '商务');
+COMMIT;
 
+START TRANSACTION;
 # Create a guide 1
 INSERT INTO Users (user_name, email, password) VALUES
   ('guide1', 'guide1@a.com', SHA2('guide1pass', 256));
@@ -54,7 +58,6 @@ INSERT INTO GuideLocations (guide_id, location_id, price_usd, price_cny, is_effe
 INSERT INTO GuideBillingMethods (guide_id, billing_method_id) VALUES
   (@new_guide_id, 1),
   (@new_guide_id, 2);
-
 COMMIT;
 
 /*
@@ -74,6 +77,20 @@ INSERT INTO Cities (city_id, city_name, suggest, min, max) VALUES
 (9, 'Portland', 1, 1, 2),
 (10, 'Seattle', 2, 1, 4),
 (11, 'Vancouvor', 2, 1, 4);
+
+INSERT INTO Spots (city_id, spot_id, name, hours, score, interests) VALUES
+(8, 1, '金门大桥', 2, 0.9, '浪漫'),
+(8, 2, '九曲花街', 1, 0.9, '浪漫'),
+(8, 3, '渔人码头', 2, 0.9, ''),
+(8, 4, '旧金山艺术宫', 1, 0.8, ''),
+(8, 5, '旧金山唐人街', 2, 0.7, ''),
+(8, 6, '联合广场', 1, 0.7, ''),
+(8, 7, '双子峰', 2, 0.7, ''),
+(8, 8, '恶魔岛', 4, 0.8, ''),
+(8, 9, '金门公园', 7, 0.8, ''),
+(8, 10, '旧金山市政厅', 2, 0.6, '浪漫|商务'),
+(8, 11, 'Castro St', 2, 0.7, ''),
+(8, 12, '阿拉莫广场', 2, 0.7, '');
 
 INSERT INTO CityConnections
 (from_city_id, to_city_id, distance, hours) VALUES

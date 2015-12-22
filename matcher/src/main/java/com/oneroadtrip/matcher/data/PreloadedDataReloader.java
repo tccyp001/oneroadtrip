@@ -4,11 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 import javax.sql.DataSource;
@@ -21,7 +19,6 @@ import org.javatuples.Pair;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.oneroadtrip.matcher.VisitSpot;
 import com.oneroadtrip.matcher.internal.CityConnectionInfo;
@@ -37,8 +34,8 @@ public class PreloadedDataReloader {
   private static final String GET_ALL_CITY_CONNECTIONS = 
       "SELECT from_city_id, to_city_id, distance, hours FROM CityConnections";
   private static final String GET_ALL_SPOTS =
-      "SELECT city_id, s.spot_id, name, hours, score, interests "
-      + "FROM Spots s INNER JOIN CitySpots cs ON (s.spot_id = cs.spot_id) "
+      "SELECT city_id, spot_id, name, hours, score, interests "
+      + "FROM Spots "
       + "ORDER BY city_id";
   private static final String GET_ALL_INTERSTS = "SELECT interest_id, interest_name FROM Interests";
 

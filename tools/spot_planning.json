@@ -1,0 +1,38 @@
+[
+  {
+    "request": "spot",
+    "city_id": 8,
+    "num_days": 3,
+    "interests": "商务",
+    "day_plan": [
+      {
+        "day_id": 1,
+        "spot": [
+          {
+            "hours": 0,
+            "spot_name": "金门大桥"
+          },
+          {
+            "hours": 0,
+            "spot_name": "渔人码头"
+          },
+          {
+            "hours": 0,
+            "spot_name": "恶魔岛"
+          }
+        ]
+      },
+      {
+        "spot": [
+          {
+            "hours": 0,
+            "spot_name": "Castro St"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "status": "SUCCESS"
+  }
+]
