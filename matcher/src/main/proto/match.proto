@@ -4,18 +4,8 @@ package match;
 
 option java_package = "com.oneroadtrip.matcher";
 option java_multiple_files = true;
-enum Status {
-  SUCCESS = 0;
-  INCORRECT_REQUEST = 1;
-  INCORRECT_PASSWORD = 2;
-  INCORRECT_USER_NAME = 3;
-  UNKNOWN_USER = 4;
-  NO_DB_CONNECTION = 5;
-  ERROR_IN_SQL = 6;
-  SERVER_ERROR = 7;
-  NO_TOKEN = 8;
-  MULTIPLE_VALID_TOKEN = 9;
-}
+
+import "common.proto";
 
 message SignupRequest {
   optional string username = 1;
@@ -111,27 +101,6 @@ message PlanResponse {
   // suggest_city：这是推荐城市，所有可达城市，我们都会放到这里来，当然，suggest_rate
   // 不一样。
   repeated VisitCity suggest_city = 6;
-}
-
-message VisitSpot {
-  optional int64 spot_id = 1;
-  optional int64 spot_name = 2;
-  optional string description = 3;
-  optional int32 visit_hours = 4;
-  optional int32 visit_date = 5;
-}
-
-message VisitDayPlan {
-	optional int32 date = 1;
-	repeated VisitSpot spot = 2;
-}
-
-message ContentRequest {
-	optional VisitCity visit_city = 1;
-}
-
-message ContentResponse {
-	repeated VisitDayPlan visit_dayplan = 1;
 }
 
 // TODO(xfguo): GuideRequest and GuideResponse

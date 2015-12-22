@@ -1,12 +1,17 @@
 package com.oneroadtrip.matcher.util;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.javatuples.Pair;
 
+import com.google.common.collect.Lists;
+import com.oneroadtrip.matcher.ErrorInfo;
+import com.oneroadtrip.matcher.VisitSpot;
 import com.oneroadtrip.matcher.internal.CityConnectionInfo;
 import com.oneroadtrip.matcher.internal.EngageType;
 import com.oneroadtrip.matcher.internal.SuggestCityInfo;
@@ -19,8 +24,8 @@ public class Util {
     return 0;
   }
 
-  public static Map<Pair<Long, Long>, CityConnectionInfo> propagateNetwork(
-      Collection<Long> nodes, Map<Pair<Long, Long>, CityConnectionInfo> network) {
+  public static Map<Pair<Long, Long>, CityConnectionInfo> propagateNetwork(Collection<Long> nodes,
+      Map<Pair<Long, Long>, CityConnectionInfo> network) {
     for (Long k : nodes) {
       for (Long i : nodes) {
         for (Long j : nodes) {
@@ -51,5 +56,33 @@ public class Util {
 
   public static CityConnectionInfo createConnectionInfo(int distance, int hours) {
     return CityConnectionInfo.newBuilder().setDistance(distance).setHours(hours).build();
+  }
+
+  public static VisitSpot createVisitSpot(int hours, long spotId, String spotName,
+      ErrorInfo errorInfo) {
+    VisitSpot.Builder builder = VisitSpot.newBuilder().setHours(hours).setSpotName(spotName);
+    if (spotId != 0L) {
+      builder.setSpotId(spotId);
+    }
+    if (errorInfo != null) {
+      builder.setErrorInfo(errorInfo);
+    }
+    return builder.build();
+  }
+
+  private static final String INTEREST_SPLITTOR = Pattern.quote("|");
+  public static List<Long> getInterestIds(String interests, Map<String, Long> interestNameToId) {
+    List<Long> ids = Lists.newArrayList();
+    for (String name : interests.split(INTEREST_SPLITTOR)) {
+      if (name.isEmpty()) {
+        continue;
+      }
+      if (!interestNameToId.containsKey(name)) {
+        LOG.error("Can't find interest by name ({})", name);
+        continue;
+      }
+      ids.add(interestNameToId.get(name));
+    }
+    return ids;
   }
 }

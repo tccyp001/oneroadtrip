@@ -7,6 +7,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.oneroadtrip.matcher.internal.CityConnectionInfo;
 import com.oneroadtrip.matcher.testutil.GraphTestingUtil;
@@ -48,5 +50,15 @@ public class UtilTest {
     expected.put(Pair.with(5L, 3L), GraphTestingUtil.weight(1, 2));
     expected.put(Pair.with(5L, 4L), GraphTestingUtil.weight(6, 1));
     Assert.assertEquals(expected, Util.propagateNetwork(nodes, network));
+  }
+
+  @Test
+  public void getInterestIds() throws Exception {
+    Assert.assertEquals(Util.getInterestIds("浪漫", ImmutableMap.of("浪漫", 5L)),
+        Lists.newArrayList(5L));
+    Assert.assertEquals(Util.getInterestIds("浪漫|商务", ImmutableMap.of("浪漫", 5L)),
+        Lists.newArrayList(5L));
+    Assert.assertEquals(Util.getInterestIds("浪漫|商务", ImmutableMap.of("浪漫", 5L, "商务", 8L)),
+        Lists.newArrayList(5L, 8L));
   }
 }

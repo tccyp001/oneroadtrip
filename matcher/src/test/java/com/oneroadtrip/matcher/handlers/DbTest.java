@@ -34,7 +34,7 @@ public abstract class DbTest {
       @Override
       protected void configure() {
         OneRoadTripConfig config = new OneRoadTripConfig();
-        config.preload_period_in_seconds = TimeUnit.SECONDS.toSeconds(1);
+//        config.preload_period_in_seconds = TimeUnit.SECONDS.toSeconds(1);
         bind(OneRoadTripConfig.class).toInstance(config);
 
         install(new DbTestingModule());

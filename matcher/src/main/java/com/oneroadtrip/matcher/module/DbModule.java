@@ -33,7 +33,7 @@ public class DbModule extends AbstractModule {
   @Singleton
   DataSource providePoolDataSource(@Named(Constants.CONNECTION_URI) String connectionUri,
       @Named(Constants.PRELOADED_JDBC_DRIVER) boolean preloaded) {
-    LOG.info("h2 connection uri: {}, jdbc is preloaded: {}", connectionUri, preloaded);
+    LOG.info("Connection uri: {}, jdbc is preloaded: {}", connectionUri, preloaded);
     if (!preloaded) {
       return null;
     }

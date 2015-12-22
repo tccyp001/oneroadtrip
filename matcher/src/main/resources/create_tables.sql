@@ -24,6 +24,23 @@ CREATE TABLE CityAliases(
 ) DEFAULT CHARSET=utf8;
 CREATE INDEX CityAliasesCityId ON CityAliases(city_id);
 
+CREATE TABLE Spots (
+  spot_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(20),
+  description VARCHAR(200),
+  hours INT,
+  score FLOAT,
+  interests VARCHAR(100)
+) DEFAULT CHARSET=utf8;
+
+CREATE TABLE CitySpots (
+  city_spot_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  city_id BIGINT,
+  spot_id BIGINT
+) DEFAULT CHARSET=utf8;
+CREATE INDEX CitySpotsCityId ON CitySpots(city_id);
+CREATE INDEX CitySpotsSpotId ON CitySpots(spot_id);
+
 /*
  * password: one-way-hash
  */
@@ -158,4 +175,9 @@ CREATE TABLE Languages (
 CREATE TABLE BillingMethods (
   billing_method_id BIGINT PRIMARY KEY AUTO_INCREMENT,
   description VARCHAR(100)  -- VISA / Master / AE / 银联 / Paypal / Alipay
+) DEFAULT CHARSET=utf8;
+
+CREATE TABLE Interests (
+  interest_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  interest_name VARCHAR(20)
 ) DEFAULT CHARSET=utf8;

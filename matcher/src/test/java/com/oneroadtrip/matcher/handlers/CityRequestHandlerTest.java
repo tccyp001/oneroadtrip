@@ -1,7 +1,6 @@
 package com.oneroadtrip.matcher.handlers;
 
 import java.io.File;
-import java.sql.Connection;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

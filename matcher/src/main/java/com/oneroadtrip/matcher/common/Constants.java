@@ -7,4 +7,9 @@ public class Constants {
   public static final String CONNECTION_URI = "connection_url";
   public static final String PRELOADED_JDBC_DRIVER = "preload_jdbc_driver";
 
+  public static final String SPOT_NAME_TO_ID = "spot_name_to_id";
+  public static final String SPOT_ID_TO_DATA = "spot_id_to_data";
+  public static final String INTEREST_TO_SPOT = "interest_to_spot";
+
+  public static final String INTEREST_NAME_TO_ID = "interest_name_to_id";
 }

@@ -16,7 +16,7 @@ import com.oneroadtrip.matcher.internal.CityConnectionInfo;
 public class PreloadedDataModule extends AbstractModule {
   @Override
   protected void configure() {
-    bind(PreloadedData.Reloader.class);
+    bind(PreloadedDataReloader.class);
     bind(PreloadedData.Manager.class).in(Singleton.class);
     bind(PreloadedData.class).toProvider(PreloadedData.Manager.class);
 
@@ -38,5 +38,16 @@ public class PreloadedDataModule extends AbstractModule {
   @Provides
   Optional<CityPlanner> provideOptionalCityPlanner(CityPlanner cityPlanner) {
     return Optional.ofNullable(cityPlanner);
+  }
+  
+  @Provides
+  ImmutableMap<Long, SpotPlanner> provideSpotPlannerProvider(PreloadedData data) {
+    return data.getCityIdToSpotPlanner();
+  }
+  
+  @Provides
+  @Named(Constants.INTEREST_NAME_TO_ID)
+  ImmutableMap<String, Long> provideInterestNameToId(PreloadedData data) {
+    return data.getInterestNameToId();
   }
 }
