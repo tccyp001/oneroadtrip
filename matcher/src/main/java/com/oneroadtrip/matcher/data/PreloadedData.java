@@ -21,6 +21,9 @@ public class PreloadedData {
 
   public static class Manager implements Provider<PreloadedData> {
     final OneRoadTripConfig config;
+    
+    // TODO(xfguo): Use "volatile" to handle the variable, corresponding doc:
+    // http://www.ibm.com/developerworks/cn/java/j-jtp06197.html
     PreloadedData data_ = null;
 
     synchronized PreloadedData atomicGetData() {
@@ -35,6 +38,7 @@ public class PreloadedData {
     public Manager(OneRoadTripConfig config, PreloadedDataReloader reloader) {
       this.config = config;
       LOG.info("Reload database every {} seconds", config.preload_period_in_seconds);
+      // TODO(xfguo): Name the threads.
       Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(new Runnable() {
         @Override
         public void run() {
