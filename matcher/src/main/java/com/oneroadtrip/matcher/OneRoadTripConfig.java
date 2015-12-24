@@ -22,6 +22,12 @@ public class OneRoadTripConfig {
 
   @Parameter(names = "--preload_period_in_second", description = "Period in second for preloading DB data", required = false)
   public Long preload_period_in_seconds = TimeUnit.MINUTES.toSeconds(5);
+  
+  @Parameter(names = "--guide_reserved_seconds_for_book", description = "Period in second for preloading DB data", required = false)
+  public Long guideReservedSecondsForBook = TimeUnit.MINUTES.toSeconds(5);
+  
+  @Parameter(names = "--guide_reservation_query_limit", description = "最多可以查询预留时间的导游的数目")
+  public Integer guideReservationQueryLimit = 20;
 
   @Parameter(names = { "-h", "--help" }, description = "print help message")
   public boolean help = false;

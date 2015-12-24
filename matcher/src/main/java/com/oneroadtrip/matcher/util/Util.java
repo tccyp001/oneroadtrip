@@ -5,10 +5,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import jersey.repackaged.com.google.common.collect.Maps;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.javatuples.Pair;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.oneroadtrip.matcher.ErrorInfo;
 import com.oneroadtrip.matcher.VisitSpot;
@@ -73,6 +78,9 @@ public class Util {
   private static final String INTEREST_SPLITTOR = Pattern.quote("|");
   public static List<Long> getInterestIds(String interests, Map<String, Long> interestNameToId) {
     List<Long> ids = Lists.newArrayList();
+    if (interests == null) {
+      return ids;
+    }
     for (String name : interests.split(INTEREST_SPLITTOR)) {
       if (name.isEmpty()) {
         continue;
@@ -84,5 +92,25 @@ public class Util {
       ids.add(interestNameToId.get(name));
     }
     return ids;
+  }
+
+  public static ImmutableMap<Long, ImmutableSet<Long>> rotateMatrix(
+      ImmutableMap<Long, ImmutableSet<Long>> a) {
+    Map<Long, ImmutableSet.Builder<Long>> b = Maps.newTreeMap();
+    for (Map.Entry<Long, ImmutableSet<Long>> e : a.entrySet()) {
+      Long x = e.getKey();
+      for (Long y : e.getValue()) {
+        if (!b.containsKey(y)) {
+          b.put(y, ImmutableSet.builder());
+        }
+        b.get(y).add(x);
+      }
+    }
+
+    ImmutableMap.Builder<Long, ImmutableSet<Long>> builder = ImmutableMap.builder();
+    for (Map.Entry<Long, ImmutableSet.Builder<Long>> e : b.entrySet()) {
+      builder.put(e.getKey(), e.getValue().build());
+    }
+    return builder.build();
   }
 }

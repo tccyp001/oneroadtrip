@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.io.FileUtils;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
@@ -23,7 +24,7 @@ import com.oneroadtrip.matcher.util.ScriptRunner;
 public abstract class DbTest {
   protected final String TESTDATA_PATH = "src/test/resources/testdata/";
 
-  Injector injector;
+  protected Injector injector;
   H2Info h2Info;
 
   @BeforeClass
@@ -34,7 +35,8 @@ public abstract class DbTest {
       @Override
       protected void configure() {
         OneRoadTripConfig config = new OneRoadTripConfig();
-//        config.preload_period_in_seconds = TimeUnit.SECONDS.toSeconds(1);
+        // Same as default, can adjust is necessary.
+        config.preload_period_in_seconds = TimeUnit.MINUTES.toSeconds(5);
         bind(OneRoadTripConfig.class).toInstance(config);
 
         install(new DbTestingModule());
@@ -53,6 +55,6 @@ public abstract class DbTest {
 
   @AfterClass
   protected void tearDown() throws IOException {
-    // FileUtils.deleteDirectory(h2Info.testingDir);
+     FileUtils.deleteDirectory(h2Info.testingDir);
   }
 }

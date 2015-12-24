@@ -21,6 +21,7 @@ public class TestingDataProcessor {
 
   private static final String CASE_SEPARATOR = "==========";
 
+  // TODO(xfguo): Why not inject a connection?
   private final Connection conn;
   private List<Pair<String, String>> cases;
 

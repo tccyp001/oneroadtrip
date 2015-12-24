@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.javatuples.Pair;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.oneroadtrip.matcher.OneRoadTripConfig;
 import com.oneroadtrip.matcher.internal.CityConnectionInfo;
 
@@ -19,7 +20,7 @@ public class PreloadedData {
   private static final Logger LOG = LogManager.getLogger();
 
   public static class Manager implements Provider<PreloadedData> {
-    OneRoadTripConfig config;
+    final OneRoadTripConfig config;
     PreloadedData data_ = null;
 
     synchronized PreloadedData atomicGetData() {
@@ -33,12 +34,17 @@ public class PreloadedData {
     @Inject
     public Manager(OneRoadTripConfig config, PreloadedDataReloader reloader) {
       this.config = config;
+      LOG.info("Reload database every {} seconds", config.preload_period_in_seconds);
       Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(new Runnable() {
         @Override
         public void run() {
           // TODO(xfguo): confirm the replacement is atomic. (Do we need to make
           // sure this?)
-          atomicSetData(reloader.reload());
+          try {
+            atomicSetData(reloader.reload());
+          } catch (RuntimeException re) {
+            LOG.error("Runtime errors in reloading data", re);
+          }
         }
       }, 0, config.preload_period_in_seconds, TimeUnit.SECONDS);
     }
@@ -52,6 +58,7 @@ public class PreloadedData {
         }
         // Sleep one second to check data again.
         try {
+//          LOG.info("Wait for reloading data...");
           Thread.sleep(TimeUnit.SECONDS.toMillis(1));
         } catch (InterruptedException e) {
           // No interrupt in the sleep.
@@ -61,20 +68,28 @@ public class PreloadedData {
     }
   }
 
-  ImmutableMap<Pair<Long, Long>, CityConnectionInfo> cityNetwork;
-  ImmutableMap<Long, Integer> suggestDaysForCities;
-  ImmutableMap<Long, SpotPlanner> cityIdToSpotPlanner;
-  ImmutableMap<String, Long> interestNameToId;
-  
-  PreloadedData(
-      ImmutableMap<Pair<Long, Long>, CityConnectionInfo> cityNetwork,
+  final ImmutableMap<Pair<Long, Long>, CityConnectionInfo> cityNetwork;
+  final ImmutableMap<Long, Integer> suggestDaysForCities;
+  final ImmutableMap<Long, SpotPlanner> cityIdToSpotPlanner;
+  final ImmutableMap<String, Long> interestNameToId;
+  final ImmutableMap<Long, ImmutableSet<Long>> cityToGuides;
+  final ImmutableMap<Long, ImmutableSet<Long>> guideToInterests;
+  final ImmutableMap<Long, Float> guideToScore;
+
+  PreloadedData(ImmutableMap<Pair<Long, Long>, CityConnectionInfo> cityNetwork,
       ImmutableMap<Long, Integer> suggestDaysForCities,
       ImmutableMap<Long, SpotPlanner> cityIdToSpotPlanner,
-      ImmutableMap<String, Long> interestNameToId) {
+      ImmutableMap<String, Long> interestNameToId,
+      ImmutableMap<Long, ImmutableSet<Long>> cityToGuides,
+      ImmutableMap<Long, ImmutableSet<Long>> guideToInterests,
+      ImmutableMap<Long, Float> guideToScore) {
     this.cityNetwork = cityNetwork;
     this.suggestDaysForCities = suggestDaysForCities;
     this.cityIdToSpotPlanner = cityIdToSpotPlanner;
     this.interestNameToId = interestNameToId;
+    this.cityToGuides = cityToGuides;
+    this.guideToInterests = guideToInterests;
+    this.guideToScore = guideToScore;
   }
 
   public ImmutableMap<Pair<Long, Long>, CityConnectionInfo> getCityNetwork() {
@@ -84,12 +99,24 @@ public class PreloadedData {
   public ImmutableMap<Long, Integer> getSuggestDaysForCities() {
     return suggestDaysForCities;
   }
-  
+
   public ImmutableMap<Long, SpotPlanner> getCityIdToSpotPlanner() {
     return cityIdToSpotPlanner;
   }
 
   public ImmutableMap<String, Long> getInterestNameToId() {
     return interestNameToId;
+  }
+
+  public ImmutableMap<Long, ImmutableSet<Long>> getCityToGuides() {
+    return cityToGuides;
+  }
+
+  public ImmutableMap<Long, ImmutableSet<Long>> getGuideToInterests() {
+    return guideToInterests;
+  }
+
+  public ImmutableMap<Long, Float> getGuideToScore() {
+    return guideToScore;
   }
 }

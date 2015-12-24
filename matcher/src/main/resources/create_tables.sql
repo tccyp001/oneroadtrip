@@ -1,3 +1,30 @@
+/*
+ * password: one-way-hash
+ */
+CREATE TABLE Users(
+  user_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  user_name VARCHAR(100),
+  email VARCHAR(100),
+  password CHAR(64),
+  photo_id BIGINT
+) DEFAULT CHARSET=utf8;
+CREATE INDEX UsersUserName ON Users(user_name);
+
+/*
+ * About user expiration: 对于一个用户而言，有可能对应有多个tokens，有些过期了，有些没有。
+ * 但是有且只有一个is_expired=false
+ *
+ * is_expired: client端可以显式的设置这个域来废弃这个token，这有可能发生在更新token的情况下。
+ */
+CREATE TABLE Tokens (
+  token_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  token VARCHAR(40),
+  user_id BIGINT,
+  expired_ts TIMESTAMP,
+  is_expired BOOLEAN
+) DEFAULT CHARSET=utf8;
+CREATE INDEX TokensToken ON Tokens(token);
+
 CREATE TABLE Cities(
   city_id BIGINT PRIMARY KEY AUTO_INCREMENT,
   city_name VARCHAR(100),
@@ -36,33 +63,6 @@ CREATE TABLE Spots (
 CREATE INDEX SpotsCityId ON Spots(city_id);
 
 /*
- * password: one-way-hash
- */
-CREATE TABLE Users(
-  user_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  user_name VARCHAR(100),
-  email VARCHAR(100),
-  password CHAR(64),
-  photo_id BIGINT
-) DEFAULT CHARSET=utf8;
-CREATE INDEX UsersUserName ON Users(user_name);
-
-/*
- * About user expiration: 对于一个用户而言，有可能对应有多个tokens，有些过期了，有些没有。
- * 但是有且只有一个is_expired=false
- *
- * is_expired: client端可以显式的设置这个域来废弃这个token，这有可能发生在更新token的情况下。
- */
-CREATE TABLE Tokens (
-  token_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  token VARCHAR(40),
-  user_id BIGINT,
-  expired_ts TIMESTAMP,
-  is_expired BOOLEAN
-) DEFAULT CHARSET=utf8;
-CREATE INDEX TokensToken ON Tokens(token);
-
-/*
  * 每个用户都有可能同时是一个导游。
  *
  * citizenship: US or CN.
@@ -75,46 +75,32 @@ CREATE TABLE Guides (
 	max_persons INT,
 	citizenship VARCHAR(2),
 	has_car BOOLEAN,
-	score FLOAT
+	score FLOAT,
+  location_id BIGINT,  -- DEPRECATING...
+  interests VARCHAR(100)
 ) DEFAULT CHARSET=utf8;
 CREATE INDEX GuidesUserId ON Guides(user_id);
 
 /*
  * reserved_date: 因为导游空闲时间是以天为单位的，所以INT比较简洁（20151210 -- Dec. 10, 2015)
- * location_id: 当天所在位置
  */
 CREATE TABLE GuideReservations (
   reservation_id BIGINT PRIMARY KEY AUTO_INCREMENT,
 	guide_id BIGINT,
 	reserved_date INT,
-	location_id BIGINT
+  is_permanent BOOLEAN,
+  insert_time TIMESTAMP,
+  location_id BIGINT  -- DEPRECATING...
 ) DEFAULT CHARSET=utf8;
 CREATE INDEX GuideReservationsGuideId ON GuideReservations(guide_id);
 
-CREATE TABLE GuideLanguages (
-  guide_language_id INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE GuideCities (
+  guide_city_id BIGINT PRIMARY KEY AUTO_INCREMENT,
   guide_id BIGINT,
-  language_id BIGINT
+  city_id BIGINT
 ) DEFAULT CHARSET=utf8;
-CREATE INDEX GuideLanguagesGuideId ON GuideLanguages(guide_id);
-CREATE INDEX GuideLanguagesLanguageId ON GuideLanguages(language_id);
-
-/*
- * 导游可以提供的旅游地点
- *
- * is_effective: 导游应该可以更改他们某个地点的旅游价格，但是同一个导游同一地点，
- *               任何时候都只能有一个有效.
- */
-CREATE TABLE GuideLocations (
-  guide_location_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-	guide_id BIGINT,
-	location_id BIGINT,
-	price_usd FLOAT,
-	price_cny FLOAT,
-	is_effective BOOLEAN
-) DEFAULT CHARSET=utf8;
-CREATE INDEX GuideLocationsGuideId ON GuideLocations(guide_id);
-CREATE INDEX GuideLocationsLocationId ON GuideLocations(location_id);
+CREATE INDEX GuideCitiesGuideId ON GuideCities(guide_id);
+CREATE INDEX GuideCitiesCityIt ON GuideCities(city_id);
 
 CREATE TABLE GuideBillingMethods (
   guide_billing_method_id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -175,3 +161,29 @@ CREATE TABLE Interests (
   interest_id BIGINT PRIMARY KEY AUTO_INCREMENT,
   interest_name VARCHAR(20)
 ) DEFAULT CHARSET=utf8;
+
+-- DEPRECATING...
+CREATE TABLE GuideLanguages (
+  guide_language_id INT PRIMARY KEY AUTO_INCREMENT,
+  guide_id BIGINT,
+  language_id BIGINT
+) DEFAULT CHARSET=utf8;
+CREATE INDEX GuideLanguagesGuideId ON GuideLanguages(guide_id);
+CREATE INDEX GuideLanguagesLanguageId ON GuideLanguages(language_id);
+
+/*
+ * 导游可以提供的旅游地点
+ *
+ * is_effective: 导游应该可以更改他们某个地点的旅游价格，但是同一个导游同一地点，
+ *               任何时候都只能有一个有效.
+ */
+CREATE TABLE GuideLocations (
+  guide_location_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+	guide_id BIGINT,
+	location_id BIGINT,
+	price_usd FLOAT,
+	price_cny FLOAT,
+	is_effective BOOLEAN
+) DEFAULT CHARSET=utf8;
+CREATE INDEX GuideLocationsGuideId ON GuideLocations(guide_id);
+CREATE INDEX GuideLocationsLocationId ON GuideLocations(location_id);

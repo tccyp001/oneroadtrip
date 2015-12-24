@@ -21,12 +21,14 @@ import org.apache.logging.log4j.Logger;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.oneroadtrip.matcher.common.Constants;
+import com.oneroadtrip.matcher.data.DatabaseAccessor;
 
 public class DbModule extends AbstractModule {
   private static final Logger LOG = LogManager.getLogger();
 
   @Override
   public void configure() {
+    bind(DatabaseAccessor.class);
   }
 
   @Provides

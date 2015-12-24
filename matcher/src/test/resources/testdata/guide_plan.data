@@ -1,0 +1,52 @@
+==INSERT_DATA==
+INSERT INTO Interests (interest_id, interest_name) VALUES
+  (1, '浪漫'),
+  (2, '商务'),
+  (3, '家庭');
+
+INSERT INTO GuideCities (guide_id, city_id) VALUES
+  (1, 1), (1, 2), (1, 3),
+  (2, 1), (2, 4), (2, 5),
+  (3, 1), (3, 2), (3, 3), (3, 4), (3, 5),
+  (4, 1), (4, 2),
+  (5, 1), (5, 3),
+  (6, 2), (6, 3),
+  (7, 2), (7, 3), (7, 4);
+
+INSERT INTO Guides (guide_id, score, interests) VALUES
+  (1, 0.9, '浪漫'),
+  (2, 0.8, '浪漫|商务'),
+  (3, 0.7, '浪漫|商务|家庭'),
+  (4, 0.6, '商务'),
+  (5, 0.5, '家庭'),
+  (6, 0.4, '浪漫|家庭'),
+  (7, 0.3, '商务|家庭');
+
+INSERT INTO GuideReservations (guide_id, reserved_date, is_permanent) VALUES
+  (1, 20151225, true),
+  (3, 20151226, true), (3, 20151227, true),
+  (4, 20151226, true),
+  (7, 20151225, true);
+
+==========
+==TESTCASE_DATA==
+=REQUEST
+one_guide_for_whole_trip: false
+city_plan { city_id: 1 start_date:20151225 num_days: 2 }
+city_plan { city_id: 2 start_date:20151227 num_days: 1 }
+interest_id: 1
+=RESPONSE
+status: SUCCESS
+city_plan { city_id: 1 start_date:20151225 num_days: 2 guide_id: 2}
+city_plan { city_id: 2 start_date:20151227 num_days: 1 guide_id: 1}
+==========
+==TESTCASE_DATA==
+=REQUEST
+one_guide_for_whole_trip: true
+city_plan { city_id: 1 start_date:20151225 num_days: 2 }
+city_plan { city_id: 2 start_date:20151227 num_days: 1 }
+interest_id: 1
+=RESPONSE
+status: ERROR_IN_GUIDE_PLAN
+city_plan { city_id: 1 start_date:20151225 num_days: 2 }
+city_plan { city_id: 2 start_date:20151227 num_days: 1 }

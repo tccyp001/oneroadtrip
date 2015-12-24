@@ -16,4 +16,14 @@ enum Status {
   SERVER_ERROR = 7;
   NO_TOKEN = 8;
   MULTIPLE_VALID_TOKEN = 9;
+  ERROR_IN_GUIDE_PLAN = 11;
+  ERR_LOAD_GUIDE_TO_RESERVED_DAYS = 12;
+  ERR_INSERT_GUIDE_RESERVATION = 13;
+
+  // Internal status
+  //
+  // 所谓internal error就是不在request handler中处置的状态，
+  // 碰到这种状态我们经常还需要继续我们的逻辑。这些状态主要提供给
+  // OneRoadTripException使用。
+  GUIDE_NOT_FOUND = 10001;
 }

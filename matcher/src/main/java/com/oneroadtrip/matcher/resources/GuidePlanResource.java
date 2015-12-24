@@ -7,17 +7,23 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.oneroadtrip.matcher.handlers.PlanRequestHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-@Path("plan")
-public class PlanResource {
+import com.oneroadtrip.matcher.handlers.GuidePlanRequestHandler;
+
+@Path("guide")
+public class GuidePlanResource {
+  private static final Logger LOG = LogManager.getLogger();
+
   @Inject
-  private PlanRequestHandler handler;
-  
+  private GuidePlanRequestHandler handler;
+
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public String post(String post) {
+    LOG.info("xfguo: AAA");
     return handler.process(post);
   }
 }

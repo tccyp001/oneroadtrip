@@ -26,6 +26,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.ServletModule;
+import com.oneroadtrip.matcher.data.PreloadedData;
 import com.squarespace.jersey2.guice.BootstrapUtils;
 
 /**
@@ -65,6 +66,9 @@ public class App {
       }, new ServletModule(), new TripModule(connectionUrl)));
       BootstrapUtils.install(locator);
 
+      // Initialize periodical reloader.
+      PreloadedData.Manager dataManager = injector.getInstance(PreloadedData.Manager.class);
+
       Server server = new Server(PORT);
 
       ResourceConfig resourceConfig = ResourceConfig.forApplication(new TripApplication());
@@ -95,28 +99,6 @@ public class App {
       } finally {
         server.destroy();
       }
-
-      //
-      // final ResourceConfig resourceConfig = new
-      // ResourceConfig(HelloWorldResource.class,
-      // TravelRequestResource.class);
-      // final HttpServer server =
-      // GrizzlyHttpServerFactory.createHttpServer(BASE_URI, resourceConfig,
-      // false);
-      // // server.getServerConfiguration().addHttpHandler(
-      // // new StaticHttpHandler(resourceUrl.getPath()), "/static");
-      // Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-      // public void run() {
-      // server.shutdownNow();
-      // }
-      // }));
-      // server.start();
-      //
-      // System.out.println(String.format(
-      // "Application started.\nTry out %s%s\nStop the application using CTRL+C",
-      // BASE_URI,
-      // ROOT_PATH));
-      // Thread.currentThread().join();
     } catch (IOException | InterruptedException ex) {
       LOG.fatal("incorrect", ex);
     }
