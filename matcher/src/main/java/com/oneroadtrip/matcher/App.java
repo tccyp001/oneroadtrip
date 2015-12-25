@@ -61,7 +61,7 @@ public class App {
         });
 
         // Testing resources
-        bind(FileUploadResource.class);
+//        bind(FileUploadResource.class);
         bind(HelloWorldResource.class);
         // TODO(xfguo): (P1) Clean up. ("content" provider below together)
         bind(AnotherResource.class);
