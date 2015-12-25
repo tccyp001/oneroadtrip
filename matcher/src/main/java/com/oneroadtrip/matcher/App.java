@@ -2,7 +2,7 @@ package com.oneroadtrip.matcher;
 
 import java.util.EnumSet;
 
-import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.DispatcherType;
 
 import org.apache.logging.log4j.LogManager;
@@ -19,18 +19,16 @@ import com.beust.jcommander.JCommander;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Provides;
 import com.google.inject.Stage;
 import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.ServletModule;
 import com.oneroadtrip.matcher.data.PreloadedData;
-import com.oneroadtrip.matcher.resources.samples.FileUploadResource;
+import com.oneroadtrip.matcher.module.OneRoadTripModule;
+import com.oneroadtrip.matcher.resources.FileUploadResource;
 import com.sun.jersey.guice.JerseyServletModule;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 
-/**
- * Hello world!
- *
- */
 public class App {
   private static final Logger LOG = LogManager.getLogger();
 
@@ -61,26 +59,27 @@ public class App {
         // Testing resources
         bind(FileUploadResource.class);
         bind(HelloWorldResource.class);
-        bind(AnotherResource.class);  // TODO(xfguo): Clean up.
+        // TODO(xfguo): (P1) Clean up. ("content" provider below together)
+        bind(AnotherResource.class);
         
         // Bind OneRoadTrip modules
-        install(new TripModule(config));
+        install(new OneRoadTripModule(config));
+      }
+      
+      @Provides
+      @Named("content")
+      String getContent() {
+        return "(xfguo)Hello world";
       }
     });
 
     // Initialize the first database loading.
     injector.getInstance(PreloadedData.Manager.class).get();
-    injector.getInstance(App.class).go();
+    GuiceFilter guiceFilter = injector.getInstance(GuiceFilter.class);
+    injector.getInstance(App.class).go(guiceFilter);
   }
 
-  final GuiceFilter guiceFilter;
-
-  @Inject
-  App(GuiceFilter guiceFilter) {
-    this.guiceFilter = guiceFilter;
-  }
-
-  void go() throws Exception {
+  void go(GuiceFilter guiceFilter) throws Exception {
     ServletContextHandler servletHandler = new ServletContextHandler();
     servletHandler.setContextPath("/api");
 

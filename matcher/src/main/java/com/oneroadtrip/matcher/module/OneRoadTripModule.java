@@ -1,4 +1,4 @@
-package com.oneroadtrip.matcher;
+package com.oneroadtrip.matcher.module;
 
 import java.io.IOException;
 
@@ -10,21 +10,20 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import com.oneroadtrip.matcher.OneRoadTripConfig;
 import com.oneroadtrip.matcher.common.Constants;
 import com.oneroadtrip.matcher.data.PreloadedDataModule;
-import com.oneroadtrip.matcher.module.DbModule;
 import com.oneroadtrip.matcher.resources.CityResource;
 import com.oneroadtrip.matcher.resources.GuidePlanResource;
 import com.oneroadtrip.matcher.resources.LoginResource;
 import com.oneroadtrip.matcher.resources.SignupResource;
 import com.oneroadtrip.matcher.resources.SpotResource;
 
-// TODO(xfguo): All modules should be installed here, or have an abstract module in main().
-public class TripModule extends AbstractModule {
+public class OneRoadTripModule extends AbstractModule {
   private static final Logger LOG = LogManager.getLogger();
   private final OneRoadTripConfig config;
 
-  public TripModule(OneRoadTripConfig config) {
+  public OneRoadTripModule(OneRoadTripConfig config) {
     this.config = config;
   }
 
@@ -71,12 +70,5 @@ public class TripModule extends AbstractModule {
     bind(SpotResource.class);
     bind(LoginResource.class);
     bind(SignupResource.class);
-  }
-
-  // TODO(xfguo): clean up.
-  @Provides
-  @Named("content")
-  public String provideContent() {
-    return "xfguo test";
   }
 }

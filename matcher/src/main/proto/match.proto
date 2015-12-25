@@ -103,7 +103,7 @@ message PlanResponse {
   repeated VisitCity suggest_city = 6;
 }
 
-// TODO(xfguo): GuideRequest and GuideResponse
+// TODO(xfguo): (P5) GuideRequest and GuideResponse
 message TravelRequest {
   optional string token = 1;
   optional string destination = 2;

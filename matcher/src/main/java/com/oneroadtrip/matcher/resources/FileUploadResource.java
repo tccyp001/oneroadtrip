@@ -1,4 +1,4 @@
-package com.oneroadtrip.matcher.resources.samples;
+package com.oneroadtrip.matcher.resources;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,13 +21,13 @@ import org.apache.logging.log4j.Logger;
 import com.oneroadtrip.matcher.util.HashUtil;
 import com.sun.jersey.multipart.FormDataParam;
 
-// TODO(xfguo): Make this a separate service?
+// TODO(xfguo): (P3) Make this a separate service?
 @Path("/file")
 public class FileUploadResource {
   private static final Logger LOG = LogManager.getLogger();
   
   private static final String PARAM_NAME = "file";
-  // TODO(xfguo): We may need to find a better directory for saving these files.
+  // TODO(xfguo): (P3) We may need to find a better directory for saving these files.
   private static final String IMAGE_DIRECTORY = "/tmp/data";
 
   @POST

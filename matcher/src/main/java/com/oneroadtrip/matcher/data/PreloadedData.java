@@ -22,7 +22,7 @@ public class PreloadedData {
   public static class Manager implements Provider<PreloadedData> {
     final OneRoadTripConfig config;
     
-    // TODO(xfguo): Use "volatile" to handle the variable, corresponding doc:
+    // TODO(xfguo): (P2) Use "volatile" to handle the variable, corresponding doc:
     // http://www.ibm.com/developerworks/cn/java/j-jtp06197.html
     PreloadedData data_ = null;
 
@@ -38,12 +38,10 @@ public class PreloadedData {
     public Manager(OneRoadTripConfig config, PreloadedDataReloader reloader) {
       this.config = config;
       LOG.info("Reload database every {} seconds", config.preload_period_in_seconds);
-      // TODO(xfguo): Name the threads.
+      // TODO(xfguo): (P1) Name the threads.
       Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(new Runnable() {
         @Override
         public void run() {
-          // TODO(xfguo): confirm the replacement is atomic. (Do we need to make
-          // sure this?)
           try {
             atomicSetData(reloader.reload());
           } catch (RuntimeException re) {

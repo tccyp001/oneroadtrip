@@ -45,7 +45,7 @@ public class PreloadedDataReloader {
     ImmutableMap<Pair<Long, Long>, CityConnectionInfo> cityNetwork = null;
     ImmutableMap<Long, Integer> suggestDaysForCities = null;
     Map<String, Long> interestNameToId = Maps.newTreeMap();
-    // TODO(xfguo): Use ImmutableMap.Builder instead.
+    // TODO(xfguo): (P1) Use ImmutableMap.Builder instead.
     Map<Long, SpotPlanner> cityIdToSpotPlanner = null;
 
     try (Connection conn = dataSource.getConnection()) {
@@ -102,7 +102,7 @@ public class PreloadedDataReloader {
           String name = rs.getString(3);
           Integer hours = rs.getInt(4);
           Float score = rs.getFloat(5);
-          String interests = rs.getString(6); // TODO(xfguo): Reverse index.
+          String interests = rs.getString(6);
           if (cityId != currentCityId) {
             buildSpotPlanner(cityIdToSpotPlanner, currentCityId, spotNameToId, spotIdToData,
                 spotToScore, interestToSpots);

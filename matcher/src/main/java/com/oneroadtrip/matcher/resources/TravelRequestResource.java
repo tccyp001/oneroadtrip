@@ -125,7 +125,7 @@ public class TravelRequestResource {
           ResultSet rsReservations = pStmtQueryReservations.executeQuery()) {
         while (rsGuides.next()) {
           LOG.info("xfguo: here");
-          // TODO(xiaofengguo): Make the result retrieving more generic.
+          // TODO(xfguo): (P4) Make the result retrieving more generic.
           GuideCandidate.Builder builder = GuideCandidate.newBuilder();
           builder.setGuideId(rsGuides.getLong("guide_id"));
           builder.setUserName(rsGuides.getString("user_name"));
@@ -162,10 +162,10 @@ public class TravelRequestResource {
         builder.setName(candiadate.getUserName());
         builder.setScore(candiadate.getScore());
         builder.setDescription(candiadate.getDescription());
-        builder.setExperience(-1);  // TODO(lamuguo): add this.
+        builder.setExperience(-1);  // TODO(xfguo): (P4) add this.
         builder.setHasCar(candiadate.getHasCar());
         builder.setMaxPeople(candiadate.getMaxPersons());
-        builder.addLanguage("unknown");  // TODO(lamuguo): add this.
+        builder.addLanguage("unknown");  // TODO(xfguo): (P4) add this.
         builder.setCitizenship(candiadate.getCitizenship());
         builder.setPriceUsd(candiadate.getPriceUsd());
         builder.setPriceCny(candiadate.getPriceCny());

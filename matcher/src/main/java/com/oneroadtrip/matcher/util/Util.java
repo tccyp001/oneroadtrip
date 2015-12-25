@@ -23,11 +23,6 @@ import com.oneroadtrip.matcher.internal.SuggestCityInfo;
 public class Util {
   private static final Logger LOG = LogManager.getLogger();
 
-  public static int getDays(int startdate, int enddate) {
-    // TODO Auto-generated method stub
-    return 0;
-  }
-
   public static Map<Pair<Long, Long>, CityConnectionInfo> propagateNetwork(Collection<Long> nodes,
       Map<Pair<Long, Long>, CityConnectionInfo> network) {
     for (Long k : nodes) {

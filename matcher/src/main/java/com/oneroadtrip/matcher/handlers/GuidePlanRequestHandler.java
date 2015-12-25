@@ -19,7 +19,7 @@ public class GuidePlanRequestHandler implements RequestHandler {
   @Inject
   private GuidePlanner guidePlanner;
 
-  // TODO(xfguo): in case we use grpc in the future.
+  // TODO(xfguo): (P4) in case we use grpc in the future.
   @Override
   public String process(String post) {
     try {

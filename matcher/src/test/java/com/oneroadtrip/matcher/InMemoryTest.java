@@ -25,7 +25,6 @@ public class InMemoryTest {
     // .getConnection("jdbc:h2:mem:test;MODE=MySQL;IGNORECASE=TRUE;INIT=RUNSCRIPT FROM 'src/main/resources/create_database.sql'");
     Connection conn = DriverManager.getConnection("jdbc:h2:mem:test;MODE=MySQL;IGNORECASE=TRUE");
 
-    // TODO(lamuguo): Add run sql script.
     ScriptRunner runner = new ScriptRunner(conn, true, false);
     runner.runScript(new BufferedReader(new FileReader("src/main/resources/create_tables.sql")));
     runner.runScript(new BufferedReader(new FileReader("src/test/resources/test.sql")));

@@ -4,7 +4,6 @@ import javax.annotation.Nullable;
 
 import com.oneroadtrip.matcher.Status;
 
-// TODO(xfguo): Clean up exception
 public class OneRoadTripException extends Exception {
   private static final long serialVersionUID = 3578125858814955719L;
 

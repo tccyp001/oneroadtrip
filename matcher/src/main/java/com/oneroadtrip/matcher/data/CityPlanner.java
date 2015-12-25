@@ -29,7 +29,7 @@ import com.oneroadtrip.matcher.util.Util;
 // Not thread-safe, need to create a new one for each request.
 public class CityPlanner {
   private static final Logger LOG = LogManager.getLogger();
-  // TODO(xiaofengguo): Make this as constant in protobuf enum.
+  // TODO(xfguo): (P3) Make this as constant in protobuf enum.
   private static final float MUST_SELECT_CITY_RATE = 1.0f;
 
   // Incoming data
@@ -45,7 +45,7 @@ public class CityPlanner {
   }
 
   public PlanResponse.Builder makePlan(long startCityId, long endCityId, List<VisitCity> visitCities,
-      boolean keepOrderOrViaCities, int days) {
+      boolean keepOrderOrViaCities) {
     CityVisitor visitor = new CityVisitor(startCityId, endCityId, visitCities, cityNetwork);
     visitor.visit(startCityId, 0L);
 

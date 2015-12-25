@@ -23,13 +23,11 @@ public class PlanRequestHandler implements RequestHandler {
   @Inject
   private Optional<CityPlanner> cityPlanner;
 
-  // TODO(xfguo): in case we use grpc in the future.
+  // TODO(xfguo): (P4) in case we use grpc in the future.
   @Override
   public String process(String post) {
     PlanResponse.Builder respBuilder = PlanResponse.newBuilder();
     try {
-      // TODO(xiaofengguo): Remove the parse for CityRequest, it by-default is
-      // empty.
       PlanRequest request = ProtoUtil.GetRequest(post, PlanRequest.newBuilder());
       respBuilder = process(request);
     } catch (ParseException e) {
@@ -44,14 +42,12 @@ public class PlanRequestHandler implements RequestHandler {
 
     try {
       respBuilder = cityPlanner.get().makePlan(request.getStartCityId(),
-          request.getEndCityId(), request.getVisitCityList(), request.getKeepOrderOfViaCities(),
-          Util.getDays(request.getStartdate(), request.getEnddate()));
+          request.getEndCityId(), request.getVisitCityList(), request.getKeepOrderOfViaCities());
     } catch (NoSuchElementException e) {
       LOG.error("No city planner");
       respBuilder.setStatus(Status.SERVER_ERROR);
     }
 
-    // TODO Auto-generated method stub
     return respBuilder;
   }
 

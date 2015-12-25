@@ -44,7 +44,6 @@ public class DatabaseAccessor {
     try (Connection conn = dataSource.getConnection()) {
       try (PreparedStatement pStmt = conn.prepareStatement(sql)) {
         int index = 1;
-        // TODO(xfguo): Don't use System.currentTimeMillis() in util.
         pStmt.setTimestamp(index++, new Timestamp(cutoffTimestamp));
         for (Long guide : guides) {
           pStmt.setLong(index++, guide);
