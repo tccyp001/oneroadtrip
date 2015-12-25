@@ -18,7 +18,6 @@ import com.oneroadtrip.matcher.OneRoadTripConfig;
 import com.oneroadtrip.matcher.data.PreloadedDataModule;
 import com.oneroadtrip.matcher.handlers.DbTestingModule.H2Info;
 import com.oneroadtrip.matcher.module.DbModule;
-import com.oneroadtrip.matcher.module.HandlerModule;
 import com.oneroadtrip.matcher.util.ScriptRunner;
 
 public abstract class DbTest {
@@ -42,7 +41,6 @@ public abstract class DbTest {
         install(new DbTestingModule());
         install(new DbModule());
         install(new PreloadedDataModule());
-        install(new HandlerModule());
       }
     });
     h2Info = injector.getInstance(H2Info.class);

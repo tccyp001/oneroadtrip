@@ -13,7 +13,6 @@ import com.google.inject.Provides;
 import com.oneroadtrip.matcher.common.Constants;
 import com.oneroadtrip.matcher.data.PreloadedDataModule;
 import com.oneroadtrip.matcher.module.DbModule;
-import com.oneroadtrip.matcher.module.HandlerModule;
 import com.oneroadtrip.matcher.resources.CityResource;
 import com.oneroadtrip.matcher.resources.GuidePlanResource;
 import com.oneroadtrip.matcher.resources.LoginResource;
@@ -65,7 +64,6 @@ public class TripModule extends AbstractModule {
     });
     install(new DbModule());
     install(new PreloadedDataModule());
-    install(new HandlerModule());
     
     // Bind application resources
     bind(CityResource.class);
