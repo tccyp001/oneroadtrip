@@ -11,11 +11,10 @@ import java.util.function.Predicate;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import jersey.repackaged.com.google.common.base.Preconditions;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;

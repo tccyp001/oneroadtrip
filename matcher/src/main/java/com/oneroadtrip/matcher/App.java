@@ -14,6 +14,7 @@ import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.servlets.CrossOriginFilter;
 
 import com.beust.jcommander.JCommander;
 import com.google.inject.AbstractModule;
@@ -35,6 +36,9 @@ public class App {
   private static final int PORT = 8080;
 
   public static void main(String[] args) throws Exception {
+    for (String arg : args) {
+      LOG.info("arg: {}", arg);
+    }
     OneRoadTripConfig config = new OneRoadTripConfig();
     JCommander jc = new JCommander(config, args);
     if (config.help) {
@@ -89,7 +93,9 @@ public class App {
     // add guice servlet filter
     FilterHolder filterHolder = new FilterHolder(guiceFilter);
     servletHandler.addFilter(filterHolder, "/*", EnumSet.allOf(DispatcherType.class));
-
+    servletHandler.addFilter(new FilterHolder(CrossOriginFilter.class), "/*",
+        EnumSet.allOf(DispatcherType.class));
+    
     ResourceHandler resourceHandler = new ResourceHandler();
     resourceHandler.setResourceBase("src/main/webapp");
 

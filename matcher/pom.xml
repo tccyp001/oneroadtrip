@@ -26,6 +26,12 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+      <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-surefire-plugin</artifactId> 
+        <configuration> <excludes> <exclude>**/*IntegrationTest.java</exclude> </excludes> 
+        </configuration> <executions> <execution> <id>integration-test</id> <goals> 
+        <goal>test</goal> </goals> <phase>integration-test</phase> <configuration> 
+        <excludes> <exclude>none</exclude> </excludes> <includes> <include>**/*IntegrationTest.java</include> 
+        </includes> </configuration> </execution> </executions> </plugin> -->
       <plugin>
         <groupId>com.google.protobuf.tools</groupId>
         <artifactId>maven-protoc-plugin</artifactId>
@@ -168,6 +174,8 @@
       <artifactId>h2</artifactId>
       <version>1.4.190</version>
     </dependency>
+
+
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-server</artifactId>
@@ -184,16 +192,6 @@
       <version>${jetty.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.glassfish.jersey.containers</groupId>
-      <artifactId>jersey-container-servlet</artifactId>
-      <version>2.13</version>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.jersey.containers</groupId>
-      <artifactId>jersey-container-jetty-http</artifactId>
-      <version>2.13</version>
-    </dependency>
-    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
       <version>1.7.13</version>
@@ -205,6 +203,11 @@
       <version>1.19</version>
     </dependency>
     <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-server</artifactId>
+      <version>1.19</version>
+    </dependency>
+    <dependency>
       <groupId>com.sun.jersey.contribs</groupId>
       <artifactId>jersey-guice</artifactId>
       <version>1.19</version>
@@ -213,6 +216,12 @@
       <groupId>com.sun.jersey.contribs</groupId>
       <artifactId>jersey-multipart</artifactId>
       <version>1.19</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-grizzly2</artifactId>
+      <version>1.19</version>
+      <optional>true</optional>
     </dependency>
 
     <dependency>

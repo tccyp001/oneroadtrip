@@ -12,18 +12,17 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.sql.DataSource;
 
-import jersey.repackaged.com.google.common.base.Preconditions;
-import jersey.repackaged.com.google.common.collect.Sets;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.javatuples.Pair;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.oneroadtrip.matcher.VisitSpot;
 import com.oneroadtrip.matcher.internal.CityConnectionInfo;
 import com.oneroadtrip.matcher.util.Util;

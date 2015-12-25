@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import jersey.repackaged.com.google.common.collect.Maps;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.javatuples.Pair;
@@ -14,6 +12,7 @@ import org.javatuples.Pair;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.oneroadtrip.matcher.ErrorInfo;
 import com.oneroadtrip.matcher.VisitSpot;
 import com.oneroadtrip.matcher.internal.CityConnectionInfo;

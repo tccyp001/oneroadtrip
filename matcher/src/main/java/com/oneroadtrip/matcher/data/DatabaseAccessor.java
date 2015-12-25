@@ -12,12 +12,11 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.sql.DataSource;
 
-import jersey.repackaged.com.google.common.collect.Maps;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.oneroadtrip.matcher.Status;
 import com.oneroadtrip.matcher.common.OneRoadTripException;
