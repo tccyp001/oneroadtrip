@@ -9,10 +9,7 @@ import javax.ws.rs.Produces;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/**
- *
- * @author Jakub Podlesak (jakub.podlesak at oracle.com)
- */
+//TODO(xfguo): (P1) Move the Resource to resources/samples directory
 @Path("helloworld")
 public class HelloWorldResource {
   private static final Logger LOG = LogManager.getLogger();
@@ -28,5 +25,4 @@ public class HelloWorldResource {
     LOG.info("xfguo: Hello world, content = {}", content);
     return CLICHED_MESSAGE + "haha|" + content + "\n";
   }
-
 }

@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.beust.jcommander.Parameter;
 
+// TODO(xfguo): (P1) Move the file to common dir.
 public class OneRoadTripConfig {
   @Parameter(names = "--mysql_host", description = "Hostname of mysql", required = false)
   public String mysql_host = "tech-meetup.com";
