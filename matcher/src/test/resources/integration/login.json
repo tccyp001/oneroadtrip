@@ -1,0 +1,44 @@
+[
+    {
+        "request": "signup",
+        "username": "user1",
+        "email": "user1@a.com",
+        "password": "user1pass"
+    },
+    {
+        "status": "SUCCESS"
+    },
+    {
+        "request": "signup",
+        "username": "user1",
+        "email": "user1@a.com",
+        "password": "user1pass"
+    },
+    {
+        "status": "INCORRECT_USER_NAME"
+    },
+    {
+        "request": "login",
+        "username": "user1",
+        "password": "user1pass"
+    },
+    {
+        "status": "SUCCESS"
+    },
+    {
+        "request": "login",
+        "username": "user1",
+        "password": "user2pass"
+    },
+    {
+        "status": "NO_TOKEN"
+    },
+    {
+        "request": "login",
+        "username": "user2",
+        "password": "user2pass"
+    },
+    {
+        "status": "NO_TOKEN"
+    }
+]

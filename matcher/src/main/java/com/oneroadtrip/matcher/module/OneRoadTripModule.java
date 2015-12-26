@@ -16,6 +16,7 @@ import com.oneroadtrip.matcher.data.PreloadedDataModule;
 import com.oneroadtrip.matcher.resources.CityResource;
 import com.oneroadtrip.matcher.resources.GuidePlanResource;
 import com.oneroadtrip.matcher.resources.LoginResource;
+import com.oneroadtrip.matcher.resources.PlanResource;
 import com.oneroadtrip.matcher.resources.SignupResource;
 import com.oneroadtrip.matcher.resources.SpotResource;
 
@@ -29,10 +30,7 @@ public class OneRoadTripModule extends AbstractModule {
 
   @Override
   protected void configure() {
-    String connectionUrl = String.format(
-        "jdbc:mysql://%s:%d/%s?characterEncoding=UTF-8&user=%s&password=%s", config.mysql_host,
-        config.mysql_port, config.mysql_db, config.mysql_user, config.mysql_password);
-    LOG.info("mysql connect: {}", connectionUrl);
+    LOG.info("mysql connect: {}", config.connectionUri);
 
     bind(OneRoadTripConfig.class).toInstance(config);
 
@@ -45,7 +43,7 @@ public class OneRoadTripModule extends AbstractModule {
       @Provides
       @Named(Constants.CONNECTION_URI)
       String provideConnectionUrl() throws IOException {
-        return connectionUrl;
+        return config.connectionUri;
       }
 
       @Provides
@@ -53,7 +51,7 @@ public class OneRoadTripModule extends AbstractModule {
       @Singleton
       boolean providePreloadedJdbcDriver() {
         try {
-          Class.forName("com.mysql.jdbc.Driver");
+          Class.forName(config.jdbcDriver);
         } catch (ClassNotFoundException e) {
           e.printStackTrace();
           return false;
@@ -66,6 +64,7 @@ public class OneRoadTripModule extends AbstractModule {
     
     // Bind application resources
     bind(CityResource.class);
+    bind(PlanResource.class);
     bind(GuidePlanResource.class);
     bind(SpotResource.class);
     bind(LoginResource.class);

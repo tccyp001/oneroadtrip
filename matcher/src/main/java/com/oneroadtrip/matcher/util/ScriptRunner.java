@@ -135,6 +135,7 @@ public class ScriptRunner {
    *           if there is an error reading from the Reader
    */
   private void runScript(Connection conn, Reader reader) throws IOException, SQLException {
+    StringBuilder errBuilder = new StringBuilder();
     StringBuffer command = null;
     try {
       LineNumberReader lineReader = new LineNumberReader(reader);
@@ -171,6 +172,7 @@ public class ScriptRunner {
               throw new SQLException(errText, e);
             } else {
               println(errText);
+              errBuilder.append(errText).append("\n");
             }
           }
 
@@ -211,10 +213,15 @@ public class ScriptRunner {
         conn.commit();
       }
     } catch (Exception e) {
+      conn.rollback();
       throw new IOException(String.format("Error executing '%s': %s", command, e.getMessage()), e);
     } finally {
-      conn.rollback();
       flush();
+    }
+    
+    String errLog = errBuilder.toString();
+    if (!errLog.isEmpty()) {
+      throw new IOException(String.format("Error log '%s'", errLog));
     }
   }
 

@@ -2,6 +2,7 @@ package com.oneroadtrip.matcher;
 
 import java.util.EnumSet;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.DispatcherType;
 
@@ -26,14 +27,11 @@ import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.ServletModule;
 import com.oneroadtrip.matcher.data.PreloadedData;
 import com.oneroadtrip.matcher.module.OneRoadTripModule;
-import com.oneroadtrip.matcher.resources.FileUploadResource;
 import com.sun.jersey.guice.JerseyServletModule;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 
 public class App {
   private static final Logger LOG = LogManager.getLogger();
-
-  private static final int PORT = 8080;
 
   public static void main(String[] args) throws Exception {
     for (String arg : args) {
@@ -79,11 +77,13 @@ public class App {
 
     // Initialize the first database loading.
     injector.getInstance(PreloadedData.Manager.class).get();
-    GuiceFilter guiceFilter = injector.getInstance(GuiceFilter.class);
-    injector.getInstance(App.class).go(guiceFilter);
+    injector.getInstance(App.class).go();
   }
+  
+  @Inject OneRoadTripConfig config;
+  @Inject GuiceFilter guiceFilter;
 
-  void go(GuiceFilter guiceFilter) throws Exception {
+  void go() throws Exception {
     ServletContextHandler servletHandler = new ServletContextHandler();
     servletHandler.setContextPath("/api");
 
@@ -103,7 +103,7 @@ public class App {
     handlerCollection.addHandler(servletHandler);
     handlerCollection.addHandler(resourceHandler);
 
-    Server server = new Server(PORT);
+    Server server = new Server(config.port);
     server.setHandler(handlerCollection);
 
     try {

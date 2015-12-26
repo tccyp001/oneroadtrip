@@ -16,5 +16,5 @@ RUN git clone https://github.com/dtrott/maven-protoc-plugin && \
     mvn package
 
 EXPOSE 8080
-CMD ["/usr/lib/jvm/java-8-openjdk-amd64/bin/java", "-jar", \
+ENTRYPOINT ["/usr/lib/jvm/java-8-openjdk-amd64/bin/java", "-jar", \
      "target/oneroadtrip-jar-with-dependencies.jar"]

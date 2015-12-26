@@ -22,4 +22,8 @@ public class HashUtil {
   public static String getRandomString() {
     return new BigInteger(200, random).toString(32);
   }
+  
+  public static String getRandomString(int length) {
+    return new BigInteger(length, random).toString(32);
+  }
 }

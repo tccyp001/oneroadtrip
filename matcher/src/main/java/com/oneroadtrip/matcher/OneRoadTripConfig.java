@@ -6,20 +6,15 @@ import com.beust.jcommander.Parameter;
 
 // TODO(xfguo): (P1) Move the file to common dir.
 public class OneRoadTripConfig {
-  @Parameter(names = "--mysql_host", description = "Hostname of mysql", required = false)
-  public String mysql_host = "tech-meetup.com";
+  @Parameter(names = "--port", description = "Service port", required = false)
+  public Integer port = 8080;
 
-  @Parameter(names = "--mysql_port", description = "Port of mysql", required = false)
-  public Integer mysql_port = 4407;
-
-  @Parameter(names = "--mysql_db", description = "Hostname of mysql", required = false)
-  public String mysql_db = "oneroadtrip";
-
-  @Parameter(names = "--mysql_user", description = "Hostname of mysql", required = false)
-  public String mysql_user = "oneroadtrip";
-
-  @Parameter(names = "--mysql_password", description = "Hostname of mysql", required = false)
-  public String mysql_password = "oneroadtrip123";
+  @Parameter(names = "--jdbcDriver", description = "jdbcDriver", required = false)
+  public String jdbcDriver = "com.mysql.jdbc.Driver";
+  
+  @Parameter(names = "--connectionUri", description = "DB connection Uri", required = false)
+  public String connectionUri = "jdbc:mysql://tech-meetup.com:4407/oneroadtrip"
+        + "?characterEncoding=UTF-8&user=oneroadtrip&password=oneroadtrip123";
 
   @Parameter(names = "--preload_period_in_second", description = "Period in second for preloading DB data", required = false)
   public Long preload_period_in_seconds = TimeUnit.MINUTES.toSeconds(5);
