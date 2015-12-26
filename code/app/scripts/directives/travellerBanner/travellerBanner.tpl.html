@@ -8,7 +8,19 @@
 		</div>
 
 		  <div class="banner-form-group">
-			<div style="flex: 2"><traveller-select options="options.des" selected="tourForm.Des" placeholder="天数" icon="images/icon4.png"></traveller-select></div>
+			<div style="flex: 2">
+				<div class="form-select">
+					<div class="inputgroups">
+						<img ng-src="images/icon4.png">
+						<input date-range-picker class="form-control date-picker" type="text" ng-model="datePicker.date" placeholder="日期">
+<!-- 						<span ng-click="show()">
+							<i class="fa fa-plus" ></i>
+						</span> -->
+					</div>
+
+				</div>
+
+			</div>
 		    <div style="flex: 1"><traveller-select options="options.people" selected="tourForm.PeopleYoung" placeholder="人数/房间" icon="images/icon2.png"></traveller-select></div>
 		  </div>
 

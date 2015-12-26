@@ -13,6 +13,12 @@ angular.module('app.controllers')
 
 
 function BannerCtrl($scope, $http, $state) {
+
+
+	$scope.datePicker = {
+		date: {startDate: null, endDate: null}
+		};
+
     $scope.tourShow = false;
 	$scope.tourForm = {};
 	$scope.options = {};

@@ -15,6 +15,7 @@ angular.module('app', [
     'ngCookies',
     'toastr',
     'ngMap',
+    'daterangepicker',
 ]);
 
 
