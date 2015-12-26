@@ -8,6 +8,7 @@ import java.sql.Statement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+// TODO(xfguo): Move the class to tools directory.
 public class TestMysqlConnection {
   private static final Logger LOG = LogManager.getLogger();
 

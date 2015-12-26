@@ -1,0 +1,44 @@
+syntax = "proto2";
+
+package match;
+
+option java_package = "com.oneroadtrip.matcher";
+option java_multiple_files = true;
+
+import "common.proto";
+
+enum ErrorInfo {
+  OVER_ALLOCATED = 1;  // 当天安排时间太长了。
+  UNKNOWN_SPOT_NAME = 2;  // FE设的spot name是错的。
+  LEFT_HOURS = 3;  // 依然剩下了一些时间。
+}
+
+message VisitSpot {
+  optional int32 hours = 1;
+  optional int64 spot_id = 2;
+  optional string spot_name = 3;
+  optional ErrorInfo error_info = 4;
+}
+
+message DayPlan {
+  optional int32 day_id = 1;
+  repeated VisitSpot spot = 2;
+  repeated ErrorInfo error_info = 3;
+}
+
+message SpotPlanRequest {
+  optional int64 city_id = 1;
+  optional int32 num_days = 2;
+  repeated string interest = 3;
+  repeated int64 interest_id = 4;
+  repeated DayPlan day_plan = 5;
+}
+
+message SpotPlanResponse {
+  optional Status status = 1;
+  optional int64 city_id = 2;
+  optional int32 num_days = 3;
+  repeated string interest = 4;
+  repeated int64 interest_id = 5;
+  repeated DayPlan day_plan = 6;
+}

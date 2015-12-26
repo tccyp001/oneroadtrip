@@ -1,6 +1,7 @@
 **/.classpath
 **/.project
 **/.settings/**
+**/bin/**
 
 code/node_modules/
 code/bower_components/

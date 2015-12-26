@@ -8,6 +8,7 @@ import javax.ws.rs.Path;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+// TODO(xfguo): (P1) Move the Resource to resources/samples directory
 @Path("another")
 public class AnotherResource {
   private static final Logger LOG = LogManager.getLogger();

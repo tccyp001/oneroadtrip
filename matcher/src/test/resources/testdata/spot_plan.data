@@ -1,0 +1,98 @@
+==INSERT_DATA==
+INSERT INTO Interests (interest_id, interest_name) VALUES
+(1, '浪漫'),
+(2, '商务');
+
+INSERT INTO Cities (city_id, city_name, suggest, min, max) VALUES
+(8, 'San Francisco', 2, 1, 4),
+(11, 'Vancouvor', 2, 1, 4);
+
+INSERT INTO Spots (city_id, spot_id, name, hours, score, interests) VALUES
+(8, 1, '金门大桥', 2, 0.9, '浪漫'),
+(8, 2, '九曲花街', 1, 0.9, '浪漫'),
+(8, 3, '渔人码头', 2, 0.9, ''),
+(8, 4, '旧金山艺术宫', 1, 0.8, ''),
+(8, 5, '旧金山唐人街', 2, 0.7, ''),
+(8, 6, '联合广场', 1, 0.7, ''),
+(8, 7, '双子峰', 2, 0.7, ''),
+(8, 8, '恶魔岛', 4, 0.8, ''),
+(8, 9, '金门公园', 7, 0.8, ''),
+(8, 10, '旧金山市政厅', 2, 0.6, '浪漫|商务'),
+(8, 11, 'Castro St', 2, 0.7, ''),
+(8, 12, '阿拉莫广场', 2, 0.7, '');
+
+==========
+==TESTCASE_DATA==
+=REQUEST
+city_id: 8
+num_days: 3
+interest: '商务'
+day_plan {
+  day_id: 1
+  spot { hours: 0  spot_name: '金门大桥' }
+  spot { hours: 0  spot_name: '渔人码头' }
+  spot { hours: 0  spot_name: '恶魔岛' }
+}
+day_plan {
+  spot { hours: 0  spot_name: 'Castro St' }
+}
+=RESPONSE
+city_id: 8
+num_days: 3
+interest: '商务'
+day_plan {
+  day_id: 1
+  spot { hours: 2  spot_id: 1 spot_name: '金门大桥' }
+  spot { hours: 2  spot_id: 3 spot_name: '渔人码头' }
+  spot { hours: 4  spot_id: 8 spot_name: '恶魔岛' }
+  error_info: OVER_ALLOCATED;
+}
+day_plan {
+  day_id: 2
+  spot { hours: 2  spot_id: 11 spot_name: 'Castro St' }
+  spot { hours: 2  spot_id: 10 spot_name: '旧金山市政厅' }
+  spot { hours: 1  spot_id: 2 spot_name: '九曲花街' }
+  spot { hours: 1  spot_id: 4 spot_name: '旧金山艺术宫' }
+  spot { hours: 1  spot_id: 6 spot_name: '联合广场' }
+}
+day_plan {
+  day_id: 3
+  spot { hours: 7  spot_id: 9 spot_name: '金门公园' }
+}
+==========
+==TESTCASE_DATA==
+=REQUEST
+city_id: 8
+num_days: 3
+interest: '商务'
+day_plan {
+  day_id: 1
+  spot { hours: 0  spot_name: '金门大桥' }
+  spot { hours: 1  spot_name: '渔人码头' }
+  spot { hours: 0  spot_name: '恶魔岛' }
+}
+day_plan {
+  spot { hours: 0  spot_name: 'Castro St' }
+}
+=RESPONSE
+city_id: 8
+num_days: 3
+interest: '商务'
+day_plan {
+  day_id: 1
+  spot { hours: 2  spot_id: 1 spot_name: '金门大桥' }
+  spot { hours: 1  spot_id: 3 spot_name: '渔人码头' }
+  spot { hours: 4  spot_id: 8 spot_name: '恶魔岛' }
+}
+day_plan {
+  day_id: 2
+  spot { hours: 2  spot_id: 11 spot_name: 'Castro St' }
+  spot { hours: 2  spot_id: 10 spot_name: '旧金山市政厅' }
+  spot { hours: 1  spot_id: 2 spot_name: '九曲花街' }
+  spot { hours: 1  spot_id: 4 spot_name: '旧金山艺术宫' }
+  spot { hours: 1  spot_id: 6 spot_name: '联合广场' }
+}
+day_plan {
+  day_id: 3
+  spot { hours: 7  spot_id: 9 spot_name: '金门公园' }
+}

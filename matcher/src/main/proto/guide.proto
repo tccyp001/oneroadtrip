@@ -1,0 +1,40 @@
+syntax = "proto2";
+
+package match;
+
+option java_package = "com.oneroadtrip.matcher";
+option java_multiple_files = true;
+
+import "common.proto";
+
+enum GuidePlanErrorInfo {
+  // No suitable guide can be found.
+  NOT_FOUND = 1;
+}
+
+message CityPlan {
+  optional GuidePlanErrorInfo error_info = 1;
+  optional int64 city_id = 2;
+  optional int32 start_date = 3;
+  optional int32 num_days = 4;
+  repeated int64 excluded_guide_id = 5;
+
+  // 选中的导游id
+  // 我们不返回全部信息，还是只返回一个id，更多信息可以用另外一个api来获得。
+  optional int64 guide_id = 6;
+}
+
+message GuidePlanRequest {
+  optional bool one_guide_for_whole_trip = 1 [ default = false ];
+  repeated CityPlan city_plan = 2;
+  repeated int64 interest_id = 3;
+  repeated int64 excluded_guide_id = 4;
+}
+
+message GuidePlanResponse {
+  optional Status status = 1 [ default = SUCCESS ];
+  repeated CityPlan city_plan = 2;
+
+  // 如果我们需要，我们可以返回
+  optional int64 guide_id_for_whole_trip = 3;
+}

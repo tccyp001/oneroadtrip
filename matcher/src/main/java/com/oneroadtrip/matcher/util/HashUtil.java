@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Random;
 
 public class HashUtil {
   public static String getOneWayHash(String text) throws NoSuchAlgorithmException {
@@ -17,7 +18,8 @@ public class HashUtil {
     return builder.toString();
   }
   
+  static Random random = new SecureRandom();
   public static String getRandomString() {
-    return new BigInteger(200, new SecureRandom()).toString(32);
+    return new BigInteger(200, random).toString(32);
   }
 }

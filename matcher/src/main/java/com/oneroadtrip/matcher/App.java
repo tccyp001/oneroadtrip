@@ -1,136 +1,117 @@
 package com.oneroadtrip.matcher;
 
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.EnumSet;
 
+import javax.inject.Named;
 import javax.servlet.DispatcherType;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.DefaultHandler;
-import org.eclipse.jetty.server.handler.HandlerList;
+import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.server.handler.ResourceHandler;
+import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
-import org.glassfish.hk2.api.ServiceLocator;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.servlet.ServletContainer;
 
 import com.beust.jcommander.JCommander;
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Provides;
+import com.google.inject.Stage;
 import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.ServletModule;
-import com.squarespace.jersey2.guice.BootstrapUtils;
+import com.oneroadtrip.matcher.data.PreloadedData;
+import com.oneroadtrip.matcher.module.OneRoadTripModule;
+import com.oneroadtrip.matcher.resources.FileUploadResource;
+import com.sun.jersey.guice.JerseyServletModule;
+import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 
-/**
- * Hello world!
- *
- */
 public class App {
   private static final Logger LOG = LogManager.getLogger();
 
   private static final int PORT = 8080;
 
-  // private static final URI BASE_URI = URI.create("http://0.0.0.0:8080/api/");
-  public static final String ROOT_PATH = "helloworld";
-
   public static void main(String[] args) throws Exception {
-    ArgumentManager am = new ArgumentManager();
-    JCommander jc = new JCommander(am, args);
-    if (am.help) {
-        jc.usage();
-        return;
+    for (String arg : args) {
+      LOG.info("arg: {}", arg);
     }
-    
-    LOG.info("mysql_host = {}, mysql_port = {}", am.mysql_host, am.mysql_port);
-    
-    String connection_str = String.format(
-        "jdbc:mysql://%s:%d/%s?characterEncoding=UTF-8&user=%s&password=%s", am.mysql_host,
-        am.mysql_port, am.mysql_db, am.mysql_user, am.mysql_password);
-    LOG.info(
-        "mysql connect: {}",
-        String.format(
-            "jdbc:mysql://%s:%d/%s?characterEncoding=UTF-8&user=%s&password=%s",
-            am.mysql_host, am.mysql_port, am.mysql_db, am.mysql_user, am.mysql_password));
-    
-    try {
-      // Notice, do not import com.mysql.jdbc.*
-      // or you will have problems!
-
-      // The newInstance() call is a work around for some
-      // broken Java implementations
-
-      Class.forName("com.mysql.jdbc.Driver").newInstance();
-    } catch (Exception ex) {
-      // handle the error
+    OneRoadTripConfig config = new OneRoadTripConfig();
+    JCommander jc = new JCommander(config, args);
+    if (config.help) {
+      jc.usage();
+      return;
     }
 
-    try {
+    Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(App.class);
+        bind(GuiceFilter.class);
+        install(new JerseyServletModule());
+        install(new ServletModule() {
+          @Override
+          protected void configureServlets() {
+            bind(GuiceContainer.class);
+            serve("/*").with(GuiceContainer.class);
+          }
+        });
 
-      ServiceLocator locator = BootstrapUtils.newServiceLocator();
-      Injector injector = BootstrapUtils.newInjector(locator,
-          Arrays.asList(new ServletModule(), new TripModule(connection_str)));
-      BootstrapUtils.install(locator);
-
-      Server server = new Server(PORT);
-
-      ResourceConfig config = ResourceConfig.forApplication(new TripApplication());
-      ServletContainer servletContainer = new ServletContainer(config);
-
-      ServletHolder sh = new ServletHolder(servletContainer);
-      ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-      context.setContextPath("/api");
-
-      FilterHolder filterHolder = new FilterHolder(GuiceFilter.class);
-      context.addFilter(filterHolder, "/*", EnumSet.allOf(DispatcherType.class));
-      context.addFilter(new FilterHolder(CrossOriginFilter.class), "/*", EnumSet.allOf(DispatcherType.class));
-
-      context.addServlet(sh, "/*");
-      server.setHandler(context);
-      
-      ResourceHandler resource_handler=new ResourceHandler();
-      resource_handler.setResourceBase("src/main/webapp");
-      
-      HandlerList handlers = new HandlerList();
-      handlers.setHandlers(new Handler[]{resource_handler,context, new DefaultHandler()});
-      server.setHandler(handlers);
-      
-      try {
-        server.start();
-        server.join();
-      } finally {
-        server.destroy();
+        // Testing resources
+//        bind(FileUploadResource.class);
+        bind(HelloWorldResource.class);
+        // TODO(xfguo): (P1) Clean up. ("content" provider below together)
+        bind(AnotherResource.class);
+        
+        // Bind OneRoadTrip modules
+        install(new OneRoadTripModule(config));
       }
+      
+      @Provides
+      @Named("content")
+      String getContent() {
+        return "(xfguo)Hello world";
+      }
+    });
 
-      //
-      // final ResourceConfig resourceConfig = new
-      // ResourceConfig(HelloWorldResource.class,
-      // TravelRequestResource.class);
-      // final HttpServer server =
-      // GrizzlyHttpServerFactory.createHttpServer(BASE_URI, resourceConfig,
-      // false);
-      // // server.getServerConfiguration().addHttpHandler(
-      // // new StaticHttpHandler(resourceUrl.getPath()), "/static");
-      // Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-      // public void run() {
-      // server.shutdownNow();
-      // }
-      // }));
-      // server.start();
-      //
-      // System.out.println(String.format(
-      // "Application started.\nTry out %s%s\nStop the application using CTRL+C",
-      // BASE_URI,
-      // ROOT_PATH));
-      // Thread.currentThread().join();
-    } catch (IOException | InterruptedException ex) {
-      LOG.fatal("incorrect", ex);
+    // Initialize the first database loading.
+    injector.getInstance(PreloadedData.Manager.class).get();
+    GuiceFilter guiceFilter = injector.getInstance(GuiceFilter.class);
+    injector.getInstance(App.class).go(guiceFilter);
+  }
+
+  void go(GuiceFilter guiceFilter) throws Exception {
+    ServletContextHandler servletHandler = new ServletContextHandler();
+    servletHandler.setContextPath("/api");
+
+    // jetty always wants one servlet
+    servletHandler.addServlet(new ServletHolder(new DefaultServlet()), "/*");
+
+    // add guice servlet filter
+    FilterHolder filterHolder = new FilterHolder(guiceFilter);
+    servletHandler.addFilter(filterHolder, "/*", EnumSet.allOf(DispatcherType.class));
+    servletHandler.addFilter(new FilterHolder(CrossOriginFilter.class), "/*",
+        EnumSet.allOf(DispatcherType.class));
+    
+    ResourceHandler resourceHandler = new ResourceHandler();
+    resourceHandler.setResourceBase("src/main/webapp");
+
+    HandlerCollection handlerCollection = new HandlerCollection();
+    handlerCollection.addHandler(servletHandler);
+    handlerCollection.addHandler(resourceHandler);
+
+    Server server = new Server(PORT);
+    server.setHandler(handlerCollection);
+
+    try {
+      LOG.info("staring server...");
+      server.start();
+      server.join();
+    } finally {
+      server.destroy();
     }
-
   }
 }

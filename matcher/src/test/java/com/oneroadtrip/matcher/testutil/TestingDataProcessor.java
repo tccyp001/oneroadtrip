@@ -21,6 +21,7 @@ public class TestingDataProcessor {
 
   private static final String CASE_SEPARATOR = "==========";
 
+  // TODO(xfguo): (P1) Why not inject a connection?
   private final Connection conn;
   private List<Pair<String, String>> cases;
 
@@ -47,7 +48,6 @@ public class TestingDataProcessor {
   private static final Pattern CASE_PATTERN = Pattern.compile(".*=REQUEST(.*)=RESPONSE(.*)", Pattern.DOTALL);
   
   public void loadData(String content) throws IOException, SQLException {
-    LOG.info("xfguo: PATTERN_STR = {}", PATTERN_STR);
     for (String input : content.split(CASE_SEPARATOR)) {
       Matcher cmdMatcher = COMMAND_PATTERN.matcher(input);
       if (!cmdMatcher.matches()) {

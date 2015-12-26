@@ -1,0 +1,26 @@
+[
+  {
+    "request": "guide",
+    "one_guide_for_whole_trip": false,
+    "city_plan": [
+      {"city_id": 1, "start_date": 20151225, "num_days": 2},
+      {"city_id": 2, "start_date": 20151227, "num_days": 1}
+    ],
+    "interest_id": 1
+  },
+  {
+    "status": "SUCCESS"
+  },
+  {
+    "request": "guide",
+    "one_guide_for_whole_trip": true,
+    "city_plan": [
+      {"city_id": 1, "start_date": 20151225, "num_days": 2},
+      {"city_id": 2, "start_date": 20151227, "num_days": 1}
+    ],
+    "interest_id": 1
+  },
+  {
+    "status": "SUCCESS"
+  }
+]

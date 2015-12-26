@@ -17,3 +17,25 @@ message GuideCandidate {
   optional float price_usd = 8;
   optional float price_cny = 9;
 }
+
+message CityConnectionInfo {
+  optional int32 distance = 1;
+  optional int32 hours = 2;
+}
+
+enum EngageType {
+  ON_EDGE = 1;
+  ON_NODE = 2;
+}
+
+message SuggestCityInfo {
+  optional int64 city_id = 1;
+  // 以下表示该城市以何种方式依附于现有的路径上。
+  // - engage_to_path_index 表示依附在路径的第几个节点上。
+  // - engage_type 表示是以何种方式依附在这个节点x上，是在x->(x+1)的路径上，
+  //   还是在x节点上另外跑去这个城市一趟。（ON_EDGE or ON_NODE)
+  // - additional_distance 添加这个节点额外增加的距离。
+  optional int32 engage_to_path_index = 2;
+  optional EngageType engage_type = 3;
+  optional int32 additional_distance = 4;
+}
