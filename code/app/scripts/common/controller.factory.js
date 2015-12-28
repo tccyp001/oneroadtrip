@@ -20,11 +20,10 @@ function ControllerFactory($resource, $http) {
             scheme: 'http',
             host: '106.184.1.83',
             port: '8080',
-            prefix: 'oneroadtrip6',
+            prefix: '',
             version: 'v1.0'
         };
 
-        // this.getFromLocalStorage();
     }
 
 

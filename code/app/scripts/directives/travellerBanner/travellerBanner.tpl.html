@@ -2,26 +2,46 @@
 	<div class="main-form">
 		<div class="main-slogon" >聪明的选择，让旅行更完美</div>
 		<div class="banner-form-group">
-			<div><traveller-select options="options.depart" selected="tourForm.Depart" placeholder="出发地" icon="images/icon5.png"></traveller-select></div>
-			<div><traveller-select options="options.depart" selected="tourForm.Middle" placeholder="途经" icon="images/icon5.png"></traveller-select></div>
-			<div><traveller-select options="options.depart" selected="tourForm.Des" placeholder="目的地" icon="images/icon5.png"></traveller-select></div>
+			<div style="flex: 1"><traveller-select options="options.city" selected="tourForm.Depart" placeholder="出发地" icon="images/icon5.png"></traveller-select></div>
+			<div style="flex: 2"><traveller-select-multi options="options.city" selected="tourForm.Middle" placeholder="途经" icon="images/icon5.png"></traveller-select-multi></div>
+			<div style="flex: 1"><traveller-select options="options.city" selected="tourForm.Des" placeholder="目的地" icon="images/icon5.png"></traveller-select></div>
 		</div>
 
 		  <div class="banner-form-group">
-			<div style="flex: 2">
+			<div style="flex: 4">
 				<div class="form-select">
 					<div class="inputgroups">
 						<img ng-src="images/icon4.png">
 						<input date-range-picker class="form-control date-picker" type="text" ng-model="datePicker.date" placeholder="日期">
-<!-- 						<span ng-click="show()">
+<!-- 						<span ng-click="showCalendar()">
 							<i class="fa fa-plus" ></i>
 						</span> -->
 					</div>
-
 				</div>
-
 			</div>
-		    <div style="flex: 1"><traveller-select options="options.people" selected="tourForm.PeopleYoung" placeholder="人数/房间" icon="images/icon2.png"></traveller-select></div>
+			<div style="flex: 1">
+				<div class="form-select">
+					<div class="inputgroups">
+						<img ng-src="images/icon2.png">
+						<input type="text" ng-model="tourForm.people" placeholder="人数">
+<!-- 						<span ng-click="showCalendar()">
+							<i class="fa fa-plus" ></i>
+						</span> -->
+					</div>
+				</div>
+			</div>
+			<div style="flex: 1">
+				<div class="form-select">
+					<div class="inputgroups">
+						<img ng-src="images/icon2.png">
+						<input type="text" ng-model="tourForm.room" placeholder="房间">
+<!-- 						<span ng-click="showCalendar()">
+							<i class="fa fa-plus" ></i>
+						</span> -->
+					</div>
+				</div>
+			</div>
+<!-- 		    <div style="flex: 1"><traveller-select options="options.people" selected="tourForm.PeopleYoung" placeholder="人数/房间" icon="images/icon2.png"></traveller-select></div> -->
 		  </div>
 
 		  <div class="banner-form-group">

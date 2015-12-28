@@ -8,20 +8,27 @@ angular.module('app.controllers')
     '$scope',
     '$http',
     '$state',
+    'Controller',
     BannerCtrl
 ]);
 
 
-function BannerCtrl($scope, $http, $state) {
+function BannerCtrl($scope, $http, $state, Controller) {
 
+	$scope.options = {};
+
+	$http.post(Controller.base() + 'api/city', {}).then(function(res){
+		$scope.options.city = res.data.city;
+	}) 
 
 	$scope.datePicker = {
 		date: {startDate: null, endDate: null}
-		};
+	};
+
 
     $scope.tourShow = false;
 	$scope.tourForm = {};
-	$scope.options = {};
+
 	$scope.options.depart = [
 		{
 			name: '西雅图'
@@ -152,6 +159,8 @@ function BannerCtrl($scope, $http, $state) {
 	$scope.tourForm.Depart = $scope.options.depart[0].name
 
     $scope.submitTour = function() {
+    	$scope.tourForm.keep_order_of_via_cities = false;
+    	console.log($scope.tourForm);
         $state.go('tour');
     }
 

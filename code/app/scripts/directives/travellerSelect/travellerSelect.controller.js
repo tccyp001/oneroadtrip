@@ -16,7 +16,9 @@ function TravellerSelectCtrl($scope, $http) {
   $scope.selected = undefined;
 
   $scope.select = function(option){
-    $scope.selected = option.name;
+    $scope.selected_city_id = option.city_id;
+    $scope.selected_city_name = option.name;
+    $scope.selected = $scope.selected_city_name;
     $scope.showlayer = false;
   }
 

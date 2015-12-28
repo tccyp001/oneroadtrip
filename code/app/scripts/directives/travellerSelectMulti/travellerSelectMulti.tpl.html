@@ -1,0 +1,19 @@
+<div class="form-select">
+	<div class="inputgroups">
+		<img ng-src="{{icon}}">
+		<div class="inputdiv">
+			<div ng-if="selected_show">途径地点</div>
+			<div class="cityshow" ng-repeat="city in selected_city">
+				<span>{{city.name}}</span>
+				<i class="fa fa-times" ng-click="removeSelectedCity(city)"></i>
+			</div>
+		</div>
+		<span ng-click="show()">
+			<i class="fa fa-plus" ></i>
+		</span>
+	</div>
+
+	<div class="selectlayer" ng-if="showlayer">
+		<p ng-repeat="option in options_copy | orderBy: 'name'" ng-click="select(option)">{{option.name}}</p>
+	</div>
+</div>
