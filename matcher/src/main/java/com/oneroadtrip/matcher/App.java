@@ -84,7 +84,7 @@ public class App {
   @Inject GuiceFilter guiceFilter;
 
   void go() throws Exception {
-    ServletContextHandler servletHandler = new ServletContextHandler();
+    ServletContextHandler servletHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
     servletHandler.setContextPath("/api");
 
     // jetty always wants one servlet
@@ -92,9 +92,9 @@ public class App {
 
     // add guice servlet filter
     FilterHolder filterHolder = new FilterHolder(guiceFilter);
-    servletHandler.addFilter(filterHolder, "/*", EnumSet.allOf(DispatcherType.class));
     servletHandler.addFilter(new FilterHolder(CrossOriginFilter.class), "/*",
         EnumSet.allOf(DispatcherType.class));
+    servletHandler.addFilter(filterHolder, "/*", EnumSet.allOf(DispatcherType.class));
     
     ResourceHandler resourceHandler = new ResourceHandler();
     resourceHandler.setResourceBase("src/main/webapp");
