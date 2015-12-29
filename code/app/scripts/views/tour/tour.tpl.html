@@ -48,27 +48,33 @@
 		<div class="guide-content-body">
 			<div class="guide-content-section" ng-repeat = "guide in tour.guideList">
 				<div class="guide-section-left">
-					<img ng-src={{guide.photo_url}}>
+					<img ng-src={{guide.photo_url}} ng-click="openGuideModal(guide)">
 				</div>
 				<div class="guide-section-middle">
 					<div class="middle-header">
 						<p>{{guide.name}}</p>
-						<p>Star: {{guide.score}}</p>
+						<div class="stars">
+                    		<i class="fa fa-star"></i>
+                    		<i class="fa fa-star"></i>
+		                    <i class="fa fa-star"></i>
+		                    <i class="fa fa-star"></i>
+		                    <i class="fa fa-star-o"></i>
+                		</div>
 					</div>
 					<hr>
 					<div>
-						<div>籍贯: {{guide.citizenship}}</div>
-						<div>居住: </div>
+						<div>导游经验: {{guide.experience}} 年</div>
+						<div>驾龄: {{guide.drive_year}} 年</div>
 					</div>
 					<div>
-						<div>导游经验: {{guide.experience}}</div>
-						<div>驾龄:</div>
+						<div>服务城市: {{guide.city}} </div>
+					</div>
+
+					<div>
+						<div>用车: {{guide.car}}</div>
 					</div>
 					<div>
-						<div>用车:</div>
-					</div>
-					<div>
-						<div>标签:</div>
+						<div>标签: <span ng-repeat="tag in guide.tag" class="drivetag">{{tag}}</span></div>
 					</div>
 				</div>
 				<div class="guide-section-right">
@@ -83,7 +89,7 @@
 
 	<div class="guide-content" ng-if="showOrder">
 		<div class="guide-content-header">
-			<i class="fa fa-chevron-left" ng-click="gotoStep(2)"></i>确认订单
+			<i class="fa fa-chevron-left" ng-click="gotoStep(2)"></i>定制结果
 		</div>
 		<div class="guide-content-body">
 			<div class="guide-content-section">
@@ -101,8 +107,8 @@
 						<div>居住: </div>
 					</div>
 					<div>
-						<div>导游经验: {{selectedGuide.experience}}</div>
-						<div>驾龄:</div>
+						<div>导游经验: {{selectedGuide.experience}} 年</div>
+						<div>驾龄: {{selectedGuide.drive_year}} 年</div>
 					</div>
 					<div>
 						<div>用车:</div>

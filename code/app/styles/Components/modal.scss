@@ -130,3 +130,99 @@
   font-size: 1.6rem;
   font-weight: 600;
 }
+
+
+
+.modal-guide {
+  .modal-guide-head {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    font-size: 2rem;
+    font-weight: 600;
+    .head-left {
+      display: flex;
+      align-items: center;
+      padding: 10px 10px 10px 60px;
+      color: $traverllerOrange;
+      div {
+        margin-right: 20px;
+      }
+    }
+    i {
+      padding: 10px;
+      &:hover {
+        cursor: pointer;
+        opacity: 0.6;
+      }
+    }
+    .stars {
+      i {
+        padding: 0px;
+      }
+      i:nth-child(2) {
+        color: $traverllerOrange;
+      }
+    }
+  }
+  .modal-guide-info {
+    display:flex;
+    justify-content: center;
+    font-size: 1.5rem;
+    img {
+      width: 80%;
+    }
+    .modal-guide-info-img {
+      padding-left: 30px;
+      flex: 1;
+    }
+    .modal-guide-info-content {
+      flex: 1;
+      div {
+        margin-bottom: 10px;
+      }
+    }    
+  }
+
+  .modal-guide-des {
+    font-size: 1.5rem;
+    padding: 10px 40px;
+  }
+
+  .modal-guide-review {
+    font-size: 1.5rem;
+    padding: 10px 40px;
+    display: flex;
+    img {
+      width: 10%;
+      height: 10%;
+      margin: 5px 20px;
+    }
+    p {
+      background: $travellerLightGray;
+      padding: 20px;
+    }
+  }
+
+  .modal-guide-button {
+    background: $traverllerOrange;
+    color: white;
+    font-size: 2.3rem;
+    text-align: center;
+    padding: 10px 0;
+    letter-spacing: 3rem;
+    &:hover {
+        cursor: pointer;
+        opacity: 0.7;    
+    }
+  }
+}
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,54 @@
+<!-- Guide Modal-->
+<div class="modal-content">
+    <div class="modal-guide">
+        <div class="modal-guide-head">
+            <div class="head-left">
+                <div><img ng-src={{guideShown.photo_url}}></div>
+                <div>{{guideShown.name}}</div>
+                <div class="stars">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+            </div>
+            <div><i class="fa fa-times" ng-click="closeModal()"></i></div>
+        </div>
+        <hr>
+        <div class="modal-guide-info">
+            <div class="modal-guide-info-img">
+                <img src="images/guide/car.jpg">
+            </div>
+            <div class="modal-guide-info-content">
+                <div>
+                    <div>导游经验: {{guideShown.experience}} 年</div>
+                    <div>驾龄: {{guideShown.drive_year}} 年</div>
+                </div>
+                <div>
+                    <div>服务城市: {{guideShown.city}} </div>
+                </div>
+
+                <div>
+                    <div>用车: {{guideShown.car}}</div>
+                </div>
+                <div>
+                    <div>标签: <span ng-repeat="tag in guideShown.tag" class="drivetag">{{tag}}</span></div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="modal-guide-des">
+            {{guideShown.description}}
+        </div>
+        <hr>
+        <div class="modal-guide-review">
+             <img ng-src={{guideShown.photo_url}}>
+            <p>{{guideShown.review}}</p>
+        </div>
+
+        <div class="modal-guide-button" ng-click="selectGuide(guideShown)">
+            选择
+        </div>
+    </div>
+</div>
