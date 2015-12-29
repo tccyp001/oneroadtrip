@@ -11,6 +11,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import com.oneroadtrip.matcher.CityResponse.City;
 import com.oneroadtrip.matcher.common.Constants;
 import com.oneroadtrip.matcher.internal.CityConnectionInfo;
 
@@ -22,6 +23,11 @@ public class PreloadedDataModule extends AbstractModule {
     bind(PreloadedData.class).toProvider(PreloadedData.Manager.class);
 
     bind(CityPlanner.class);
+  }
+  
+  @Provides
+  ImmutableMap<Long, City> provideCityIdToInfo(PreloadedData data) {
+    return data.getCityIdToInfo();
   }
 
   @Provides

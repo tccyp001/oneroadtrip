@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.oneroadtrip.matcher.VisitSpot;
+import com.oneroadtrip.matcher.CityResponse.City;
 import com.oneroadtrip.matcher.internal.CityConnectionInfo;
 import com.oneroadtrip.matcher.util.Util;
 
@@ -135,6 +136,9 @@ public class PreloadedDataReloader {
     ImmutableMap.Builder<Long, Float> guideToScore = ImmutableMap.builder();
     reloadGuideData(interestNameToId, cityToGuides, guideToInterests, guideToScore);
 
+    ImmutableMap.Builder<Long, City> cityIdToInfo = ImmutableMap.builder();
+    reloadCityIdToName(cityIdToInfo);
+
     if (cityNetwork == null || suggestDaysForCities == null || cityNetwork.size() == 0
         || suggestDaysForCities.size() == 0) {
       LOG.info("Errors in reloading city data");
@@ -142,7 +146,7 @@ public class PreloadedDataReloader {
     LOG.info("Database is reloaded");
     return new PreloadedData(cityNetwork, suggestDaysForCities,
         ImmutableMap.copyOf(cityIdToSpotPlanner), ImmutableMap.copyOf(interestNameToId),
-        cityToGuides.build(), guideToInterests.build(), guideToScore.build());
+        cityToGuides.build(), guideToInterests.build(), guideToScore.build(), cityIdToInfo.build());
   }
 
   private static final String LOAD_CITY_TO_GUIDES = "SELECT city_id, guide_id FROM GuideCities ORDER BY city_id";
@@ -200,5 +204,28 @@ public class PreloadedDataReloader {
     cityIdToSpotPlanner.put(cityId,
         new SpotPlanner(ImmutableMap.copyOf(spotNameToId), ImmutableMap.copyOf(spotIdToData),
             ImmutableMap.copyOf(interestToSpots), ImmutableMap.copyOf(spotToScore)));
+  }
+
+  private static final String QUERY_CITIES = "SELECT city_id, city_name, suggest, min, max FROM Cities";
+
+  private void reloadCityIdToName(ImmutableMap.Builder<Long, City> builder) {
+    Preconditions.checkNotNull(builder);
+    try (Connection conn = dataSource.getConnection();
+        PreparedStatement pStmt = conn.prepareStatement(QUERY_CITIES)) {
+      try (ResultSet rs = pStmt.executeQuery()) {
+        while (rs.next()) {
+          City.Builder cityBuilder = City.newBuilder();
+          long cityId = rs.getLong(1);
+          cityBuilder.setCityId(rs.getLong(1));
+          cityBuilder.setName(rs.getString(2));
+          cityBuilder.setSuggest(rs.getInt(3));
+          cityBuilder.setMin(rs.getInt(4));
+          cityBuilder.setMax(rs.getInt(5));
+          builder.put(cityId, cityBuilder.build());
+        }
+      }
+    } catch (SQLException e) {
+      LOG.error("DB error in reload city related data", e);
+    }
   }
 }

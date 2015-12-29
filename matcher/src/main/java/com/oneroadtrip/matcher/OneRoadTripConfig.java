@@ -16,13 +16,16 @@ public class OneRoadTripConfig {
   public String connectionUri = "jdbc:mysql://tech-meetup.com:4407/oneroadtrip"
         + "?characterEncoding=UTF-8&user=oneroadtrip&password=oneroadtrip123";
 
-  @Parameter(names = "--preload_period_in_second", description = "Period in second for preloading DB data", required = false)
+  @Parameter(names = "--preload_period_in_second",
+      description = "Period in second for preloading DB data", required = false)
   public Long preload_period_in_seconds = TimeUnit.MINUTES.toSeconds(5);
 
-  @Parameter(names = "--guide_reserved_seconds_for_book", description = "Period in second for preloading DB data", required = false)
+  @Parameter(names = "--guide_reserved_seconds_for_book",
+      description = "Period in second for preloading DB data", required = false)
   public Long guideReservedSecondsForBook = TimeUnit.MINUTES.toSeconds(5);
 
-  @Parameter(names = "--guide_reservation_query_limit", description = "最多可以查询预留时间的导游的数目", required = false)
+  @Parameter(names = "--guide_reservation_query_limit",
+      description = "最多可以查询预留时间的导游的数目", required = false)
   public Integer guideReservationQueryLimit = 20;
 
   @Parameter(names = { "-h", "--help" }, description = "print help message", required = false)

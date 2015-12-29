@@ -20,10 +20,10 @@ public class CityRequestHandlerTest extends DbTest {
 
   @Test
   public void test() throws Exception {
-    CityRequestHandler handler = injector.getInstance(CityRequestHandler.class);
     TestingDataProcessor processor = TestingDataProcessor.loadData(h2Info.connection.get(),
         Files.toString(new File(TESTDATA_PATH + "city_request_handler.data"), Charsets.UTF_8));
 
+    CityRequestHandler handler = injector.getInstance(CityRequestHandler.class);
     for (Pair<String, String> entry : processor.getCases()) {
       LOG.info("xfguo: req text = '{}', resp text = '{}'", entry.getValue0(), entry.getValue1());
       CityRequest.Builder reqBuilder = CityRequest.newBuilder();

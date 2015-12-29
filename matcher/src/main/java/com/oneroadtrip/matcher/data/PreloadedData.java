@@ -12,6 +12,7 @@ import org.javatuples.Pair;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.oneroadtrip.matcher.CityResponse.City;
 import com.oneroadtrip.matcher.OneRoadTripConfig;
 import com.oneroadtrip.matcher.internal.CityConnectionInfo;
 
@@ -77,6 +78,7 @@ public class PreloadedData {
   final ImmutableMap<Long, ImmutableSet<Long>> cityToGuides;
   final ImmutableMap<Long, ImmutableSet<Long>> guideToInterests;
   final ImmutableMap<Long, Float> guideToScore;
+  final ImmutableMap<Long, City> cityIdToInfo;
 
   PreloadedData(ImmutableMap<Pair<Long, Long>, CityConnectionInfo> cityNetwork,
       ImmutableMap<Long, Integer> suggestDaysForCities,
@@ -84,7 +86,8 @@ public class PreloadedData {
       ImmutableMap<String, Long> interestNameToId,
       ImmutableMap<Long, ImmutableSet<Long>> cityToGuides,
       ImmutableMap<Long, ImmutableSet<Long>> guideToInterests,
-      ImmutableMap<Long, Float> guideToScore) {
+      ImmutableMap<Long, Float> guideToScore,
+      ImmutableMap<Long, City> cityIdToInfo) {
     this.cityNetwork = cityNetwork;
     this.suggestDaysForCities = suggestDaysForCities;
     this.cityIdToSpotPlanner = cityIdToSpotPlanner;
@@ -92,6 +95,7 @@ public class PreloadedData {
     this.cityToGuides = cityToGuides;
     this.guideToInterests = guideToInterests;
     this.guideToScore = guideToScore;
+    this.cityIdToInfo = cityIdToInfo;
   }
 
   public ImmutableMap<Pair<Long, Long>, CityConnectionInfo> getCityNetwork() {
@@ -120,5 +124,9 @@ public class PreloadedData {
 
   public ImmutableMap<Long, Float> getGuideToScore() {
     return guideToScore;
+  }
+  
+  public ImmutableMap<Long, City> getCityIdToInfo() {
+    return cityIdToInfo;
   }
 }
