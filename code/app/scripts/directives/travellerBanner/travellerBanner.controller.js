@@ -9,11 +9,12 @@ angular.module('app.controllers')
     '$http',
     '$state',
     'Controller',
+    'TourInfo',
     BannerCtrl
 ]);
 
 
-function BannerCtrl($scope, $http, $state, Controller) {
+function BannerCtrl($scope, $http, $state, Controller, TourInfo) {
 
 	$scope.options = {};
 
@@ -28,6 +29,8 @@ function BannerCtrl($scope, $http, $state, Controller) {
 
     $scope.tourShow = false;
 	$scope.tourForm = {};
+
+
 
 	$scope.options.depart = [
 		{
@@ -156,12 +159,22 @@ function BannerCtrl($scope, $http, $state, Controller) {
 		}
 	];
 
-	$scope.tourForm.Depart = $scope.options.depart[0].name
+
 
     $scope.submitTour = function() {
+
+
+    	$scope.tourForm.visit_city = $scope.tourForm.visit_city || [];
+		$scope.tourForm.visit_city.unshift({'city_id':$scope.tourForm.start_city_id});
+		$scope.tourForm.visit_city.push({'city_id': $scope.tourForm.end_city_id});
+
     	$scope.tourForm.keep_order_of_via_cities = false;
-    	console.log($scope.tourForm);
-        $state.go('tour');
+
+		$http.post(Controller.base() + 'api/plan', $scope.tourForm).then(function(res){
+			TourInfo.data = res.data;
+			$state.go('tour');
+		}) 
+       
     }
 
     //For Date Picker

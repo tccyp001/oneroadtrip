@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('app.shared')
-.factory('Controller', [
+    .factory('Controller', [
     '$resource',
     '$http',
     ControllerFactory

@@ -1,7 +1,7 @@
 ;(function() {
 'use strict';
 
-angular.module('app.shared', [])
+angular.module('app.shared')
     .factory('User', [
         '$rootScope',
         '$resource',
