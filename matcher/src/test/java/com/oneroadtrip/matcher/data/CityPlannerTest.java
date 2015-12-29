@@ -17,6 +17,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
+import com.oneroadtrip.matcher.CityResponse.City;
 import com.oneroadtrip.matcher.Edge;
 import com.oneroadtrip.matcher.PlanResponse;
 import com.oneroadtrip.matcher.Status;
@@ -29,9 +30,21 @@ import com.oneroadtrip.matcher.util.Util;
 
 public class CityPlannerTest {
   Injector injector;
+  ImmutableMap<Long, City> cityIdToInfo;
 
   @BeforeClass
   void setUp() {
+    ImmutableMap.Builder<Long, City> cityIdToInfoBuilder = ImmutableMap.builder();
+    cityIdToInfoBuilder.put(1L, City.newBuilder().setName("AA").build());
+    cityIdToInfoBuilder.put(2L, City.newBuilder().setName("BB").build());
+    cityIdToInfoBuilder.put(3L, City.newBuilder().setName("CC").build());
+    cityIdToInfoBuilder.put(4L, City.newBuilder().setName("DD").build());
+    cityIdToInfoBuilder.put(5L, City.newBuilder().setName("EE").build());
+    cityIdToInfoBuilder.put(6L, City.newBuilder().setName("FF").build());
+    cityIdToInfoBuilder.put(7L, City.newBuilder().setName("GG").build());
+    cityIdToInfoBuilder.put(8L, City.newBuilder().setName("HH").build());
+    cityIdToInfo = cityIdToInfoBuilder.build();
+    
     Map<Long, Integer> suggestDaysForCities = Maps.newTreeMap();
     suggestDaysForCities.put(1L, 2);
     suggestDaysForCities.put(2L, 3);
@@ -66,6 +79,11 @@ public class CityPlannerTest {
       }
 
       @Provides
+      ImmutableMap<Long, City> provideCityIdToInfo() {
+        return cityIdToInfo;
+      }
+      
+      @Provides
       @Named(Constants.CITY_NETWORK)
       ImmutableMap<Pair<Long, Long>, CityConnectionInfo> provideCityNetwork() {
         return ImmutableMap.copyOf(cityNetwork);
@@ -88,15 +106,19 @@ public class CityPlannerTest {
         ImmutableMap.of(6L, Util.createSuggestCityInfo(6L, 3, EngageType.ON_NODE, 20), 8L,
             Util.createSuggestCityInfo(8L, 4, EngageType.ON_EDGE, 15)));
   }
+  
+  String getNameById(long id) {
+    return cityIdToInfo.get(id).getName();
+  }
 
   VisitCity createVisitCity(long cityId, int numDays, float suggestRate) {
-    return VisitCity.newBuilder().setCityId(cityId).setNumDays(numDays).setSuggestRate(suggestRate)
-        .build();
+    return VisitCity.newBuilder().setCityId(cityId).setCityName(getNameById(cityId))
+        .setNumDays(numDays).setSuggestRate(suggestRate).build();
   }
 
   private Edge createEdge(long from, long to, int distance, int hours) {
-    return Edge.newBuilder().setFromCityId(from).setToCityId(to).setDistance(distance)
-        .setHours(hours).build();
+    return Edge.newBuilder().setFromCityId(from).setFromCity(getNameById(from)).setToCityId(to)
+        .setToCity(getNameById(to)).setDistance(distance).setHours(hours).build();
   }
 
   @Test
@@ -104,8 +126,8 @@ public class CityPlannerTest {
     CityPlanner cityPlanner = injector.getInstance(CityPlanner.class);
 
     PlanResponse expected = PlanResponse.newBuilder().setStatus(Status.SUCCESS)
-        .setStartCityId(1L)
-        .setEndCityId(2L)
+        .setStartCityId(1L).setStartCity("AA")
+        .setEndCityId(2L).setEndCity("BB")
         .addVisit(createVisitCity(1L, 2, 1.0f))
         .addVisit(createVisitCity(2L, 3, 1.0f))
         .addVisit(createVisitCity(3L, 2, 1.0f))

@@ -1,32 +1,27 @@
 package com.oneroadtrip.matcher.handlers;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import javax.inject.Inject;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.google.common.collect.ImmutableMap;
 import com.googlecode.protobuf.format.JsonFormat;
 import com.googlecode.protobuf.format.JsonFormat.ParseException;
 import com.oneroadtrip.matcher.CityRequest;
 import com.oneroadtrip.matcher.CityResponse;
-import com.oneroadtrip.matcher.Status;
 import com.oneroadtrip.matcher.CityResponse.City;
+import com.oneroadtrip.matcher.Status;
 import com.oneroadtrip.matcher.util.ProtoUtil;
 
 public class CityRequestHandler implements RequestHandler {
   private static final Logger LOG = LogManager.getLogger();
 
-  private static final String QUERY_CITIES = "SELECT city_id, city_name, suggest, min, max FROM Cities";
-
   @Inject
-  private Optional<Connection> connection;
+  private ImmutableMap<Long, City> cityIdToInfo;
 
   // TODO(xfguo): (P4) in case we use grpc in the future.
   @Override
@@ -58,19 +53,9 @@ public class CityRequestHandler implements RequestHandler {
   }
 
   private void mutateCityContent(CityResponse.Builder builder) throws SQLException {
-    try (Connection conn = connection.get();
-        PreparedStatement pStmt = connection.get().prepareStatement(QUERY_CITIES)) {
-      try (ResultSet rs = pStmt.executeQuery()) {
-        while (rs.next()) {
-          City.Builder cityBuilder = City.newBuilder();
-          cityBuilder.setCityId(rs.getLong(1));
-          cityBuilder.setName(rs.getString(2));
-          cityBuilder.setSuggest(rs.getInt(3));
-          cityBuilder.setMin(rs.getInt(4));
-          cityBuilder.setMax(rs.getInt(5));
-          builder.addCity(cityBuilder);
-        }
-      }
+    LOG.info("xfguo: cityIdToInfo: {}", cityIdToInfo);
+    for (City city : cityIdToInfo.values()) {
+      builder.addCity(city);
     }
   }
 
