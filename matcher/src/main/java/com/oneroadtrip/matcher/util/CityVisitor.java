@@ -23,7 +23,7 @@ public class CityVisitor {
   List<Long> visitPath = Lists.newArrayList();
 
   long minDistance = Long.MAX_VALUE;
-  List<Long> minDistancePath;
+  List<Long> minDistancePath = Lists.newArrayList();
 
   public CityVisitor(long startId, long endId, List<VisitCity> visitCities,
       ImmutableMap<Pair<Long, Long>, CityConnectionInfo> cityNetwork) {

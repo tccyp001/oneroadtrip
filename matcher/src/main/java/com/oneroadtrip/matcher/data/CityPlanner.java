@@ -81,6 +81,10 @@ public class CityPlanner {
       builder.addVisit(cityBuilder);
     }
 
+    if (path.isEmpty()) { 
+      // Can't find a right path for the cities.
+      builder.setStatus(Status.INCORRECT_REQUEST);
+    }
     for (int i = 0; i < path.size() - 1; ++i) {
       long from = path.get(i);
       long to = path.get(i + 1);

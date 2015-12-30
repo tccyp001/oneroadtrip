@@ -15,7 +15,6 @@ import com.oneroadtrip.matcher.PlanResponse;
 import com.oneroadtrip.matcher.Status;
 import com.oneroadtrip.matcher.data.CityPlanner;
 import com.oneroadtrip.matcher.util.ProtoUtil;
-import com.oneroadtrip.matcher.util.Util;
 
 public class PlanRequestHandler implements RequestHandler {
   private static final Logger LOG = LogManager.getLogger();

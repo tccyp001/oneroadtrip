@@ -397,3 +397,36 @@ suggest_city {
   num_days: 4
   suggest_rate: 0.029411793
 }
+==========
+==TESTCASE_DATA==
+=REQUEST
+end_city_id: 3
+keep_order_of_via_cities: false
+start_city_id: 2
+visit_city {city_id: 2}
+visit_city {city_id: 3}
+visit_city {city_id: 3}
+=RESPONSE
+status: INCORRECT_REQUEST
+start_city_id: 2
+start_city: "Los Angels"
+end_city_id: 3
+end_city: "Las Vegas"
+visit {
+  city_id: 2
+  city_name: "Los Angels"
+  num_days: 3
+  suggest_rate: 1.0
+}
+visit {
+  city_id: 3
+  city_name: "Las Vegas"
+  num_days: 2
+  suggest_rate: 1.0
+}
+visit {
+  city_id: 3
+  city_name: "Las Vegas"
+  num_days: 2
+  suggest_rate: 1.0
+}
