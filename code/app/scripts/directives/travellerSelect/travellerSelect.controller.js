@@ -17,14 +17,13 @@ function TravellerSelectCtrl($scope, $http) {
 
   $scope.select = function(option){
     $scope.selected_city_name = option.name;
-    $scope.selected = option.city_id;
+    $scope.selected = option[$scope.key];
     $scope.showlayer = false;
   }
 
   $scope.showlayer = false;
 
   $scope.show = function(){
-
     $scope.showlayer = !$scope.showlayer;
   }
 }

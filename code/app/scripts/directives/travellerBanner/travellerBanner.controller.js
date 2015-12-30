@@ -163,12 +163,16 @@ function BannerCtrl($scope, $http, $state, Controller, TourInfo) {
 
     $scope.submitTour = function() {
 
-
     	$scope.tourForm.visit_city = $scope.tourForm.visit_city || [];
 		$scope.tourForm.visit_city.unshift({'city_id':$scope.tourForm.start_city_id});
 		$scope.tourForm.visit_city.push({'city_id': $scope.tourForm.end_city_id});
 
     	$scope.tourForm.keep_order_of_via_cities = false;
+
+    	$scope.tourForm.startDate = $scope.datePicker.date.startDate.format('YYYYMMDD');
+    	$scope.tourForm.endDate = $scope.datePicker.date.endDate.format('YYYYMMDD');
+
+    	console.log($scope.tourForm);
 
 		$http.post(Controller.base() + 'api/plan', $scope.tourForm).then(function(res){
 			TourInfo.data = res.data;

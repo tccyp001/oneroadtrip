@@ -3,8 +3,14 @@
 		<div class="tour-content-header">
 			<img src="images/logo.png">
 		</div>
-		<div class="tour-content-body">
-			<div class="tour-content-section" ng-repeat = "tour in tours">
+		<div class="tour-content-body" dnd-list="tours">
+			<div class="tour-content-section" ng-repeat = "tour in tours" 
+			dnd-draggable="tour" 
+			dnd-moved="tours.splice($index, 1)"
+        	dnd-effect-allowed="move"
+        	dnd-selected="tours.selected = tour"
+        	ng-class="{'selected': tours.selected === item}"
+			>
 				<div class="head">
 					<div class="head-left">
 						<img src="images/tour/tour-icon.png">
@@ -37,7 +43,7 @@
 		</div>
 		<div class="tour-content-footer" ng-click="chooseGuide()">
 			<div class="icon"><i class="fa fa-user"></i></div>
-			<div class="content">选择导游</div>
+			<div class="content" ng-click="chooseGuide()">选择导游</div>
 		</div>
 	</div>
 

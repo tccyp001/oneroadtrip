@@ -32,7 +32,11 @@ function DashboardConfig ($stateProvider) {
         templateUrl: 'scripts/views/user/userLogin.tpl.html',
         controller: 'UserLoginCtrl'
     });
-
+    $stateProvider.state('guide', {
+        url: '/guide',
+        templateUrl: 'scripts/views/guide/guide.tpl.html',
+        controller: 'GuideCtrl'
+    });
 }
 
 }());

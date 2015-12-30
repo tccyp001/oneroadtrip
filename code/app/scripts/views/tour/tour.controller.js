@@ -19,6 +19,12 @@ function TourCtrl($scope, $http, $modal, Controller, TourInfo) {
 	$scope.$parent.showfooter = false;
 	$scope.tours = TourInfo.data.visit;
 
+	console.log(TourInfo.data);
+
+	$scope.dragmoved = function(index) {
+		$scope.tours.splice(index, 1);
+	}
+
 	_.each($scope.tours, function(tour){
 		var id = tour.city_id;
 		var num_days = tour.num_days;
@@ -29,8 +35,6 @@ function TourCtrl($scope, $http, $modal, Controller, TourInfo) {
 			tour.plans = res.data.day_plan;
 		}) 
 	})
-
-
 
 	$scope.planPlus = function(plan){
 		plan.num_days++;
@@ -50,6 +54,20 @@ function TourCtrl($scope, $http, $modal, Controller, TourInfo) {
 	}
 
 
+
+	$scope.chooseGuide = function(){
+		var obj = {
+			'city_plan': $scope.tour,
+			'interest_id': 123,
+		}
+
+		console.log(obj);
+
+		$http.post(Controller.base() + 'api/guide', obj).then(function(res){
+			console.log(res);
+		}) 
+
+	}
 
 	$scope.openGuideModal = function(guide){
 		$scope.guideShown = guide;

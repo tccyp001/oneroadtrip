@@ -12,6 +12,7 @@ angular.module('app.directives')
         	options: '=',
         	selected: '=',
         	placeholder: '@',
+            key:'@',
             icon:'@'
         },
         link: function (scope, iElement, iAttrs) {
