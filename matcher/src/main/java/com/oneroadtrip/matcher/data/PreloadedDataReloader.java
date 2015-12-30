@@ -207,12 +207,14 @@ public class PreloadedDataReloader {
   }
 
   private static final String QUERY_CITIES = "SELECT city_id, city_name, suggest, min, max FROM Cities";
+  private static final String QUERY_CITY_ALIASES = "SELECT city_id, alias FROM CityAliases";
 
   private void reloadCityIdToName(ImmutableMap.Builder<Long, City> builder) {
     Preconditions.checkNotNull(builder);
-    try (Connection conn = dataSource.getConnection();
-        PreparedStatement pStmt = conn.prepareStatement(QUERY_CITIES)) {
-      try (ResultSet rs = pStmt.executeQuery()) {
+    Map<Long, City.Builder> data = Maps.newHashMap();
+    try (Connection conn = dataSource.getConnection()) {
+      try (PreparedStatement pStmt = conn.prepareStatement(QUERY_CITIES);
+          ResultSet rs = pStmt.executeQuery()) {
         while (rs.next()) {
           City.Builder cityBuilder = City.newBuilder();
           long cityId = rs.getLong(1);
@@ -221,8 +223,22 @@ public class PreloadedDataReloader {
           cityBuilder.setSuggest(rs.getInt(3));
           cityBuilder.setMin(rs.getInt(4));
           cityBuilder.setMax(rs.getInt(5));
-          builder.put(cityId, cityBuilder.build());
+          data.put(cityId, cityBuilder);
         }
+      }
+      try (PreparedStatement pStmt = conn.prepareStatement(QUERY_CITY_ALIASES);
+          ResultSet rs = pStmt.executeQuery()) {
+        while (rs.next()) {
+          long cityId = rs.getLong(1);
+          City.Builder sub = data.get(cityId);
+          if (sub == null) {
+            continue;
+          }
+          sub.addAlias(rs.getString(2));
+        }
+      }
+      for (Map.Entry<Long, City.Builder> e : data.entrySet()) {
+        builder.put(e.getKey(), e.getValue().build());
       }
     } catch (SQLException e) {
       LOG.error("DB error in reload city related data", e);

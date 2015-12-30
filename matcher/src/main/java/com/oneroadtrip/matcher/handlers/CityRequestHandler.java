@@ -10,12 +10,9 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.ImmutableMap;
 import com.googlecode.protobuf.format.JsonFormat;
-import com.googlecode.protobuf.format.JsonFormat.ParseException;
-import com.oneroadtrip.matcher.proto.CityRequest;
 import com.oneroadtrip.matcher.proto.CityResponse;
 import com.oneroadtrip.matcher.proto.CityResponse.City;
 import com.oneroadtrip.matcher.proto.Status;
-import com.oneroadtrip.matcher.util.ProtoUtil;
 
 public class CityRequestHandler implements RequestHandler {
   private static final Logger LOG = LogManager.getLogger();
@@ -24,20 +21,11 @@ public class CityRequestHandler implements RequestHandler {
   private ImmutableMap<Long, City> cityIdToInfo;
 
   // TODO(xfguo): (P4) in case we use grpc in the future.
-  @Override
-  public String process(String post) {
-    try {
-      // TODO(xfguo): (P1) Remove the parse for CityRequest, it by-default is empty.
-      CityRequest request = ProtoUtil.GetRequest(post, CityRequest.newBuilder());
-      return JsonFormat.printToString(process(request));
-    } catch (ParseException e) {
-      LOG.error("failed to parse the json: {}", e);
-      return JsonFormat.printToString(
-          CityResponse.newBuilder().setStatus(Status.INCORRECT_REQUEST).build());
-    }
+  public String handleGet() {
+    return JsonFormat.printToString(process());
   }
 
-  public CityResponse process(CityRequest request) {
+  public CityResponse process() {
     CityResponse.Builder respBuilder = CityResponse.newBuilder().setStatus(Status.SUCCESS);
     try {
       mutateCityContent(respBuilder);
@@ -56,6 +44,13 @@ public class CityRequestHandler implements RequestHandler {
     for (City city : cityIdToInfo.values()) {
       builder.addCity(city);
     }
+  }
+
+  // Never call so far.
+  @Override
+  public String process(String post) {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }

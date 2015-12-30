@@ -38,6 +38,7 @@ message CityResponse {
     optional int32 suggest = 3;
     optional int32 min = 4;
     optional int32 max = 5;
+    repeated string alias = 6;
   }
 
   optional Status status = 1;
