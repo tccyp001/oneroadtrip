@@ -84,6 +84,11 @@ message PlanRequest {
   optional bool keep_order_of_via_cities = 4 [ default = false ];
   optional int32 startdate = 5;
   optional int32 enddate = 6;  // 不包括enddate这天！
+
+  optional int32 num_people = 7;
+  optional int32 num_room = 8;
+  optional string topic = 9;
+  optional string hotel = 10;
 }
 
 message PlanResponse {
