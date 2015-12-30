@@ -12,7 +12,7 @@ angular.module('app.controllers', [])
 
 
 function MainCtrl($scope, $http) {
-
+    $scope.$parent.showfooter = true;
 
     $scope.tours = {
         right: [

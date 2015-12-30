@@ -15,6 +15,8 @@ angular.module('app.controllers')
 
 
 function TourCtrl($scope, $http, $modal, Controller, TourInfo) {
+	
+	$scope.$parent.showfooter = false;
 	$scope.tours = TourInfo.data.visit;
 
 	_.each($scope.tours, function(tour){

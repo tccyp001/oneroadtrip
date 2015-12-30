@@ -36,12 +36,15 @@ function travellerSelectMultiCtrl($scope, $http) {
     var index = $scope.options_copy.indexOf(option);
     $scope.options_copy.splice(index, 1);
     $scope.showlayer = false;
+    console.log($scope.selected_city_ids);
   }
 
 
   $scope.removeSelectedCity = function(city){
     var index = $scope.selected_city.indexOf(city);
     $scope.selected_city.splice(index, 1);
+    var index_id = $scope.selected_city_ids.indexOf(city);
+    $scope.selected_city_ids.splice(index, 1);
     $scope.options_copy.push(city);
   }
 
