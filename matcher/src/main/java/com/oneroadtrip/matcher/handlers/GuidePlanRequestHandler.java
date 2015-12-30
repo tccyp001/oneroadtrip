@@ -7,10 +7,10 @@ import org.apache.logging.log4j.Logger;
 
 import com.googlecode.protobuf.format.JsonFormat;
 import com.googlecode.protobuf.format.JsonFormat.ParseException;
-import com.oneroadtrip.matcher.GuidePlanRequest;
-import com.oneroadtrip.matcher.GuidePlanResponse;
-import com.oneroadtrip.matcher.Status;
 import com.oneroadtrip.matcher.data.GuidePlanner;
+import com.oneroadtrip.matcher.proto.GuidePlanRequest;
+import com.oneroadtrip.matcher.proto.GuidePlanResponse;
+import com.oneroadtrip.matcher.proto.Status;
 import com.oneroadtrip.matcher.util.ProtoUtil;
 
 public class GuidePlanRequestHandler implements RequestHandler {

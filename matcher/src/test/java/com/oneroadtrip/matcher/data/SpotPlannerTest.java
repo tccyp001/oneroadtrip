@@ -13,9 +13,9 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.oneroadtrip.matcher.DayPlan;
-import com.oneroadtrip.matcher.ErrorInfo;
-import com.oneroadtrip.matcher.VisitSpot;
+import com.oneroadtrip.matcher.proto.DayPlan;
+import com.oneroadtrip.matcher.proto.ErrorInfo;
+import com.oneroadtrip.matcher.proto.VisitSpot;
 import com.oneroadtrip.matcher.util.Util;
 
 public class SpotPlannerTest {

@@ -10,7 +10,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.oneroadtrip.matcher.internal.CityConnectionInfo;
+import com.oneroadtrip.matcher.proto.internal.CityConnectionInfo;
 import com.oneroadtrip.matcher.testutil.GraphTestingUtil;
 
 public class UtilTest {

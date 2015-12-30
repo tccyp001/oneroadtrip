@@ -12,9 +12,9 @@ import org.javatuples.Pair;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.oneroadtrip.matcher.CityResponse.City;
 import com.oneroadtrip.matcher.OneRoadTripConfig;
-import com.oneroadtrip.matcher.internal.CityConnectionInfo;
+import com.oneroadtrip.matcher.proto.CityResponse.City;
+import com.oneroadtrip.matcher.proto.internal.CityConnectionInfo;
 
 // Thread-safe
 public class PreloadedData {

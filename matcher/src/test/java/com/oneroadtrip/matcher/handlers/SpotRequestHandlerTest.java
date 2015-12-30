@@ -9,8 +9,8 @@ import org.testng.annotations.Test;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.protobuf.TextFormat;
-import com.oneroadtrip.matcher.SpotPlanRequest;
-import com.oneroadtrip.matcher.SpotPlanResponse;
+import com.oneroadtrip.matcher.proto.SpotPlanRequest;
+import com.oneroadtrip.matcher.proto.SpotPlanResponse;
 import com.oneroadtrip.matcher.testutil.TestingDataProcessor;
 
 public class SpotRequestHandlerTest extends DbTest {

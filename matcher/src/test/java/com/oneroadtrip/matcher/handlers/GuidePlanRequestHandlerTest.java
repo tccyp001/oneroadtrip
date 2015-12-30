@@ -9,8 +9,8 @@ import org.testng.annotations.Test;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.protobuf.TextFormat;
-import com.oneroadtrip.matcher.GuidePlanRequest;
-import com.oneroadtrip.matcher.GuidePlanResponse;
+import com.oneroadtrip.matcher.proto.GuidePlanRequest;
+import com.oneroadtrip.matcher.proto.GuidePlanResponse;
 import com.oneroadtrip.matcher.testutil.TestingDataProcessor;
 
 public class GuidePlanRequestHandlerTest extends DbTest {

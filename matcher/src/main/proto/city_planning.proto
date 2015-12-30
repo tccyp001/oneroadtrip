@@ -1,0 +1,78 @@
+syntax = "proto2";
+
+package match;
+
+option java_package = "com.oneroadtrip.matcher.proto";
+option java_multiple_files = true;
+
+import "common.proto";
+
+enum TransportationType {
+  SHUTTLE = 1;
+  PLANE = 2;
+  WALK = 3;
+  CAR = 4;
+  PUBLIC_TRANSIT = 5;
+  OTHERS = 6;
+}
+
+message VisitCity {
+  optional int64 city_id = 1;
+  optional string city_name = 2;
+  optional int32 num_days = 3;
+  // suggest_rate用来描述这个城市有多大的旅游价值，是一个0..1之间的数，1是必须要去的城市，
+  // 即请求中填的出发、到达和途径城市，其它城市是按路线由后端推荐的。
+  optional float suggest_rate = 4;
+}
+
+message Edge {
+  optional int64 from_city_id = 1;
+  optional string from_city = 2;
+  optional int64 to_city_id = 3;
+  optional string to_city = 4;
+  optional int32 distance = 5;
+  optional int32 hours = 6;
+  optional TransportationType transportation_type = 7 [ default = SHUTTLE ];
+}
+
+message PlanRequest {
+  optional int64 start_city_id = 1;
+  optional int64 end_city_id = 2;
+  // - visit_city里面包括所有途经的城市，还有起点和终点。如果没有包括进去的话，我们在做plan的
+  //   时候会把它放进去。
+  // - visit_city.num_days表示该城市访问的天数。如果为0的话，说明希望系统建议。
+  repeated VisitCity visit_city = 3;
+
+  // 下面一项如果是true的话，我们会保持途经城市的次序。
+  optional bool keep_order_of_via_cities = 4 [ default = false ];
+  optional int32 startdate = 5;
+  optional int32 enddate = 6;  // 不包括enddate这天！
+
+  // TODO(xfguo): 加相关的feature.
+  optional int32 num_people = 7;
+  optional int32 num_room = 8;
+  optional string topic = 9;
+  optional string hotel = 10;
+}
+
+message PlanResponse {
+	optional Status status = 1 [ default = SUCCESS ];
+
+  // visit + edge 组成一条路线。这里有些细节需要注意：
+  // - 首先，一开始的城市有可能不是visit中的第一个城市，同样，离开的城市也有可能不是最后一个
+  //   城市。这就意味着，我们有可能落地了之后，马上坐车离开该城市。只有当该城市被放置到
+  //   PlanRequest.visit_city当中的时候，我们才将其考虑为我们需要访问的城市。
+  // - 我们将keep这样的关系：visit.size() + 1 = edge.size()
+  //   这也意味着，即使到达城市跟第一个旅游城市一致的时候，我们也会构造一条长为0的边来连接
+  //   他们。
+  optional int64 start_city_id = 2;
+  optional string start_city = 3;
+  optional int64 end_city_id = 4;
+  optional string end_city = 5;
+  repeated VisitCity visit = 6;
+  repeated Edge edge = 7;
+
+  // suggest_city：这是推荐城市，所有可达城市，我们都会放到这里来，当然，suggest_rate
+  // 不一样。
+  repeated VisitCity suggest_city = 8;
+}

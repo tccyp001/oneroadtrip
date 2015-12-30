@@ -12,11 +12,11 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.googlecode.protobuf.format.JsonFormat;
 import com.googlecode.protobuf.format.JsonFormat.ParseException;
-import com.oneroadtrip.matcher.SpotPlanRequest;
-import com.oneroadtrip.matcher.SpotPlanResponse;
-import com.oneroadtrip.matcher.Status;
 import com.oneroadtrip.matcher.common.Constants;
 import com.oneroadtrip.matcher.data.SpotPlanner;
+import com.oneroadtrip.matcher.proto.SpotPlanRequest;
+import com.oneroadtrip.matcher.proto.SpotPlanResponse;
+import com.oneroadtrip.matcher.proto.Status;
 import com.oneroadtrip.matcher.util.ProtoUtil;
 
 public class SpotRequestHandler implements RequestHandler {

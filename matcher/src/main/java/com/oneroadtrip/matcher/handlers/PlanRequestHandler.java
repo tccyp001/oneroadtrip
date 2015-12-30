@@ -10,10 +10,10 @@ import org.apache.logging.log4j.Logger;
 
 import com.googlecode.protobuf.format.JsonFormat;
 import com.googlecode.protobuf.format.JsonFormat.ParseException;
-import com.oneroadtrip.matcher.PlanRequest;
-import com.oneroadtrip.matcher.PlanResponse;
-import com.oneroadtrip.matcher.Status;
 import com.oneroadtrip.matcher.data.CityPlanner;
+import com.oneroadtrip.matcher.proto.PlanRequest;
+import com.oneroadtrip.matcher.proto.PlanResponse;
+import com.oneroadtrip.matcher.proto.Status;
 import com.oneroadtrip.matcher.util.ProtoUtil;
 
 public class PlanRequestHandler implements RequestHandler {

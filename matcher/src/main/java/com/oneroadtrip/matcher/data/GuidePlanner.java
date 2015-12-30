@@ -19,14 +19,14 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.oneroadtrip.matcher.CityPlan;
-import com.oneroadtrip.matcher.GuidePlanErrorInfo;
-import com.oneroadtrip.matcher.GuidePlanRequest;
-import com.oneroadtrip.matcher.GuidePlanResponse;
 import com.oneroadtrip.matcher.OneRoadTripConfig;
-import com.oneroadtrip.matcher.Status;
 import com.oneroadtrip.matcher.common.Constants;
 import com.oneroadtrip.matcher.common.OneRoadTripException;
+import com.oneroadtrip.matcher.proto.CityPlan;
+import com.oneroadtrip.matcher.proto.GuidePlanErrorInfo;
+import com.oneroadtrip.matcher.proto.GuidePlanRequest;
+import com.oneroadtrip.matcher.proto.GuidePlanResponse;
+import com.oneroadtrip.matcher.proto.Status;
 
 public class GuidePlanner {
   private static final Logger LOG = LogManager.getLogger();

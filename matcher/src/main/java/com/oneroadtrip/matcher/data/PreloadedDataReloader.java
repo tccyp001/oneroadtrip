@@ -23,9 +23,9 @@ import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.oneroadtrip.matcher.VisitSpot;
-import com.oneroadtrip.matcher.CityResponse.City;
-import com.oneroadtrip.matcher.internal.CityConnectionInfo;
+import com.oneroadtrip.matcher.proto.CityResponse.City;
+import com.oneroadtrip.matcher.proto.VisitSpot;
+import com.oneroadtrip.matcher.proto.internal.CityConnectionInfo;
 import com.oneroadtrip.matcher.util.Util;
 
 public class PreloadedDataReloader {

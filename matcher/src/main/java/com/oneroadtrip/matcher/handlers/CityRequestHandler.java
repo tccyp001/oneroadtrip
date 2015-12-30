@@ -11,10 +11,10 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.collect.ImmutableMap;
 import com.googlecode.protobuf.format.JsonFormat;
 import com.googlecode.protobuf.format.JsonFormat.ParseException;
-import com.oneroadtrip.matcher.CityRequest;
-import com.oneroadtrip.matcher.CityResponse;
-import com.oneroadtrip.matcher.CityResponse.City;
-import com.oneroadtrip.matcher.Status;
+import com.oneroadtrip.matcher.proto.CityRequest;
+import com.oneroadtrip.matcher.proto.CityResponse;
+import com.oneroadtrip.matcher.proto.CityResponse.City;
+import com.oneroadtrip.matcher.proto.Status;
 import com.oneroadtrip.matcher.util.ProtoUtil;
 
 public class CityRequestHandler implements RequestHandler {

@@ -13,12 +13,12 @@ import com.beust.jcommander.internal.Lists;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
-import com.oneroadtrip.matcher.DayPlan;
-import com.oneroadtrip.matcher.ErrorInfo;
-import com.oneroadtrip.matcher.SpotPlanRequest;
-import com.oneroadtrip.matcher.SpotPlanResponse;
-import com.oneroadtrip.matcher.Status;
-import com.oneroadtrip.matcher.VisitSpot;
+import com.oneroadtrip.matcher.proto.DayPlan;
+import com.oneroadtrip.matcher.proto.ErrorInfo;
+import com.oneroadtrip.matcher.proto.SpotPlanRequest;
+import com.oneroadtrip.matcher.proto.SpotPlanResponse;
+import com.oneroadtrip.matcher.proto.Status;
+import com.oneroadtrip.matcher.proto.VisitSpot;
 
 // 景点计划是根据城市来制定的，所以这个类对应的instance不是injectable的，而是根据城市生成的。
 //

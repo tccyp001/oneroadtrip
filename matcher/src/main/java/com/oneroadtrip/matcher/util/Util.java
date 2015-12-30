@@ -13,11 +13,11 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.oneroadtrip.matcher.ErrorInfo;
-import com.oneroadtrip.matcher.VisitSpot;
-import com.oneroadtrip.matcher.internal.CityConnectionInfo;
-import com.oneroadtrip.matcher.internal.EngageType;
-import com.oneroadtrip.matcher.internal.SuggestCityInfo;
+import com.oneroadtrip.matcher.proto.ErrorInfo;
+import com.oneroadtrip.matcher.proto.VisitSpot;
+import com.oneroadtrip.matcher.proto.internal.CityConnectionInfo;
+import com.oneroadtrip.matcher.proto.internal.EngageType;
+import com.oneroadtrip.matcher.proto.internal.SuggestCityInfo;
 
 public class Util {
   private static final Logger LOG = LogManager.getLogger();

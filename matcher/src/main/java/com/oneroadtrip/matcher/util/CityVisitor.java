@@ -8,8 +8,8 @@ import org.javatuples.Pair;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.oneroadtrip.matcher.VisitCity;
-import com.oneroadtrip.matcher.internal.CityConnectionInfo;
+import com.oneroadtrip.matcher.proto.VisitCity;
+import com.oneroadtrip.matcher.proto.internal.CityConnectionInfo;
 
 // 寻找途径所有这些城市的最短路径。用全遍历即可，因为输入的城市不可能超过十个，如果这里碰到问题我们再优化。
 // 这是哈密尔顿通路问题，所以我们就先别费事在这里优化了，先给出一个解再说。

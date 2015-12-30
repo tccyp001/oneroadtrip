@@ -12,8 +12,8 @@ import org.testng.annotations.Test;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.oneroadtrip.matcher.VisitCity;
-import com.oneroadtrip.matcher.internal.CityConnectionInfo;
+import com.oneroadtrip.matcher.proto.VisitCity;
+import com.oneroadtrip.matcher.proto.internal.CityConnectionInfo;
 import com.oneroadtrip.matcher.testutil.GraphTestingUtil;
 
 public class CityVisitorTest {
