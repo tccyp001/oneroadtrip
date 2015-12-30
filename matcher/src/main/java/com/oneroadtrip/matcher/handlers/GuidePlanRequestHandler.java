@@ -10,6 +10,7 @@ import com.googlecode.protobuf.format.JsonFormat.ParseException;
 import com.oneroadtrip.matcher.data.GuidePlanner;
 import com.oneroadtrip.matcher.proto.GuidePlanRequest;
 import com.oneroadtrip.matcher.proto.GuidePlanResponse;
+import com.oneroadtrip.matcher.proto.GuidePlanType;
 import com.oneroadtrip.matcher.proto.Status;
 import com.oneroadtrip.matcher.util.ProtoUtil;
 
@@ -33,8 +34,15 @@ public class GuidePlanRequestHandler implements RequestHandler {
   }
 
   GuidePlanResponse process(GuidePlanRequest request) {
-    return request.getOneGuideForWholeTrip() ? guidePlanner.makeSingleGuidePlan(request)
-        : guidePlanner.makeMultiGuidePlan(request);
+    GuidePlanResponse.Builder builder = GuidePlanResponse.newBuilder();
+    GuidePlanType type = request.getRequestGuidePlanType();
+    if (type == GuidePlanType.ONE_GUIDE_FOR_EACH_CITY || type == GuidePlanType.BOTH) {
+      builder.addGuidePlan(guidePlanner.makeMultiGuidePlan(request));
+    }
+    if (type == GuidePlanType.ONE_GUIDE_FOR_THE_WHOLE_TRIP || type == GuidePlanType.BOTH) {
+      builder.addGuidePlan(guidePlanner.makeSingleGuidePlan(request));
+    }
+    return builder.setStatus(Status.SUCCESS).build();
   }
 
 }

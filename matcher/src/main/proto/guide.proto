@@ -12,6 +12,12 @@ enum GuidePlanErrorInfo {
   NOT_FOUND = 1;
 }
 
+enum GuidePlanType {
+  ONE_GUIDE_FOR_THE_WHOLE_TRIP = 1;
+  ONE_GUIDE_FOR_EACH_CITY = 2;
+  BOTH = 3;
+}
+
 message CityPlan {
   optional GuidePlanErrorInfo error_info = 1;
   optional int64 city_id = 2;
@@ -25,16 +31,22 @@ message CityPlan {
 }
 
 message GuidePlanRequest {
-  optional bool one_guide_for_whole_trip = 1 [ default = false ];
+  optional GuidePlanType request_guide_plan_type = 1 [ default = BOTH ];
   repeated CityPlan city_plan = 2;
   repeated int64 interest_id = 3;
   repeated int64 excluded_guide_id = 4;
 }
 
-message GuidePlanResponse {
-  optional Status status = 1 [ default = SUCCESS ];
-  repeated CityPlan city_plan = 2;
+message GuidePlan {
+  optional Status plan_status = 1;
+  optional GuidePlanType guide_plan_type = 2;
+  repeated CityPlan city_plan = 3;
 
   // 如果我们需要，我们可以返回
-  optional int64 guide_id_for_whole_trip = 3;
+  optional int64 guide_id_for_whole_trip = 4;
+}
+
+message GuidePlanResponse {
+  optional Status status = 1 [ default = SUCCESS ];
+  repeated GuidePlan guide_plan = 2;
 }

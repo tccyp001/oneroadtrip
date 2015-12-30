@@ -23,9 +23,10 @@ import com.oneroadtrip.matcher.OneRoadTripConfig;
 import com.oneroadtrip.matcher.common.Constants;
 import com.oneroadtrip.matcher.common.OneRoadTripException;
 import com.oneroadtrip.matcher.proto.CityPlan;
+import com.oneroadtrip.matcher.proto.GuidePlan;
 import com.oneroadtrip.matcher.proto.GuidePlanErrorInfo;
 import com.oneroadtrip.matcher.proto.GuidePlanRequest;
-import com.oneroadtrip.matcher.proto.GuidePlanResponse;
+import com.oneroadtrip.matcher.proto.GuidePlanType;
 import com.oneroadtrip.matcher.proto.Status;
 
 public class GuidePlanner {
@@ -128,8 +129,9 @@ public class GuidePlanner {
     return sortedGuides;
   }
 
-  public GuidePlanResponse makeSingleGuidePlan(GuidePlanRequest request) {
-    GuidePlanResponse.Builder builder = GuidePlanResponse.newBuilder();
+  public GuidePlan makeSingleGuidePlan(GuidePlanRequest request) {
+    GuidePlan.Builder builder = GuidePlan.newBuilder().setPlanStatus(Status.SUCCESS)
+        .setGuidePlanType(GuidePlanType.ONE_GUIDE_FOR_THE_WHOLE_TRIP);
     try {
       List<Long> cityIds = Lists.newArrayList();
       Set<Integer> days = Sets.newTreeSet();
@@ -152,17 +154,18 @@ public class GuidePlanner {
           - TimeUnit.SECONDS.toMillis(config.guideReservedSecondsForBook);
       Map<Long, Set<Integer>> guideToReserveDays = dbAccessor.loadGuideToReserveDays(
           orderedCandidates, cutoffTimestamp);
-      builder.setGuideIdForWholeTrip(acceptCandidateByDates(
-          orderedCandidates, days, guideToReserveDays));
+      builder.setGuideIdForWholeTrip(acceptCandidateByDates(orderedCandidates, days,
+          guideToReserveDays));
     } catch (OneRoadTripException e) {
-      builder.setStatus(Status.ERROR_IN_GUIDE_PLAN);
+      builder.setPlanStatus(Status.ERROR_IN_GUIDE_PLAN);
     }
 
     return builder.build();
   }
 
-  public GuidePlanResponse makeMultiGuidePlan(GuidePlanRequest request) {
-    GuidePlanResponse.Builder builder = GuidePlanResponse.newBuilder().setStatus(Status.SUCCESS);
+  public GuidePlan makeMultiGuidePlan(GuidePlanRequest request) {
+    GuidePlan.Builder builder = GuidePlan.newBuilder().setPlanStatus(Status.SUCCESS)
+        .setGuidePlanType(GuidePlanType.ONE_GUIDE_FOR_EACH_CITY);
     try {
       List<List<Long>> guides = Lists.newArrayList();
       Set<Long> allCandidates = Sets.newTreeSet();
@@ -199,7 +202,7 @@ public class GuidePlanner {
       }
     } catch (OneRoadTripException e) {
       LOG.error("Errors in making multiple guide plan: {}", e);
-      builder.setStatus(e.getStatus());
+      builder.setPlanStatus(e.getStatus());
     }
 
     return builder.build();

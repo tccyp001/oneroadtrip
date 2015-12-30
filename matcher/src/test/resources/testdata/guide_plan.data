@@ -31,22 +31,21 @@ INSERT INTO GuideReservations (guide_id, reserved_date, is_permanent) VALUES
 ==========
 ==TESTCASE_DATA==
 =REQUEST
-one_guide_for_whole_trip: false
+request_guide_plan_type: BOTH
 city_plan { city_id: 1 start_date:20151225 num_days: 2 }
 city_plan { city_id: 2 start_date:20151227 num_days: 1 }
 interest_id: 1
 =RESPONSE
 status: SUCCESS
-city_plan { city_id: 1 start_date:20151225 num_days: 2 guide_id: 2}
-city_plan { city_id: 2 start_date:20151227 num_days: 1 guide_id: 1}
-==========
-==TESTCASE_DATA==
-=REQUEST
-one_guide_for_whole_trip: true
-city_plan { city_id: 1 start_date:20151225 num_days: 2 }
-city_plan { city_id: 2 start_date:20151227 num_days: 1 }
-interest_id: 1
-=RESPONSE
-status: ERROR_IN_GUIDE_PLAN
-city_plan { city_id: 1 start_date:20151225 num_days: 2 }
-city_plan { city_id: 2 start_date:20151227 num_days: 1 }
+guide_plan {
+  plan_status: SUCCESS
+  guide_plan_type: ONE_GUIDE_FOR_EACH_CITY
+  city_plan { city_id: 1 start_date:20151225 num_days: 2 guide_id: 2}
+  city_plan { city_id: 2 start_date:20151227 num_days: 1 guide_id: 1}
+}
+guide_plan {
+  plan_status: ERROR_IN_GUIDE_PLAN
+  guide_plan_type: ONE_GUIDE_FOR_THE_WHOLE_TRIP
+  city_plan { city_id: 1 start_date:20151225 num_days: 2 }
+  city_plan { city_id: 2 start_date:20151227 num_days: 1 }
+}
