@@ -33,7 +33,7 @@ public class CityRequestHandlerTest extends DbTest {
       CityRequest req = reqBuilder.build();
       CityResponse resp = respBuilder.build();
       LOG.info("xfguo: parsed req = '{}', parsed resp = '{}'", req, resp);
-      Assert.assertEquals(resp, handler.process(req).build());
+      Assert.assertEquals(resp, handler.process(req));
     }
   }
 }

@@ -155,7 +155,7 @@ public class CityPlannerTest {
             55,
             Lists.newArrayList(1L, 1L, 3L, 4L, 5L, 2L, 2L),
             ImmutableMap.of(6L, Util.createSuggestCityInfo(6L, 3, EngageType.ON_NODE, 20),
-                8L, Util.createSuggestCityInfo(8L, 4, EngageType.ON_EDGE, 15))).build(),
+                8L, Util.createSuggestCityInfo(8L, 4, EngageType.ON_EDGE, 15))),
         expected);
   }
 

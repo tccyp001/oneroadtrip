@@ -48,8 +48,8 @@ public class CityPlanner {
     this.cityIdToInfo = cityIdToInfo;
   }
 
-  public PlanResponse.Builder makePlan(long startCityId, long endCityId, List<VisitCity> visitCities,
-      boolean keepOrderOrViaCities) {
+  public PlanResponse makePlan(long startCityId, long endCityId,
+      List<VisitCity> visitCities, boolean keepOrderOrViaCities) {
     CityVisitor visitor = new CityVisitor(startCityId, endCityId, visitCities, cityNetwork);
     visitor.visit(startCityId, 0L);
 
@@ -58,15 +58,16 @@ public class CityPlanner {
 
     Map<Long, SuggestCityInfo> suggestCityToData = chooseOtherCities(minDistance, minDistancePath);
 
-    return buildResponse(startCityId, endCityId, visitCities, minDistance, minDistancePath, suggestCityToData);
+    return buildResponse(startCityId, endCityId, visitCities, minDistance, minDistancePath,
+        suggestCityToData);
   }
-  
+
   String getNameById(long id) {
     City city = cityIdToInfo.get(id);
     return city != null ? city.getName() : "";
   }
 
-  PlanResponse.Builder buildResponse(long startCityId, long endCityId, List<VisitCity> visitCities,
+  PlanResponse buildResponse(long startCityId, long endCityId, List<VisitCity> visitCities,
       long minDistance, List<Long> path, Map<Long, SuggestCityInfo> suggestCityToData) {
     PlanResponse.Builder builder = PlanResponse.newBuilder().setStatus(Status.SUCCESS)
         .setStartCityId(startCityId).setStartCity(getNameById(startCityId)).setEndCityId(endCityId)
@@ -81,7 +82,7 @@ public class CityPlanner {
       builder.addVisit(cityBuilder);
     }
 
-    if (path.isEmpty()) { 
+    if (path.isEmpty()) {
       // Can't find a right path for the cities.
       builder.setStatus(Status.INCORRECT_REQUEST);
     }
@@ -95,7 +96,7 @@ public class CityPlanner {
           .setToCityId(to).setToCity(getNameById(to)).setDistance(info.getDistance())
           .setHours(info.getHours()));
     }
-    
+
     for (SuggestCityInfo suggest : suggestCityToData.values()) {
       Integer suggestDays = suggestDaysForCities.get(suggest.getCityId());
       builder.addSuggestCity(VisitCity.newBuilder().setCityId(suggest.getCityId())
@@ -103,7 +104,7 @@ public class CityPlanner {
           .setNumDays(suggestDays == null ? 0 : suggestDays)
           .setSuggestRate(getSuggestRate(minDistance, suggest)));
     }
-    return builder;
+    return builder.build();
   }
 
   private float getSuggestRate(long minDistance, SuggestCityInfo suggest) {

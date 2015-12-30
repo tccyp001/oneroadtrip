@@ -26,19 +26,18 @@ public class CityRequestHandler implements RequestHandler {
   // TODO(xfguo): (P4) in case we use grpc in the future.
   @Override
   public String process(String post) {
-    CityResponse.Builder respBuilder = CityResponse.newBuilder();
     try {
       // TODO(xfguo): (P1) Remove the parse for CityRequest, it by-default is empty.
       CityRequest request = ProtoUtil.GetRequest(post, CityRequest.newBuilder());
-      respBuilder = process(request);
+      return JsonFormat.printToString(process(request));
     } catch (ParseException e) {
       LOG.error("failed to parse the json: {}", e);
-      respBuilder.setStatus(Status.INCORRECT_REQUEST);
+      return JsonFormat.printToString(
+          CityResponse.newBuilder().setStatus(Status.INCORRECT_REQUEST).build());
     }
-    return JsonFormat.printToString(respBuilder.build());
   }
 
-  public CityResponse.Builder process(CityRequest request) {
+  public CityResponse process(CityRequest request) {
     CityResponse.Builder respBuilder = CityResponse.newBuilder().setStatus(Status.SUCCESS);
     try {
       mutateCityContent(respBuilder);
@@ -49,7 +48,7 @@ public class CityRequestHandler implements RequestHandler {
       LOG.error("No DB connection");
       respBuilder.setStatus(Status.NO_DB_CONNECTION);
     }
-    return respBuilder;
+    return respBuilder.build();
   }
 
   private void mutateCityContent(CityResponse.Builder builder) throws SQLException {

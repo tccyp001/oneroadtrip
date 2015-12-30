@@ -25,29 +25,24 @@ public class PlanRequestHandler implements RequestHandler {
   // TODO(xfguo): (P4) in case we use grpc in the future.
   @Override
   public String process(String post) {
-    PlanResponse.Builder respBuilder = PlanResponse.newBuilder();
     try {
       PlanRequest request = ProtoUtil.GetRequest(post, PlanRequest.newBuilder());
-      respBuilder = process(request);
+      return JsonFormat.printToString(process(request));
     } catch (ParseException e) {
       LOG.error("failed to parse the json: {}", e);
-      respBuilder.setStatus(Status.INCORRECT_REQUEST);
+      return JsonFormat.printToString(
+          PlanResponse.newBuilder().setStatus(Status.INCORRECT_REQUEST).build());
     }
-    return JsonFormat.printToString(respBuilder.build());
   }
 
-  PlanResponse.Builder process(PlanRequest request) {
-    PlanResponse.Builder respBuilder = PlanResponse.newBuilder().setStatus(Status.SUCCESS);
-
+  PlanResponse process(PlanRequest request) {
     try {
-      respBuilder = cityPlanner.get().makePlan(request.getStartCityId(),
-          request.getEndCityId(), request.getVisitCityList(), request.getKeepOrderOfViaCities());
+      return cityPlanner.get().makePlan(request.getStartCityId(), request.getEndCityId(),
+          request.getVisitCityList(), request.getKeepOrderOfViaCities());
     } catch (NoSuchElementException e) {
       LOG.error("No city planner");
-      respBuilder.setStatus(Status.SERVER_ERROR);
+      return PlanResponse.newBuilder().setStatus(Status.SERVER_ERROR).build();
     }
-
-    return respBuilder;
   }
 
 }
