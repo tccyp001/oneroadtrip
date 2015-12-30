@@ -25,7 +25,7 @@ public class SpotRequestHandlerTest extends DbTest {
       SpotPlanResponse.Builder respBuilder = SpotPlanResponse.newBuilder();
       TextFormat.merge(entry.getValue1(), respBuilder);
       SpotRequestHandler handler = injector.getInstance(SpotRequestHandler.class);
-      Assert.assertEquals(handler.process(reqBuilder.build()).build(), respBuilder.build());
+      Assert.assertEquals(handler.process(reqBuilder.build()), respBuilder.build());
     }
   }
 

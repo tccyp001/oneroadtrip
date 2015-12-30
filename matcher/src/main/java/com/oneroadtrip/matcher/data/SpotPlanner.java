@@ -127,13 +127,13 @@ public class SpotPlanner {
     return builder.build();
   }
 
-  public SpotPlanResponse.Builder planSpot(List<Long> interestIds, SpotPlanRequest request) {
-    SpotPlanResponse.Builder builder = SpotPlanResponse.newBuilder();
+  public SpotPlanResponse planSpot(List<Long> interestIds, SpotPlanRequest request) {
+    SpotPlanResponse.Builder builder = SpotPlanResponse.newBuilder().setCityId(request.getCityId());
     builder.addAllInterest(request.getInterestList());
     builder.setNumDays(request.getNumDays());
     if (request.getNumDays() <= 0) {
       builder.setStatus(Status.INCORRECT_REQUEST);
-      return builder;
+      return builder.build();
     }
 
     Set<Long> reservedSpotIds = Sets.newTreeSet();
@@ -148,6 +148,6 @@ public class SpotPlanner {
         reservedSpotIds.add(spot.getSpotId());
       }
     }
-    return builder;
+    return builder.build();
   }
 }
