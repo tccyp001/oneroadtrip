@@ -34,5 +34,13 @@
   },
   {
     "status": "SUCCESS"
+  },
+  {
+    "request": "spot",
+    "city_id": 4,
+    "num_days": 3
+  },
+  {
+    "stastus": "INCORRECT_REQUEST"
   }
 ]
