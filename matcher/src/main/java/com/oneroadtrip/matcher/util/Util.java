@@ -109,11 +109,14 @@ public class Util {
     return builder.build();
   }
   
+  private static final CityInfo UNKNOWN_CITY = CityInfo.newBuilder().setCityId(0L)
+      .setCityName("UNKNWON").setCnCityName("无名").build();
+  
   public static CityInfo getCityInfo(ImmutableMap<Long, City> cityIdToInfo, long cityId) {
     City city = cityIdToInfo.get(cityId);
     if (city == null) {
       LOG.info("Can't find city info for id {}", cityId);
-      return null;
+      return UNKNOWN_CITY;
     }
     return CityInfo.newBuilder().setCityId(cityId).setCityName(city.getName())
         .setCnCityName(city.getCnName()).build();

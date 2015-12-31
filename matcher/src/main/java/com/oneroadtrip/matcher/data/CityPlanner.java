@@ -82,8 +82,9 @@ public class CityPlanner {
       long cityId = city.getCity().getCityId();
       VisitCity.Builder cityBuilder = VisitCity.newBuilder(city).setCity(getCityInfo(cityId))
           .setSuggestRate(MUST_SELECT_CITY_RATE);
-      if (city.getNumDays() == 0) {
-        cityBuilder.setNumDays(suggestDaysForCities.get(cityId));
+      Integer suggestDays = suggestDaysForCities.get(cityId);
+      if (city.getNumDays() == 0 && suggestDays != null) {
+        cityBuilder.setNumDays(suggestDays);
       }
       builder.addVisit(cityBuilder);
     }
