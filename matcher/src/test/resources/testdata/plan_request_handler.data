@@ -50,6 +50,219 @@ INSERT INTO CityAliases (city_id, alias) VALUES
 
 ==========
 ==TESTCASE_DATA==
+
+=REQUEST
+enddate: 20151210
+start_city_id: 1
+end_city_id: 1
+hotel: "三星级"
+keep_order_of_via_cities: false
+num_people: 2
+num_room: 3
+startdate: 20151201
+topic: "蜜月"
+visit_city { city { city_id: 1 } }
+visit_city { city { city_id: 2 } }
+visit_city { city { city_id: 4 } }
+
+=RESPONSE
+status: SUCCESS
+start_city {
+  city_id: 1
+  city_name: "San Diego"
+  cn_city_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+}
+end_city {
+  city_id: 1
+  city_name: "San Diego"
+  cn_city_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+}
+visit {
+  city {
+    city_id: 1
+    city_name: "San Diego"
+    cn_city_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+  }
+  num_days: 2
+  suggest_rate: 1.0
+}
+visit {
+  city {
+    city_id: 2
+    city_name: "Los Angels"
+    cn_city_name: "\346\264\233\346\235\211\347\237\266"
+  }
+  num_days: 3
+  suggest_rate: 1.0
+}
+visit {
+  city {
+    city_id: 4
+    city_name: "Phoenix"
+    cn_city_name: "\350\217\262\345\260\274\345\205\213\346\226\257"
+  }
+  num_days: 1
+  suggest_rate: 1.0
+}
+edge {
+  from_city {
+    city_id: 1
+    city_name: "San Diego"
+    cn_city_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+  }
+  to_city {
+    city_id: 4
+    city_name: "Phoenix"
+    cn_city_name: "\350\217\262\345\260\274\345\205\213\346\226\257"
+  }
+  distance: 686
+  hours: 12
+}
+edge {
+  from_city {
+    city_id: 4
+    city_name: "Phoenix"
+    cn_city_name: "\350\217\262\345\260\274\345\205\213\346\226\257"
+  }
+  to_city {
+    city_id: 2
+    city_name: "Los Angels"
+    cn_city_name: "\346\264\233\346\235\211\347\237\266"
+  }
+  distance: 566
+  hours: 10
+}
+edge {
+  from_city {
+    city_id: 2
+    city_name: "Los Angels"
+    cn_city_name: "\346\264\233\346\235\211\347\237\266"
+  }
+  to_city {
+    city_id: 1
+    city_name: "San Diego"
+    cn_city_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+  }
+  distance: 120
+  hours: 2
+}
+edge {
+  from_city {
+    city_id: 1
+    city_name: "San Diego"
+    cn_city_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+  }
+  to_city {
+    city_id: 1
+    city_name: "San Diego"
+    cn_city_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+  }
+  distance: 0
+  hours: 0
+}
+suggest_city {
+  city {
+    city_id: 3
+    city_name: "Las Vegas"
+    cn_city_name: "\346\213\211\346\226\257\347\273\264\345\212\240\346\226\257"
+  }
+  num_days: 2
+  suggest_rate: 1.0
+}
+suggest_city {
+  city {
+    city_id: 5
+    city_name: "Salt Lake City"
+    cn_city_name: "\347\233\220\346\271\226\345\237\216"
+  }
+  num_days: 4
+  suggest_rate: 0.3862974
+}
+suggest_city {
+  city {
+    city_id: 6
+    city_name: "Reno"
+    cn_city_name: "\351\233\267\350\257\272"
+  }
+  num_days: 2
+  suggest_rate: 0.48979592
+}
+suggest_city {
+  city {
+    city_id: 7
+    city_name: "Sacramento"
+    cn_city_name: "\350\220\250\345\205\213\346\213\211\351\227\250\346\211\230"
+  }
+  num_days: 1
+  suggest_rate: 0.48979592
+}
+suggest_city {
+  city {
+    city_id: 8
+    city_name: "San Francisco"
+    cn_city_name: "\346\227\247\351\207\221\345\261\261"
+  }
+  num_days: 2
+  suggest_rate: 0.44169098
+}
+
+==========
+==TESTCASE_DATA==
+=REQUEST
+enddate: 20160109
+end_city_id: 2
+hotel: "5"
+keep_order_of_via_cities: false
+num_people: 2
+num_room: 3
+startdate: 20160106
+start_city_id: 1
+visit_city { city { city_id: 1 } }
+visit_city { city { city_id: 21 } }
+visit_city { city { city_id: 2 } }
+
+=RESPONSE
+status: INCORRECT_REQUEST
+start_city {
+  city_id: 1
+  city_name: "San Diego"
+  cn_city_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+}
+end_city {
+  city_id: 2
+  city_name: "Los Angels"
+  cn_city_name: "\346\264\233\346\235\211\347\237\266"
+}
+visit {
+  city {
+    city_id: 1
+    city_name: "San Diego"
+    cn_city_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+  }
+  num_days: 2
+  suggest_rate: 1.0
+}
+visit {
+  city {
+    city_id: 21
+    city_name: "Denver"
+    cn_city_name: "\344\270\271\344\275\233"
+  }
+  num_days: 2
+  suggest_rate: 1.0
+}
+visit {
+  city {
+    city_id: 2
+    city_name: "Los Angels"
+    cn_city_name: "\346\264\233\346\235\211\347\237\266"
+  }
+  num_days: 3
+  suggest_rate: 1.0
+}
+
+==========
+==TESTCASE_DATA==
 =REQUEST
 enddate: 20151210
 end_city_id: 4
@@ -60,461 +273,667 @@ num_room: 3
 startdate: 20151201
 start_city_id: 1
 topic: "蜜月"
-visit_city { city_id: 1 }
-visit_city { city_id: 2 }
-visit_city { city_id: 4 }
+visit_city { city { city_id: 1 } }
+visit_city { city { city_id: 2 } }
+visit_city { city { city_id: 4 } }
 =RESPONSE
 status: SUCCESS
-start_city_id: 1
-start_city: "San Diego"
-end_city_id: 4
-end_city: "Phoenix"
-visit {
+start_city {
   city_id: 1
   city_name: "San Diego"
+  cn_city_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+}
+end_city {
+  city_id: 4
+  city_name: "Phoenix"
+  cn_city_name: "\350\217\262\345\260\274\345\205\213\346\226\257"
+}
+visit {
+  city {
+    city_id: 1
+    city_name: "San Diego"
+    cn_city_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+  }
   num_days: 2
   suggest_rate: 1.0
 }
 visit {
-  city_id: 2
-  city_name: "Los Angels"
+  city {
+    city_id: 2
+    city_name: "Los Angels"
+    cn_city_name: "\346\264\233\346\235\211\347\237\266"
+  }
   num_days: 3
   suggest_rate: 1.0
 }
 visit {
-  city_id: 4
-  city_name: "Phoenix"
+  city {
+    city_id: 4
+    city_name: "Phoenix"
+    cn_city_name: "\350\217\262\345\260\274\345\205\213\346\226\257"
+  }
   num_days: 1
   suggest_rate: 1.0
 }
 edge {
-  from_city_id: 1
-  from_city: "San Diego"
-  to_city_id: 1
-  to_city: "San Diego"
+  from_city {
+    city_id: 1
+    city_name: "San Diego"
+    cn_city_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+  }
+  to_city {
+    city_id: 1
+    city_name: "San Diego"
+    cn_city_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+  }
   distance: 0
   hours: 0
 }
 edge {
-  from_city_id: 1
-  from_city: "San Diego"
-  to_city_id: 2
-  to_city: "Los Angels"
+  from_city {
+    city_id: 1
+    city_name: "San Diego"
+    cn_city_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+  }
+  to_city {
+    city_id: 2
+    city_name: "Los Angels"
+    cn_city_name: "\346\264\233\346\235\211\347\237\266"
+  }
   distance: 120
   hours: 2
 }
 edge {
-  from_city_id: 2
-  from_city: "Los Angels"
-  to_city_id: 4
-  to_city: "Phoenix"
+  from_city {
+    city_id: 2
+    city_name: "Los Angels"
+    cn_city_name: "\346\264\233\346\235\211\347\237\266"
+  }
+  to_city {
+    city_id: 4
+    city_name: "Phoenix"
+    cn_city_name: "\350\217\262\345\260\274\345\205\213\346\226\257"
+  }
   distance: 566
   hours: 10
 }
 edge {
-  from_city_id: 4
-  from_city: "Phoenix"
-  to_city_id: 4
-  to_city: "Phoenix"
+  from_city {
+    city_id: 4
+    city_name: "Phoenix"
+    cn_city_name: "\350\217\262\345\260\274\345\205\213\346\226\257"
+  }
+  to_city {
+    city_id: 4
+    city_name: "Phoenix"
+    cn_city_name: "\350\217\262\345\260\274\345\205\213\346\226\257"
+  }
   distance: 0
   hours: 0
 }
 suggest_city {
-  city_id: 3
-  city_name: "Las Vegas"
+  city {
+    city_id: 3
+    city_name: "Las Vegas"
+    cn_city_name: "\346\213\211\346\226\257\347\273\264\345\212\240\346\226\257"
+  }
   num_days: 2
   suggest_rate: 1.0
 }
+
 ==========
 ==TESTCASE_DATA==
 =REQUEST
 start_city_id: 8
 end_city_id: 2
-visit_city {
-  city_id: 1
-  num_days: 0
-}
-visit_city {
-  city_id: 7
-  num_days: 0
-}
+visit_city { city { city_id: 1 } num_days: 0}
+visit_city { city { city_id: 7 } num_days: 0}
 keep_order_of_via_cities: false
 startdate: 20151225
 enddate: 20160110
 =RESPONSE
 status: SUCCESS
-start_city_id: 8
-start_city: "San Francisco"
-end_city_id: 2
-end_city: "Los Angels"
+start_city {
+  city_id: 8
+  city_name: "San Francisco"
+  cn_city_name: "\346\227\247\351\207\221\345\261\261"
+}
+end_city {
+  city_id: 2
+  city_name: "Los Angels"
+  cn_city_name: "\346\264\233\346\235\211\347\237\266"
+}
 visit {
-  city_id: 1
-  city_name: "San Diego"
+  city {
+    city_id: 1
+    city_name: "San Diego"
+    cn_city_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+  }
   num_days: 2
   suggest_rate: 1.0
 }
 visit {
-  city_id: 7
-  city_name: "Sacramento"
+  city {
+    city_id: 7
+    city_name: "Sacramento"
+    cn_city_name: "\350\220\250\345\205\213\346\213\211\351\227\250\346\211\230"
+  }
   num_days: 1
   suggest_rate: 1.0
 }
 edge {
-  from_city_id: 8
-  from_city: "San Francisco"
-  to_city_id: 7
-  to_city: "Sacramento"
+  from_city {
+    city_id: 8
+    city_name: "San Francisco"
+    cn_city_name: "\346\227\247\351\207\221\345\261\261"
+  }
+  to_city {
+    city_id: 7
+    city_name: "Sacramento"
+    cn_city_name: "\350\220\250\345\205\213\346\213\211\351\227\250\346\211\230"
+  }
   distance: 90
   hours: 2
 }
 edge {
-  from_city_id: 7
-  from_city: "Sacramento"
-  to_city_id: 1
-  to_city: "San Diego"
+  from_city {
+    city_id: 7
+    city_name: "Sacramento"
+    cn_city_name: "\350\220\250\345\205\213\346\213\211\351\227\250\346\211\230"
+  }
+  to_city {
+    city_id: 1
+    city_name: "San Diego"
+    cn_city_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+  }
   distance: 506
   hours: 9
 }
 edge {
-  from_city_id: 1
-  from_city: "San Diego"
-  to_city_id: 2
-  to_city: "Los Angels"
+  from_city {
+    city_id: 1
+    city_name: "San Diego"
+    cn_city_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+  }
+  to_city {
+    city_id: 2
+    city_name: "Los Angels"
+    cn_city_name: "\346\264\233\346\235\211\347\237\266"
+  }
   distance: 120
   hours: 2
 }
 suggest_city {
-  city_id: 2
-  city_name: "Los Angels"
+  city {
+    city_id: 2
+    city_name: "Los Angels"
+    cn_city_name: "\346\264\233\346\235\211\347\237\266"
+  }
   num_days: 3
   suggest_rate: 1.0
 }
 suggest_city {
-  city_id: 3
-  city_name: "Las Vegas"
+  city {
+    city_id: 3
+    city_name: "Las Vegas"
+    cn_city_name: "\346\213\211\346\226\257\347\273\264\345\212\240\346\226\257"
+  }
   num_days: 2
   suggest_rate: 0.34916198
 }
 suggest_city {
-  city_id: 6
-  city_name: "Reno"
+  city {
+    city_id: 6
+    city_name: "Reno"
+    cn_city_name: "\351\233\267\350\257\272"
+  }
   num_days: 2
   suggest_rate: 0.622905
 }
 suggest_city {
-  city_id: 8
-  city_name: "San Francisco"
+  city {
+    city_id: 8
+    city_name: "San Francisco"
+    cn_city_name: "\346\227\247\351\207\221\345\261\261"
+  }
   num_days: 2
   suggest_rate: 1.0
 }
+
 ==========
 ==TESTCASE_DATA==
 =REQUEST
 start_city_id: 8
 end_city_id: 2
-visit_city {
-  city_id: 1
-  num_days: 0
-}
-visit_city {
-  city_id: 7
-  num_days: 2
-}
-visit_city {
-  city_id: 8
-  num_days: 3
-}
-visit_city {
-  city_id: 2
-  num_days: 4
-}
-visit_city {
-  city_id: 6
-  num_days: 0
-}
-visit_city {
-  city_id: 5
-  num_days: 0
-}
+visit_city { city { city_id: 1 } num_days: 0}
+visit_city { city { city_id: 7 } num_days: 2}
+visit_city { city { city_id: 8 } num_days: 3}
+visit_city { city { city_id: 2 } num_days: 4}
+visit_city { city { city_id: 6 } num_days: 0}
+visit_city { city { city_id: 5 } num_days: 0}
 keep_order_of_via_cities: false
 startdate: 20151225
 enddate: 20160110
 =RESPONSE
 status: SUCCESS
-start_city_id: 8
-start_city: "San Francisco"
-end_city_id: 2
-end_city: "Los Angels"
-visit {
-  city_id: 1
-  city_name: "San Diego"
-  num_days: 2
-  suggest_rate: 1.0
-}
-visit {
-  city_id: 7
-  city_name: "Sacramento"
-  num_days: 2
-  suggest_rate: 1.0
-}
-visit {
+start_city {
   city_id: 8
   city_name: "San Francisco"
+  cn_city_name: "\346\227\247\351\207\221\345\261\261"
+}
+end_city {
+  city_id: 2
+  city_name: "Los Angels"
+  cn_city_name: "\346\264\233\346\235\211\347\237\266"
+}
+visit {
+  city {
+    city_id: 1
+    city_name: "San Diego"
+    cn_city_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+  }
+  num_days: 2
+  suggest_rate: 1.0
+}
+visit {
+  city {
+    city_id: 7
+    city_name: "Sacramento"
+    cn_city_name: "\350\220\250\345\205\213\346\213\211\351\227\250\346\211\230"
+  }
+  num_days: 2
+  suggest_rate: 1.0
+}
+visit {
+  city {
+    city_id: 8
+    city_name: "San Francisco"
+    cn_city_name: "\346\227\247\351\207\221\345\261\261"
+  }
   num_days: 3
   suggest_rate: 1.0
 }
 visit {
-  city_id: 2
-  city_name: "Los Angels"
+  city {
+    city_id: 2
+    city_name: "Los Angels"
+    cn_city_name: "\346\264\233\346\235\211\347\237\266"
+  }
   num_days: 4
   suggest_rate: 1.0
 }
 visit {
-  city_id: 6
-  city_name: "Reno"
+  city {
+    city_id: 6
+    city_name: "Reno"
+    cn_city_name: "\351\233\267\350\257\272"
+  }
   num_days: 2
   suggest_rate: 1.0
 }
 visit {
-  city_id: 5
-  city_name: "Salt Lake City"
+  city {
+    city_id: 5
+    city_name: "Salt Lake City"
+    cn_city_name: "\347\233\220\346\271\226\345\237\216"
+  }
   num_days: 4
   suggest_rate: 1.0
 }
 edge {
-  from_city_id: 8
-  from_city: "San Francisco"
-  to_city_id: 8
-  to_city: "San Francisco"
+  from_city {
+    city_id: 8
+    city_name: "San Francisco"
+    cn_city_name: "\346\227\247\351\207\221\345\261\261"
+  }
+  to_city {
+    city_id: 8
+    city_name: "San Francisco"
+    cn_city_name: "\346\227\247\351\207\221\345\261\261"
+  }
   distance: 0
   hours: 0
 }
 edge {
-  from_city_id: 8
-  from_city: "San Francisco"
-  to_city_id: 7
-  to_city: "Sacramento"
+  from_city {
+    city_id: 8
+    city_name: "San Francisco"
+    cn_city_name: "\346\227\247\351\207\221\345\261\261"
+  }
+  to_city {
+    city_id: 7
+    city_name: "Sacramento"
+    cn_city_name: "\350\220\250\345\205\213\346\213\211\351\227\250\346\211\230"
+  }
   distance: 90
   hours: 2
 }
 edge {
-  from_city_id: 7
-  from_city: "Sacramento"
-  to_city_id: 6
-  to_city: "Reno"
+  from_city {
+    city_id: 7
+    city_name: "Sacramento"
+    cn_city_name: "\350\220\250\345\205\213\346\213\211\351\227\250\346\211\230"
+  }
+  to_city {
+    city_id: 6
+    city_name: "Reno"
+    cn_city_name: "\351\233\267\350\257\272"
+  }
   distance: 135
   hours: 3
 }
 edge {
-  from_city_id: 6
-  from_city: "Reno"
-  to_city_id: 5
-  to_city: "Salt Lake City"
+  from_city {
+    city_id: 6
+    city_name: "Reno"
+    cn_city_name: "\351\233\267\350\257\272"
+  }
+  to_city {
+    city_id: 5
+    city_name: "Salt Lake City"
+    cn_city_name: "\347\233\220\346\271\226\345\237\216"
+  }
   distance: 518
   hours: 9
 }
 edge {
-  from_city_id: 5
-  from_city: "Salt Lake City"
-  to_city_id: 2
-  to_city: "Los Angels"
+  from_city {
+    city_id: 5
+    city_name: "Salt Lake City"
+    cn_city_name: "\347\233\220\346\271\226\345\237\216"
+  }
+  to_city {
+    city_id: 2
+    city_name: "Los Angels"
+    cn_city_name: "\346\264\233\346\235\211\347\237\266"
+  }
   distance: 690
   hours: 12
 }
 edge {
-  from_city_id: 2
-  from_city: "Los Angels"
-  to_city_id: 1
-  to_city: "San Diego"
+  from_city {
+    city_id: 2
+    city_name: "Los Angels"
+    cn_city_name: "\346\264\233\346\235\211\347\237\266"
+  }
+  to_city {
+    city_id: 1
+    city_name: "San Diego"
+    cn_city_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+  }
   distance: 120
   hours: 2
 }
 edge {
-  from_city_id: 1
-  from_city: "San Diego"
-  to_city_id: 2
-  to_city: "Los Angels"
+  from_city {
+    city_id: 1
+    city_name: "San Diego"
+    cn_city_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+  }
+  to_city {
+    city_id: 2
+    city_name: "Los Angels"
+    cn_city_name: "\346\264\233\346\235\211\347\237\266"
+  }
   distance: 120
   hours: 2
 }
 suggest_city {
-  city_id: 3
-  city_name: "Las Vegas"
+  city {
+    city_id: 3
+    city_name: "Las Vegas"
+    cn_city_name: "\346\213\211\346\226\257\347\273\264\345\212\240\346\226\257"
+  }
   num_days: 2
   suggest_rate: 1.0
 }
 suggest_city {
-  city_id: 4
-  city_name: "Phoenix"
+  city {
+    city_id: 4
+    city_name: "Phoenix"
+    cn_city_name: "\350\217\262\345\260\274\345\205\213\346\226\257"
+  }
   num_days: 1
   suggest_rate: 0.6449492
 }
 suggest_city {
-  city_id: 9
-  city_name: "Portland"
+  city {
+    city_id: 9
+    city_name: "Portland"
+    cn_city_name: "\346\263\242\347\211\271\345\205\260"
+  }
   num_days: 1
   suggest_rate: 0.23968917
 }
 suggest_city {
-  city_id: 10
-  city_name: "Seattle"
+  city {
+    city_id: 10
+    city_name: "Seattle"
+    cn_city_name: "\350\245\277\351\233\205\345\233\276"
+  }
   num_days: 2
   suggest_rate: 0.03287506
 }
+
 ==========
 ==TESTCASE_DATA==
 =REQUEST
 start_city_id: 8
 end_city_id: 2
-visit_city {
-  city_id: 8
-  num_days: 3
-}
-visit_city {
-  city_id: 7
-  num_days: 2
-}
-visit_city {
-  city_id: 6
-  num_days: 0
-}
-visit_city {
-  city_id: 2
-  num_days: 4
-}
-visit_city {
-  city_id: 1
-  num_days: 0
-}
+visit_city { city { city_id: 8 } num_days: 3}
+visit_city { city { city_id: 7 } num_days: 2}
+visit_city { city { city_id: 6 } num_days: 0}
+visit_city { city { city_id: 2 } num_days: 4}
+visit_city { city { city_id: 1 } num_days: 0}
 keep_order_of_via_cities: true
 startdate: 20151225
 enddate: 20160110
 =RESPONSE
 status: SUCCESS
-start_city_id: 8
-start_city: "San Francisco"
-end_city_id: 2
-end_city: "Los Angels"
-visit {
+start_city {
   city_id: 8
   city_name: "San Francisco"
+  cn_city_name: "\346\227\247\351\207\221\345\261\261"
+}
+end_city {
+  city_id: 2
+  city_name: "Los Angels"
+  cn_city_name: "\346\264\233\346\235\211\347\237\266"
+}
+visit {
+  city {
+    city_id: 8
+    city_name: "San Francisco"
+    cn_city_name: "\346\227\247\351\207\221\345\261\261"
+  }
   num_days: 3
   suggest_rate: 1.0
 }
 visit {
-  city_id: 7
-  city_name: "Sacramento"
+  city {
+    city_id: 7
+    city_name: "Sacramento"
+    cn_city_name: "\350\220\250\345\205\213\346\213\211\351\227\250\346\211\230"
+  }
   num_days: 2
   suggest_rate: 1.0
 }
 visit {
-  city_id: 6
-  city_name: "Reno"
+  city {
+    city_id: 6
+    city_name: "Reno"
+    cn_city_name: "\351\233\267\350\257\272"
+  }
   num_days: 2
   suggest_rate: 1.0
 }
 visit {
-  city_id: 2
-  city_name: "Los Angels"
+  city {
+    city_id: 2
+    city_name: "Los Angels"
+    cn_city_name: "\346\264\233\346\235\211\347\237\266"
+  }
   num_days: 4
   suggest_rate: 1.0
 }
 visit {
-  city_id: 1
-  city_name: "San Diego"
+  city {
+    city_id: 1
+    city_name: "San Diego"
+    cn_city_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+  }
   num_days: 2
   suggest_rate: 1.0
 }
 edge {
-  from_city_id: 8
-  from_city: "San Francisco"
-  to_city_id: 8
-  to_city: "San Francisco"
+  from_city {
+    city_id: 8
+    city_name: "San Francisco"
+    cn_city_name: "\346\227\247\351\207\221\345\261\261"
+  }
+  to_city {
+    city_id: 8
+    city_name: "San Francisco"
+    cn_city_name: "\346\227\247\351\207\221\345\261\261"
+  }
   distance: 0
   hours: 0
 }
 edge {
-  from_city_id: 8
-  from_city: "San Francisco"
-  to_city_id: 6
-  to_city: "Reno"
+  from_city {
+    city_id: 8
+    city_name: "San Francisco"
+    cn_city_name: "\346\227\247\351\207\221\345\261\261"
+  }
+  to_city {
+    city_id: 6
+    city_name: "Reno"
+    cn_city_name: "\351\233\267\350\257\272"
+  }
   distance: 225
   hours: 5
 }
 edge {
-  from_city_id: 6
-  from_city: "Reno"
-  to_city_id: 7
-  to_city: "Sacramento"
+  from_city {
+    city_id: 6
+    city_name: "Reno"
+    cn_city_name: "\351\233\267\350\257\272"
+  }
+  to_city {
+    city_id: 7
+    city_name: "Sacramento"
+    cn_city_name: "\350\220\250\345\205\213\346\213\211\351\227\250\346\211\230"
+  }
   distance: 135
   hours: 3
 }
 edge {
-  from_city_id: 7
-  from_city: "Sacramento"
-  to_city_id: 1
-  to_city: "San Diego"
+  from_city {
+    city_id: 7
+    city_name: "Sacramento"
+    cn_city_name: "\350\220\250\345\205\213\346\213\211\351\227\250\346\211\230"
+  }
+  to_city {
+    city_id: 1
+    city_name: "San Diego"
+    cn_city_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+  }
   distance: 506
   hours: 9
 }
 edge {
-  from_city_id: 1
-  from_city: "San Diego"
-  to_city_id: 2
-  to_city: "Los Angels"
+  from_city {
+    city_id: 1
+    city_name: "San Diego"
+    cn_city_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+  }
+  to_city {
+    city_id: 2
+    city_name: "Los Angels"
+    cn_city_name: "\346\264\233\346\235\211\347\237\266"
+  }
   distance: 120
   hours: 2
 }
 edge {
-  from_city_id: 2
-  from_city: "Los Angels"
-  to_city_id: 2
-  to_city: "Los Angels"
+  from_city {
+    city_id: 2
+    city_name: "Los Angels"
+    cn_city_name: "\346\264\233\346\235\211\347\237\266"
+  }
+  to_city {
+    city_id: 2
+    city_name: "Los Angels"
+    cn_city_name: "\346\264\233\346\235\211\347\237\266"
+  }
   distance: 0
   hours: 0
 }
 suggest_city {
-  city_id: 3
-  city_name: "Las Vegas"
+  city {
+    city_id: 3
+    city_name: "Las Vegas"
+    cn_city_name: "\346\213\211\346\226\257\347\273\264\345\212\240\346\226\257"
+  }
   num_days: 2
   suggest_rate: 0.5273833
 }
 suggest_city {
-  city_id: 5
-  city_name: "Salt Lake City"
+  city {
+    city_id: 5
+    city_name: "Salt Lake City"
+    cn_city_name: "\347\233\220\346\271\226\345\237\216"
+  }
   num_days: 4
   suggest_rate: 0.029411793
 }
+
 ==========
 ==TESTCASE_DATA==
 =REQUEST
 end_city_id: 3
 keep_order_of_via_cities: false
 start_city_id: 2
-visit_city {city_id: 2}
-visit_city {city_id: 3}
-visit_city {city_id: 3}
+visit_city { city { city_id: 2 } num_days: 0}
+visit_city { city { city_id: 3 } num_days: 0}
+visit_city { city { city_id: 3 } num_days: 0}
+
 =RESPONSE
 status: INCORRECT_REQUEST
-start_city_id: 2
-start_city: "Los Angels"
-end_city_id: 3
-end_city: "Las Vegas"
-visit {
+start_city {
   city_id: 2
   city_name: "Los Angels"
+  cn_city_name: "\346\264\233\346\235\211\347\237\266"
+}
+end_city {
+  city_id: 3
+  city_name: "Las Vegas"
+  cn_city_name: "\346\213\211\346\226\257\347\273\264\345\212\240\346\226\257"
+}
+visit {
+  city {
+    city_id: 2
+    city_name: "Los Angels"
+    cn_city_name: "\346\264\233\346\235\211\347\237\266"
+  }
   num_days: 3
   suggest_rate: 1.0
 }
 visit {
-  city_id: 3
-  city_name: "Las Vegas"
+  city {
+    city_id: 3
+    city_name: "Las Vegas"
+    cn_city_name: "\346\213\211\346\226\257\347\273\264\345\212\240\346\226\257"
+  }
   num_days: 2
   suggest_rate: 1.0
 }
 visit {
-  city_id: 3
-  city_name: "Las Vegas"
+  city {
+    city_id: 3
+    city_name: "Las Vegas"
+    cn_city_name: "\346\213\211\346\226\257\347\273\264\345\212\240\346\226\257"
+  }
   num_days: 2
   suggest_rate: 1.0
 }

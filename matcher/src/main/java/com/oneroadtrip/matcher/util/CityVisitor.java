@@ -71,7 +71,7 @@ public class CityVisitor {
       return;
     }
     for (VisitCity city : visitCities) {
-      long cityId = city.getCityId();
+      long cityId = city.getCity().getCityId();
       if (visited.contains(cityId)) {
         continue;
       }

@@ -16,6 +16,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.oneroadtrip.matcher.common.Constants;
+import com.oneroadtrip.matcher.proto.CityInfo;
 import com.oneroadtrip.matcher.proto.CityResponse.City;
 import com.oneroadtrip.matcher.proto.Edge;
 import com.oneroadtrip.matcher.proto.PlanResponse;
@@ -66,19 +67,24 @@ public class CityPlanner {
     City city = cityIdToInfo.get(id);
     return city != null ? city.getName() : "";
   }
+  
+  CityInfo getCityInfo(long cityId) {
+    return Util.getCityInfo(cityIdToInfo, cityId);
+  }
 
   PlanResponse buildResponse(long startCityId, long endCityId, List<VisitCity> visitCities,
       long minDistance, List<Long> path, Map<Long, SuggestCityInfo> suggestCityToData) {
     PlanResponse.Builder builder = PlanResponse.newBuilder().setStatus(Status.SUCCESS)
-        .setStartCityId(startCityId).setStartCity(getNameById(startCityId)).setEndCityId(endCityId)
-        .setEndCity(getNameById(endCityId));
+        .setStartCity(getCityInfo(startCityId))
+        .setEndCity(getCityInfo(endCityId));
 
     for (VisitCity city : visitCities) {
-      VisitCity.Builder cityBuilder = VisitCity.newBuilder(city);
+      long cityId = city.getCity().getCityId();
+      VisitCity.Builder cityBuilder = VisitCity.newBuilder(city).setCity(getCityInfo(cityId))
+          .setSuggestRate(MUST_SELECT_CITY_RATE);
       if (city.getNumDays() == 0) {
-        cityBuilder.setNumDays(suggestDaysForCities.get(city.getCityId()));
+        cityBuilder.setNumDays(suggestDaysForCities.get(cityId));
       }
-      cityBuilder.setCityName(getNameById(city.getCityId())).setSuggestRate(MUST_SELECT_CITY_RATE);
       builder.addVisit(cityBuilder);
     }
 
@@ -92,15 +98,14 @@ public class CityPlanner {
       CityConnectionInfo info = cityNetwork.get(Pair.with(from, to));
       Preconditions.checkNotNull(info);
 
-      builder.addEdge(Edge.newBuilder().setFromCityId(from).setFromCity(getNameById(from))
-          .setToCityId(to).setToCity(getNameById(to)).setDistance(info.getDistance())
+      builder.addEdge(Edge.newBuilder().setFromCity(getCityInfo(from))
+          .setToCity(getCityInfo(to)).setDistance(info.getDistance())
           .setHours(info.getHours()));
     }
 
     for (SuggestCityInfo suggest : suggestCityToData.values()) {
       Integer suggestDays = suggestDaysForCities.get(suggest.getCityId());
-      builder.addSuggestCity(VisitCity.newBuilder().setCityId(suggest.getCityId())
-          .setCityName(getNameById(suggest.getCityId()))
+      builder.addSuggestCity(VisitCity.newBuilder().setCity(getCityInfo(suggest.getCityId()))
           .setNumDays(suggestDays == null ? 0 : suggestDays)
           .setSuggestRate(getSuggestRate(minDistance, suggest)));
     }

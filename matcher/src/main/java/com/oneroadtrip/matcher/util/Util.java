@@ -13,8 +13,10 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.oneroadtrip.matcher.proto.CityInfo;
 import com.oneroadtrip.matcher.proto.ErrorInfo;
 import com.oneroadtrip.matcher.proto.VisitSpot;
+import com.oneroadtrip.matcher.proto.CityResponse.City;
 import com.oneroadtrip.matcher.proto.internal.CityConnectionInfo;
 import com.oneroadtrip.matcher.proto.internal.EngageType;
 import com.oneroadtrip.matcher.proto.internal.SuggestCityInfo;
@@ -106,4 +108,15 @@ public class Util {
     }
     return builder.build();
   }
+  
+  public static CityInfo getCityInfo(ImmutableMap<Long, City> cityIdToInfo, long cityId) {
+    City city = cityIdToInfo.get(cityId);
+    if (city == null) {
+      LOG.info("Can't find city info for id {}", cityId);
+      return null;
+    }
+    return CityInfo.newBuilder().setCityId(cityId).setCityName(city.getName())
+        .setCnCityName(city.getCnName()).build();
+  }
+
 }
