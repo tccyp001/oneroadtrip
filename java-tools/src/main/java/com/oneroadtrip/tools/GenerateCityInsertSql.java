@@ -13,6 +13,11 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.google.common.base.Charsets;
 
+/*
+ * Command to run the tool:
+ *   mvn exec:java -Dexec.mainClass="com.oneroadtrip.tools.GenerateCityInsertSql" \
+ *     -Dexec.args="--csv_path /Users/xiaofengguo/Downloads/city-oneroadtrip.csv"
+ */
 public class GenerateCityInsertSql {
   private static final Logger LOG = LogManager.getLogger();
 
