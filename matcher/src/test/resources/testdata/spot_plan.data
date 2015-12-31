@@ -96,3 +96,11 @@ day_plan {
   day_id: 3
   spot { hours: 7  spot_id: 9 spot_name: '金门公园' }
 }
+==========
+==TESTCASE_DATA==
+=REQUEST
+city_id: 4
+num_days: 3
+interest: '商务'
+=RESPONSE
+status: INCORRECT_REQUEST

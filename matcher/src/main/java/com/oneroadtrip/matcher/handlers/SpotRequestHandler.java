@@ -44,7 +44,10 @@ public class SpotRequestHandler implements RequestHandler {
   SpotPlanResponse process(SpotPlanRequest request) {
     List<Long> interestIds = getInterestIdsByName(request.getInterestList());
     if (request.hasCityId()) {
-      return spotPlanners.get(request.getCityId()).planSpot(interestIds, request);
+      SpotPlanner planner = spotPlanners.get(request.getCityId());
+      if (planner != null) {
+        return planner.planSpot(interestIds, request);
+      }
     }
     
     return SpotPlanResponse.newBuilder().setStatus(Status.INCORRECT_REQUEST).build();
