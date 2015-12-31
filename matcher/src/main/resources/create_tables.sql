@@ -28,9 +28,9 @@ CREATE INDEX TokensToken ON Tokens(token);
 CREATE TABLE Cities(
   city_id BIGINT PRIMARY KEY AUTO_INCREMENT,
   city_name VARCHAR(100),
+  cn_name VARCHAR(100),
   suggest INT,
-  min INT,
-  max INT
+  min INT
 ) DEFAULT CHARSET=utf8;
 CREATE INDEX CitiesCityName On Cities(city_name);
 

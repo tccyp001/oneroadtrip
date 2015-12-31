@@ -66,18 +66,29 @@ COMMIT;
  */
 START TRANSACTION;
 
-INSERT INTO Cities (city_id, city_name, suggest, min, max) VALUES
-  (1, 'San Diego', 2, 1, 3),
-  (2, 'Los Angels', 3, 2, 5),
-  (3, 'Las Vegas', 2, 1, 3),
-  (4, 'Phoenix', 1, 1, 2),
-  (5, 'Salt Lake City', 4, 2, 6),
-  (6, 'Reno', 2, 1, 5),
-  (7, 'Sacramento', 1, 1, 2),
-  (8, 'San Francisco', 2, 1, 4),
-  (9, 'Portland', 1, 1, 2),
-  (10, 'Seattle', 2, 1, 4),
-  (11, 'Vancouvor', 2, 1, 4);
+INSERT INTO Cities (city_id, city_name, cn_name, suggest, min) VALUES
+  (1, 'San Diego', '圣地亚哥', 2, 1),
+  (2, 'Los Angels', '洛杉矶', 3, 2),
+  (3, 'Las Vegas', '拉斯维加斯', 3, 2),
+  (4, 'Phoenix', '菲尼克斯', 1, 1),
+  (5, 'Salt Lake City', '盐湖城', 2, 1),
+  (6, 'Reno', '雷诺', 2, 1),
+  (7, 'Sacramento', '萨克拉门托', 1, 1),
+  (8, 'San Francisco', '旧金山', 3, 1),
+  (9, 'Portland', '波特兰', 1, 1),
+  (10, 'Seattle', '西雅图', 2, 1),
+  (11, 'Vancouvor', '温哥华', 2, 1),
+  (12, 'Chicago', '芝加哥', 3, 2),
+  (13, 'New York', '纽约', 4, 2),
+  (14, 'Washington', '华盛顿', 2, 1),
+  (15, 'Philadelphia', '费城', 2, 1),
+  (16, 'Boston', '波士顿', 2, 1),
+  (17, 'Miami', '迈阿密', 4, 2),
+  (18, 'Atlanta', '亚特兰大', 2, 1),
+  (19, 'Orlando', '奥兰多', 4, 2),
+  (20, 'Houston', '休斯顿', 3, 2),
+  (21, 'Denver', '丹佛', 2, 1),
+  (22, 'New Orleans', '新奥尔良', 2, 1);
 
 INSERT INTO Spots (city_id, spot_id, name, hours, score, interests) VALUES
   (8, 1, '金门大桥', 2, 0.9, '浪漫'),

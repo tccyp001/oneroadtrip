@@ -25,7 +25,7 @@ public class PlanRequestHandlerTest extends DbTest {
       PlanResponse.Builder respBuilder = PlanResponse.newBuilder();
       TextFormat.merge(entry.getValue1(), respBuilder);
       PlanRequestHandler handler = injector.getInstance(PlanRequestHandler.class);
-      Assert.assertEquals(respBuilder.build(), handler.process(reqBuilder.build()));
+      Assert.assertEquals(handler.process(reqBuilder.build()), respBuilder.build());
     }
   }
 

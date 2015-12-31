@@ -206,7 +206,8 @@ public class PreloadedDataReloader {
             ImmutableMap.copyOf(interestToSpots), ImmutableMap.copyOf(spotToScore)));
   }
 
-  private static final String QUERY_CITIES = "SELECT city_id, city_name, suggest, min, max FROM Cities";
+  private static final String QUERY_CITIES =
+      "SELECT city_id, city_name, cn_name, suggest, min FROM Cities";
   private static final String QUERY_CITY_ALIASES = "SELECT city_id, alias FROM CityAliases";
 
   private void reloadCityIdToName(ImmutableMap.Builder<Long, City> builder) {
@@ -220,9 +221,9 @@ public class PreloadedDataReloader {
           long cityId = rs.getLong(1);
           cityBuilder.setCityId(rs.getLong(1));
           cityBuilder.setName(rs.getString(2));
-          cityBuilder.setSuggest(rs.getInt(3));
-          cityBuilder.setMin(rs.getInt(4));
-          cityBuilder.setMax(rs.getInt(5));
+          cityBuilder.setCnName(rs.getString(3));
+          cityBuilder.setSuggest(rs.getInt(4));
+          cityBuilder.setMin(rs.getInt(5));
           data.put(cityId, cityBuilder);
         }
       }

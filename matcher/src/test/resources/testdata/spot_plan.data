@@ -3,9 +3,9 @@ INSERT INTO Interests (interest_id, interest_name) VALUES
 (1, '浪漫'),
 (2, '商务');
 
-INSERT INTO Cities (city_id, city_name, suggest, min, max) VALUES
-(8, 'San Francisco', 2, 1, 4),
-(11, 'Vancouvor', 2, 1, 4);
+INSERT INTO Cities (city_id, city_name, cn_name, suggest, min) VALUES
+(8, 'San Francisco', '', 2, 1),
+(11, 'Vancouvor', '', 2, 1);
 
 INSERT INTO Spots (city_id, spot_id, name, hours, score, interests) VALUES
 (8, 1, '金门大桥', 2, 0.9, '浪漫'),

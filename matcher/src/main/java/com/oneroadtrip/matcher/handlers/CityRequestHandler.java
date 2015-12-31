@@ -40,7 +40,6 @@ public class CityRequestHandler implements RequestHandler {
   }
 
   private void mutateCityContent(CityResponse.Builder builder) throws SQLException {
-    LOG.info("xfguo: cityIdToInfo: {}", cityIdToInfo);
     for (City city : cityIdToInfo.values()) {
       builder.addCity(city);
     }
