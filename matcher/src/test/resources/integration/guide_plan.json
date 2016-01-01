@@ -1,7 +1,8 @@
 [
     {
         "request": "guide",
-        "one_guide_for_whole_trip": false,
+        "one_guide_for_whole_trip": "BOTH",
+        "start_date": 20151225,
         "city_plan": [
             {
                 "city_id": 1,
@@ -18,50 +19,40 @@
     },
     {
         "status": "SUCCESS",
-        "city_plan": [
+        "guide_plan": [
             {
-                "city_id": 1,
-                "start_date": 20151225,
-                "num_days": 2,
-                "guide_id": 2
+                "plan_status": "SUCCESS",
+                "guide_plan_type": "ONE_GUIDE_FOR_EACH_CITY",
+                "city_plan": [
+                    {
+                        "city_id": 1,
+                        "start_date": 20151225,
+                        "num_days": 2,
+                        "guide_id": 2
+                    },
+                    {
+                        "city_id": 2,
+                        "start_date": 20151227,
+                        "num_days": 1,
+                        "guide_id": 1
+                    }
+                ]
             },
             {
-                "city_id": 2,
-                "start_date": 20151227,
-                "num_days": 1,
-                "guide_id": 1
-            }
-        ]
-    },
-    {
-        "request": "guide",
-        "one_guide_for_whole_trip": true,
-        "city_plan": [
-            {
-                "city_id": 1,
-                "start_date": 20151225,
-                "num_days": 2
-            },
-            {
-                "city_id": 2,
-                "start_date": 20151227,
-                "num_days": 1
-            }
-        ],
-        "interest_id": 1
-    },
-    {
-        "status": "ERROR_IN_GUIDE_PLAN",
-        "city_plan": [
-            {
-                "city_id": 1,
-                "start_date": 20151225,
-                "num_days": 2
-            },
-            {
-                "city_id": 2,
-                "start_date": 20151227,
-                "num_days": 1
+                "plan_status": "ERROR_IN_GUIDE_PLAN",
+                "guide_plan_type": "ONE_GUIDE_FOR_THE_WHOLE_TRIP",
+                "city_plan": [
+                    {
+                        "city_id": 1,
+                        "start_date": 20151225,
+                        "num_days": 2
+                    },
+                    {
+                        "city_id": 2,
+                        "start_date": 20151227,
+                        "num_days": 1
+                    }
+                ]
             }
         ]
     }
