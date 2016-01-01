@@ -9,12 +9,10 @@
         "city_plan": [
             {
                 "city_id": 1,
-                "start_date": 20151225,
                 "num_days": 2
             },
             {
                 "city_id": 2,
-                "start_date": 20151227,
                 "num_days": 1
             }
         ],
