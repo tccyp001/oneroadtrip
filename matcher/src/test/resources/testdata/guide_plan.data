@@ -32,8 +32,9 @@ INSERT INTO GuideReservations (guide_id, reserved_date, is_permanent) VALUES
 ==TESTCASE_DATA==
 =REQUEST
 request_guide_plan_type: BOTH
-city_plan { city_id: 1 start_date:20151225 num_days: 2 }
-city_plan { city_id: 2 start_date:20151227 num_days: 1 }
+start_date: 20151225
+city_plan { city_id: 1 num_days: 2 }
+city_plan { city_id: 2 num_days: 1 }
 interest_id: 1
 =RESPONSE
 status: SUCCESS

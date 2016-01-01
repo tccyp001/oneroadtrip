@@ -55,7 +55,7 @@ INSERT INTO CityAliases (city_id, alias) VALUES
 enddate: 20151210
 start_city_id: 1
 end_city_id: 1
-hotel: "三星级"
+hotel: 3
 keep_order_of_via_cities: false
 num_people: 2
 num_room: 3
@@ -211,7 +211,7 @@ suggest_city {
 =REQUEST
 enddate: 20160109
 end_city_id: 2
-hotel: "5"
+hotel: 5
 keep_order_of_via_cities: false
 num_people: 2
 num_room: 3
@@ -266,7 +266,7 @@ visit {
 =REQUEST
 enddate: 20151210
 end_city_id: 4
-hotel: "三星级"
+hotel: 3
 keep_order_of_via_cities: false
 num_people: 2
 num_room: 3

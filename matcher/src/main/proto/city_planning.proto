@@ -55,7 +55,7 @@ message PlanRequest {
   optional int32 num_people = 7;
   optional int32 num_room = 8;
   optional string topic = 9;
-  optional string hotel = 10;
+  optional int32 hotel = 10;
 }
 
 message PlanResponse {

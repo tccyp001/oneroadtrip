@@ -7,12 +7,15 @@ import org.apache.logging.log4j.Logger;
 
 import com.googlecode.protobuf.format.JsonFormat;
 import com.googlecode.protobuf.format.JsonFormat.ParseException;
+import com.oneroadtrip.matcher.common.OneRoadTripException;
 import com.oneroadtrip.matcher.data.GuidePlanner;
+import com.oneroadtrip.matcher.proto.CityPlan;
 import com.oneroadtrip.matcher.proto.GuidePlanRequest;
 import com.oneroadtrip.matcher.proto.GuidePlanResponse;
 import com.oneroadtrip.matcher.proto.GuidePlanType;
 import com.oneroadtrip.matcher.proto.Status;
 import com.oneroadtrip.matcher.util.ProtoUtil;
+import com.oneroadtrip.matcher.util.Util;
 
 public class GuidePlanRequestHandler implements RequestHandler {
   private static final Logger LOG = LogManager.getLogger();
@@ -35,14 +38,34 @@ public class GuidePlanRequestHandler implements RequestHandler {
 
   GuidePlanResponse process(GuidePlanRequest request) {
     GuidePlanResponse.Builder builder = GuidePlanResponse.newBuilder();
-    GuidePlanType type = request.getRequestGuidePlanType();
-    if (type == GuidePlanType.ONE_GUIDE_FOR_EACH_CITY || type == GuidePlanType.BOTH) {
-      builder.addGuidePlan(guidePlanner.makeMultiGuidePlan(request));
-    }
-    if (type == GuidePlanType.ONE_GUIDE_FOR_THE_WHOLE_TRIP || type == GuidePlanType.BOTH) {
-      builder.addGuidePlan(guidePlanner.makeSingleGuidePlan(request));
+    try {
+      GuidePlanType type = request.getRequestGuidePlanType();
+      GuidePlanRequest processedRequest = processRequest(request);
+      if (type == GuidePlanType.ONE_GUIDE_FOR_EACH_CITY || type == GuidePlanType.BOTH) {
+        builder.addGuidePlan(guidePlanner.makeMultiGuidePlan(processedRequest));
+      }
+      if (type == GuidePlanType.ONE_GUIDE_FOR_THE_WHOLE_TRIP || type == GuidePlanType.BOTH) {
+        builder.addGuidePlan(guidePlanner.makeSingleGuidePlan(processedRequest));
+      }
+    } catch (OneRoadTripException e) {
+      LOG.error("OneRoadTrip exception: ", e);
+      return builder.setStatus(e.getStatus()).build();
     }
     return builder.setStatus(Status.SUCCESS).build();
+  }
+
+  private GuidePlanRequest processRequest(GuidePlanRequest request) throws OneRoadTripException {
+    GuidePlanRequest.Builder builder = GuidePlanRequest.newBuilder(request);
+    if (!request.hasStartDate()) {
+      throw new OneRoadTripException(Status.INCORRECT_REQUEST, null);
+    }
+    int currentDate = request.getStartDate();
+    for (int i = 0; i < builder.getCityPlanCount(); ++i) {
+      CityPlan.Builder sub = builder.getCityPlanBuilder(i);
+      sub.setStartDate(currentDate);
+      currentDate = Util.advanceDays(currentDate, sub.getNumDays());
+    }
+    return builder.build();
   }
 
 }

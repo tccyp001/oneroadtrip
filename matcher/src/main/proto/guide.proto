@@ -32,9 +32,14 @@ message CityPlan {
 
 message GuidePlanRequest {
   optional GuidePlanType request_guide_plan_type = 1 [ default = BOTH ];
-  repeated CityPlan city_plan = 2;
-  repeated int64 interest_id = 3;
-  repeated int64 excluded_guide_id = 4;
+  optional int32 start_date = 2;
+  repeated CityPlan city_plan = 3;
+  repeated int64 interest_id = 4;
+  repeated int64 excluded_guide_id = 5;
+
+  optional int32 num_people = 6;
+  optional int32 num_room = 7;
+  optional int32 hotel = 8;  // Level of hotel.
 }
 
 message GuidePlan {

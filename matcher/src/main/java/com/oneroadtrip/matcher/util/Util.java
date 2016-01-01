@@ -1,6 +1,8 @@
 package com.oneroadtrip.matcher.util;
 
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -14,9 +16,9 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.oneroadtrip.matcher.proto.CityInfo;
+import com.oneroadtrip.matcher.proto.CityResponse.City;
 import com.oneroadtrip.matcher.proto.ErrorInfo;
 import com.oneroadtrip.matcher.proto.VisitSpot;
-import com.oneroadtrip.matcher.proto.CityResponse.City;
 import com.oneroadtrip.matcher.proto.internal.CityConnectionInfo;
 import com.oneroadtrip.matcher.proto.internal.EngageType;
 import com.oneroadtrip.matcher.proto.internal.SuggestCityInfo;
@@ -120,6 +122,19 @@ public class Util {
     }
     return CityInfo.newBuilder().setCityId(cityId).setCityName(city.getName())
         .setCnCityName(city.getCnName()).build();
+  }
+
+  public static int advanceDays(int currentDate, int numDays) {
+    int year = currentDate / 10000;
+    int month = currentDate / 100 % 100;
+    int date = currentDate % 100;
+    Calendar cal = new  GregorianCalendar(year, month - 1, date);  
+    cal.add(Calendar.DATE, numDays);
+    
+    int nYear       = cal.get(Calendar.YEAR);
+    int nMonth      = cal.get(Calendar.MONTH) + 1;
+    int nDayOfMonth = cal.get(Calendar.DAY_OF_MONTH); 
+    return nYear * 10000 + nMonth * 100 + nDayOfMonth;
   }
 
 }
