@@ -30,13 +30,12 @@ function travellerSelectMultiCtrl($scope, $http) {
 
   $scope.select = function(option){
     $scope.selected_show = false;
-    $scope.selected_city_ids.push({"city_id" : option.city_id});
+    $scope.selected_city_ids.push({"city_id" : option.value});
     $scope.selected_city.push(option);
     $scope.selected = $scope.selected_city_ids;
     var index = $scope.options_copy.indexOf(option);
     $scope.options_copy.splice(index, 1);
     $scope.showlayer = false;
-    console.log($scope.selected_city_ids);
   }
 
 
@@ -51,7 +50,6 @@ function travellerSelectMultiCtrl($scope, $http) {
   $scope.showlayer = false;
 
   $scope.show = function(){
-
     $scope.showlayer = !$scope.showlayer;
   }
 }

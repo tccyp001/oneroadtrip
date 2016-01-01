@@ -23,7 +23,7 @@
 				<div class="form-select">
 					<div class="inputgroups">
 						<img ng-src="images/icon2.png">
-						<input type="text" ng-model="tourForm.people" placeholder="人数">
+						<input type="text" ng-model="tourForm.num_people" placeholder="人数">
 <!-- 						<span ng-click="showCalendar()">
 							<i class="fa fa-plus" ></i>
 						</span> -->
@@ -34,7 +34,7 @@
 				<div class="form-select">
 					<div class="inputgroups">
 						<img ng-src="images/icon2.png">
-						<input type="text" ng-model="tourForm.room" placeholder="房间">
+						<input type="text" ng-model="tourForm.num_room" placeholder="房间">
 <!-- 						<span ng-click="showCalendar()">
 							<i class="fa fa-plus" ></i>
 						</span> -->
@@ -45,7 +45,7 @@
 
 		  <div class="banner-form-group">
 		    <div style="flex: 2"><traveller-select options="options.topic" selected="tourForm.topic" placeholder="旅游主题" style="width: 30%" icon="images/icon3.png" key="name"></traveller-select></div>
-		   	<div style="flex: 1"><traveller-select options="options.cars" selected="tourForm.hotel" placeholder="宾馆等级" style="width: 30%" icon="images/icon1.png" key="name"></traveller-select></div>
+		   	<div style="flex: 1"><traveller-select options="options.hotel" selected="tourForm.hotel" placeholder="宾馆等级" style="width: 30%" icon="images/icon1.png" key="value"></traveller-select></div>
 		  </div>
 
 		  <div class="form-button"><button type="submit" class="btn" ng-click="submitTour()">开始订制</button></div>

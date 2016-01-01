@@ -18,42 +18,52 @@ function TourCtrl($scope, $http, $modal, Controller, TourInfo) {
 	
 	$scope.$parent.showfooter = false;
 	$scope.tours = TourInfo.data.visit;
+	$scope.requestData = TourInfo.requestData;
+	console.log(TourInfo.requestData);
 
-	console.log(TourInfo.data);
+	$scope.startDate = TourInfo.requestData.date.startDate;
+	$scope.endDate = TourInfo.requestData.date.endDate;
+
+	// $scope.startDate = TourInfo.requestData.date.startDate.format('YYYY-MM-DD');
+	// $scope.endDate = TourInfo.requestData.date.endDate.format('YYYY-MM-DD');
+
+	// $scope.diffDate = TourInfo.requestData.date.endDate.diff(TourInfo.requestData.date.startDate);
+
+	console.log(TourInfo);
 
 	$scope.dragmoved = function(index) {
 		$scope.tours.splice(index, 1);
 	}
 
 	_.each($scope.tours, function(tour){
-		var id = tour.city_id;
+		var id = tour.city.city_id;
 		var num_days = tour.num_days;
-		$http.post(Controller.base() + 'api/spot', {
-			'city_id': 8,
-			'num_days': 3
-		}).then(function(res){
-			tour.plans = res.data.day_plan;
-		}) 
+		updatePlan(tour, id, num_days);
 	})
 
-	$scope.planPlus = function(plan){
-		plan.num_days++;
-		updatePlan(plan.city_id, plan.num_days);
+	$scope.planPlus = function(tour){
+		tour.num_days++;
+		updatePlan(tour, tour.city.city_id, tour.num_days);
 	}
 
 
-	$scope.planMinus = function(plan){
-		if(plan.num_days > 0) {
-			plan.num_days--;
+	$scope.planMinus = function(tour){
+		if(tour.num_days > 0) {
+			tour.num_days--;
 		}
-		updatePlan(plan.city_id, plan.num_days);
+		updatePlan(tour, tour.city.city_id, tour.num_days);
 	}
 
-	function updatePlan(id, days) {
-		console.log(id, days);
+	function updatePlan(tour, id, days) {
+		$http.post(Controller.base() + 'api/spot', {
+			'city_id': id,
+			'num_days': days
+		}).then(function(res){
+			tour.plans = res.data.day_plan;
+		}, function(err){
+			console.log(err);
+		}) 
 	}
-
-
 
 	$scope.chooseGuide = function(){
 		var obj = {
@@ -61,13 +71,35 @@ function TourCtrl($scope, $http, $modal, Controller, TourInfo) {
 			'interest_id': 123,
 		}
 
-		console.log(obj);
-
 		$http.post(Controller.base() + 'api/guide', obj).then(function(res){
 			console.log(res);
 		}) 
 
 	}
+
+	$scope.quotes = [
+		{
+			"value": "10000/1"
+		},
+		{
+			"value": "20000/2"
+		},
+		{
+			"value": "24000/3"
+		},
+		{
+			"value": "28000/4"
+		}
+	]
+
+	$scope.getQuote = function(){
+		$scope.showQuoteView = true;
+
+		// $http.post(Controller.base() + 'api/quote', obj).then(function(res){
+		// 	console.log(res);
+		// }) 		
+	}
+
 
 	$scope.openGuideModal = function(guide){
 		$scope.guideShown = guide;
@@ -78,11 +110,6 @@ function TourCtrl($scope, $http, $modal, Controller, TourInfo) {
 	      controller: 'GuideModalCtrl',
 	    });
 	}
-
-
-
-
-
 
 	$scope.tour = {
 		data: [

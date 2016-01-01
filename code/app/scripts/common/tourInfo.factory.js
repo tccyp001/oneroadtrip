@@ -12,6 +12,7 @@ angular.module('app.shared')
 function TourInfoFactory($resource, $http) {
 	function Tour(){
 		this.data = {};
+		this.requestData = {};
 	}
 
 	return new Tour();

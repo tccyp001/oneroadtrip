@@ -4,6 +4,9 @@
 			<img src="images/logo.png">
 		</div>
 		<div class="tour-content-body" dnd-list="tours">
+			<div class="dateshow">
+				出行时间：{{startDate}} - {{endDate}}, 共{{diffDate}}天
+			</div>
 			<div class="tour-content-section" ng-repeat = "tour in tours" 
 			dnd-draggable="tour" 
 			dnd-moved="tours.splice($index, 1)"
@@ -16,7 +19,7 @@
 						<img src="images/tour/tour-icon.png">
 					</div>
 					<div class="head-right">
-						<div>{{tour.city_name}}</div>
+						<div>{{tour.city.cn_city_name}}</div>
 						<div>
 							<i class="fa fa-plus-circle" ng-click="planPlus(tour)"></i> {{tour.num_days}} <i class="fa fa-minus-circle" ng-click="planMinus(tour)"></i>
 						</div>
@@ -52,7 +55,21 @@
 			<i class="fa fa-chevron-left" ng-click="gotoStep(1)"></i>选择导游
 		</div>
 		<div class="guide-content-body">
-			<div class="guide-content-section" ng-repeat = "guide in tour.guideList">
+			<div class="guide-content-body-left">
+				<div class="active">
+					<div>1</div>
+					<div>位司机兼导游</div>
+					<div class="rotate">VIP</div>
+					<div>全程服务</div>
+				</div>
+				<div>
+					<div>4</div>
+					<div>位司机兼导分段服务灵活组合，省</div>
+					<div class="rotate">25%</div>
+				</div>
+			</div>
+			<div class="guide-content-body-right">
+				<div class="guide-content-section" ng-repeat = "guide in tour.guideList">
 				<div class="guide-section-left">
 					<img ng-src={{guide.photo_url}} ng-click="openGuideModal(guide)">
 				</div>
@@ -88,6 +105,7 @@
 						预定
 					</div>
 				</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -98,51 +116,58 @@
 			<i class="fa fa-chevron-left" ng-click="gotoStep(2)"></i>定制结果
 		</div>
 		<div class="guide-content-body">
-			<div class="guide-content-section">
-				<div class="guide-section-left">
-					<img ng-src="{{selectedGuide.photo_url}}">
-				</div>
-				<div class="guide-section-middle">
-					<div class="middle-header">
-						<p>{{selectedGuide.name}}</p>
-						<p>Star: {{selectedGuide.score}}</p>
+			<div class="guide-content-body-right">
+				<div class="guide-content-section">
+					<div class="guide-section-left">
+						<img ng-src="{{selectedGuide.photo_url}}">
 					</div>
-					<hr>
-					<div>
-						<div>籍贯: {{selectedGuide.citizenship}}</div>
-						<div>居住: </div>
+					<div class="guide-section-middle">
+						<div class="middle-header">
+							<p>{{selectedGuide.name}}</p>
+							<p>Star: {{selectedGuide.score}}</p>
+						</div>
+						<hr>
+						<div>
+							<div>籍贯: {{selectedGuide.citizenship}}</div>
+							<div>居住: </div>
+						</div>
+						<div>
+							<div>导游经验: {{selectedGuide.experience}} 年</div>
+							<div>驾龄: {{selectedGuide.drive_year}} 年</div>
+						</div>
+						<div>
+							<div>用车:</div>
+						</div>
+						<div>
+							<div>标签:</div>
+						</div>
 					</div>
-					<div>
-						<div>导游经验: {{selectedGuide.experience}} 年</div>
-						<div>驾龄: {{selectedGuide.drive_year}} 年</div>
-					</div>
-					<div>
-						<div>用车:</div>
-					</div>
-					<div>
-						<div>标签:</div>
-					</div>
-				</div>
-				<div class="guide-section-right" >
-					<div ng-click="cancelSelectedGuide()">
-						取消
+					<div class="guide-section-right" >
+						<div ng-click="cancelSelectedGuide()">
+							取消
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		<div class="quote" ng-if="showQuoteView">
+			<div ng-repeat="quote in quotes" class="priceinfo">
+				{{quote.value}}
+			</div>
+		</div>
 		<div class="guide-content-footer">
 			<div class="icon"><i class="fa fa-credit-card"></i></i></div>
-			<div class="content">支付</div>
+			<div class="content" ng-click="getQuote()">获取价格</div>
 		</div>
 	</div>
 
 
 	<div class="tour-map" ng-if="showMap">
-		<ng-map zoom="8" center="{{tour[0].city_name}}" style="height: 100%" zoom-to-include-markers="true">
+		<ng-map zoom="8" center="{{tour[0].city.city_name}}" style="height: 100%" zoom-to-include-markers="true">
 			<custom-marker ng-repeat="tour in tours"
-			  position="{{tour.city_name}}">
+			  position="{{tour.city.city_name}}">
 			  <div class="mapmarker">
-			    <div>{{tour.city_name}}</div>
+			    <div>{{tour.city.cn_city_name}}</div>
 			    <div>停留: {{tour.num_days}}天</div>
 			  </div>
 			</custom-marker>

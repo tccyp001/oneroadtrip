@@ -54,6 +54,14 @@
 		overflow: scroll;
 		display: flex;
 		flex-direction: column;
+		.dateshow {
+			display: flex;
+			justify-content: flex-end;
+			font-size: 1.3rem;
+			padding-right: 10px;
+			letter-spacing: 1px;
+			margin-bottom: 10px;
+		}
 		.head {
 			width: 100%;
 			display: flex;
@@ -76,6 +84,7 @@
 				justify-content: space-between;
 				i {
 					color: $traverllerOrange;
+					margin: 0 5px;
 				}
 			}
 		}
@@ -174,61 +183,114 @@
 	.guide-content-body {
 		width: 100%;
 		height: 100%;
-		padding: 20px;
-		background: $travellerLightGray;
 		display: flex;
-		flex-direction: column;
+		margin-top: 5px;
+		background: $travellerLightGray;
 		overflow: auto;
-		.guide-content-section {
-			width: 100%;
-			position: relative;
-			margin-bottom: 20px;
-			.guide-section-left {
-				position: absolute;
-				top: 50%;
-				transform: translateY(-50%);
-				img {
+		.guide-content-body-left {
+			width: 10%;
+			height: 90%;
+			display: flex;
+			flex-direction: column;
+			color: white;
+			font-weight: 500;
+			div {		
+				flex-grow: 1;
+				background: white;
+				color: $travellerGrayFont;
+				&:hover {
 					cursor: pointer;
-					width: 70%;
-					&:hover {
-						opacity: 0.6;
+					opacity: 0.7;
+				}
+				div {
+					position: relative;
+					width: 10%;
+					left: 35%;
+					top:50%;
+					transform: translateX(-50%);
+					background: inherit;
+					color: inherit;
+					height: 100%;
+					line-height: 1.25;
+				}
+				div:nth-of-type(1) {
+					left: 45%;
+					margin-top: 5px;
+				}
+				.rotate{
+					transform: rotate(90deg);
+					margin-top:-5px;
+					left: 40%;
+				}
+				.rotate+div {
+					margin-top: 18px;
+				}
+			}
+			div.active{
+				background: $traverllerOrange;
+				border: 1px solid white;
+				color: white;
+			}
+
+		}
+		.guide-content-body-right{
+			width: 100%;
+			padding: 20px;
+			background: $travellerLightGray;
+			display: flex;
+			flex-direction: column;
+			overflow: auto;
+			.guide-content-section {
+				width: 100%;
+				position: relative;
+				margin-bottom: 20px;
+				.guide-section-left {
+					position: absolute;
+					top: 50%;
+					transform: translateY(-50%);
+					img {
+						cursor: pointer;
+						width: 70%;
+						&:hover {
+							opacity: 0.6;
+						}
 					}
 				}
-			}
-			.guide-section-middle {
-				background: white;
-				width: 80%;
-				margin: 0 auto;
-				font-weight: 500;
-				padding: 10px 50px 10px 50px;
-				&>div {
-					display: flex;
-					justify-content: space-between;
-					margin: 5px 0;
-				}
-				.middle-header {
-					color: $traverllerOrange;
-				}
-				hr {
-					width: 100%;
-					margin: 0;
-				}
-			}
-			.guide-section-right {
-				position: absolute;
-				right: 2%;
-				top: 50%;
-				transform: translateY(-50%);
-				div {
-					background: $traverllerOrange;
-					color: white; 
-					font-size: 1.6rem;
-					padding: 15px 10px;
-					border-radius: 50%;
+				.guide-section-middle {
+					background: white;
+					width: 80%;
+					margin: 0 auto;
 					font-weight: 500;
-					&:hover {
-						cursor: pointer;
-						opacity: 0.6;
+					padding: 10px 50px 10px 50px;
+					&>div {
+						display: flex;
+						justify-content: space-between;
+						margin: 5px 0;
+					}
+					.middle-header {
+						color: $traverllerOrange;
+					}
+					hr {
+						width: 100%;
+						margin: 0;
+					}
+				}
+				.guide-section-right {
+					position: absolute;
+					right: 2%;
+					top: 50%;
+					transform: translateY(-50%);
+					div {
+						background: $traverllerOrange;
+						color: white; 
+						font-size: 1.6rem;
+						padding: 15px 10px;
+						border-radius: 50%;
+						font-weight: 500;
+						&:hover {
+							cursor: pointer;
+							opacity: 0.6;
+						}
 					}
 				}
 			}
