@@ -10,6 +10,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.oneroadtrip.matcher.common.OneRoadTripException;
+import com.oneroadtrip.matcher.proto.CityInfo;
+import com.oneroadtrip.matcher.testutil.TestingUtil;
 import com.oneroadtrip.matcher.util.Util;
 
 public class GuidePlannerTest {
@@ -46,8 +48,22 @@ public class GuidePlannerTest {
     guideToScore.put(6L, 0.6f);
     guideToScore.put(7L, 0.5f);
 
+    ImmutableMap.Builder<Long, CityInfo> cityIdToInfoBuilder = ImmutableMap.builder();
+    TestingUtil.addCity(cityIdToInfoBuilder, 1L, "AA", "甲");
+    TestingUtil.addCity(cityIdToInfoBuilder, 2L, "BB", "乙");
+    TestingUtil.addCity(cityIdToInfoBuilder, 3L, "CC", "丙");
+    TestingUtil.addCity(cityIdToInfoBuilder, 4L, "DD", "丁");
+    TestingUtil.addCity(cityIdToInfoBuilder, 5L, "EE", "戊");
+    TestingUtil.addCity(cityIdToInfoBuilder, 6L, "FF", "己");
+    TestingUtil.addCity(cityIdToInfoBuilder, 7L, "GG", "庚");
+    TestingUtil.addCity(cityIdToInfoBuilder, 8L, "HH", "辛");
+
     guidePlanner = new GuidePlanner(Util.rotateMatrix(guideToCities.build()),
-        guideToInterests.build(), guideToScore.build(), null, null);
+        guideToInterests.build(),
+        guideToScore.build(),
+        null,
+        null,
+        cityIdToInfoBuilder.build());
   }
 
   @Test
@@ -68,9 +84,10 @@ public class GuidePlannerTest {
         guidePlanner.matchGuidesByCities(Lists.newArrayList(16L, 11L, 14L), Lists.newArrayList()),
         ImmutableSet.of(2L, 3L));
 
-    Assert.assertEquals(
-        guidePlanner.matchGuidesByCities(Lists.newArrayList(16L, 11L, 14L), Lists.newArrayList(2L)),
-        ImmutableSet.of(3L));
+    Assert
+        .assertEquals(
+            guidePlanner.matchGuidesByCities(Lists.newArrayList(16L, 11L, 14L),
+                Lists.newArrayList(2L)), ImmutableSet.of(3L));
   }
 
   @Test
@@ -114,9 +131,9 @@ public class GuidePlannerTest {
       Assert.fail();
     }
     try {
-      GuidePlanner.acceptCandidateByDates(Lists.newArrayList(1L, 2L, 3L),
-          ImmutableSet.of(20151225, 20151226), ImmutableMap.of(1L, ImmutableSet.of(20151225), 2L,
-              ImmutableSet.of(20151226, 20151228), 3L, ImmutableSet.of(20151226)));
+      GuidePlanner.acceptCandidateByDates(Lists.newArrayList(1L, 2L, 3L), ImmutableSet.of(20151225,
+          20151226), ImmutableMap.of(1L, ImmutableSet.of(20151225), 2L,
+          ImmutableSet.of(20151226, 20151228), 3L, ImmutableSet.of(20151226)));
       LOG.error("Should fail to find a guide");
       Assert.fail();
     } catch (OneRoadTripException e) {

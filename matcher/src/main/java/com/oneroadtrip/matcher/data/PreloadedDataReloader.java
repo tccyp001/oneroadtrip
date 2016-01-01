@@ -24,7 +24,7 @@ import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.oneroadtrip.matcher.proto.CityResponse.City;
+import com.oneroadtrip.matcher.proto.CityInfo;
 import com.oneroadtrip.matcher.proto.GuideInfo;
 import com.oneroadtrip.matcher.proto.VisitSpot;
 import com.oneroadtrip.matcher.proto.internal.CityConnectionInfo;
@@ -138,7 +138,7 @@ public class PreloadedDataReloader {
     ImmutableMap.Builder<Long, Float> guideToScore = ImmutableMap.builder();
     reloadGuideData(interestNameToId, cityToGuides, guideToInterests, guideToScore);
 
-    ImmutableMap.Builder<Long, City> cityIdToInfo = ImmutableMap.builder();
+    ImmutableMap.Builder<Long, CityInfo> cityIdToInfo = ImmutableMap.builder();
     reloadCityIdToName(cityIdToInfo);
 
     ImmutableMap.Builder<Long, GuideInfo> guideIdToInfo = ImmutableMap.builder();
@@ -215,14 +215,14 @@ public class PreloadedDataReloader {
   private static final String QUERY_CITIES = "SELECT city_id, city_name, cn_name, suggest, min FROM Cities";
   private static final String QUERY_CITY_ALIASES = "SELECT city_id, alias FROM CityAliases";
 
-  private void reloadCityIdToName(ImmutableMap.Builder<Long, City> builder) {
+  private void reloadCityIdToName(ImmutableMap.Builder<Long, CityInfo> builder) {
     Preconditions.checkNotNull(builder);
-    Map<Long, City.Builder> data = Maps.newHashMap();
+    Map<Long, CityInfo.Builder> data = Maps.newHashMap();
     try (Connection conn = dataSource.getConnection()) {
       try (PreparedStatement pStmt = conn.prepareStatement(QUERY_CITIES);
           ResultSet rs = pStmt.executeQuery()) {
         while (rs.next()) {
-          City.Builder cityBuilder = City.newBuilder();
+          CityInfo.Builder cityBuilder = CityInfo.newBuilder();
           long cityId = rs.getLong(1);
           cityBuilder.setCityId(rs.getLong(1));
           cityBuilder.setName(rs.getString(2));
@@ -236,14 +236,14 @@ public class PreloadedDataReloader {
           ResultSet rs = pStmt.executeQuery()) {
         while (rs.next()) {
           long cityId = rs.getLong(1);
-          City.Builder sub = data.get(cityId);
+          CityInfo.Builder sub = data.get(cityId);
           if (sub == null) {
             continue;
           }
           sub.addAlias(rs.getString(2));
         }
       }
-      for (Map.Entry<Long, City.Builder> e : data.entrySet()) {
+      for (Map.Entry<Long, CityInfo.Builder> e : data.entrySet()) {
         builder.put(e.getKey(), e.getValue().build());
       }
     } catch (SQLException e) {

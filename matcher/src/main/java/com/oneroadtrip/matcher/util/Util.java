@@ -16,7 +16,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.oneroadtrip.matcher.proto.CityInfo;
-import com.oneroadtrip.matcher.proto.CityResponse.City;
 import com.oneroadtrip.matcher.proto.ErrorInfo;
 import com.oneroadtrip.matcher.proto.VisitSpot;
 import com.oneroadtrip.matcher.proto.internal.CityConnectionInfo;
@@ -112,16 +111,16 @@ public class Util {
   }
   
   private static final CityInfo UNKNOWN_CITY = CityInfo.newBuilder().setCityId(0L)
-      .setCityName("UNKNWON").setCnCityName("无名").build();
+      .setName("UNKNWON").setCnName("无名").build();
   
-  public static CityInfo getCityInfo(ImmutableMap<Long, City> cityIdToInfo, long cityId) {
-    City city = cityIdToInfo.get(cityId);
+  public static CityInfo getCityInfo(ImmutableMap<Long, CityInfo> cityIdToInfo, long cityId) {
+    CityInfo city = cityIdToInfo.get(cityId);
     if (city == null) {
       LOG.info("Can't find city info for id {}", cityId);
       return UNKNOWN_CITY;
     }
-    return CityInfo.newBuilder().setCityId(cityId).setCityName(city.getName())
-        .setCnCityName(city.getCnName()).build();
+    return CityInfo.newBuilder().setCityId(cityId).setName(city.getName())
+        .setCnName(city.getCnName()).build();
   }
 
   public static int advanceDays(int currentDate, int numDays) {

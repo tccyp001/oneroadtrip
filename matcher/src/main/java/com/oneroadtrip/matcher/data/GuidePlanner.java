@@ -22,6 +22,7 @@ import com.google.common.collect.Sets;
 import com.oneroadtrip.matcher.OneRoadTripConfig;
 import com.oneroadtrip.matcher.common.Constants;
 import com.oneroadtrip.matcher.common.OneRoadTripException;
+import com.oneroadtrip.matcher.proto.CityInfo;
 import com.oneroadtrip.matcher.proto.CityPlan;
 import com.oneroadtrip.matcher.proto.GuidePlan;
 import com.oneroadtrip.matcher.proto.GuidePlanErrorInfo;
@@ -53,6 +54,7 @@ public class GuidePlanner {
   final ImmutableMap<Long, ImmutableSet<Long>> cityToGuides;
   final ImmutableMap<Long, ImmutableSet<Long>> guideToInterests;
   final ImmutableMap<Long, Float> guideToScore;
+  final ImmutableMap<Long, CityInfo> cityIdToInfo;
   final DatabaseAccessor dbAccessor;
   final OneRoadTripConfig config;
 
@@ -61,12 +63,14 @@ public class GuidePlanner {
       @Named(Constants.CITY_TO_GUIDES) ImmutableMap<Long, ImmutableSet<Long>> cityToGuides,
       @Named(Constants.GUIDE_TO_INTERESTS) ImmutableMap<Long, ImmutableSet<Long>> guideToInterests,
       @Named(Constants.GUIDE_TO_SCORE) ImmutableMap<Long, Float> guideToScore,
-      DatabaseAccessor dbAccessor, OneRoadTripConfig config) {
+      DatabaseAccessor dbAccessor, OneRoadTripConfig config,
+      ImmutableMap<Long, CityInfo> cityIdToInfo) {
     this.cityToGuides = cityToGuides;
     this.guideToInterests = guideToInterests;
     this.guideToScore = guideToScore;
     this.dbAccessor = dbAccessor;
     this.config = config;
+    this.cityIdToInfo = cityIdToInfo;
   }
 
   // Filters
@@ -136,13 +140,20 @@ public class GuidePlanner {
       List<Long> cityIds = Lists.newArrayList();
       Set<Integer> days = Sets.newTreeSet();
       for (CityPlan cityPlan : request.getCityPlanList()) {
-        if (!cityPlan.hasCityId() || !cityPlan.hasStartDate() || !cityPlan.hasNumDays())
+        if (!cityPlan.hasCity() || !cityPlan.getCity().hasCityId() || !cityPlan.hasStartDate()
+            || !cityPlan.hasNumDays()) {
           continue;
-        cityIds.add(cityPlan.getCityId());
+        }
+        CityInfo info = cityIdToInfo.get(cityPlan.getCity().getCityId());
+        if (info == null) {
+          LOG.error("Can't find city info by plan {}", cityPlan);
+          continue;
+        }
+        cityIds.add(cityPlan.getCity().getCityId());
         for (int i = 0; i < cityPlan.getNumDays(); ++i) {
           days.add(cityPlan.getStartDate() + i);
         }
-        builder.addCityPlan(cityPlan);
+        builder.addCityPlan(CityPlan.newBuilder(cityPlan).setCity(info));
       }
 
       Set<Long> candidates = matchGuidesByCities(cityIds, request.getExcludedGuideIdList());
@@ -154,8 +165,7 @@ public class GuidePlanner {
           - TimeUnit.SECONDS.toMillis(config.guideReservedSecondsForBook);
       Map<Long, Set<Integer>> guideToReserveDays = dbAccessor.loadGuideToReserveDays(
           orderedCandidates, cutoffTimestamp);
-      for (long guideId : acceptCandidateByDates(orderedCandidates, days,
-          guideToReserveDays)) {
+      for (long guideId : acceptCandidateByDates(orderedCandidates, days, guideToReserveDays)) {
         builder.addGuideIdForWholeTrip(guideId);
       }
     } catch (OneRoadTripException e) {
@@ -172,8 +182,11 @@ public class GuidePlanner {
       List<List<Long>> guides = Lists.newArrayList();
       Set<Long> allCandidates = Sets.newTreeSet();
       for (CityPlan cityPlan : request.getCityPlanList()) {
-        Set<Long> candidates = matchGuidesByCities(Lists.newArrayList(cityPlan.getCityId()),
-            cityPlan.getExcludedGuideIdList());
+        if (!cityPlan.hasCity() || !cityPlan.getCity().hasCityId() || !cityPlan.hasStartDate()
+            || !cityPlan.hasNumDays())
+          continue;
+        Set<Long> candidates = matchGuidesByCities(
+            Lists.newArrayList(cityPlan.getCity().getCityId()), cityPlan.getExcludedGuideIdList());
         List<Long> orderedCandidates = sortCandidates(candidates,
             Sets.newTreeSet(request.getInterestIdList()));
         List<Long> cutoffCandidates = orderedCandidates.subList(0,
@@ -189,7 +202,15 @@ public class GuidePlanner {
 
       for (int i = 0; i < guides.size(); ++i) {
         CityPlan old = request.getCityPlan(i);
-        CityPlan.Builder subBuilder = CityPlan.newBuilder(old);
+        if (!old.hasCity() || !old.getCity().hasCityId()) {
+          continue;
+        }
+        CityInfo info = cityIdToInfo.get(old.getCity().getCityId());
+        if (info == null) {
+          LOG.error("Can't find city info by plan {}", old);
+          continue;
+        }
+        CityPlan.Builder subBuilder = CityPlan.newBuilder(old).setCity(info);
         try {
           Set<Integer> days = Sets.newTreeSet();
           for (int j = 0; j < old.getNumDays(); ++j) {

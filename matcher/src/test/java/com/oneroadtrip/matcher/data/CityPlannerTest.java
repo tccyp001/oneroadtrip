@@ -19,7 +19,6 @@ import com.google.inject.Injector;
 import com.google.inject.Provides;
 import com.oneroadtrip.matcher.common.Constants;
 import com.oneroadtrip.matcher.proto.CityInfo;
-import com.oneroadtrip.matcher.proto.CityResponse.City;
 import com.oneroadtrip.matcher.proto.Edge;
 import com.oneroadtrip.matcher.proto.PlanResponse;
 import com.oneroadtrip.matcher.proto.Status;
@@ -27,31 +26,28 @@ import com.oneroadtrip.matcher.proto.VisitCity;
 import com.oneroadtrip.matcher.proto.internal.CityConnectionInfo;
 import com.oneroadtrip.matcher.proto.internal.EngageType;
 import com.oneroadtrip.matcher.testutil.GraphTestingUtil;
+import com.oneroadtrip.matcher.testutil.TestingUtil;
 import com.oneroadtrip.matcher.util.Util;
 
 public class CityPlannerTest {
   Injector injector;
-  ImmutableMap<Long, City> cityIdToInfo;
+  ImmutableMap<Long, CityInfo> cityIdToInfo;
   
   CityInfo getCityInfo(long cityId) {
     return Util.getCityInfo(cityIdToInfo, cityId);
   }
-  
-  void addCity(ImmutableMap.Builder<Long, City> builder, long cityId, String name, String cnName) {
-    builder.put(cityId, City.newBuilder().setCityId(cityId).setName(name).setCnName(cnName).build());
-  }
 
   @BeforeClass
   void setUp() {
-    ImmutableMap.Builder<Long, City> cityIdToInfoBuilder = ImmutableMap.builder();
-    addCity(cityIdToInfoBuilder, 1L, "AA", "甲");
-    addCity(cityIdToInfoBuilder, 2L, "BB", "乙");
-    addCity(cityIdToInfoBuilder, 3L, "CC", "丙");
-    addCity(cityIdToInfoBuilder, 4L, "DD", "丁");
-    addCity(cityIdToInfoBuilder, 5L, "EE", "戊");
-    addCity(cityIdToInfoBuilder, 6L, "FF", "己");
-    addCity(cityIdToInfoBuilder, 7L, "GG", "庚");
-    addCity(cityIdToInfoBuilder, 8L, "HH", "辛");
+    ImmutableMap.Builder<Long, CityInfo> cityIdToInfoBuilder = ImmutableMap.builder();
+    TestingUtil.addCity(cityIdToInfoBuilder, 1L, "AA", "甲");
+    TestingUtil.addCity(cityIdToInfoBuilder, 2L, "BB", "乙");
+    TestingUtil.addCity(cityIdToInfoBuilder, 3L, "CC", "丙");
+    TestingUtil.addCity(cityIdToInfoBuilder, 4L, "DD", "丁");
+    TestingUtil.addCity(cityIdToInfoBuilder, 5L, "EE", "戊");
+    TestingUtil.addCity(cityIdToInfoBuilder, 6L, "FF", "己");
+    TestingUtil.addCity(cityIdToInfoBuilder, 7L, "GG", "庚");
+    TestingUtil.addCity(cityIdToInfoBuilder, 8L, "HH", "辛");
     cityIdToInfo = cityIdToInfoBuilder.build();
     
     Map<Long, Integer> suggestDaysForCities = Maps.newTreeMap();
@@ -88,7 +84,7 @@ public class CityPlannerTest {
       }
 
       @Provides
-      ImmutableMap<Long, City> provideCityIdToInfo() {
+      ImmutableMap<Long, CityInfo> provideCityIdToInfo() {
         return cityIdToInfo;
       }
       
@@ -117,7 +113,7 @@ public class CityPlannerTest {
   }
   
   String getNameById(long id) {
-    return cityIdToInfo.get(id).getName();
+    return cityIdToInfo.get(id).getCityName();
   }
 
   VisitCity createVisitCity(long cityId, int numDays, float suggestRate) {

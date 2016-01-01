@@ -28,19 +28,7 @@ message LoginResponse {
   optional string token = 2;
 }
 
-message CityRequest {
-}
-
 message CityResponse {
-  message City {
-    optional int64 city_id = 1;
-    optional string name = 2;
-    optional string cn_name = 3;
-    optional int32 suggest = 4;
-    optional int32 min = 5;
-    repeated string alias = 6;
-  }
-
   optional Status status = 1;
-  repeated City city = 2;
+  repeated CityInfo city = 2;
 }

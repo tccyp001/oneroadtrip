@@ -31,6 +31,9 @@ enum Status {
 
 message CityInfo {
   optional int64 city_id = 1;
-  optional string city_name = 2;
-  optional string cn_city_name = 3;
+  optional string name = 2;
+  optional string cn_name = 3;
+  optional int32 suggest = 4;
+  optional int32 min = 5;
+  repeated string alias = 6;
 }

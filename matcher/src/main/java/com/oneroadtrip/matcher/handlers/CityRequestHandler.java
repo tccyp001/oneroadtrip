@@ -10,15 +10,15 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.ImmutableMap;
 import com.googlecode.protobuf.format.JsonFormat;
+import com.oneroadtrip.matcher.proto.CityInfo;
 import com.oneroadtrip.matcher.proto.CityResponse;
-import com.oneroadtrip.matcher.proto.CityResponse.City;
 import com.oneroadtrip.matcher.proto.Status;
 
 public class CityRequestHandler implements RequestHandler {
   private static final Logger LOG = LogManager.getLogger();
 
   @Inject
-  private ImmutableMap<Long, City> cityIdToInfo;
+  private ImmutableMap<Long, CityInfo> cityIdToInfo;
 
   // TODO(xfguo): (P4) in case we use grpc in the future.
   public String handleGet() {
@@ -40,7 +40,7 @@ public class CityRequestHandler implements RequestHandler {
   }
 
   private void mutateCityContent(CityResponse.Builder builder) throws SQLException {
-    for (City city : cityIdToInfo.values()) {
+    for (CityInfo city : cityIdToInfo.values()) {
       builder.addCity(city);
     }
   }

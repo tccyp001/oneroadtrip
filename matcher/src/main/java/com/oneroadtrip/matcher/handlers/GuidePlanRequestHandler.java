@@ -37,7 +37,7 @@ public class GuidePlanRequestHandler implements RequestHandler {
   }
 
   GuidePlanResponse process(GuidePlanRequest request) {
-    GuidePlanResponse.Builder builder = GuidePlanResponse.newBuilder();
+    GuidePlanResponse.Builder builder = GuidePlanResponse.newBuilder().setStatus(Status.SUCCESS);
     try {
       GuidePlanType type = request.getRequestGuidePlanType();
       GuidePlanRequest processedRequest = processRequest(request);
@@ -51,7 +51,7 @@ public class GuidePlanRequestHandler implements RequestHandler {
       LOG.error("OneRoadTrip exception: ", e);
       return builder.setStatus(e.getStatus()).build();
     }
-    return builder.setStatus(Status.SUCCESS).build();
+    return builder.build();
   }
 
   private GuidePlanRequest processRequest(GuidePlanRequest request) throws OneRoadTripException {

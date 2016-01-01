@@ -17,7 +17,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.oneroadtrip.matcher.common.Constants;
 import com.oneroadtrip.matcher.proto.CityInfo;
-import com.oneroadtrip.matcher.proto.CityResponse.City;
 import com.oneroadtrip.matcher.proto.Edge;
 import com.oneroadtrip.matcher.proto.PlanResponse;
 import com.oneroadtrip.matcher.proto.Status;
@@ -37,13 +36,13 @@ public class CityPlanner {
   // Incoming data
   final ImmutableMap<Pair<Long, Long>, CityConnectionInfo> cityNetwork;
   final ImmutableMap<Long, Integer> suggestDaysForCities;
-  final ImmutableMap<Long, City> cityIdToInfo;
+  final ImmutableMap<Long, CityInfo> cityIdToInfo;
 
   @Inject
   public CityPlanner(
       @Named(Constants.CITY_NETWORK) ImmutableMap<Pair<Long, Long>, CityConnectionInfo> cityNetwork,
       @Named(Constants.SUGGEST_DAYS_FOR_CITIES) ImmutableMap<Long, Integer> suggestDaysForCities,
-      ImmutableMap<Long, City> cityIdToInfo) {
+      ImmutableMap<Long, CityInfo> cityIdToInfo) {
     this.cityNetwork = cityNetwork;
     this.suggestDaysForCities = suggestDaysForCities;
     this.cityIdToInfo = cityIdToInfo;
@@ -64,7 +63,7 @@ public class CityPlanner {
   }
 
   String getNameById(long id) {
-    City city = cityIdToInfo.get(id);
+    CityInfo city = cityIdToInfo.get(id);
     return city != null ? city.getName() : "";
   }
   

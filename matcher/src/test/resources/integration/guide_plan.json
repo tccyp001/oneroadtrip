@@ -8,11 +8,11 @@
         "num_room": 3,
         "city_plan": [
             {
-                "city_id": 1,
+              "city": { "city_id": 1 },
                 "num_days": 2
             },
             {
-                "city_id": 2,
+              "city": { "city_id": 2 },
                 "num_days": 1
             }
         ],
@@ -26,13 +26,13 @@
                 "guide_plan_type": "ONE_GUIDE_FOR_EACH_CITY",
                 "city_plan": [
                     {
-                        "city_id": 1,
+                      "city": { "city_id": 1 },
                         "start_date": 20151225,
                         "num_days": 2,
                         "guide_id": [2,5]
                     },
                     {
-                        "city_id": 2,
+                      "city": { "city_id": 2 },
                         "start_date": 20151227,
                         "num_days": 1,
                         "guide_id": [1,6,4,7]
@@ -44,12 +44,12 @@
                 "guide_plan_type": "ONE_GUIDE_FOR_THE_WHOLE_TRIP",
                 "city_plan": [
                     {
-                        "city_id": 1,
+                        "city": { "city_id": 1 },
                         "start_date": 20151225,
                         "num_days": 2
                     },
                     {
-                        "city_id": 2,
+                      "city": { "city_id": 2 },
                         "start_date": 20151227,
                         "num_days": 1
                     }
