@@ -3,6 +3,9 @@
         "request": "guide",
         "one_guide_for_whole_trip": "BOTH",
         "start_date": 20151225,
+        "hotel": 3,
+        "num_people": 7,
+        "num_room": 3,
         "city_plan": [
             {
                 "city_id": 1,
