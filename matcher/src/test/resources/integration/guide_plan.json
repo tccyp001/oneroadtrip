@@ -29,13 +29,13 @@
                         "city_id": 1,
                         "start_date": 20151225,
                         "num_days": 2,
-                        "guide_id": 2
+                        "guide_id": [2,5]
                     },
                     {
                         "city_id": 2,
                         "start_date": 20151227,
                         "num_days": 1,
-                        "guide_id": 1
+                        "guide_id": [1,6,4,7]
                     }
                 ]
             },

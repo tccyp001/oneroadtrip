@@ -41,8 +41,22 @@ status: SUCCESS
 guide_plan {
   plan_status: SUCCESS
   guide_plan_type: ONE_GUIDE_FOR_EACH_CITY
-  city_plan { city_id: 1 start_date:20151225 num_days: 2 guide_id: 2}
-  city_plan { city_id: 2 start_date:20151227 num_days: 1 guide_id: 1}
+  city_plan {
+    city_id: 1
+    start_date: 20151225
+    num_days: 2
+    guide_id: 2
+    guide_id: 5
+  }
+  city_plan {
+    city_id: 2
+    start_date: 20151227
+    num_days: 1
+    guide_id: 1
+    guide_id: 6
+    guide_id: 4
+    guide_id: 7
+  }
 }
 guide_plan {
   plan_status: ERROR_IN_GUIDE_PLAN

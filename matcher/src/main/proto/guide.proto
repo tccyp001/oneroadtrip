@@ -27,7 +27,7 @@ message CityPlan {
 
   // 选中的导游id
   // 我们不返回全部信息，还是只返回一个id，更多信息可以用另外一个api来获得。
-  optional int64 guide_id = 6;
+  repeated int64 guide_id = 6;
 }
 
 message GuidePlanRequest {
@@ -48,7 +48,7 @@ message GuidePlan {
   repeated CityPlan city_plan = 3;
 
   // 如果我们需要，我们可以返回
-  optional int64 guide_id_for_whole_trip = 4;
+  repeated int64 guide_id_for_whole_trip = 4;
 }
 
 message GuidePlanResponse {

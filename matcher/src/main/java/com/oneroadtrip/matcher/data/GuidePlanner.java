@@ -154,8 +154,10 @@ public class GuidePlanner {
           - TimeUnit.SECONDS.toMillis(config.guideReservedSecondsForBook);
       Map<Long, Set<Integer>> guideToReserveDays = dbAccessor.loadGuideToReserveDays(
           orderedCandidates, cutoffTimestamp);
-      builder.setGuideIdForWholeTrip(acceptCandidateByDates(orderedCandidates, days,
-          guideToReserveDays));
+      for (long guideId : acceptCandidateByDates(orderedCandidates, days,
+          guideToReserveDays)) {
+        builder.addGuideIdForWholeTrip(guideId);
+      }
     } catch (OneRoadTripException e) {
       builder.setPlanStatus(Status.ERROR_IN_GUIDE_PLAN);
     }
@@ -193,7 +195,9 @@ public class GuidePlanner {
           for (int j = 0; j < old.getNumDays(); ++j) {
             days.add(old.getStartDate() + j);
           }
-          subBuilder.setGuideId(acceptCandidateByDates(guides.get(i), days, guideToReservedDays));
+          for (long guide : acceptCandidateByDates(guides.get(i), days, guideToReservedDays)) {
+            subBuilder.addGuideId(guide);
+          }
         } catch (OneRoadTripException e) {
           // internal error
           subBuilder.setErrorInfo(GuidePlanErrorInfo.NOT_FOUND);
@@ -208,15 +212,18 @@ public class GuidePlanner {
     return builder.build();
   }
 
-  static long acceptCandidateByDates(List<Long> candidates, Set<Integer> days,
+  static List<Long> acceptCandidateByDates(List<Long> candidates, Set<Integer> days,
       Map<Long, Set<Integer>> guideToReserveDays) throws OneRoadTripException {
+    List<Long> guides = Lists.newArrayList();
     for (Long guide : candidates) {
       Set<Integer> reserved = guideToReserveDays.get(guide);
       if (reserved == null || Sets.intersection(reserved, days).size() == 0) {
-        // Accepted
-        return guide;
+        guides.add(guide);
       }
     }
-    throw new OneRoadTripException(Status.GUIDE_NOT_FOUND, null);
+    if (guides.isEmpty()) {
+      throw new OneRoadTripException(Status.GUIDE_NOT_FOUND, null);
+    }
+    return guides;
   }
 }
