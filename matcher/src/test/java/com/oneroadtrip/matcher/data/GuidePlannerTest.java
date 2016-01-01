@@ -104,10 +104,11 @@ public class GuidePlannerTest {
     try {
       Assert.assertEquals(
           GuidePlanner.acceptCandidateByDates(Lists.newArrayList(1L, 2L, 3L),
-              ImmutableSet.of(20151225), ImmutableMap.of(1L, ImmutableSet.of(20151225))), 2L);
+              ImmutableSet.of(20151225), ImmutableMap.of(1L, ImmutableSet.of(20151225))),
+          Lists.newArrayList(2L, 3L));
       Assert.assertEquals(GuidePlanner.acceptCandidateByDates(Lists.newArrayList(1L, 2L, 3L),
           ImmutableSet.of(20151225, 20151226), ImmutableMap.of(1L, ImmutableSet.of(20151225), 2L,
-              ImmutableSet.of(20151228), 3L, ImmutableSet.of(20151226))), 2L);
+              ImmutableSet.of(20151228), 3L, ImmutableSet.of(20151226))), Lists.newArrayList(2L));
     } catch (OneRoadTripException e) {
       LOG.error("testAcceptCandidateByDates", e);
       Assert.fail();
