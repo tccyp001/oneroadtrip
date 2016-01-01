@@ -137,4 +137,16 @@ public class Util {
     return nYear * 10000 + nMonth * 100 + nDayOfMonth;
   }
 
+  public static String trimString(String origin) {
+    return origin.replaceAll("\\p{Cntrl}", "").trim();
+  }
+
+  public static List<String> splitString(String origin) {
+    List<String> result = Lists.newArrayList();
+    for (String part : origin.split("[ /|]")) {
+      result.add(trimString(part));
+    }
+    return result;
+  }
+
 }

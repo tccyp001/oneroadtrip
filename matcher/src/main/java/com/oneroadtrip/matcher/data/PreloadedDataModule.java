@@ -13,6 +13,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.oneroadtrip.matcher.common.Constants;
 import com.oneroadtrip.matcher.proto.CityResponse.City;
+import com.oneroadtrip.matcher.proto.GuideInfo;
 import com.oneroadtrip.matcher.proto.internal.CityConnectionInfo;
 
 public class PreloadedDataModule extends AbstractModule {
@@ -74,5 +75,10 @@ public class PreloadedDataModule extends AbstractModule {
   @Provides
   Optional<CityPlanner> provideOptionalCityPlanner(CityPlanner cityPlanner) {
     return Optional.ofNullable(cityPlanner);
+  }
+  
+  @Provides
+  ImmutableMap<Long, GuideInfo> providesGuideIdToInfo(PreloadedData data) {
+    return data.getGuideIdToInfo();
   }
 }

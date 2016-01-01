@@ -19,6 +19,7 @@ enum Status {
   ERROR_IN_GUIDE_PLAN = 11;
   ERR_LOAD_GUIDE_TO_RESERVED_DAYS = 12;
   ERR_INSERT_GUIDE_RESERVATION = 13;
+  INCORRECT_GUIDE_ID = 14;
 
   // Internal status
   //
@@ -26,4 +27,10 @@ enum Status {
   // 碰到这种状态我们经常还需要继续我们的逻辑。这些状态主要提供给
   // OneRoadTripException使用。
   GUIDE_NOT_FOUND = 10001;
+}
+
+message CityInfo {
+  optional int64 city_id = 1;
+  optional string city_name = 2;
+  optional string cn_city_name = 3;
 }

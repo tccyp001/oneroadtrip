@@ -16,12 +16,6 @@ enum TransportationType {
   OTHERS = 6;
 }
 
-message CityInfo {
-  optional int64 city_id = 1;
-  optional string city_name = 2;
-  optional string cn_city_name = 3;
-}
-
 message VisitCity {
   optional CityInfo city = 1;
   optional int32 num_days = 2;

@@ -77,7 +77,8 @@ CREATE TABLE Guides (
 	has_car BOOLEAN,
 	score FLOAT,
   location_id BIGINT,  -- DEPRECATING...
-  interests VARCHAR(100)
+  interests VARCHAR(100),
+  phone BIGINT
 ) DEFAULT CHARSET=utf8;
 CREATE INDEX GuidesUserId ON Guides(user_id);
 
@@ -124,6 +125,7 @@ CREATE INDEX OrdersGuideId ON Orders(guide_id);
 
 CREATE TABLE Photos(
   photo_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  user_id BIGINT,
   content BLOB
 ) DEFAULT CHARSET=utf8;
 

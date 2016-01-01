@@ -55,3 +55,19 @@ message GuidePlanResponse {
   optional Status status = 1 [ default = SUCCESS ];
   repeated GuidePlan guide_plan = 2;
 }
+
+message GuideInfo {
+  optional int64 guide_id = 1;
+  optional string name = 2;
+  optional string description = 3;
+  optional int32 max_people = 4;
+  optional bool has_car = 5;
+  optional float score = 6;
+  repeated string topic = 7;
+  optional int64 phone = 8;
+}
+
+message GuideInfoResponse {
+  optional Status status = 1 [ default = SUCCESS ];
+  optional GuideInfo info = 2;
+}

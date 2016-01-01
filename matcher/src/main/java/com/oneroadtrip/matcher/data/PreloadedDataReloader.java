@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.StringJoiner;
 
 import javax.inject.Inject;
 import javax.sql.DataSource;
@@ -24,6 +25,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.oneroadtrip.matcher.proto.CityResponse.City;
+import com.oneroadtrip.matcher.proto.GuideInfo;
 import com.oneroadtrip.matcher.proto.VisitSpot;
 import com.oneroadtrip.matcher.proto.internal.CityConnectionInfo;
 import com.oneroadtrip.matcher.util.Util;
@@ -139,6 +141,9 @@ public class PreloadedDataReloader {
     ImmutableMap.Builder<Long, City> cityIdToInfo = ImmutableMap.builder();
     reloadCityIdToName(cityIdToInfo);
 
+    ImmutableMap.Builder<Long, GuideInfo> guideIdToInfo = ImmutableMap.builder();
+    reloadGuideInfo(guideIdToInfo);
+
     if (cityNetwork == null || suggestDaysForCities == null || cityNetwork.size() == 0
         || suggestDaysForCities.size() == 0) {
       LOG.info("Errors in reloading city data");
@@ -146,7 +151,8 @@ public class PreloadedDataReloader {
     LOG.info("Database is reloaded");
     return new PreloadedData(cityNetwork, suggestDaysForCities,
         ImmutableMap.copyOf(cityIdToSpotPlanner), ImmutableMap.copyOf(interestNameToId),
-        cityToGuides.build(), guideToInterests.build(), guideToScore.build(), cityIdToInfo.build());
+        cityToGuides.build(), guideToInterests.build(), guideToScore.build(), cityIdToInfo.build(),
+        guideIdToInfo.build());
   }
 
   private static final String LOAD_CITY_TO_GUIDES = "SELECT city_id, guide_id FROM GuideCities ORDER BY city_id";
@@ -206,8 +212,7 @@ public class PreloadedDataReloader {
             ImmutableMap.copyOf(interestToSpots), ImmutableMap.copyOf(spotToScore)));
   }
 
-  private static final String QUERY_CITIES =
-      "SELECT city_id, city_name, cn_name, suggest, min FROM Cities";
+  private static final String QUERY_CITIES = "SELECT city_id, city_name, cn_name, suggest, min FROM Cities";
   private static final String QUERY_CITY_ALIASES = "SELECT city_id, alias FROM CityAliases";
 
   private void reloadCityIdToName(ImmutableMap.Builder<Long, City> builder) {
@@ -243,6 +248,43 @@ public class PreloadedDataReloader {
       }
     } catch (SQLException e) {
       LOG.error("DB error in reload city related data", e);
+    }
+  }
+
+  private static final String QUERY_GUIDE_INFO = "SELECT guide_id, user_name, description, max_persons, has_car, score, interests, phone "
+      + "FROM Guides g INNER JOIN Users u ON (g.user_id = u.user_id)";
+
+  private void reloadGuideInfo(ImmutableMap.Builder<Long, GuideInfo> builder) {
+    Preconditions.checkNotNull(builder);
+    try (Connection conn = dataSource.getConnection()) {
+      try (PreparedStatement pStmt = conn.prepareStatement(QUERY_GUIDE_INFO);
+          ResultSet rs = pStmt.executeQuery()) {
+        while (rs.next()) {
+          try {
+            long guideId = rs.getLong(1);
+            String name = rs.getString(2);
+            String desc = rs.getString(3);
+            int maxPeople = rs.getInt(4);
+            boolean hasCar = rs.getBoolean(5);
+            float score = rs.getFloat(6);
+            List<String> topics = Util.splitString(rs.getString(7));
+            long phone = rs.getLong(8);
+
+            GuideInfo info = GuideInfo.newBuilder().setGuideId(guideId).setName(name)
+                .setDescription(desc).setMaxPeople(maxPeople).setHasCar(hasCar).setScore(score)
+                .setPhone(phone).addAllTopic(topics).build();
+            builder.put(guideId, info);
+          } catch (NullPointerException e) {
+            StringJoiner joiner = new StringJoiner(",");
+            for (int i = 1; i < 9; ++i) {
+              joiner.add(rs.getString(i));
+            }
+            LOG.info("xfguo: guide error {}?", joiner.toString());
+          }
+        }
+      }
+    } catch (SQLException e) {
+      LOG.error("DB error in reloading guide info", e);
     }
   }
 }
