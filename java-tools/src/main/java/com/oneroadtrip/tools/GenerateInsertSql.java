@@ -209,7 +209,7 @@ public class GenerateInsertSql {
           List<String> topics = splitString(record.get(3));
           float score = Float.valueOf(record.get(4));
           int numPeople = Integer.valueOf(record.get(5));
-          String hasCar = (record.get(6) == "y" ? "True" : "False");
+          String hasCar = (trimString(record.get(6)).toLowerCase().equals("y") ? "True" : "False");
           Long phone = getLongByDigitOnly(record.get(7));
           List<String> cities = splitString(record.get(8));
           topicSet.addAll(topics);
