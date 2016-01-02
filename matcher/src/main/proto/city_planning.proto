@@ -7,31 +7,6 @@ option java_multiple_files = true;
 
 import "common.proto";
 
-enum TransportationType {
-  SHUTTLE = 1;
-  PLANE = 2;
-  WALK = 3;
-  CAR = 4;
-  PUBLIC_TRANSIT = 5;
-  OTHERS = 6;
-}
-
-message VisitCity {
-  optional CityInfo city = 1;
-  optional int32 num_days = 2;
-  // suggest_rate用来描述这个城市有多大的旅游价值，是一个0..1之间的数，1是必须要去的城市，
-  // 即请求中填的出发、到达和途径城市，其它城市是按路线由后端推荐的。
-  optional float suggest_rate = 3;
-}
-
-message Edge {
-  optional CityInfo from_city = 1;
-  optional CityInfo to_city = 2;
-  optional int32 distance = 3;
-  optional int32 hours = 4;
-  optional TransportationType transportation_type = 5 [ default = SHUTTLE ];
-}
-
 message PlanRequest {
   optional int64 start_city_id = 1;
   optional int64 end_city_id = 2;
@@ -43,7 +18,7 @@ message PlanRequest {
   // 下面一项如果是true的话，我们会保持途经城市的次序。
   optional bool keep_order_of_via_cities = 4 [ default = false ];
   optional int32 startdate = 5;
-  optional int32 enddate = 6;  // 不包括enddate这天！
+  optional int32 enddate = 6;  // 包括enddate这天！
 
   // TODO(xfguo): 加相关的feature.
   optional int32 num_people = 7;

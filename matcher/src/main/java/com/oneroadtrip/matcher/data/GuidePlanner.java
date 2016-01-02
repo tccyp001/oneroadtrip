@@ -23,13 +23,13 @@ import com.oneroadtrip.matcher.OneRoadTripConfig;
 import com.oneroadtrip.matcher.common.Constants;
 import com.oneroadtrip.matcher.common.OneRoadTripException;
 import com.oneroadtrip.matcher.proto.CityInfo;
-import com.oneroadtrip.matcher.proto.CityPlan;
 import com.oneroadtrip.matcher.proto.GuideInfo;
 import com.oneroadtrip.matcher.proto.GuidePlan;
 import com.oneroadtrip.matcher.proto.GuidePlanErrorInfo;
 import com.oneroadtrip.matcher.proto.GuidePlanRequest;
 import com.oneroadtrip.matcher.proto.GuidePlanType;
 import com.oneroadtrip.matcher.proto.Status;
+import com.oneroadtrip.matcher.proto.VisitCity;
 
 public class GuidePlanner {
   private static final Logger LOG = LogManager.getLogger();
@@ -143,7 +143,7 @@ public class GuidePlanner {
     try {
       List<Long> cityIds = Lists.newArrayList();
       Set<Integer> days = Sets.newTreeSet();
-      for (CityPlan cityPlan : request.getCityPlanList()) {
+      for (VisitCity cityPlan : request.getCityPlanList()) {
         if (!cityPlan.hasCity() || !cityPlan.getCity().hasCityId() || !cityPlan.hasStartDate()
             || !cityPlan.hasNumDays()) {
           continue;
@@ -157,7 +157,7 @@ public class GuidePlanner {
         for (int i = 0; i < cityPlan.getNumDays(); ++i) {
           days.add(cityPlan.getStartDate() + i);
         }
-        builder.addCityPlan(CityPlan.newBuilder(cityPlan).setCity(info));
+        builder.addCityPlan(VisitCity.newBuilder(cityPlan).setCity(info));
       }
 
       Set<Long> candidates = matchGuidesByCities(cityIds, request.getExcludedGuideIdList());
@@ -190,7 +190,7 @@ public class GuidePlanner {
     try {
       List<List<Long>> guides = Lists.newArrayList();
       Set<Long> allCandidates = Sets.newTreeSet();
-      for (CityPlan cityPlan : request.getCityPlanList()) {
+      for (VisitCity cityPlan : request.getCityPlanList()) {
         if (!cityPlan.hasCity() || !cityPlan.getCity().hasCityId() || !cityPlan.hasStartDate()
             || !cityPlan.hasNumDays())
           continue;
@@ -210,7 +210,7 @@ public class GuidePlanner {
           allCandidates, cutoffTimestamp);
 
       for (int i = 0; i < guides.size(); ++i) {
-        CityPlan old = request.getCityPlan(i);
+        VisitCity old = request.getCityPlan(i);
         if (!old.hasCity() || !old.getCity().hasCityId()) {
           continue;
         }
@@ -219,7 +219,7 @@ public class GuidePlanner {
           LOG.error("Can't find city info by plan {}", old);
           continue;
         }
-        CityPlan.Builder subBuilder = CityPlan.newBuilder(old).setCity(info);
+        VisitCity.Builder subBuilder = VisitCity.newBuilder(old).setCity(info);
         try {
           Set<Integer> days = Sets.newTreeSet();
           for (int j = 0; j < old.getNumDays(); ++j) {

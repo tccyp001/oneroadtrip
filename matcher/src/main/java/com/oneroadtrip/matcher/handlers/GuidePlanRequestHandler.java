@@ -9,11 +9,11 @@ import com.googlecode.protobuf.format.JsonFormat;
 import com.googlecode.protobuf.format.JsonFormat.ParseException;
 import com.oneroadtrip.matcher.common.OneRoadTripException;
 import com.oneroadtrip.matcher.data.GuidePlanner;
-import com.oneroadtrip.matcher.proto.CityPlan;
 import com.oneroadtrip.matcher.proto.GuidePlanRequest;
 import com.oneroadtrip.matcher.proto.GuidePlanResponse;
 import com.oneroadtrip.matcher.proto.GuidePlanType;
 import com.oneroadtrip.matcher.proto.Status;
+import com.oneroadtrip.matcher.proto.VisitCity;
 import com.oneroadtrip.matcher.util.ProtoUtil;
 import com.oneroadtrip.matcher.util.Util;
 
@@ -61,7 +61,7 @@ public class GuidePlanRequestHandler implements RequestHandler {
     }
     int currentDate = request.getStartDate();
     for (int i = 0; i < builder.getCityPlanCount(); ++i) {
-      CityPlan.Builder sub = builder.getCityPlanBuilder(i);
+      VisitCity.Builder sub = builder.getCityPlanBuilder(i);
       sub.setStartDate(currentDate);
       currentDate = Util.advanceDays(currentDate, sub.getNumDays());
     }

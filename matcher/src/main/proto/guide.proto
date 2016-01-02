@@ -7,46 +7,16 @@ option java_multiple_files = true;
 
 import "common.proto";
 
-enum GuidePlanErrorInfo {
-  // No suitable guide can be found.
-  NOT_FOUND = 1;
-}
-
 enum GuidePlanType {
   ONE_GUIDE_FOR_THE_WHOLE_TRIP = 1;
   ONE_GUIDE_FOR_EACH_CITY = 2;
   BOTH = 3;
 }
 
-message GuideInfo {
-  optional int64 guide_id = 1;
-  optional string name = 2;
-  optional string description = 3;
-  optional int32 max_people = 4;
-  optional bool has_car = 5;
-  optional float score = 6;
-  repeated string topic = 7;
-  optional int64 phone = 8;
-
-  // 导游可以覆盖城市信息
-  repeated CityInfo cover_city = 9;
-}
-
-message CityPlan {
-  optional GuidePlanErrorInfo error_info = 1;
-  optional CityInfo city = 2;
-  optional int32 start_date = 3;
-  optional int32 num_days = 4;
-  repeated int64 excluded_guide_id = 5;
-
-  // 返回导游的详细信息
-  repeated GuideInfo guide = 6;
-}
-
 message GuidePlanRequest {
   optional GuidePlanType request_guide_plan_type = 1 [ default = BOTH ];
   optional int32 start_date = 2;
-  repeated CityPlan city_plan = 3;
+  repeated VisitCity city_plan = 3;
   repeated int64 interest_id = 4;
   repeated int64 excluded_guide_id = 5;
 
@@ -58,7 +28,7 @@ message GuidePlanRequest {
 message GuidePlan {
   optional Status plan_status = 1;
   optional GuidePlanType guide_plan_type = 2;
-  repeated CityPlan city_plan = 3;
+  repeated VisitCity city_plan = 3;
 
   // 如果我们需要，我们可以返回
   repeated GuideInfo guide_for_whole_trip = 4;

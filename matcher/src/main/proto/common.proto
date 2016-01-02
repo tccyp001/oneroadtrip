@@ -49,3 +49,53 @@ message SpotInfo {
   optional float score = 7;
   repeated string topics = 8;
 }
+
+message GuideInfo {
+  optional int64 guide_id = 1;
+  optional string name = 2;
+  optional string description = 3;
+  optional int32 max_people = 4;
+  optional bool has_car = 5;
+  optional float score = 6;
+  repeated string topic = 7;
+  optional int64 phone = 8;
+
+  // 导游可以覆盖城市信息
+  repeated CityInfo cover_city = 9;
+}
+
+enum GuidePlanErrorInfo {
+  // No suitable guide can be found.
+  NOT_FOUND = 1;
+}
+
+message VisitCity {
+  optional CityInfo city = 1;
+  optional int32 num_days = 2;
+  // suggest_rate用来描述这个城市有多大的旅游价值，是一个0..1之间的数，1是必须要去的城市，
+  // 即请求中填的出发、到达和途径城市，其它城市是按路线由后端推荐的。
+  optional float suggest_rate = 3;
+
+  // 所有需要用到city的请求，最终请一致用这个结构。
+  optional int32 start_date = 4;
+  optional GuidePlanErrorInfo error_info = 5;
+  repeated GuideInfo guide = 6;
+  repeated int64 excluded_guide_id = 7;
+}
+
+enum TransportationType {
+  SHUTTLE = 1;
+  PLANE = 2;
+  WALK = 3;
+  CAR = 4;
+  PUBLIC_TRANSIT = 5;
+  OTHERS = 6;
+}
+
+message Edge {
+  optional CityInfo from_city = 1;
+  optional CityInfo to_city = 2;
+  optional int32 distance = 3;
+  optional int32 hours = 4;
+  optional TransportationType transportation_type = 5 [ default = SHUTTLE ];
+}
