@@ -20,6 +20,7 @@ enum Status {
   ERR_LOAD_GUIDE_TO_RESERVED_DAYS = 12;
   ERR_INSERT_GUIDE_RESERVATION = 13;
   INCORRECT_GUIDE_ID = 14;
+  INCORRECT_SPOT_ID = 15;
 
   // Internal status
   //
@@ -36,4 +37,15 @@ message CityInfo {
   optional int32 suggest = 4;
   optional int32 min = 5;
   repeated string alias = 6;
+}
+
+message SpotInfo {
+  optional int64 spot_id = 1;
+  optional int64 city_id = 2;
+  optional string name = 3;
+  optional string cn_name = 4;
+  optional string description = 5;
+  optional float hours = 6;
+  optional float score = 7;
+  repeated string topics = 8;
 }

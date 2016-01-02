@@ -19,6 +19,7 @@ import com.oneroadtrip.matcher.resources.GuidePlanResource;
 import com.oneroadtrip.matcher.resources.LoginResource;
 import com.oneroadtrip.matcher.resources.PlanResource;
 import com.oneroadtrip.matcher.resources.SignupResource;
+import com.oneroadtrip.matcher.resources.SpotInfoResource;
 import com.oneroadtrip.matcher.resources.SpotResource;
 
 public class OneRoadTripModule extends AbstractModule {
@@ -62,7 +63,7 @@ public class OneRoadTripModule extends AbstractModule {
     });
     install(new DbModule());
     install(new PreloadedDataModule());
-    
+
     // Bind application resources
     bind(CityResource.class);
     bind(PlanResource.class);
@@ -71,5 +72,6 @@ public class OneRoadTripModule extends AbstractModule {
     bind(LoginResource.class);
     bind(SignupResource.class);
     bind(GuideInfoResource.class);
+    bind(SpotInfoResource.class);
   }
 }

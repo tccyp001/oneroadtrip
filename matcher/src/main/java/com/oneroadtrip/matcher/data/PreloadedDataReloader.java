@@ -20,12 +20,12 @@ import org.javatuples.Pair;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.oneroadtrip.matcher.proto.CityInfo;
 import com.oneroadtrip.matcher.proto.GuideInfo;
+import com.oneroadtrip.matcher.proto.SpotInfo;
 import com.oneroadtrip.matcher.proto.VisitSpot;
 import com.oneroadtrip.matcher.proto.internal.CityConnectionInfo;
 import com.oneroadtrip.matcher.util.Util;
@@ -143,6 +143,9 @@ public class PreloadedDataReloader {
 
     ImmutableMap.Builder<Long, GuideInfo> guideIdToInfo = ImmutableMap.builder();
     reloadGuideInfo(guideIdToInfo);
+    
+    ImmutableMap.Builder<Long, SpotInfo> spotIdToInfo = ImmutableMap.builder();
+    reloadSpotInfo(spotIdToInfo);
 
     if (cityNetwork == null || suggestDaysForCities == null || cityNetwork.size() == 0
         || suggestDaysForCities.size() == 0) {
@@ -152,15 +155,16 @@ public class PreloadedDataReloader {
     return new PreloadedData(cityNetwork, suggestDaysForCities,
         ImmutableMap.copyOf(cityIdToSpotPlanner), ImmutableMap.copyOf(interestNameToId),
         cityToGuides.build(), guideToInterests.build(), guideToScore.build(), cityIdToInfo.build(),
-        guideIdToInfo.build());
+        guideIdToInfo.build(), spotIdToInfo.build());
   }
 
   private static final String LOAD_CITY_TO_GUIDES = "SELECT city_id, guide_id FROM GuideCities ORDER BY city_id";
   private static final String LOAD_GUIDE_DATA = "SELECT guide_id, score, interests FROM Guides";
 
   private void reloadGuideData(Map<String, Long> interestNameToId,
-      Builder<Long, ImmutableSet<Long>> cityToGuides,
-      Builder<Long, ImmutableSet<Long>> guideToInterests, Builder<Long, Float> guideToScore) {
+      ImmutableMap.Builder<Long, ImmutableSet<Long>> cityToGuides,
+      ImmutableMap.Builder<Long, ImmutableSet<Long>> guideToInterests,
+      ImmutableMap.Builder<Long, Float> guideToScore) {
     Preconditions.checkNotNull(cityToGuides);
     Preconditions.checkNotNull(guideToInterests);
     Preconditions.checkNotNull(guideToScore);
@@ -170,6 +174,7 @@ public class PreloadedDataReloader {
       try (PreparedStatement pStmt = conn.prepareStatement(LOAD_CITY_TO_GUIDES);
           ResultSet rs = pStmt.executeQuery()) {
         while (rs.next()) {
+          // TODO(xfguo): Add incorrect data protection.
           long cityId = rs.getLong(1);
           long guideId = rs.getLong(2);
           if (cityId != currentCityId) {
@@ -285,6 +290,38 @@ public class PreloadedDataReloader {
       }
     } catch (SQLException e) {
       LOG.error("DB error in reloading guide info", e);
+    }
+  }
+  
+  private static final String LOAD_SPOT_DATA =
+      "SELECT spot_id, city_id, name, description, hours, score, interests FROM Spots";
+
+  private void reloadSpotInfo(ImmutableMap.Builder<Long, SpotInfo> spotIdToInfo) {
+    Preconditions.checkNotNull(spotIdToInfo);
+    try (Connection conn = dataSource.getConnection()) {
+      try (PreparedStatement pStmt = conn.prepareStatement(LOAD_SPOT_DATA);
+          ResultSet rs = pStmt.executeQuery()) {
+        int incorrectRows = 0;
+        while (rs.next()) {
+          try {
+            long spotId = rs.getLong(1);
+            SpotInfo.Builder builder = SpotInfo.newBuilder()
+                .setSpotId(spotId)
+                .setCityId(rs.getLong(2))
+                .setName(rs.getString(3))
+                .setDescription(rs.getString(4))
+                .setHours(rs.getFloat(5))
+                .setScore(rs.getFloat(6))
+                .addAllTopics(Util.splitString(rs.getString(7)));
+            spotIdToInfo.put(spotId, builder.build());
+          } catch (NullPointerException e) {
+            incorrectRows++;
+          }
+        }
+        LOG.info("Get {} lines of incorrect rows", incorrectRows);
+      }
+    } catch (SQLException e) {
+      LOG.error("DB error in reload spot data", e);
     }
   }
 }

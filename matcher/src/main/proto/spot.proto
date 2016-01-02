@@ -42,3 +42,8 @@ message SpotPlanResponse {
   repeated int64 interest_id = 5;
   repeated DayPlan day_plan = 6;
 }
+
+message SpotInfoResponse {
+  optional Status status = 1 [ default = SUCCESS ];
+  optional SpotInfo info = 2;
+}
