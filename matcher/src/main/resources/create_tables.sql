@@ -54,7 +54,7 @@ CREATE INDEX CityAliasesCityId ON CityAliases(city_id);
 CREATE TABLE Spots (
   spot_id BIGINT PRIMARY KEY AUTO_INCREMENT,
   city_id BIGINT,
-  name VARCHAR(20),
+  name VARCHAR(100),
   description VARCHAR(200),
   hours INT,
   score FLOAT,

@@ -49,6 +49,37 @@ public class GenerateInsertSql {
     return origin.replaceAll("\\p{Cntrl}", "").trim();
   }
 
+  private static Long getLongByDigitOnly(String str) {
+    str = str.replaceAll("[^\\d.]", "");
+    return Long.valueOf(str);
+  }
+
+  private static String mergeStrings(List<String> strings) {
+    StringBuilder builder = new StringBuilder();
+    boolean isFirst = true;
+    for (String s : strings) {
+      if (isFirst) {
+        isFirst = false;
+      } else {
+        builder.append("|");
+      }
+      builder.append(s);
+    }
+    return builder.toString();
+  }
+
+  private static List<String> splitString(String origin) {
+    List<String> result = Lists.newArrayList();
+    for (String part : origin.split("[ /|]")) {
+      String s = trimString(part);
+      if (s.isEmpty()) {
+        continue;
+      }
+      result.add(s);
+    }
+    return result;
+  }
+
   public static void main(String[] args) throws IOException {
     for (String arg : args) {
       LOG.info("arg: {}", arg);
@@ -60,10 +91,43 @@ public class GenerateInsertSql {
       return;
     }
 
-    try (    PrintWriter writer = new PrintWriter(new FileWriter(new File(config.outputPath)))) {
+    try (PrintWriter writer = new PrintWriter(new FileWriter(new File(config.outputPath)))) {
       Map<String, Long> cityNameToId = getCityInfo(writer, config.csvCityPath);
       getGuideInfoSql(writer, cityNameToId, config.csvGuideInfoPath);
+      getSpotInfoSql(writer, cityNameToId, config.csvSpotPath);
     }
+  }
+
+  private static String escapeSql(String name) {
+    return name.replace("'", "\"");
+  }
+
+  private static void getSpotInfoSql(PrintWriter writer, Map<String, Long> cityNameToId,
+      String csvSpotPath) throws IOException {
+    StringJoiner spotJoiner = new StringJoiner(",");
+    CSVParser parser = CSVParser.parse(new File(csvSpotPath), Charsets.UTF_8,
+        CSVFormat.RFC4180);
+    for (CSVRecord record : parser) {
+      try {
+        long spotId = Long.valueOf(record.get(0));
+        String name = trimString(record.get(1));
+        long cityId = cityNameToId.get(record.get(2).toLowerCase());
+        String description = trimString(record.get(3));
+        float hours = Float.valueOf(record.get(4));
+        float score = Float.valueOf(record.get(5));
+        String topics = mergeStrings(splitString(record.get(6)));
+
+        spotJoiner.add(String.format("\n  (%d, %d, '%s', '%s', %.2f, %.2f, '%s')", spotId, cityId,
+            escapeSql(name), escapeSql(description), hours, score, escapeSql(topics)));
+      } catch (RuntimeException e) {
+        LOG.info("Error in parsing the spot record", e);
+      }
+    }
+    String spotSql = "INSERT INTO Spots "
+        + "(spot_id, city_id, name, description, hours, score, interests) VALUES "
+        + spotJoiner.toString() + ";";
+    LOG.info("spotSql:\n{}", spotSql);
+    writer.print(spotSql);
   }
 
   private static void getGuideInfoSql(PrintWriter writer, Map<String, Long> cityNameToId,
@@ -100,11 +164,11 @@ public class GenerateInsertSql {
           userBuilder.append(",");
         }
         builder.append(String.format("\n  (%d, %d, '%s', %d, %s, %.2f, '%s', %d)", id, userId,
-            description, numPeople, hasCar, score, topics, phone));
-        userBuilder.append(String.format("\n  (%d, '%s')", userId, name));
+            escapeSql(description), numPeople, escapeSql(hasCar), score, escapeSql(topics), phone));
+        userBuilder.append(String.format("\n  (%d, '%s')", userId, escapeSql(name)));
 
         for (String city : cities) {
-          Long cityId = cityNameToId.get(city);
+          Long cityId = cityNameToId.get(city.toLowerCase());
           if (cityId != null) {
             guideCityJoiner.add(String.format("\n (%d, %d)", id, cityId));
           }
@@ -121,33 +185,6 @@ public class GenerateInsertSql {
     LOG.info("user sql:\n{}", userBuilder.toString());
     LOG.info("guide sql:\n{}", builder.toString());
     LOG.info("guide city sql:\n{}", guideCityBuidler.toString());
-  }
-
-  private static Long getLongByDigitOnly(String str) {
-    str = str.replaceAll("[^\\d.]", "");
-    return Long.valueOf(str);
-  }
-
-  private static String mergeStrings(List<String> strings) {
-    StringBuilder builder = new StringBuilder();
-    boolean isFirst = true;
-    for (String s : strings) {
-      if (isFirst) {
-        isFirst = false;
-      } else {
-        builder.append("|");
-      }
-      builder.append(s);
-    }
-    return builder.toString();
-  }
-
-  private static List<String> splitString(String origin) {
-    List<String> result = Lists.newArrayList();
-    for (String part : origin.split("[ /|]")) {
-      result.add(trimString(part));
-    }
-    return result;
   }
 
   private static Map<String, Long> getCityInfo(PrintWriter writer, String csvCityPath)
@@ -172,18 +209,18 @@ public class GenerateInsertSql {
             "xfguo: id = {}, city_name = '{}', cnName = '{}', suggestDays = {}, minDays = {}, aliases = '{}'",
             id, cityName, cnName, suggestDays, minDays, aliases);
         builder.append(firstLine ? "\n" : ",\n");
-        builder.append(String.format("  (%d, '%s', '%s', %d, %d)", id, cityName, cnName,
+        builder.append(String.format("  (%d, '%s', '%s', %d, %d)", id, escapeSql(cityName), escapeSql(cnName),
             suggestDays, minDays));
         if (firstLine) {
           firstLine = false;
         }
 
-        cityNameToId.put(cityName, id);
-        aliasBuilder.add(String.format("\n  (%d, '%s')", id, cityName));
+        cityNameToId.put(cityName.toLowerCase(), id);
+        aliasBuilder.add(String.format("\n  (%d, '%s')", id, escapeSql(cityName)));
         for (String alias : aliases) {
           String t = trimString(alias);
-          cityNameToId.put(t, id);
-          aliasBuilder.add(String.format("\n  (%d, '%s')", id, t));
+          cityNameToId.put(t.toLowerCase(), id);
+          aliasBuilder.add(String.format("\n  (%d, '%s')", id, escapeSql(t)));
         }
       } catch (RuntimeException e) {
         LOG.info("Error in parsing the record: {}", csvRecord, e);
