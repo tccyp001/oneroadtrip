@@ -7,19 +7,19 @@ INSERT INTO Cities (city_id, city_name, cn_name, suggest, min) VALUES
 (8, 'San Francisco', '', 2, 1),
 (11, 'Vancouvor', '', 2, 1);
 
-INSERT INTO Spots (city_id, spot_id, name, hours, score, interests) VALUES
-(8, 1, '金门大桥', 2, 0.9, '浪漫'),
-(8, 2, '九曲花街', 1, 0.9, '浪漫'),
-(8, 3, '渔人码头', 2, 0.9, ''),
-(8, 4, '旧金山艺术宫', 1, 0.8, ''),
-(8, 5, '旧金山唐人街', 2, 0.7, ''),
-(8, 6, '联合广场', 1, 0.7, ''),
-(8, 7, '双子峰', 2, 0.7, ''),
-(8, 8, '恶魔岛', 4, 0.8, ''),
-(8, 9, '金门公园', 7, 0.8, ''),
-(8, 10, '旧金山市政厅', 2, 0.6, '浪漫|商务'),
-(8, 11, 'Castro St', 2, 0.7, ''),
-(8, 12, '阿拉莫广场', 2, 0.7, '');
+INSERT INTO Spots (city_id, spot_id, name, hours, score, interests, description) VALUES
+(8, 1, '金门大桥', 2, 0.9, '浪漫', ''),
+(8, 2, '九曲花街', 1, 0.9, '浪漫', ''),
+(8, 3, '渔人码头', 2, 0.9, '', ''),
+(8, 4, '旧金山艺术宫', 1, 0.8, '', ''),
+(8, 5, '旧金山唐人街', 2, 0.7, '', ''),
+(8, 6, '联合广场', 1, 0.7, '', ''),
+(8, 7, '双子峰', 2, 0.7, '', ''),
+(8, 8, '恶魔岛', 4, 0.8, '', ''),
+(8, 9, '金门公园', 7, 0.8, '', ''),
+(8, 10, '旧金山市政厅', 2, 0.6, '浪漫|商务', ''),
+(8, 11, 'Castro St', 2, 0.7, '', ''),
+(8, 12, '阿拉莫广场', 2, 0.7, '', '');
 
 ==========
 ==TESTCASE_DATA==
@@ -29,36 +29,137 @@ num_days: 3
 interest: '商务'
 day_plan {
   day_id: 1
-  spot { hours: 0  spot_name: '金门大桥' }
-  spot { hours: 0  spot_name: '渔人码头' }
-  spot { hours: 0  spot_name: '恶魔岛' }
+  spot { hours: 0  info { spot_id: 1 } }
+  spot { hours: 0  info { spot_id: 3 } }
+  spot { hours: 0  info { spot_id: 8 } }
 }
 day_plan {
-  spot { hours: 0  spot_name: 'Castro St' }
+  spot { hours: 0  info { spot_id: 11} }
 }
 =RESPONSE
 city_id: 8
 num_days: 3
-interest: '商务'
+interest: "\345\225\206\345\212\241"
 day_plan {
   day_id: 1
-  spot { hours: 2  spot_id: 1 spot_name: '金门大桥' }
-  spot { hours: 2  spot_id: 3 spot_name: '渔人码头' }
-  spot { hours: 4  spot_id: 8 spot_name: '恶魔岛' }
-  error_info: OVER_ALLOCATED;
+  spot {
+    hours: 2
+    info {
+      spot_id: 1
+      city_id: 8
+      name: "\351\207\221\351\227\250\345\244\247\346\241\245"
+      description: ""
+      hours: 2.0
+      score: 0.9
+      topics: "\346\265\252\346\274\253"
+    }
+  }
+  spot {
+    hours: 2
+    info {
+      spot_id: 3
+      city_id: 8
+      name: "\346\270\224\344\272\272\347\240\201\345\244\264"
+      description: ""
+      hours: 2.0
+      score: 0.9
+      topics: ""
+    }
+  }
+  spot {
+    hours: 4
+    info {
+      spot_id: 8
+      city_id: 8
+      name: "\346\201\266\351\255\224\345\262\233"
+      description: ""
+      hours: 4.0
+      score: 0.8
+      topics: ""
+    }
+  }
+  error_info: OVER_ALLOCATED
 }
 day_plan {
   day_id: 2
-  spot { hours: 2  spot_id: 11 spot_name: 'Castro St' }
-  spot { hours: 2  spot_id: 10 spot_name: '旧金山市政厅' }
-  spot { hours: 1  spot_id: 2 spot_name: '九曲花街' }
-  spot { hours: 1  spot_id: 4 spot_name: '旧金山艺术宫' }
-  spot { hours: 1  spot_id: 6 spot_name: '联合广场' }
+  spot {
+    hours: 2
+    info {
+      spot_id: 11
+      city_id: 8
+      name: "Castro St"
+      description: ""
+      hours: 2.0
+      score: 0.7
+      topics: ""
+    }
+  }
+  spot {
+    hours: 2
+    info {
+      spot_id: 10
+      city_id: 8
+      name: "\346\227\247\351\207\221\345\261\261\345\270\202\346\224\277\345\216\205"
+      description: ""
+      hours: 2.0
+      score: 0.6
+      topics: "\346\265\252\346\274\253"
+      topics: "\345\225\206\345\212\241"
+    }
+  }
+  spot {
+    hours: 1
+    info {
+      spot_id: 2
+      city_id: 8
+      name: "\344\271\235\346\233\262\350\212\261\350\241\227"
+      description: ""
+      hours: 1.0
+      score: 0.9
+      topics: "\346\265\252\346\274\253"
+    }
+  }
+  spot {
+    hours: 1
+    info {
+      spot_id: 4
+      city_id: 8
+      name: "\346\227\247\351\207\221\345\261\261\350\211\272\346\234\257\345\256\253"
+      description: ""
+      hours: 1.0
+      score: 0.8
+      topics: ""
+    }
+  }
+  spot {
+    hours: 1
+    info {
+      spot_id: 6
+      city_id: 8
+      name: "\350\201\224\345\220\210\345\271\277\345\234\272"
+      description: ""
+      hours: 1.0
+      score: 0.7
+      topics: ""
+    }
+  }
 }
 day_plan {
   day_id: 3
-  spot { hours: 7  spot_id: 9 spot_name: '金门公园' }
+  spot {
+    hours: 7
+    info {
+      spot_id: 9
+      city_id: 8
+      name: "\351\207\221\351\227\250\345\205\254\345\233\255"
+      description: ""
+      hours: 7.0
+      score: 0.8
+      topics: ""
+    }
+  }
 }
+
 ==========
 ==TESTCASE_DATA==
 =REQUEST
@@ -67,35 +168,136 @@ num_days: 3
 interest: '商务'
 day_plan {
   day_id: 1
-  spot { hours: 0  spot_name: '金门大桥' }
-  spot { hours: 1  spot_name: '渔人码头' }
-  spot { hours: 0  spot_name: '恶魔岛' }
+  spot { hours: 0  info { spot_id: 1 } }
+  spot { hours: 1  info { spot_id: 3 } }
+  spot { hours: 0  info { spot_id: 8 } }
 }
 day_plan {
-  spot { hours: 0  spot_name: 'Castro St' }
+  spot { hours: 0  info { spot_id: 11} }
 }
 =RESPONSE
 city_id: 8
 num_days: 3
-interest: '商务'
+interest: "\345\225\206\345\212\241"
 day_plan {
   day_id: 1
-  spot { hours: 2  spot_id: 1 spot_name: '金门大桥' }
-  spot { hours: 1  spot_id: 3 spot_name: '渔人码头' }
-  spot { hours: 4  spot_id: 8 spot_name: '恶魔岛' }
+  spot {
+    hours: 2
+    info {
+      spot_id: 1
+      city_id: 8
+      name: "\351\207\221\351\227\250\345\244\247\346\241\245"
+      description: ""
+      hours: 2.0
+      score: 0.9
+      topics: "\346\265\252\346\274\253"
+    }
+  }
+  spot {
+    hours: 1
+    info {
+      spot_id: 3
+      city_id: 8
+      name: "\346\270\224\344\272\272\347\240\201\345\244\264"
+      description: ""
+      hours: 2.0
+      score: 0.9
+      topics: ""
+    }
+  }
+  spot {
+    hours: 4
+    info {
+      spot_id: 8
+      city_id: 8
+      name: "\346\201\266\351\255\224\345\262\233"
+      description: ""
+      hours: 4.0
+      score: 0.8
+      topics: ""
+    }
+  }
 }
 day_plan {
   day_id: 2
-  spot { hours: 2  spot_id: 11 spot_name: 'Castro St' }
-  spot { hours: 2  spot_id: 10 spot_name: '旧金山市政厅' }
-  spot { hours: 1  spot_id: 2 spot_name: '九曲花街' }
-  spot { hours: 1  spot_id: 4 spot_name: '旧金山艺术宫' }
-  spot { hours: 1  spot_id: 6 spot_name: '联合广场' }
+  spot {
+    hours: 2
+    info {
+      spot_id: 11
+      city_id: 8
+      name: "Castro St"
+      description: ""
+      hours: 2.0
+      score: 0.7
+      topics: ""
+    }
+  }
+  spot {
+    hours: 2
+    info {
+      spot_id: 10
+      city_id: 8
+      name: "\346\227\247\351\207\221\345\261\261\345\270\202\346\224\277\345\216\205"
+      description: ""
+      hours: 2.0
+      score: 0.6
+      topics: "\346\265\252\346\274\253"
+      topics: "\345\225\206\345\212\241"
+    }
+  }
+  spot {
+    hours: 1
+    info {
+      spot_id: 2
+      city_id: 8
+      name: "\344\271\235\346\233\262\350\212\261\350\241\227"
+      description: ""
+      hours: 1.0
+      score: 0.9
+      topics: "\346\265\252\346\274\253"
+    }
+  }
+  spot {
+    hours: 1
+    info {
+      spot_id: 4
+      city_id: 8
+      name: "\346\227\247\351\207\221\345\261\261\350\211\272\346\234\257\345\256\253"
+      description: ""
+      hours: 1.0
+      score: 0.8
+      topics: ""
+    }
+  }
+  spot {
+    hours: 1
+    info {
+      spot_id: 6
+      city_id: 8
+      name: "\350\201\224\345\220\210\345\271\277\345\234\272"
+      description: ""
+      hours: 1.0
+      score: 0.7
+      topics: ""
+    }
+  }
 }
 day_plan {
   day_id: 3
-  spot { hours: 7  spot_id: 9 spot_name: '金门公园' }
+  spot {
+    hours: 7
+    info {
+      spot_id: 9
+      city_id: 8
+      name: "\351\207\221\351\227\250\345\205\254\345\233\255"
+      description: ""
+      hours: 7.0
+      score: 0.8
+      topics: ""
+    }
+  }
 }
+
 ==========
 ==TESTCASE_DATA==
 =REQUEST

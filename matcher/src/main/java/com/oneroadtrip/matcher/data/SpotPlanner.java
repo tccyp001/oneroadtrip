@@ -30,15 +30,12 @@ public class SpotPlanner {
 
   private static final int VISIT_HOURS_PER_DAY = 7;
 
-  final ImmutableMap<String, Long> spotNameToId;
   final ImmutableMap<Long, VisitSpot> spotIdToData;
   final ImmutableMap<Long, Set<Long>> interestToSpots;
   final ImmutableMap<Long, Float> spotToScore;
 
-  public SpotPlanner(ImmutableMap<String, Long> spotNameToId,
-      ImmutableMap<Long, VisitSpot> spotIdToData, ImmutableMap<Long, Set<Long>> interestToSpots,
-      ImmutableMap<Long, Float> spotToScore) {
-    this.spotNameToId = spotNameToId;
+  public SpotPlanner(ImmutableMap<Long, VisitSpot> spotIdToData,
+      ImmutableMap<Long, Set<Long>> interestToSpots, ImmutableMap<Long, Float> spotToScore) {
     this.spotIdToData = spotIdToData;
     this.interestToSpots = interestToSpots;
     this.spotToScore = spotToScore;
@@ -80,14 +77,14 @@ public class SpotPlanner {
     DayPlan.Builder builder = DayPlan.newBuilder().setDayId(dayId);
     if (currentDayPlan != null) {
       for (VisitSpot spot : currentDayPlan.getSpotList()) {
-        String spotName = spot.getSpotName();
-        if (!spotNameToId.containsKey(spotName)) {
-          builder.addSpot(VisitSpot.newBuilder(spot).setErrorInfo(ErrorInfo.UNKNOWN_SPOT_NAME));
-          builder.addErrorInfo(ErrorInfo.UNKNOWN_SPOT_NAME);
+        Long spotId = spot.getInfo().getSpotId();
+        VisitSpot data = spotIdToData.get(spotId);
+        if (data == null) {
+          LOG.error("Can't find spot by id {}", spotId);
+          builder.addSpot(VisitSpot.newBuilder(spot).setErrorInfo(ErrorInfo.UNKNOWN_SPOT_ID));
+          builder.addErrorInfo(ErrorInfo.UNKNOWN_SPOT_ID);
           continue;
         }
-        long spotId = spotNameToId.get(spotName);
-        VisitSpot data = Preconditions.checkNotNull(spotIdToData.get(spotId));
         int hours = spot.getHours() == 0 ? data.getHours() : spot.getHours();
         builder.addSpot(VisitSpot.newBuilder(data).setHours(hours));
         leftHours -= hours;
@@ -145,7 +142,7 @@ public class SpotPlanner {
       DayPlan newDayPlan = updateDayPlan(i + 1, currentDayPlan, interestIds, reservedSpotIds);
       builder.addDayPlan(newDayPlan);
       for (VisitSpot spot : newDayPlan.getSpotList()) {
-        reservedSpotIds.add(spot.getSpotId());
+        reservedSpotIds.add(spot.getInfo().getSpotId());
       }
     }
     return builder.build();

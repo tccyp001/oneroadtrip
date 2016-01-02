@@ -50,6 +50,10 @@ public class PreloadedDataReloader {
     // TODO(xfguo): (P1) Use ImmutableMap.Builder instead.
     Map<Long, SpotPlanner> cityIdToSpotPlanner = null;
 
+    ImmutableMap.Builder<Long, SpotInfo> spotIdToInfoBuilder = ImmutableMap.builder();
+    reloadSpotInfo(spotIdToInfoBuilder);
+    ImmutableMap<Long, SpotInfo> spotIdToInfo = spotIdToInfoBuilder.build();
+
     try (Connection conn = dataSource.getConnection()) {
       try (PreparedStatement pStmt = conn.prepareStatement(GET_ALL_CITY_DATA);
           ResultSet rs = pStmt.executeQuery()) {
@@ -106,16 +110,21 @@ public class PreloadedDataReloader {
           Float score = rs.getFloat(5);
           String interests = rs.getString(6);
           if (cityId != currentCityId) {
-            buildSpotPlanner(cityIdToSpotPlanner, currentCityId, spotNameToId, spotIdToData,
-                spotToScore, interestToSpots);
+            buildSpotPlanner(cityIdToSpotPlanner, currentCityId, spotIdToData, spotToScore,
+                interestToSpots);
             currentCityId = cityId;
             spotNameToId = Maps.newTreeMap();
             spotIdToData = Maps.newTreeMap();
             spotToScore = Maps.newTreeMap();
             interestToSpots = Maps.newTreeMap();
           }
+          SpotInfo info = spotIdToInfo.get(spotId);
+          if (info == null) {
+            LOG.error("Error in loading spot data for id {}", spotId);
+            continue;
+          }
           spotNameToId.put(name, spotId);
-          spotIdToData.put(spotId, Util.createVisitSpot(hours, spotId, name, null));
+          spotIdToData.put(spotId, Util.createVisitSpot(hours, info, null));
           spotToScore.put(spotId, score);
           for (Long interestId : Util.getInterestIds(interests, interestNameToId)) {
             if (!interestToSpots.containsKey(interestId)) {
@@ -124,8 +133,8 @@ public class PreloadedDataReloader {
             interestToSpots.get(interestId).add(spotId);
           }
         }
-        buildSpotPlanner(cityIdToSpotPlanner, currentCityId, spotNameToId, spotIdToData,
-            spotToScore, interestToSpots);
+        buildSpotPlanner(cityIdToSpotPlanner, currentCityId, spotIdToData, spotToScore,
+            interestToSpots);
       }
     } catch (NoSuchElementException e) {
       LOG.error("No DB connection in preloading...");
@@ -143,9 +152,6 @@ public class PreloadedDataReloader {
 
     ImmutableMap.Builder<Long, GuideInfo> guideIdToInfo = ImmutableMap.builder();
     reloadGuideInfo(guideIdToInfo);
-    
-    ImmutableMap.Builder<Long, SpotInfo> spotIdToInfo = ImmutableMap.builder();
-    reloadSpotInfo(spotIdToInfo);
 
     if (cityNetwork == null || suggestDaysForCities == null || cityNetwork.size() == 0
         || suggestDaysForCities.size() == 0) {
@@ -155,7 +161,7 @@ public class PreloadedDataReloader {
     return new PreloadedData(cityNetwork, suggestDaysForCities,
         ImmutableMap.copyOf(cityIdToSpotPlanner), ImmutableMap.copyOf(interestNameToId),
         cityToGuides.build(), guideToInterests.build(), guideToScore.build(), cityIdToInfo.build(),
-        guideIdToInfo.build(), spotIdToInfo.build());
+        guideIdToInfo.build(), spotIdToInfo);
   }
 
   private static final String LOAD_CITY_TO_GUIDES = "SELECT city_id, guide_id FROM GuideCities ORDER BY city_id";
@@ -207,14 +213,14 @@ public class PreloadedDataReloader {
   }
 
   private void buildSpotPlanner(Map<Long, SpotPlanner> cityIdToSpotPlanner, long cityId,
-      Map<String, Long> spotNameToId, Map<Long, VisitSpot> spotIdToData,
-      Map<Long, Float> spotToScore, Map<Long, Set<Long>> interestToSpots) {
+      Map<Long, VisitSpot> spotIdToData, Map<Long, Float> spotToScore,
+      Map<Long, Set<Long>> interestToSpots) {
     if (cityId == -1) {
       return;
     }
     cityIdToSpotPlanner.put(cityId,
-        new SpotPlanner(ImmutableMap.copyOf(spotNameToId), ImmutableMap.copyOf(spotIdToData),
-            ImmutableMap.copyOf(interestToSpots), ImmutableMap.copyOf(spotToScore)));
+        new SpotPlanner(ImmutableMap.copyOf(spotIdToData), ImmutableMap.copyOf(interestToSpots),
+            ImmutableMap.copyOf(spotToScore)));
   }
 
   private static final String QUERY_CITIES = "SELECT city_id, city_name, cn_name, suggest, min FROM Cities";
@@ -292,7 +298,7 @@ public class PreloadedDataReloader {
       LOG.error("DB error in reloading guide info", e);
     }
   }
-  
+
   private static final String LOAD_SPOT_DATA =
       "SELECT spot_id, city_id, name, description, hours, score, interests FROM Spots";
 
@@ -305,13 +311,9 @@ public class PreloadedDataReloader {
         while (rs.next()) {
           try {
             long spotId = rs.getLong(1);
-            SpotInfo.Builder builder = SpotInfo.newBuilder()
-                .setSpotId(spotId)
-                .setCityId(rs.getLong(2))
-                .setName(rs.getString(3))
-                .setDescription(rs.getString(4))
-                .setHours(rs.getFloat(5))
-                .setScore(rs.getFloat(6))
+            SpotInfo.Builder builder = SpotInfo.newBuilder().setSpotId(spotId)
+                .setCityId(rs.getLong(2)).setName(rs.getString(3)).setDescription(rs.getString(4))
+                .setHours(rs.getFloat(5)).setScore(rs.getFloat(6))
                 .addAllTopics(Util.splitString(rs.getString(7)));
             spotIdToInfo.put(spotId, builder.build());
           } catch (NullPointerException e) {
