@@ -63,7 +63,8 @@ public class GuidePlannerTest {
         guideToScore.build(),
         null,
         null,
-        cityIdToInfoBuilder.build());
+        cityIdToInfoBuilder.build(),
+        null);
   }
 
   @Test

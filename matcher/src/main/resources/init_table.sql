@@ -71,15 +71,6 @@ INSERT INTO GuideCities (guide_id, city_id) VALUES
   (6, 2), (6, 3),
   (7, 2), (7, 3), (7, 4);
 
-INSERT INTO Guides (guide_id, score, interests) VALUES
-  (1, 0.9, '浪漫'),
-  (2, 0.8, '浪漫|商务'),
-  (3, 0.7, '浪漫|商务|家庭'),
-  (4, 0.6, '商务'),
-  (5, 0.5, '家庭'),
-  (6, 0.4, '浪漫|家庭'),
-  (7, 0.3, '商务|家庭');
-
 INSERT INTO GuideReservations (guide_id, reserved_date, is_permanent) VALUES
   (1, 20151225, true),
   (3, 20151226, true), (3, 20151227, true),

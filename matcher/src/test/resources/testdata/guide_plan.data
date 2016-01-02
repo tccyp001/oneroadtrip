@@ -37,14 +37,23 @@ INSERT INTO GuideCities (guide_id, city_id) VALUES
   (6, 2), (6, 3),
   (7, 2), (7, 3), (7, 4);
 
-INSERT INTO Guides (guide_id, score, interests) VALUES
-  (1, 0.9, '浪漫'),
-  (2, 0.8, '浪漫|商务'),
-  (3, 0.7, '浪漫|商务|家庭'),
-  (4, 0.6, '商务'),
-  (5, 0.5, '家庭'),
-  (6, 0.4, '浪漫|家庭'),
-  (7, 0.3, '商务|家庭');
+INSERT INTO Users (user_id, user_name) VALUES
+  (1, 'AA'),
+  (2, 'BB'),
+  (3, 'CC'),
+  (4, 'DD'),
+  (5, 'EE'),
+  (6, 'FF'),
+  (7, 'GG');
+
+INSERT INTO Guides (guide_id, user_id, description, max_persons, has_car, score, interests, phone) VALUES
+  (1, 1, '旧金山导游', 15, False, 9.00, '家庭|商务', 5108574829),
+  (2, 2, '旧金山导游', 7, False, 8.00, '浪漫|家庭', 8163388888),
+  (3, 3, '旧金山导游', 5, False, 7.00, '高尔夫|家庭|浪漫', 6264562143),
+  (4, 4, '旧金山导游', 7, False, 6.00, '高端礼宾车', 5105857097),
+  (5, 5, '旧金山导游', 7, False, 5.00, '摄影|拍照', 5105857097),
+  (6, 6, '旧金山导游', 7, False, 4.00, '浪漫|家庭', 4086561788),
+  (7, 7, '旧金山导游', 60, False,3.00, '历史|商务|家庭', 4154898122);
 
 INSERT INTO GuideReservations (guide_id, reserved_date, is_permanent) VALUES
   (1, 20151225, true),
@@ -75,8 +84,28 @@ guide_plan {
     }
     start_date: 20151225
     num_days: 2
-    guide_id: 2
-    guide_id: 5
+    guide {
+      guide_id: 2
+      name: "BB"
+      description: "\346\227\247\351\207\221\345\261\261\345\257\274\346\270\270"
+      max_people: 7
+      has_car: false
+      score: 8.0
+      topic: "\346\265\252\346\274\253"
+      topic: "\345\256\266\345\272\255"
+      phone: 8163388888
+    }
+    guide {
+      guide_id: 5
+      name: "EE"
+      description: "\346\227\247\351\207\221\345\261\261\345\257\274\346\270\270"
+      max_people: 7
+      has_car: false
+      score: 5.0
+      topic: "\346\221\204\345\275\261"
+      topic: "\346\213\215\347\205\247"
+      phone: 5105857097
+    }
   }
   city_plan {
     city {
@@ -88,10 +117,50 @@ guide_plan {
     }
     start_date: 20151227
     num_days: 1
-    guide_id: 1
-    guide_id: 6
-    guide_id: 4
-    guide_id: 7
+    guide {
+      guide_id: 6
+      name: "FF"
+      description: "\346\227\247\351\207\221\345\261\261\345\257\274\346\270\270"
+      max_people: 7
+      has_car: false
+      score: 4.0
+      topic: "\346\265\252\346\274\253"
+      topic: "\345\256\266\345\272\255"
+      phone: 4086561788
+    }
+    guide {
+      guide_id: 1
+      name: "AA"
+      description: "\346\227\247\351\207\221\345\261\261\345\257\274\346\270\270"
+      max_people: 15
+      has_car: false
+      score: 9.0
+      topic: "\345\256\266\345\272\255"
+      topic: "\345\225\206\345\212\241"
+      phone: 5108574829
+    }
+    guide {
+      guide_id: 4
+      name: "DD"
+      description: "\346\227\247\351\207\221\345\261\261\345\257\274\346\270\270"
+      max_people: 7
+      has_car: false
+      score: 6.0
+      topic: "\351\253\230\347\253\257\347\244\274\345\256\276\350\275\246"
+      phone: 5105857097
+    }
+    guide {
+      guide_id: 7
+      name: "GG"
+      description: "\346\227\247\351\207\221\345\261\261\345\257\274\346\270\270"
+      max_people: 60
+      has_car: false
+      score: 3.0
+      topic: "\345\216\206\345\217\262"
+      topic: "\345\225\206\345\212\241"
+      topic: "\345\256\266\345\272\255"
+      phone: 4154898122
+    }
   }
 }
 guide_plan {

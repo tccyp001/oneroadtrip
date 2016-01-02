@@ -24,6 +24,7 @@ import com.oneroadtrip.matcher.common.Constants;
 import com.oneroadtrip.matcher.common.OneRoadTripException;
 import com.oneroadtrip.matcher.proto.CityInfo;
 import com.oneroadtrip.matcher.proto.CityPlan;
+import com.oneroadtrip.matcher.proto.GuideInfo;
 import com.oneroadtrip.matcher.proto.GuidePlan;
 import com.oneroadtrip.matcher.proto.GuidePlanErrorInfo;
 import com.oneroadtrip.matcher.proto.GuidePlanRequest;
@@ -55,6 +56,7 @@ public class GuidePlanner {
   final ImmutableMap<Long, ImmutableSet<Long>> guideToInterests;
   final ImmutableMap<Long, Float> guideToScore;
   final ImmutableMap<Long, CityInfo> cityIdToInfo;
+  final ImmutableMap<Long, GuideInfo> guideIdToInfo;
   final DatabaseAccessor dbAccessor;
   final OneRoadTripConfig config;
 
@@ -64,13 +66,15 @@ public class GuidePlanner {
       @Named(Constants.GUIDE_TO_INTERESTS) ImmutableMap<Long, ImmutableSet<Long>> guideToInterests,
       @Named(Constants.GUIDE_TO_SCORE) ImmutableMap<Long, Float> guideToScore,
       DatabaseAccessor dbAccessor, OneRoadTripConfig config,
-      ImmutableMap<Long, CityInfo> cityIdToInfo) {
+      ImmutableMap<Long, CityInfo> cityIdToInfo,
+      ImmutableMap<Long, GuideInfo> guideIdToInfo) {
     this.cityToGuides = cityToGuides;
     this.guideToInterests = guideToInterests;
     this.guideToScore = guideToScore;
     this.dbAccessor = dbAccessor;
     this.config = config;
     this.cityIdToInfo = cityIdToInfo;
+    this.guideIdToInfo = guideIdToInfo;
   }
 
   // Filters
@@ -166,7 +170,12 @@ public class GuidePlanner {
       Map<Long, Set<Integer>> guideToReserveDays = dbAccessor.loadGuideToReserveDays(
           orderedCandidates, cutoffTimestamp);
       for (long guideId : acceptCandidateByDates(orderedCandidates, days, guideToReserveDays)) {
-        builder.addGuideIdForWholeTrip(guideId);
+        GuideInfo guideInfo = guideIdToInfo.get(guideId);
+        if (guideInfo == null) {
+          LOG.error("Can't find guide by id: {}", guideId);
+          continue;
+        }
+        builder.addGuideForWholeTrip(guideInfo);
       }
     } catch (OneRoadTripException e) {
       builder.setPlanStatus(Status.ERROR_IN_GUIDE_PLAN);
@@ -216,8 +225,13 @@ public class GuidePlanner {
           for (int j = 0; j < old.getNumDays(); ++j) {
             days.add(old.getStartDate() + j);
           }
-          for (long guide : acceptCandidateByDates(guides.get(i), days, guideToReservedDays)) {
-            subBuilder.addGuideId(guide);
+          for (long guideId : acceptCandidateByDates(guides.get(i), days, guideToReservedDays)) {
+            GuideInfo guideInfo = guideIdToInfo.get(guideId);
+            if (guideInfo == null) {
+              LOG.error("Can't find guide by id: {}", guideId);
+              continue;
+            }
+            subBuilder.addGuide(guideInfo);
           }
         } catch (OneRoadTripException e) {
           // internal error
