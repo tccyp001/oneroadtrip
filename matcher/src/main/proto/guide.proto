@@ -27,6 +27,9 @@ message GuideInfo {
   optional float score = 6;
   repeated string topic = 7;
   optional int64 phone = 8;
+
+  // 导游可以覆盖城市信息
+  repeated CityInfo cover_city = 9;
 }
 
 message CityPlan {
