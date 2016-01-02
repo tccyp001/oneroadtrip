@@ -113,7 +113,7 @@ public class CityPlannerTest {
   }
   
   String getNameById(long id) {
-    return cityIdToInfo.get(id).getCityName();
+    return cityIdToInfo.get(id).getName();
   }
 
   VisitCity createVisitCity(long cityId, int numDays, float suggestRate) {
