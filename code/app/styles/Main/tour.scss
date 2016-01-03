@@ -18,9 +18,22 @@
 	justify-content: space-between;
 	.tour-content-header {
 		height: 60px;
-		padding: 10px;
-		img{
-			width: 50%;
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		div:first-child {
+			padding-left: 10px;
+			width: 80%;
+			i {
+				color: white;
+			}
+		}
+		button {
+			color: white;
+			background: $traverllerOrange;
+			padding: 5px 10px;
+			font-size: 1.5rem;
+			font-weight: 500;
 		}
 	}
 
@@ -47,24 +60,28 @@
 		}
 	}
 
+	.dateshow {
+		display: flex;
+		justify-content: flex-start;
+		font-size: 1.4rem;
+		font-weight: 500;
+		width: 100%;
+		div {
+			margin: 15px auto;
+		}
+		background:$travellerLightGray;
+		i {
+			margin: 2px 5px;
+		}
+	}
+
 	.tour-content-body {
 		height: 100%;
-		padding: 20px;
+		padding: 0 20px;
 		background: $travellerLightGray;
 		overflow: scroll;
 		display: flex;
 		flex-direction: column;
-		.dateshow {
-			display: flex;
-			justify-content: flex-end;
-			font-size: 1.3rem;
-			font-weight: 500;
-			padding-right: 10px;
-			margin-bottom: 10px;
-			i {
-				margin: 2px 5px;
-			}
-		}
 		.head {
 			width: 100%;
 			display: flex;
@@ -141,7 +158,8 @@
 					background: white;
 					padding: 10px;
 					div {
-						font-weight: 500;
+						font-size: 1.3rem;
+						font-weight: 400;
 						padding: 2px 5px;
 						display: flex;
 						justify-content: space-between;

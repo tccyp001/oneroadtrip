@@ -27,6 +27,7 @@ function BannerCtrl($scope, $http, $state, toastr, Controller, TourInfo) {
 				min: city.min
 			}
 		});
+		TourInfo.city = $scope.options.city;
 	}) 
 
 	$scope.datePicker = {

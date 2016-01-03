@@ -1,18 +1,20 @@
 <div class="tour">
 	<div class="tour-content">
 		<div class="tour-content-header">
-			<img src="images/logo.png">
+			<div>
+				<traveller-select options="TourInfo.city" selected="option.start_city_id" placeholder="添加城市" icon="images/icon5.png" key="city_id"></traveller-select>
+			</div>
+			<div>
+				<button class="btn" ng-click="addPlan()">添加</button>
+			</div>
+		</div>
+		<div class="dateshow">
+			<div>出行时间：{{startDate}} <i class="fa fa-long-arrow-right"></i> {{endDate}}, 共 {{diffDate}} 天</div>
 		</div>
 		<div class="tour-content-body" dnd-list="tours">
-			<div class="dateshow">
-				出行时间：{{startDate}} <i class="fa fa-long-arrow-right"></i> {{endDate}}, 共 {{diffDate}} 天
-			</div>
-			<div class="tour-content-section" ng-repeat = "tour in tours" 
-			dnd-draggable="tour" 
-			dnd-moved="tours.splice($index, 1)"
-        	dnd-effect-allowed="move"
-        	dnd-selected="tours.selected = tour"
-        	ng-class="{'selected': tours.selected === item}"
+
+			<div class="tour-content-section" ng-repeat = "tour in tours" dnd-draggable="tour" dnd-moved="tours.splice($index, 1)"
+        	dnd-effect-allowed="move" dnd-selected="tours.selected = tour" ng-class="{'selected': tours.selected === item}"
 			>
 				<div class="head">
 					<div class="head-left">
@@ -21,7 +23,7 @@
 					<div class="head-right">
 						<div>{{tour.city.cn_name}}</div>
 						<div>
-							<i class="fa fa-plus-circle" ng-click="planPlus(tour)"></i> {{tour.num_days}} <i class="fa fa-minus-circle" ng-click="planMinus(tour)"></i>
+							<i class="fa fa-plus-circle" ng-click="planPlus(tour)"></i> {{tour.num_days}} <i class="fa fa-minus-circle" ng-click="planMinus(tour)"></i> <i class="fa fa-trash-o" ng-click="deletePlan(tour)"></i>
 						</div>
 					</div>	
 				</div>
@@ -258,7 +260,7 @@
 
 
 	<div class="tour-map" ng-if="showMap">
-		<ng-map zoom="8" center="{{tour[0].city.name}}" style="height: 100%" zoom-to-include-markers="true">
+		<ng-map zoom="8" center="{{tours[0].city.name}}" style="height: 100%" zoom-to-include-markers="true">
 			<custom-marker ng-repeat="tour in tours"
 			  position="{{tour.city.name}}">
 			  <div class="mapmarker">

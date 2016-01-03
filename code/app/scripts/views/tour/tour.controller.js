@@ -10,15 +10,18 @@ angular.module('app.controllers')
     '$modal',
     'Controller',
     'TourInfo',
+    'toastr',
     TourCtrl
 ]);
 
 
-function TourCtrl($scope, $http, $modal, Controller, TourInfo) {
+function TourCtrl($scope, $http, $modal, Controller, TourInfo, toastr) {
 	
+	$scope.TourInfo = TourInfo;
 	$scope.$parent.showfooter = false;
 	$scope.tours = TourInfo.data.visit;
 	$scope.requestData = TourInfo.requestData;
+	$scope.option = {};
 
 	if (TourInfo.requestData && TourInfo.requestData.date) {
 		$scope.startDate = TourInfo.requestData.date.startDate.format('YYYY-MM-DD');
@@ -30,11 +33,16 @@ function TourCtrl($scope, $http, $modal, Controller, TourInfo) {
 		$scope.tours.splice(index, 1);
 	}
 
-	_.each($scope.tours, function(tour){
-		var id = tour.city.city_id;
-		var num_days = tour.num_days;
-		updatePlan(tour, id, num_days);
-	})
+
+	getTours();
+	function getTours() {
+		_.each($scope.tours, function(tour){
+			var id = tour.city.city_id;
+			var num_days = tour.num_days;
+			updatePlan(tour, id, num_days);
+		})
+	}
+
 
 	$scope.planPlus = function(tour){
 		tour.num_days++;
@@ -54,11 +62,50 @@ function TourCtrl($scope, $http, $modal, Controller, TourInfo) {
 			'city_id': id,
 			'num_days': days
 		}).then(function(res){
-			console.log(res);
 			tour.plans = res.data.day_plan;
 		}, function(err){
 			console.log(err);
 		}) 
+	}
+
+	$scope.addPlan = function() {
+		TourInfo.requestData.visit_city = _.clone($scope.tours);
+console.log($scope.option);
+
+		if ($scope.option.start_city_id) {
+			var newCity = {
+				"city": {
+					"city_id": $scope.option.start_city_id
+				}
+			}
+			TourInfo.requestData.visit_city.push(newCity);		
+			$http.post(Controller.base() + 'api/plan', TourInfo.requestData).then(function(res){
+				console.log(res);
+				if (res.data && res.data.status === 'SUCCESS') {
+					// $scope.tourForm.visit_city = [];
+					// $scope.tourForm.start_city_id = $scope.tourForm.end_city_id = undefined;
+					
+					TourInfo.data = res.data;
+					$scope.tours = TourInfo.data.visit;	
+					getTours();
+				} else {
+					toastr.error('无法添加此城市，请选择其他城市');
+					TourInfo.requestData.visit_city = _.clone($scope.tours);
+				}
+				delete $scope.option.start_city_id;
+				console.log($scope.option);
+			}) 
+
+		}
+		
+
+	}
+
+	$scope.deletePlan = function(tour) {
+		console.log($scope.tours);
+		console.log(tour);
+		var index = $scope.tours.indexOf(tour);
+		$scope.tours.splice(index, 1);
 	}
 
 	$scope.chooseGuide = function(){
@@ -101,29 +148,13 @@ function TourCtrl($scope, $http, $modal, Controller, TourInfo) {
 	}
 
 
-
-
 	function parseGuideInfo(data){
 		_.each(data, function(item) {
 			if (item.guide_plan_type === "ONE_GUIDE_FOR_EACH_CITY") {
 				$scope.guideInfo_Multi = item.city_plan;
-				// _.each(item.city_plan, function(plan){
-				// 	plan.guide_info = {};
-				// 	_.each(plan.guide_id, function(id) {
-				// 		$http.get(Controller.base() + 'api/guideinfo/' + id).then(function(res){
-				// 			plan.guide_info[id] = res.data.info;
-				// 		}) 						
-				// 	})
-				// });
 				console.log($scope.guideInfo_Multi);
 			} else if(item.guide_plan_type === "ONE_GUIDE_FOR_THE_WHOLE_TRIP") {
 				$scope.guideInfo = item.guide_for_whole_trip;
-				// item.guide_info = {};
-				// _.each(item.guide_id_for_whole_trip, function(id){
-				// 		$http.get(Controller.base() + 'api/guideinfo/' + id).then(function(res){
-				// 			item.guide_info[id] = res.data.info;
-				// 		}) 						
-				// })
 			}
 		})
 	}
