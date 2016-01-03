@@ -70,17 +70,14 @@ function TourCtrl($scope, $http, $modal, Controller, TourInfo, toastr) {
 
 	$scope.addPlan = function() {
 		TourInfo.requestData.visit_city = _.clone($scope.tours);
-console.log($scope.option);
-
-		if ($scope.option.start_city_id) {
+		if ($scope.start_city_id) {
 			var newCity = {
 				"city": {
-					"city_id": $scope.option.start_city_id
+					"city_id": $scope.start_city_id
 				}
 			}
 			TourInfo.requestData.visit_city.push(newCity);		
 			$http.post(Controller.base() + 'api/plan', TourInfo.requestData).then(function(res){
-				console.log(res);
 				if (res.data && res.data.status === 'SUCCESS') {
 					// $scope.tourForm.visit_city = [];
 					// $scope.tourForm.start_city_id = $scope.tourForm.end_city_id = undefined;
@@ -92,8 +89,7 @@ console.log($scope.option);
 					toastr.error('无法添加此城市，请选择其他城市');
 					TourInfo.requestData.visit_city = _.clone($scope.tours);
 				}
-				delete $scope.option.start_city_id;
-				console.log($scope.option);
+				delete $scope.start_city_id;
 			}) 
 
 		}
@@ -102,8 +98,6 @@ console.log($scope.option);
 	}
 
 	$scope.deletePlan = function(tour) {
-		console.log($scope.tours);
-		console.log(tour);
 		var index = $scope.tours.indexOf(tour);
 		$scope.tours.splice(index, 1);
 	}
@@ -152,7 +146,6 @@ console.log($scope.option);
 		_.each(data, function(item) {
 			if (item.guide_plan_type === "ONE_GUIDE_FOR_EACH_CITY") {
 				$scope.guideInfo_Multi = item.city_plan;
-				console.log($scope.guideInfo_Multi);
 			} else if(item.guide_plan_type === "ONE_GUIDE_FOR_THE_WHOLE_TRIP") {
 				$scope.guideInfo = item.guide_for_whole_trip;
 			}
@@ -177,7 +170,6 @@ console.log($scope.option);
 
 	$scope.multi_city_plan = {};
 	$scope.selectGuide = function(guide, plan){
-		console.log(guide, plan);
 		if ($scope.chooseGuideTypeStatus === 'one') {
 			$scope.selectedGuide = _.clone(guide);
 		} else if ($scope.chooseGuideTypeStatus === 'multi'){
@@ -187,7 +179,6 @@ console.log($scope.option);
 				'guide': guide
 			};
 		}
-		console.log($scope.multi_city_plan);
 		$scope.showOrder = true;
 		$scope.showMap = false;
 		resetQuote();
