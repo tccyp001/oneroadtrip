@@ -18,8 +18,8 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.oneroadtrip.matcher.Status;
 import com.oneroadtrip.matcher.common.OneRoadTripException;
+import com.oneroadtrip.matcher.proto.Status;
 
 public class DatabaseAccessor {
   private static final Logger LOG = LogManager.getLogger();

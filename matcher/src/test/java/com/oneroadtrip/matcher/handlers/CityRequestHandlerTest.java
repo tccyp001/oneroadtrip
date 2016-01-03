@@ -11,8 +11,8 @@ import org.testng.annotations.Test;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.google.protobuf.TextFormat;
-import com.oneroadtrip.matcher.CityRequest;
-import com.oneroadtrip.matcher.CityResponse;
+import com.oneroadtrip.matcher.proto.CityResponse;
+import com.oneroadtrip.matcher.proto.testing.CityRequest;
 import com.oneroadtrip.matcher.testutil.TestingDataProcessor;
 
 public class CityRequestHandlerTest extends DbTest {
@@ -33,7 +33,7 @@ public class CityRequestHandlerTest extends DbTest {
       CityRequest req = reqBuilder.build();
       CityResponse resp = respBuilder.build();
       LOG.info("xfguo: parsed req = '{}', parsed resp = '{}'", req, resp);
-      Assert.assertEquals(resp, handler.process(req).build());
+      Assert.assertEquals(resp, handler.process());
     }
   }
 }

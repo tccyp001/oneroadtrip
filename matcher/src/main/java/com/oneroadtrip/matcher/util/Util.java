@@ -1,6 +1,8 @@
 package com.oneroadtrip.matcher.util;
 
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -13,11 +15,13 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.oneroadtrip.matcher.ErrorInfo;
-import com.oneroadtrip.matcher.VisitSpot;
-import com.oneroadtrip.matcher.internal.CityConnectionInfo;
-import com.oneroadtrip.matcher.internal.EngageType;
-import com.oneroadtrip.matcher.internal.SuggestCityInfo;
+import com.oneroadtrip.matcher.proto.CityInfo;
+import com.oneroadtrip.matcher.proto.ErrorInfo;
+import com.oneroadtrip.matcher.proto.SpotInfo;
+import com.oneroadtrip.matcher.proto.VisitSpot;
+import com.oneroadtrip.matcher.proto.internal.CityConnectionInfo;
+import com.oneroadtrip.matcher.proto.internal.EngageType;
+import com.oneroadtrip.matcher.proto.internal.SuggestCityInfo;
 
 public class Util {
   private static final Logger LOG = LogManager.getLogger();
@@ -56,12 +60,8 @@ public class Util {
     return CityConnectionInfo.newBuilder().setDistance(distance).setHours(hours).build();
   }
 
-  public static VisitSpot createVisitSpot(int hours, long spotId, String spotName,
-      ErrorInfo errorInfo) {
-    VisitSpot.Builder builder = VisitSpot.newBuilder().setHours(hours).setSpotName(spotName);
-    if (spotId != 0L) {
-      builder.setSpotId(spotId);
-    }
+  public static VisitSpot createVisitSpot(int hours, SpotInfo info, ErrorInfo errorInfo) {
+    VisitSpot.Builder builder = VisitSpot.newBuilder().setHours(hours).setInfo(info);
     if (errorInfo != null) {
       builder.setErrorInfo(errorInfo);
     }
@@ -69,6 +69,7 @@ public class Util {
   }
 
   private static final String INTEREST_SPLITTOR = Pattern.quote("|");
+
   public static List<Long> getInterestIds(String interests, Map<String, Long> interestNameToId) {
     List<Long> ids = Lists.newArrayList();
     if (interests == null) {
@@ -106,4 +107,43 @@ public class Util {
     }
     return builder.build();
   }
+
+  private static final CityInfo UNKNOWN_CITY = CityInfo.newBuilder().setCityId(0L)
+      .setName("UNKNWON").setCnName("无名").build();
+
+  public static CityInfo getCityInfo(ImmutableMap<Long, CityInfo> cityIdToInfo, long cityId) {
+    CityInfo city = cityIdToInfo.get(cityId);
+    if (city == null) {
+      LOG.info("Can't find city info for id {}", cityId);
+      return UNKNOWN_CITY;
+    }
+    return CityInfo.newBuilder().setCityId(cityId).setName(city.getName())
+        .setCnName(city.getCnName()).build();
+  }
+
+  public static int advanceDays(int currentDate, int numDays) {
+    int year = currentDate / 10000;
+    int month = currentDate / 100 % 100;
+    int date = currentDate % 100;
+    Calendar cal = new GregorianCalendar(year, month - 1, date);
+    cal.add(Calendar.DATE, numDays);
+
+    int nYear = cal.get(Calendar.YEAR);
+    int nMonth = cal.get(Calendar.MONTH) + 1;
+    int nDayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+    return nYear * 10000 + nMonth * 100 + nDayOfMonth;
+  }
+
+  public static String trimString(String origin) {
+    return origin.replaceAll("\\p{Cntrl}", "").trim();
+  }
+
+  public static List<String> splitString(String origin) {
+    List<String> result = Lists.newArrayList();
+    for (String part : origin.split("[ /|]")) {
+      result.add(trimString(part));
+    }
+    return result;
+  }
+
 }

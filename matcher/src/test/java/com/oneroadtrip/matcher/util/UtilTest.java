@@ -10,7 +10,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.oneroadtrip.matcher.internal.CityConnectionInfo;
+import com.oneroadtrip.matcher.proto.internal.CityConnectionInfo;
 import com.oneroadtrip.matcher.testutil.GraphTestingUtil;
 
 public class UtilTest {
@@ -60,5 +60,12 @@ public class UtilTest {
         Lists.newArrayList(5L));
     Assert.assertEquals(Util.getInterestIds("浪漫|商务", ImmutableMap.of("浪漫", 5L, "商务", 8L)),
         Lists.newArrayList(5L, 8L));
+  }
+  
+  @Test
+  public void advanceDays() {
+    Assert.assertEquals(Util.advanceDays(20151228, 2), 20151230);
+    Assert.assertEquals(Util.advanceDays(20151225, 2), 20151227);
+    Assert.assertEquals(Util.advanceDays(20151225, 10), 20160104);
   }
 }

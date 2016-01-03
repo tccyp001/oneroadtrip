@@ -28,9 +28,9 @@ CREATE INDEX TokensToken ON Tokens(token);
 CREATE TABLE Cities(
   city_id BIGINT PRIMARY KEY AUTO_INCREMENT,
   city_name VARCHAR(100),
+  cn_name VARCHAR(100),
   suggest INT,
-  min INT,
-  max INT
+  min INT
 ) DEFAULT CHARSET=utf8;
 CREATE INDEX CitiesCityName On Cities(city_name);
 
@@ -54,7 +54,7 @@ CREATE INDEX CityAliasesCityId ON CityAliases(city_id);
 CREATE TABLE Spots (
   spot_id BIGINT PRIMARY KEY AUTO_INCREMENT,
   city_id BIGINT,
-  name VARCHAR(20),
+  name VARCHAR(100),
   description VARCHAR(200),
   hours INT,
   score FLOAT,
@@ -77,7 +77,8 @@ CREATE TABLE Guides (
 	has_car BOOLEAN,
 	score FLOAT,
   location_id BIGINT,  -- DEPRECATING...
-  interests VARCHAR(100)
+  interests VARCHAR(100),
+  phone BIGINT
 ) DEFAULT CHARSET=utf8;
 CREATE INDEX GuidesUserId ON Guides(user_id);
 
@@ -124,6 +125,7 @@ CREATE INDEX OrdersGuideId ON Orders(guide_id);
 
 CREATE TABLE Photos(
   photo_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  user_id BIGINT,
   content BLOB
 ) DEFAULT CHARSET=utf8;
 

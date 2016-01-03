@@ -2,7 +2,7 @@ syntax = "proto2";
 
 package match;
 
-option java_package = "com.oneroadtrip.matcher";
+option java_package = "com.oneroadtrip.matcher.proto";
 option java_multiple_files = true;
 
 import "common.proto";
@@ -11,12 +11,12 @@ enum ErrorInfo {
   OVER_ALLOCATED = 1;  // 当天安排时间太长了。
   UNKNOWN_SPOT_NAME = 2;  // FE设的spot name是错的。
   LEFT_HOURS = 3;  // 依然剩下了一些时间。
+  UNKNOWN_SPOT_ID = 4;
 }
 
 message VisitSpot {
   optional int32 hours = 1;
-  optional int64 spot_id = 2;
-  optional string spot_name = 3;
+  optional SpotInfo info = 2;
   optional ErrorInfo error_info = 4;
 }
 
@@ -41,4 +41,9 @@ message SpotPlanResponse {
   repeated string interest = 4;
   repeated int64 interest_id = 5;
   repeated DayPlan day_plan = 6;
+}
+
+message SpotInfoResponse {
+  optional Status status = 1 [ default = SUCCESS ];
+  optional SpotInfo info = 2;
 }

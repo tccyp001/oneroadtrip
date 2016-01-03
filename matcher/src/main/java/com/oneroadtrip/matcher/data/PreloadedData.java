@@ -12,9 +12,11 @@ import org.javatuples.Pair;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.oneroadtrip.matcher.CityResponse.City;
 import com.oneroadtrip.matcher.OneRoadTripConfig;
-import com.oneroadtrip.matcher.internal.CityConnectionInfo;
+import com.oneroadtrip.matcher.proto.CityInfo;
+import com.oneroadtrip.matcher.proto.GuideInfo;
+import com.oneroadtrip.matcher.proto.SpotInfo;
+import com.oneroadtrip.matcher.proto.internal.CityConnectionInfo;
 
 // Thread-safe
 public class PreloadedData {
@@ -78,7 +80,9 @@ public class PreloadedData {
   final ImmutableMap<Long, ImmutableSet<Long>> cityToGuides;
   final ImmutableMap<Long, ImmutableSet<Long>> guideToInterests;
   final ImmutableMap<Long, Float> guideToScore;
-  final ImmutableMap<Long, City> cityIdToInfo;
+  final ImmutableMap<Long, CityInfo> cityIdToInfo;
+  final ImmutableMap<Long, GuideInfo> guideIdToInfo;
+  final ImmutableMap<Long, SpotInfo> spotIdToInfo;
 
   PreloadedData(ImmutableMap<Pair<Long, Long>, CityConnectionInfo> cityNetwork,
       ImmutableMap<Long, Integer> suggestDaysForCities,
@@ -87,7 +91,9 @@ public class PreloadedData {
       ImmutableMap<Long, ImmutableSet<Long>> cityToGuides,
       ImmutableMap<Long, ImmutableSet<Long>> guideToInterests,
       ImmutableMap<Long, Float> guideToScore,
-      ImmutableMap<Long, City> cityIdToInfo) {
+      ImmutableMap<Long, CityInfo> cityIdToInfo,
+      ImmutableMap<Long, GuideInfo> guideIdToInfo,
+      ImmutableMap<Long, SpotInfo> spotIdToInfo) {
     this.cityNetwork = cityNetwork;
     this.suggestDaysForCities = suggestDaysForCities;
     this.cityIdToSpotPlanner = cityIdToSpotPlanner;
@@ -96,6 +102,8 @@ public class PreloadedData {
     this.guideToInterests = guideToInterests;
     this.guideToScore = guideToScore;
     this.cityIdToInfo = cityIdToInfo;
+    this.guideIdToInfo = guideIdToInfo;
+    this.spotIdToInfo = spotIdToInfo;
   }
 
   public ImmutableMap<Pair<Long, Long>, CityConnectionInfo> getCityNetwork() {
@@ -126,7 +134,15 @@ public class PreloadedData {
     return guideToScore;
   }
   
-  public ImmutableMap<Long, City> getCityIdToInfo() {
+  public ImmutableMap<Long, CityInfo> getCityIdToInfo() {
     return cityIdToInfo;
+  }
+  
+  public ImmutableMap<Long, GuideInfo> getGuideIdToInfo() {
+    return guideIdToInfo;
+  }
+  
+  public ImmutableMap<Long, SpotInfo> getSpotIdToInfo() {
+    return spotIdToInfo;
   }
 }

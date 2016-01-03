@@ -23,9 +23,9 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.collect.Lists;
 import com.googlecode.protobuf.format.JsonFormat;
 import com.googlecode.protobuf.format.JsonFormat.ParseException;
-import com.oneroadtrip.matcher.LoginRequest;
-import com.oneroadtrip.matcher.LoginResponse;
-import com.oneroadtrip.matcher.Status;
+import com.oneroadtrip.matcher.proto.LoginRequest;
+import com.oneroadtrip.matcher.proto.LoginResponse;
+import com.oneroadtrip.matcher.proto.Status;
 import com.oneroadtrip.matcher.util.HashUtil;
 import com.oneroadtrip.matcher.util.SqlUtil;
 

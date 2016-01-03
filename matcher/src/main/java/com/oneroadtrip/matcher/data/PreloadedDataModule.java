@@ -11,9 +11,11 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
-import com.oneroadtrip.matcher.CityResponse.City;
 import com.oneroadtrip.matcher.common.Constants;
-import com.oneroadtrip.matcher.internal.CityConnectionInfo;
+import com.oneroadtrip.matcher.proto.CityInfo;
+import com.oneroadtrip.matcher.proto.GuideInfo;
+import com.oneroadtrip.matcher.proto.SpotInfo;
+import com.oneroadtrip.matcher.proto.internal.CityConnectionInfo;
 
 public class PreloadedDataModule extends AbstractModule {
   @Override
@@ -26,7 +28,7 @@ public class PreloadedDataModule extends AbstractModule {
   }
   
   @Provides
-  ImmutableMap<Long, City> provideCityIdToInfo(PreloadedData data) {
+  ImmutableMap<Long, CityInfo> provideCityIdToInfo(PreloadedData data) {
     return data.getCityIdToInfo();
   }
 
@@ -74,5 +76,15 @@ public class PreloadedDataModule extends AbstractModule {
   @Provides
   Optional<CityPlanner> provideOptionalCityPlanner(CityPlanner cityPlanner) {
     return Optional.ofNullable(cityPlanner);
+  }
+  
+  @Provides
+  ImmutableMap<Long, GuideInfo> providesGuideIdToInfo(PreloadedData data) {
+    return data.getGuideIdToInfo();
+  }
+  
+  @Provides
+  ImmutableMap<Long, SpotInfo> providesSpotIdToInfo(PreloadedData data) {
+    return data.getSpotIdToInfo();
   }
 }

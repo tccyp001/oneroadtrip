@@ -1,24 +1,202 @@
 ==INSERT_DATA==
-INSERT INTO Cities (city_id, city_name, suggest, min, max) VALUES
-(1, 'New York', 3, 2, 5),
-(2, 'San Francisco', 3, 1, 4);
+INSERT INTO Cities (city_id, city_name, cn_name, suggest, min) VALUES
+(1, 'San Diego', '圣地亚哥', 2, 1),
+(2, 'Los Angels', '洛杉矶', 3, 2),
+(3, 'Las Vegas', '拉斯维加斯', 3, 2),
+(4, 'Phoenix', '菲尼克斯', 1, 1),
+(5, 'Salt Lake City', '盐湖城', 2, 1),
+(6, 'Reno', '雷诺', 2, 1),
+(7, 'Sacramento', '萨克拉门托', 1, 1),
+(8, 'San Francisco', '旧金山', 3, 1),
+(9, 'Portland', '波特兰', 1, 1),
+(10, 'Seattle', '西雅图', 2, 1),
+(11, 'Vancouvor', '温哥华', 2, 1),
+(12, 'Chicago', '芝加哥', 3, 2),
+(13, 'New York', '纽约', 4, 2),
+(14, 'Washington', '华盛顿', 2, 1),
+(15, 'Philadelphia', '费城', 2, 1),
+(16, 'Boston', '波士顿', 2, 1),
+(17, 'Miami', '迈阿密', 4, 2),
+(18, 'Atlanta', '亚特兰大', 2, 1),
+(19, 'Orlando', '奥兰多', 4, 2),
+(20, 'Houston', '休斯顿', 3, 2),
+(21, 'Denver', '丹佛', 2, 1),
+(22, 'New Orleans', '新奥尔良', 2, 1);
+
+INSERT INTO CityAliases (city_id, alias) VALUES
+(2, 'LA'),
+(2, 'LSJ'),
+(7, 'SKLMT'),
+(1, 'SD'),
+(1, 'SDYG'),
+(8, 'SF'),
+(8, 'JJS'),
+(15, 'TTT');
 
 ==========
 ==TESTCASE_DATA==
 =REQUEST
 =RESPONSE
-  status: SUCCESS
-  city: {
-    city_id: 1
-    name: "New York"
-    suggest: 3
-    min: 2
-    max: 5
-  }
-  city: {
-    city_id: 2
-    name: "San Francisco"
-    suggest: 3
-    min: 1
-    max: 4
-  }
+status: SUCCESS
+city {
+  city_id: 1
+  name: "San Diego"
+  cn_name: "圣地亚哥"
+  suggest: 2
+  min: 1
+  alias: "SD"
+  alias: "SDYG"
+}
+city {
+  city_id: 2
+  name: "Los Angels"
+  cn_name: "洛杉矶"
+  suggest: 3
+  min: 2
+  alias: "LA"
+  alias: "LSJ"
+}
+city {
+  city_id: 3
+  name: "Las Vegas"
+  cn_name: "拉斯维加斯"
+  suggest: 3
+  min: 2
+}
+city {
+  city_id: 4
+  name: "Phoenix"
+  cn_name: "菲尼克斯"
+  suggest: 1
+  min: 1
+}
+city {
+  city_id: 5
+  name: "Salt Lake City"
+  cn_name: "盐湖城"
+  suggest: 2
+  min: 1
+}
+city {
+  city_id: 6
+  name: "Reno"
+  cn_name: "雷诺"
+  suggest: 2
+  min: 1
+}
+city {
+  city_id: 7
+  name: "Sacramento"
+  cn_name: "萨克拉门托"
+  suggest: 1
+  min: 1
+  alias: "SKLMT"
+}
+city {
+  city_id: 8
+  name: "San Francisco"
+  cn_name: "旧金山"
+  suggest: 3
+  min: 1
+  alias: "SF"
+  alias: "JJS"
+}
+city {
+  city_id: 9
+  name: "Portland"
+  cn_name: "波特兰"
+  suggest: 1
+  min: 1
+}
+city {
+  city_id: 10
+  name: "Seattle"
+  cn_name: "西雅图"
+  suggest: 2
+  min: 1
+}
+city {
+  city_id: 11
+  name: "Vancouvor"
+  cn_name: "温哥华"
+  suggest: 2
+  min: 1
+}
+city {
+  city_id: 12
+  name: "Chicago"
+  cn_name: "芝加哥"
+  suggest: 3
+  min: 2
+}
+city {
+  city_id: 13
+  name: "New York"
+  cn_name: "纽约"
+  suggest: 4
+  min: 2
+}
+city {
+  city_id: 14
+  name: "Washington"
+  cn_name: "华盛顿"
+  suggest: 2
+  min: 1
+}
+city {
+  city_id: 15
+  name: "Philadelphia"
+  cn_name: "费城"
+  suggest: 2
+  min: 1
+  alias: "TTT"
+}
+city {
+  city_id: 16
+  name: "Boston"
+  cn_name: "波士顿"
+  suggest: 2
+  min: 1
+}
+city {
+  city_id: 17
+  name: "Miami"
+  cn_name: "迈阿密"
+  suggest: 4
+  min: 2
+}
+city {
+  city_id: 18
+  name: "Atlanta"
+  cn_name: "亚特兰大"
+  suggest: 2
+  min: 1
+}
+city {
+  city_id: 19
+  name: "Orlando"
+  cn_name: "奥兰多"
+  suggest: 4
+  min: 2
+}
+city {
+  city_id: 20
+  name: "Houston"
+  cn_name: "休斯顿"
+  suggest: 3
+  min: 2
+}
+city {
+  city_id: 21
+  name: "Denver"
+  cn_name: "丹佛"
+  suggest: 2
+  min: 1
+}
+city {
+  city_id: 22
+  name: "New Orleans"
+  cn_name: "新奥尔良"
+  suggest: 2
+  min: 1
+}

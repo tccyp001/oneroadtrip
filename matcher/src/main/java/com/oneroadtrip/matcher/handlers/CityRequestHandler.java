@@ -10,35 +10,22 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.ImmutableMap;
 import com.googlecode.protobuf.format.JsonFormat;
-import com.googlecode.protobuf.format.JsonFormat.ParseException;
-import com.oneroadtrip.matcher.CityRequest;
-import com.oneroadtrip.matcher.CityResponse;
-import com.oneroadtrip.matcher.CityResponse.City;
-import com.oneroadtrip.matcher.Status;
-import com.oneroadtrip.matcher.util.ProtoUtil;
+import com.oneroadtrip.matcher.proto.CityInfo;
+import com.oneroadtrip.matcher.proto.CityResponse;
+import com.oneroadtrip.matcher.proto.Status;
 
 public class CityRequestHandler implements RequestHandler {
   private static final Logger LOG = LogManager.getLogger();
 
   @Inject
-  private ImmutableMap<Long, City> cityIdToInfo;
+  private ImmutableMap<Long, CityInfo> cityIdToInfo;
 
   // TODO(xfguo): (P4) in case we use grpc in the future.
-  @Override
-  public String process(String post) {
-    CityResponse.Builder respBuilder = CityResponse.newBuilder();
-    try {
-      // TODO(xfguo): (P1) Remove the parse for CityRequest, it by-default is empty.
-      CityRequest request = ProtoUtil.GetRequest(post, CityRequest.newBuilder());
-      respBuilder = process(request);
-    } catch (ParseException e) {
-      LOG.error("failed to parse the json: {}", e);
-      respBuilder.setStatus(Status.INCORRECT_REQUEST);
-    }
-    return JsonFormat.printToString(respBuilder.build());
+  public String handleGet() {
+    return JsonFormat.printToString(process());
   }
 
-  public CityResponse.Builder process(CityRequest request) {
+  public CityResponse process() {
     CityResponse.Builder respBuilder = CityResponse.newBuilder().setStatus(Status.SUCCESS);
     try {
       mutateCityContent(respBuilder);
@@ -49,14 +36,20 @@ public class CityRequestHandler implements RequestHandler {
       LOG.error("No DB connection");
       respBuilder.setStatus(Status.NO_DB_CONNECTION);
     }
-    return respBuilder;
+    return respBuilder.build();
   }
 
   private void mutateCityContent(CityResponse.Builder builder) throws SQLException {
-    LOG.info("xfguo: cityIdToInfo: {}", cityIdToInfo);
-    for (City city : cityIdToInfo.values()) {
+    for (CityInfo city : cityIdToInfo.values()) {
       builder.addCity(city);
     }
+  }
+
+  // Never call so far.
+  @Override
+  public String process(String post) {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }

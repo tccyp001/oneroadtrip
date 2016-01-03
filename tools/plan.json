@@ -1,0 +1,36 @@
+[
+  {
+    "request": "plan",
+    "end_city_id": 8,
+            "enddate": 20160113,
+            "hotel": "5",
+            "keep_order_of_via_cities": false,
+            "num_people": 3,
+            "num_room": 2,
+            "start_city_id": 1,
+            "startdate": 20160107,
+            "visit_city": [{"city_id": 1}, {"city_id": 2}, {"city_id": 8}]
+  },
+  {
+
+  },
+  {
+    "request": "plan",
+    "start_city_id": 1,
+    "end_city_id": 8,
+    "startdate": 20160107,
+    "enddate": 20160113,
+    "hotel": "5",
+    "keep_order_of_via_cities": false,
+    "num_people": 3,
+    "num_room": 2,
+    "visit_city": [
+      { "city": {"city_id": 1} },
+      { "city": {"city_id": 2} },
+      { "city": {"city_id": 8} }
+    ]
+  },
+  {
+
+  }
+]
