@@ -72,6 +72,7 @@ public class PreloadedDataReloader {
       try (PreparedStatement pStmt = conn.prepareStatement(GET_ALL_CITY_CONNECTIONS);
           ResultSet rs = pStmt.executeQuery()) {
         Map<Pair<Long, Long>, CityConnectionInfo> cn = Maps.newTreeMap();
+        Set<Long> cities = Sets.newTreeSet();
         while (rs.next()) {
           long from = rs.getLong(1);
           long to = rs.getLong(2);
@@ -80,12 +81,14 @@ public class PreloadedDataReloader {
           // 无向图
           cn.put(Pair.with(from, to), info);
           cn.put(Pair.with(to, from), info);
+          cities.add(from);
+          cities.add(to);
         }
 
         for (Long cityId : suggestDaysForCities.keySet()) {
           cn.put(Pair.with(cityId, cityId), Util.createConnectionInfo(0, 0));
         }
-        cityNetwork = ImmutableMap.copyOf(Util.propagateNetwork(suggestDaysForCities.keySet(), cn));
+        cityNetwork = ImmutableMap.copyOf(Util.propagateNetwork(cities, cn));
       }
 
       try (PreparedStatement pStmt = conn.prepareStatement(GET_ALL_INTERSTS);

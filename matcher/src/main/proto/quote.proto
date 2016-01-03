@@ -1,0 +1,42 @@
+syntax = "proto2";
+
+package match;
+
+option java_package = "com.oneroadtrip.matcher.proto";
+option java_multiple_files = true;
+
+import "common.proto";
+
+message Quote {
+  // 以后支持多币种的时候再添加，目前就支持USD
+  optional float cost = 1;
+  optional Currency currency  = 2;
+  optional float cost_usd = 3;
+
+  optional float route_cost = 4;
+  optional float hotel_cost = 5;
+  optional float hotel_cost_for_guide = 6;
+}
+
+message Itinerary {
+  optional int32 startdate = 1;
+  repeated VisitCity city = 2;
+  repeated Edge edge = 3;
+  optional GuideInfo guide_for_whole_trip = 4;
+  optional int32 num_people = 5;
+  optional int32 num_room = 6;
+  optional int32 hotel = 7;
+
+  optional Quote quote_for_one_guide = 8;
+  optional Quote quote_for_multiple_guides = 9;
+}
+
+message QuoteRequest {
+  optional Itinerary itinerary = 1;
+}
+
+message QuoteResponse {
+  optional Status status = 1 [ default = SUCCESS ];
+
+  optional Itinerary itinerary = 2;
+}

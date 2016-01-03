@@ -46,6 +46,11 @@ public class Util {
         }
       }
     }
+    
+    for (long i : nodes) {
+      network.put(Pair.with(i, i), CityConnectionInfo.newBuilder().setDistance(0).setHours(0)
+          .build());
+    }
 
     return network;
   }
