@@ -5,7 +5,7 @@
 		</div>
 		<div class="tour-content-body" dnd-list="tours">
 			<div class="dateshow">
-				出行时间：{{startDate}} - {{endDate}}, 共{{diffDate}}天
+				出行时间：{{startDate}} <i class="fa fa-long-arrow-right"></i> {{endDate}}, 共 {{diffDate}} 天
 			</div>
 			<div class="tour-content-section" ng-repeat = "tour in tours" 
 			dnd-draggable="tour" 
@@ -19,7 +19,7 @@
 						<img src="images/tour/tour-icon.png">
 					</div>
 					<div class="head-right">
-						<div>{{tour.city.cn_city_name}}</div>
+						<div>{{tour.city.cn_name}}</div>
 						<div>
 							<i class="fa fa-plus-circle" ng-click="planPlus(tour)"></i> {{tour.num_days}} <i class="fa fa-minus-circle" ng-click="planMinus(tour)"></i>
 						</div>
@@ -37,7 +37,8 @@
 						</div>
 						<div class="section-right-content" ng-if="plan.contentStatus">
 							<div ng-repeat="spot in plan.spot">
-								{{spot.spot_name}} --- {{spot.hours}} Hours
+								<div>{{spot.info.name}}</div>
+								<div>{{spot.hours}} Hours</div>
 							</div>
 						</div>
 					</div>
@@ -46,7 +47,7 @@
 		</div>
 		<div class="tour-content-footer" ng-click="chooseGuide()">
 			<div class="icon"><i class="fa fa-user"></i></div>
-			<div class="content" ng-click="chooseGuide()">选择导游</div>
+			<div class="content">选择导游</div>
 		</div>
 	</div>
 
@@ -56,56 +57,104 @@
 		</div>
 		<div class="guide-content-body">
 			<div class="guide-content-body-left">
-				<div class="active">
+				<div ng-class="{'active': chooseGuideTypeStatus === 'one'}" ng-click="chooseGuideType('one')">
 					<div>1</div>
 					<div>位司机兼导游</div>
 					<div class="rotate">VIP</div>
 					<div>全程服务</div>
 				</div>
-				<div>
+				<div ng-class="{'active': chooseGuideTypeStatus === 'multi'}" ng-click="chooseGuideType('multi')">
 					<div>4</div>
 					<div>位司机兼导分段服务灵活组合，省</div>
 					<div class="rotate">25%</div>
 				</div>
 			</div>
-			<div class="guide-content-body-right">
-				<div class="guide-content-section" ng-repeat = "guide in tour.guideList">
-				<div class="guide-section-left">
-					<img ng-src={{guide.photo_url}} ng-click="openGuideModal(guide)">
-				</div>
-				<div class="guide-section-middle">
-					<div class="middle-header">
-						<p>{{guide.name}}</p>
-						<div class="stars">
-                    		<i class="fa fa-star"></i>
-                    		<i class="fa fa-star"></i>
-		                    <i class="fa fa-star"></i>
-		                    <i class="fa fa-star"></i>
-		                    <i class="fa fa-star-o"></i>
-                		</div>
-					</div>
-					<hr>
-					<div>
-						<div>导游经验: {{guide.experience}} 年</div>
-						<div>驾龄: {{guide.drive_year}} 年</div>
-					</div>
-					<div>
-						<div>服务城市: {{guide.city}} </div>
-					</div>
+			<div class="guide-content-body-right" >
+				<div ng-repeat = "guide in guideInfo" ng-if="chooseGuideTypeStatus === 'one'">
+					<div class="guide-content-section">
+						<div class="guide-section-left">
+							<img ng-src="/images/guide/person.png" ng-click="openGuideModal(guide)">
+						</div>
+						<div class="guide-section-middle">
+							<div class="middle-header">
+								<p>{{guide.name}}</p>
+								<div class="stars">
+		                    		<i class="fa fa-star"></i>
+		                    		<i class="fa fa-star"></i>
+				                    <i class="fa fa-star"></i>
+				                    <i class="fa fa-star"></i>
+				                    <i class="fa fa-star-o"></i>
+		                		</div>
+							</div>
+							<hr>
+							<div>导游经验: {{guide.description}}
+							</div>
+							<div>
+								服务城市: <div ng-repeat="city in guide.cover_city">{{city.cn_name}}</div>
+							</div>
 
-					<div>
-						<div>用车: {{guide.car}}</div>
-					</div>
-					<div>
-						<div>标签: <span ng-repeat="tag in guide.tag" class="drivetag">{{tag}}</span></div>
+							<div>
+								用车: {{guide.car}}
+							</div>
+							<div class="drivetagsummary">
+								标签: <div ng-repeat="tag in guide.topic" class="drivetag">{{tag}}</div>
+							</div>
+						</div>
+						<div class="guide-section-right">
+							<div ng-click="selectGuide(guide)">
+								预定
+							</div>
+						</div>
 					</div>
 				</div>
-				<div class="guide-section-right">
-					<div ng-click="selectGuide(guide)">
-						预定
+
+				<div ng-repeat = "plan in guideInfo_Multi" ng-if="chooseGuideTypeStatus === 'multi'">
+					<div class='guide-content-section-city' ng-click="toggleGuideContent(plan)">
+						<div>{{plan.city.cn_name}}</div>
+						<div>停留 {{plan.num_days}} 天</div>
+						<div>
+							<i class="fa fa-caret-down"></i>
+						</div>
+					</div>
+					<div ng-repeat="guide in plan.guide" ng-if="plan.showGuideContentStatus">
+						<div class="guide-content-section">
+							<div class="guide-section-left">
+								<img ng-src="/images/guide/person.png" ng-click="openGuideModal(guide)">
+							</div>
+						<div class="guide-section-middle">
+							<div class="middle-header">
+								<p>{{guide.name}}</p>
+								<div class="stars">
+		                    		<i class="fa fa-star"></i>
+		                    		<i class="fa fa-star"></i>
+				                    <i class="fa fa-star"></i>
+				                    <i class="fa fa-star"></i>
+				                    <i class="fa fa-star-o"></i>
+		                		</div>
+							</div>
+							<hr>
+							<div>导游经验: {{guide.description}}
+							</div>
+							<div>
+								服务城市: <div ng-repeat="city in guide.cover_city">{{city.cn_name}}</div>
+							</div>
+
+							<div>
+								用车: {{guide.car}}
+							</div>
+							<div class="drivetagsummary">
+								标签: <div ng-repeat="tag in guide.topic" class="drivetag">{{tag}}</div>
+							</div>
+						</div>
+							<div class="guide-section-right">
+								<div ng-click="selectGuide(guide, plan)">
+									预定
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
-				</div>
+
 			</div>
 		</div>
 	</div>
@@ -117,57 +166,103 @@
 		</div>
 		<div class="guide-content-body">
 			<div class="guide-content-body-right">
-				<div class="guide-content-section">
-					<div class="guide-section-left">
-						<img ng-src="{{selectedGuide.photo_url}}">
-					</div>
-					<div class="guide-section-middle">
-						<div class="middle-header">
-							<p>{{selectedGuide.name}}</p>
-							<p>Star: {{selectedGuide.score}}</p>
+					<div class="guide-content-section" ng-if="chooseGuideTypeStatus === 'one'">
+						<div class="guide-section-left">
+							<img ng-src="/images/guide/person.png" ng-click="openGuideModal(guide)">
 						</div>
-						<hr>
-						<div>
-							<div>籍贯: {{selectedGuide.citizenship}}</div>
-							<div>居住: </div>
+						<div class="guide-section-middle">
+							<div class="middle-header">
+								<p>{{selectedGuide.name}}</p>
+								<div class="stars">
+		                    		<i class="fa fa-star"></i>
+		                    		<i class="fa fa-star"></i>
+				                    <i class="fa fa-star"></i>
+				                    <i class="fa fa-star"></i>
+				                    <i class="fa fa-star-o"></i>
+		                		</div>
+							</div>
+							<hr>
+							<div>导游经验: {{selectedGuide.description}}
+							</div>
+							<div>
+								服务城市: <div ng-repeat="city in selectedGuide.cover_city">{{city.cn_name}}</div>
+							</div>
+
+							<div>
+								用车: {{selectedGuide.car}}
+							</div>
+							<div class="drivetagsummary">
+								标签: <div ng-repeat="tag in selectedGuide.topic" class="drivetag">{{tag}}</div>
+							</div>
 						</div>
-						<div>
-							<div>导游经验: {{selectedGuide.experience}} 年</div>
-							<div>驾龄: {{selectedGuide.drive_year}} 年</div>
+						<div class="guide-section-right">
+							<div ng-click="cancelSelectedGuide()">
+								取消
+							</div>
 						</div>
-						<div>
-							<div>用车:</div>
-						</div>
-						<div>
-							<div>标签:</div>
-						</div>
-					</div>
-					<div class="guide-section-right" >
-						<div ng-click="cancelSelectedGuide()">
-							取消
-						</div>
-					</div>
 				</div>
+
+				<div ng-repeat = "multi_plan in multi_city_plan" ng-if="chooseGuideTypeStatus === 'multi'">
+					<div class='guide-content-section-city' ng-click="toggleGuideContent(plan)">
+						<div>{{multi_plan.plan.city.cn_name}}</div>
+						<div>停留 {{multi_plan.plan.num_days}} 天</div>
+					</div>
+						<div class="guide-content-section">
+							<div class="guide-section-left">
+								<img ng-src="/images/guide/person.png" ng-click="openGuideModal(guide)">
+							</div>
+						<div class="guide-section-middle">
+							<div class="middle-header">
+								<p>{{multi_plan.guide.name}}</p>
+								<div class="stars">
+		                    		<i class="fa fa-star"></i>
+		                    		<i class="fa fa-star"></i>
+				                    <i class="fa fa-star"></i>
+				                    <i class="fa fa-star"></i>
+				                    <i class="fa fa-star-o"></i>
+		                		</div>
+							</div>
+							<hr>
+							<div>导游经验: {{multi_plan.guide.description}}
+							</div>
+							<div>
+								服务城市: <div ng-repeat="city in multi_plan.guide.cover_city">{{city.cn_name}}</div>
+							</div>
+
+							<div>
+								用车: {{multi_plan.guide.car}}
+							</div>
+							<div class="drivetagsummary">
+								标签: <div ng-repeat="tag in multi_plan.guide.topic" class="drivetag">{{tag}}</div>
+							</div>
+						</div>
+							<div class="guide-section-right">
+								<div ng-click="cancelGuideFromList(plan)">
+									取消
+								</div>
+							</div>
+						</div>
+				</div>
+
 			</div>
 		</div>
-		<div class="quote" ng-if="showQuoteView">
-			<div ng-repeat="quote in quotes" class="priceinfo">
-				{{quote.value}}
+		<div class="quoteView" ng-if="showQuoteView">
+			<div ng-repeat="quote in quotes" class="priceinfo" ng-click="gotoReview(quote)">
+				￥ {{quote.value}} 人
 			</div>
 		</div>
-		<div class="guide-content-footer">
-			<div class="icon"><i class="fa fa-credit-card"></i></i></div>
-			<div class="content" ng-click="getQuote()">获取价格</div>
+		<div class="guide-content-footer" ng-click="getQuote()">
+			<div class="content">{{quoteToPay}}</div>
 		</div>
 	</div>
 
 
 	<div class="tour-map" ng-if="showMap">
-		<ng-map zoom="8" center="{{tour[0].city.city_name}}" style="height: 100%" zoom-to-include-markers="true">
+		<ng-map zoom="8" center="{{tour[0].city.name}}" style="height: 100%" zoom-to-include-markers="true">
 			<custom-marker ng-repeat="tour in tours"
-			  position="{{tour.city.city_name}}">
+			  position="{{tour.city.name}}">
 			  <div class="mapmarker">
-			    <div>{{tour.city.cn_city_name}}</div>
+			    <div>{{tour.city.cn_name}}</div>
 			    <div>停留: {{tour.num_days}}天</div>
 			  </div>
 			</custom-marker>

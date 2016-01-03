@@ -4,7 +4,7 @@
 		<div class="inputdiv">
 			<div ng-if="selected_show">途径地点</div>
 			<div class="cityshow" ng-repeat="city in selected_city">
-				<span>{{city.name}}</span>
+				<div>{{city.name}}</div>
 				<i class="fa fa-times" ng-click="removeSelectedCity(city)"></i>
 			</div>
 		</div>

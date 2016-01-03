@@ -19,17 +19,12 @@ function TourCtrl($scope, $http, $modal, Controller, TourInfo) {
 	$scope.$parent.showfooter = false;
 	$scope.tours = TourInfo.data.visit;
 	$scope.requestData = TourInfo.requestData;
-	console.log(TourInfo.requestData);
 
-	$scope.startDate = TourInfo.requestData.date.startDate;
-	$scope.endDate = TourInfo.requestData.date.endDate;
-
-	// $scope.startDate = TourInfo.requestData.date.startDate.format('YYYY-MM-DD');
-	// $scope.endDate = TourInfo.requestData.date.endDate.format('YYYY-MM-DD');
-
-	// $scope.diffDate = TourInfo.requestData.date.endDate.diff(TourInfo.requestData.date.startDate);
-
-	console.log(TourInfo);
+	if (TourInfo.requestData && TourInfo.requestData.date) {
+		$scope.startDate = TourInfo.requestData.date.startDate.format('YYYY-MM-DD');
+		$scope.endDate = TourInfo.requestData.date.endDate.format('YYYY-MM-DD');
+		$scope.diffDate = TourInfo.requestData.date.endDate.diff(TourInfo.requestData.date.startDate, 'days');		
+	}
 
 	$scope.dragmoved = function(index) {
 		$scope.tours.splice(index, 1);
@@ -59,6 +54,7 @@ function TourCtrl($scope, $http, $modal, Controller, TourInfo) {
 			'city_id': id,
 			'num_days': days
 		}).then(function(res){
+			console.log(res);
 			tour.plans = res.data.day_plan;
 		}, function(err){
 			console.log(err);
@@ -66,16 +62,72 @@ function TourCtrl($scope, $http, $modal, Controller, TourInfo) {
 	}
 
 	$scope.chooseGuide = function(){
+			
+		$scope.showGuide = true;
+		$scope.showMap = false;
+
 		var obj = {
-			'city_plan': $scope.tour,
-			'interest_id': 123,
+			"start_date": $scope.requestData.startdate,
+	        "one_guide_for_whole_trip": "BOTH",
+	        "hotel": $scope.requestData.hotel,
+	        "num_people": $scope.requestData.num_people,
+	        "num_room": $scope.requestData.num_room,		
 		}
 
-		$http.post(Controller.base() + 'api/guide', obj).then(function(res){
-			console.log(res);
-		}) 
+		obj.city_plan = _.map($scope.tours, function(tour){
+			return {
+				"city": 
+					{
+					"city_id": tour.city.city_id
+					},
+				"num_days": tour.num_days
+			}
+		});
 
+		$http.post(Controller.base() + 'api/guide', obj).then(function(res){
+			parseGuideInfo(res.data.guide_plan);
+		}) 
 	}
+
+	// Default view to show one
+	$scope.chooseGuideTypeStatus = 'one';
+	$scope.chooseGuideType = function(type){
+		$scope.chooseGuideTypeStatus = type;
+	}
+
+	$scope.showGuideContentStatus = false;
+	$scope.toggleGuideContent = function(plan){
+		plan.showGuideContentStatus = !plan.showGuideContentStatus;
+	}
+
+
+
+
+	function parseGuideInfo(data){
+		_.each(data, function(item) {
+			if (item.guide_plan_type === "ONE_GUIDE_FOR_EACH_CITY") {
+				$scope.guideInfo_Multi = item.city_plan;
+				// _.each(item.city_plan, function(plan){
+				// 	plan.guide_info = {};
+				// 	_.each(plan.guide_id, function(id) {
+				// 		$http.get(Controller.base() + 'api/guideinfo/' + id).then(function(res){
+				// 			plan.guide_info[id] = res.data.info;
+				// 		}) 						
+				// 	})
+				// });
+				console.log($scope.guideInfo_Multi);
+			} else if(item.guide_plan_type === "ONE_GUIDE_FOR_THE_WHOLE_TRIP") {
+				$scope.guideInfo = item.guide_for_whole_trip;
+				// item.guide_info = {};
+				// _.each(item.guide_id_for_whole_trip, function(id){
+				// 		$http.get(Controller.base() + 'api/guideinfo/' + id).then(function(res){
+				// 			item.guide_info[id] = res.data.info;
+				// 		}) 						
+				// })
+			}
+		})
+	}
+
 
 	$scope.quotes = [
 		{
@@ -92,12 +144,52 @@ function TourCtrl($scope, $http, $modal, Controller, TourInfo) {
 		}
 	]
 
+	$scope.multi_city_plan = {};
+	$scope.selectGuide = function(guide, plan){
+		console.log(guide, plan);
+		if ($scope.chooseGuideTypeStatus === 'one') {
+			$scope.selectedGuide = _.clone(guide);
+		} else if ($scope.chooseGuideTypeStatus === 'multi'){
+			var plan_copy = _.clone(guide);
+			$scope.multi_city_plan[plan.city.city_id] = {
+				"plan": plan,
+				'guide': guide
+			};
+		}
+		console.log($scope.multi_city_plan);
+		$scope.showOrder = true;
+		$scope.showMap = false;
+		resetQuote();
+
+	}
+
+
 	$scope.getQuote = function(){
 		$scope.showQuoteView = true;
+		$scope.quoteToPay = "预览最终行程并支付";
+
+		var obj = {
+			"start_date": $scope.requestData.startdate,
+	        "hotel": $scope.requestData.hotel,
+	        "num_people": $scope.requestData.num_people,
+	        "num_room": $scope.requestData.num_room,		
+		}
+
+		if ($scope.chooseGuideTypeStatus === "one") {
+			obj.selectedGuideId = $scope.selectedGuide.id; 
+			obj.guide_plan_type = "ONE_GUIDE_FOR_THE_WHOLE_TRIP";
+		} else if ($scope.chooseGuideTypeStatus === "multi") {
+			obj.guide_plan_type = "ONE_GUIDE_FOR_EACH_CITY";
+			obj.visit_plan = _.values($scope.multi_city_plan);
+		}
 
 		// $http.post(Controller.base() + 'api/quote', obj).then(function(res){
 		// 	console.log(res);
 		// }) 		
+	}
+
+	$scope.gotoReview = function(){
+		console.log(quote);
 	}
 
 
@@ -111,128 +203,28 @@ function TourCtrl($scope, $http, $modal, Controller, TourInfo) {
 	    });
 	}
 
-	$scope.tour = {
-		data: [
-			{
-				'city': '洛杉矶',
-				'date': '3',
-				'pos': [40.74, -74.18],
-				'content': [
-					'洛杉矶是加州的第一大城（拥有超过400万人口），也是美国的第二大城[8]，仅次于纽约市。它的面积为469.1平方英里（1214.9平方公里）。洛杉矶-长滩-圣安娜都会区拥有1300万人口。',
-					'洛杉矶是加州的第一大城（拥有超过400万人口），是美国的第二大城[8]，仅次于纽约市。它的面积为469.1平方英里（1214.9平方公里）。洛杉矶-长滩-圣安娜都会区拥有1300万人口。',
-					'洛杉矶是加州的第一大城（拥有超过400万人口），是美国第二大城[8]，仅次于纽约市。它的面积为469.1平方英里（1214.9平方公里）。洛杉矶-长滩-圣安娜都会区拥有1300万人口。'
-				]
-			},
-			{
-				'city': '旧金山',
-				'date': '3',
-				'pos': [45.74, -76.18],
-				'content': [
-					'洛杉矶是加州的第一大城（拥有超过400万人口），也是美国的第二大城[8]，仅次于纽约市。它的面积为469.1平方英里（1214.9平方公里）。洛杉矶-长滩-圣安娜都会区拥有1300万人口。',
-					'洛杉矶是加州的第一大城（拥有超过400万人口），是美国的第二大城[8]，仅次于纽约市。它的面积为469.1平方英里（1214.9平方公里）。洛杉矶-长滩-圣安娜都会区拥有1300万人口。',
-					'洛杉矶是加州的第一大城（拥有超过400万人口），是美国第二大城[8]，仅次于纽约市。它的面积为469.1平方英里（1214.9平方公里）。洛杉矶-长滩-圣安娜都会区拥有1300万人口。'
-				]
-			}
-		],
-		guideList: [
-			{
-				'name':'Peter',
-				"photo_url": '/images/guide/person.png',
-				'score': 4,
-				'description': '西雅图金牌导游，熟悉西雅图所有景点，带你品尝西雅图美食。全美国带团，精通黄石公园、大峡谷、拉斯、旧金山、落山矶、1号公路等经典线路。',
-				'experience': 4,
-				'drive_year': 6,
-				'has_car': true,
-				'max_people': 6,
-				'language': '中文 英语',
-				'citizenship': '美国',
-				'price_usd': 12000,
-				'price_cny': 80000,
-				'car': '豪华七座商务车',
-				'tag': ['幽默', '帅气'],
-				'city': '旧金山，洛杉矶，拉斯维加斯',
-				'review': '玩的很开心，谢谢导游'
-			},
-			{
-				'name':'Wang',
-				"photo_url": '/images/guide/person.png',
-				'score': 4,
-				'description': '西雅图金牌导游，熟悉西雅图所有景点，带你品尝西雅图美食。全美国带团，精通黄石公园、大峡谷、拉斯、旧金山、落山矶、1号公路等经典线路。',
-				'experience': 4,
-				'drive_year': 6,
-				'has_car': true,
-				'max_people': 6,
-				'language': '中文 英语',
-				'citizenship': '美国',
-				'price_usd': 12000,
-				'price_cny': 80000,
-				'car': '豪华七座商务车',
-				'tag': ['幽默', '帅气'],
-				'city': '旧金山，洛杉矶，拉斯维加斯',
-				'review': '玩的很开心，谢谢导游'
-			},
-			{
-				'name':'Victor',
-				"photo_url": '/images/guide/person.png',
-				'score': 4,
-				'description': '西雅图金牌导游，熟悉西雅图所有景点，带你品尝西雅图美食。全美国带团，精通黄石公园、大峡谷、拉斯、旧金山、落山矶、1号公路等经典线路。',
-				'experience': 4,
-				'drive_year': 6,
-				'has_car': true,
-				'max_people': 6,
-				'language': '中文 英语',
-				'citizenship': '美国',
-				'price_usd': 12000,
-				'price_cny': 80000,
-				'car': '豪华七座商务车',
-				'tag': ['幽默', '帅气'],
-				'city': '旧金山，洛杉矶，拉斯维加斯',
-				'review': '玩的很开心，谢谢导游'
-			},
-			{
-				'name':'Jason',
-				"photo_url": '/images/guide/person.png',
-				'score': 4,
-				'description': '西雅图金牌导游，熟悉西雅图所有景点，带你品尝西雅图美食。全美国带团，精通黄石公园、大峡谷、拉斯、旧金山、落山矶、1号公路等经典线路。',
-				'experience': 4,
-				'drive_year': 6,
-				'has_car': true,
-				'max_people': 6,
-				'language': '中文 英语',
-				'citizenship': '美国',
-				'price_usd': 12000,
-				'price_cny': 80000,
-				'car': '豪华七座商务车',
-				'tag': ['幽默', '帅气'],
-				'city': '旧金山，洛杉矶，拉斯维加斯',
-				'review': '玩的很开心，谢谢导游'
-			}
-
-
-		]
-	}
-
-
 	$scope.toggleContent = function(plan){
 		plan.contentStatus = !plan.contentStatus;
 	}
 
 	$scope.showMap = true; 
 
-	$scope.chooseGuide = function(){
-		$scope.showGuide = true;
-		$scope.showMap = false;
-	}
 
-	$scope.selectGuide = function(guide){
-		$scope.selectedGuide = _.clone(guide);
-		$scope.showOrder = true;
-		$scope.showMap = false;
+	resetQuote();
+	function resetQuote(){
+		$scope.quoteToPay = "获取价格";
+		$scope.showQuoteView = false;			
 	}
 
 	$scope.cancelSelectedGuide = function(){
 		$scope.selectedGuide = {};
 		$scope.showOrder = false;
+		resetQuote();
+	}
+
+	$scope.cancelGuideFromList = function(plan) {
+		delete $scope.multi_city_plan[plan.city_id];
+		resetQuote();
 	}
 
 	$scope.gotoStep = function(step) {

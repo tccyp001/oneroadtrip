@@ -37,93 +37,6 @@ function BannerCtrl($scope, $http, $state, toastr, Controller, TourInfo) {
     $scope.tourShow = false;
 	$scope.tourForm = {};
 
-
-
-	$scope.options.depart = [
-		{
-			name: '西雅图'
-		},
-		{
-			name: '旧金山'
-		},
-		{
-			name: '洛杉矶'
-		},
-		{
-			name: '拉斯维加斯'
-		},
-		{
-			name: '盐湖城'
-		},
-		{
-			name: '黄石'
-		},
-		{
-			name: '丹佛'
-		},
-		{
-			name: '休斯顿'
-		},
-		{
-			name: '纽约'
-		},
-		{
-			name: '华盛顿'
-		},
-		{
-			name: '波士顿'
-		},
-		{
-			name: '迈阿密'
-		},
-		{
-			name: '夏威夷'
-		},
-		{
-			name: '芝加哥'
-		},
-		{
-			name: '亚特兰大'
-		},
-	];
-
-
-	$scope.options.des = [
-		{
-			name: '旧金山'
-		},
-		{
-			name: '纽约'
-		},
-		{
-			name: '洛杉矶'
-		},
-		{
-			name: '迈阿密'
-		},
-		{
-			name: '波士顿'
-		},
-	];
-
-	$scope.options.middle = [
-		{
-			name: '旧金山'
-		},
-		{
-			name: '纽约'
-		},
-		{
-			name: '洛杉矶'
-		},
-		{
-			name: '迈阿密'
-		},
-		{
-			name: '波士顿'
-		},
-	];
-
 	$scope.options.people = [
 		{
 			name: 1
@@ -190,8 +103,7 @@ function BannerCtrl($scope, $http, $state, toastr, Controller, TourInfo) {
     	if ($scope.datePicker.date.startDate && $scope.datePicker.date.endDate) {
 	    	$scope.tourForm.startdate = parseInt($scope.datePicker.date.startDate.format('YYYYMMDD'));
 	    	$scope.tourForm.enddate = parseInt($scope.datePicker.date.endDate.format('YYYYMMDD'));
-	    	console.log($scope.datePicker.date);
-	    	$scope.tourForm.date = $scope.datePicker.date;  		
+	    	$scope.tourForm.date = $scope.datePicker.date;
     	}
 
 
@@ -214,7 +126,7 @@ function BannerCtrl($scope, $http, $state, toastr, Controller, TourInfo) {
 		      	{ "city": {"city_id": 2} },
 		      	{ "city": {"city_id": 8} }
 		      	],
-			"date": {startDate: "2016-01-05T08:00:00.000Z", endDate: "2016-01-14T07:59:59.999Z"}
+			"date": $scope.datePicker.date
     	}
 
 		$http.post(Controller.base() + 'api/plan', $scope.tourForm).then(function(res){

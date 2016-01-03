@@ -30,7 +30,7 @@ function travellerSelectMultiCtrl($scope, $http) {
 
   $scope.select = function(option){
     $scope.selected_show = false;
-    $scope.selected_city_ids.push({"city_id" : option.value});
+    $scope.selected_city_ids.push({"city": {"city_id" : option.value}});
     $scope.selected_city.push(option);
     $scope.selected = $scope.selected_city_ids;
     var index = $scope.options_copy.indexOf(option);

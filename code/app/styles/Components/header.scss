@@ -2,13 +2,29 @@
 
 header {
   width: 100%;
+  .navbar {
+    margin: 0;
+  }
+  display: flex;
+  flex-direction: column;
+  .header-top {
+    background: $traverllerOrange;
+    padding-right: 120px;
+    margin-top: -5px;
+    .nav-modify li a {
+      color: white;
+      height: 40px;
+    }
+  }
 }
 
-
+header .navbar-modified .container-fuild-modified{
+  background: $traverllerOrange;
+}
 
 header .navbar-modified .navbar-brand img{
   margin-left: 60%;
-  width: 60%;
+  width: 80%;
 }
 
 
@@ -18,7 +34,8 @@ header .navbar-modified .navbar-right{
 
 header .navbar-modified .navbar-right li a{
   font-size: 1.6rem;
-  color: $traverllerOrange;
+  color: white;
+  font-weight: 500;
 }
 
 .nav-modify li a:hover {
@@ -29,15 +46,13 @@ header .navbar-modified .navbar-right li a{
 .nav-modify li {
     font-size: 1.5rem;
     color: $traverllerOrange;
-    padding-top: 5px;
+    padding: 0;
     div {
       width: 70px;
-      height: 28px;
       text-align: center;
       font-size: 1.5rem;
       font-weight: 500;
       border: 2px solid $traverllerOrange;
-      padding-top: 2px; 
     }
     div:hover {
       cursor: pointer;
@@ -46,15 +61,27 @@ header .navbar-modified .navbar-right li a{
    .headerbutton {
     color: white;
     border-radius: 20px;
-    background: $traverllerOrange; 
+    background: $traverllerOrange;
+    border: 2px solid white;
+  }
 
-}
   .headerbutton2 {
     border: 2px solid $traverllerOrange;
     color: $traverllerOrange;
     border-radius: 20px;
     background: white;
   }
+}
+
+.nav-modify li:first-child {
+  padding-top: 2px;
+} 
+
+
+header .navbar-modified .navbar-right li a{
+  color: $traverllerOrange;
+  padding: 20px;
+  font-weight: 400;
 }
 
 
