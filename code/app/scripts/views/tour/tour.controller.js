@@ -70,12 +70,18 @@ function TourCtrl($scope, $http, $modal, Controller, TourInfo, toastr) {
 
 	$scope.addPlan = function() {
 		TourInfo.requestData.visit_city = _.clone($scope.tours);
-		if ($scope.start_city_id) {
-			var newCity = {
-				"city": {
-					"city_id": $scope.start_city_id
-				}
+
+		var newCity = {
+			"city": {
+				"city_id": $scope.start_city_id
 			}
+		}
+        var index = _.findIndex(TourInfo.requestData.visit_city, function(city) {
+            return city.city.city_id === $scope.start_city_id;
+        })
+
+		if ($scope.start_city_id && index === -1) {
+
 			TourInfo.requestData.visit_city.push(newCity);		
 			$http.post(Controller.base() + 'api/plan', TourInfo.requestData).then(function(res){
 				if (res.data && res.data.status === 'SUCCESS') {
@@ -92,6 +98,8 @@ function TourCtrl($scope, $http, $modal, Controller, TourInfo, toastr) {
 				delete $scope.start_city_id;
 			}) 
 
+		} else {
+			toastr.error('城市已经存在');
 		}
 		
 
@@ -245,7 +253,7 @@ function TourCtrl($scope, $http, $modal, Controller, TourInfo, toastr) {
 	}
 
 	$scope.cancelGuideFromList = function(plan) {
-		delete $scope.multi_city_plan[plan.city_id];
+		delete $scope.multi_city_plan[plan.plan.city.city_id];
 		resetQuote();
 	}
 

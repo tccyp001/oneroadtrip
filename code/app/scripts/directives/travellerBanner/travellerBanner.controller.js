@@ -24,11 +24,12 @@ function BannerCtrl($scope, $http, $state, toastr, Controller, TourInfo) {
 			return {
 				name: city.cn_name,
 				value: city.city_id,
-				min: city.min
+				min: city.min,
+				alias: city.alias
 			}
-		});
+		})
 		TourInfo.city = $scope.options.city;
-	}) 
+	});
 
 	$scope.datePicker = {
 		date: {startDate: null, endDate: null}

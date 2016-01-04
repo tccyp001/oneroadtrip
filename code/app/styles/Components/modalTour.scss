@@ -6,7 +6,6 @@
 	justify-content: space-between;
 	margin: 10px 0;
 	div {
-		width: 100%;
 		margin-right: 10px;
 	}
 	div:last-child {
@@ -78,28 +77,30 @@
 		min-height: 50px;
 		border-radius: 5px;
 		font-size: 1.5rem;
-		padding-left: 35px;
-		padding-top: 10px;
 		color: #B1B1B1;
-		display: flex;
-		justify-content: flex-start;
-		flex-wrap: wrap;
+		margin: 0;
+		padding: 0 35px;
+		.controllerInput {
+			float: left;
+			padding: 0;
+			border: none;
+		}
+		span {
+			color: red;
+		}
 		.cityshow {
-			display: flex;
-			justify-content: space-between;
-			width: 30%;
+			float: left;
+			display:flex;
 			background: $traverllerOrange;
 			color: white;
 			font-size: 1.2rem;
 			font-weight: 600;
 			height: 30px;
 			border-radius: 5px;
-			margin-bottom: 5px;
+			margin: 5px;
 			padding: 6px;
 			i {
-				display: none;
-				margin:0;
-				paddign: 0;
+				font-size: 1rem;
 			}
 			&:hover {
 				cursor:pointer;

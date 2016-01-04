@@ -3,14 +3,14 @@
 		<img ng-src="{{icon}}" >
 		<input class="form-control" placeholder="{{placeholder}}" ng-model="selected_city_name">
 		<span ng-click="show()">
-			<i class="fa fa-plus" ></i>
+			<i class="fa fa-plus"></i>
 		</span>
-		<span >
+		<span>
 			<i class="fa fa-question" custom-popover content="出发的第一个城市"> </i>
 		</span>
 	</div>
 
 	<div class="selectlayer" ng-if="showlayer">
-		<p ng-repeat="option in options" ng-click="select(option)">{{option.name}}</p>
+		<p ng-repeat="option in options_real" ng-click="selectCity(option)">{{option.name}}</p>
 	</div>
 </div>

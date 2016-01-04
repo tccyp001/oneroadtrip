@@ -2,9 +2,9 @@
 	<div class="main-form">
 		<div class="main-slogon" >聪明的选择，让旅行更完美</div>
 		<div class="banner-form-group">
-			<div style="flex: 1"><traveller-select options="options.city" selected="tourForm.start_city_id" placeholder="出发地" icon="images/icon5.png" key="city_id"></traveller-select></div>
-			<div style="flex: 2"><traveller-select-multi options="options.city" selected="tourForm.visit_city" placeholder="途经" icon="images/icon5.png"></traveller-select-multi></div>
-			<div style="flex: 1"><traveller-select options="options.city" selected="tourForm.end_city_id" placeholder="目的地" icon="images/icon5.png" key="city_id"></traveller-select></div>
+			<div style="flex: 1"><traveller-select options="options.city" selected="tourForm.start_city_id" placeholder="入境地" icon="images/icon5.png" key="city_id"></traveller-select></div>
+			<div style="flex: 2"><traveller-select-multi options="options.city" selected="tourForm.visit_city" placeholder="增加途经地点" icon="images/icon5.png"></traveller-select-multi></div>
+			<div style="flex: 1"><traveller-select options="options.city" selected="tourForm.end_city_id" placeholder="出境地" icon="images/icon5.png" key="city_id"></traveller-select></div>
 		</div>
 
 		  <div class="banner-form-group">
@@ -13,9 +13,6 @@
 					<div class="inputgroups">
 						<img ng-src="images/icon4.png">
 						<input date-range-picker class="form-control date-picker" type="text" ng-model="datePicker.date" placeholder="日期">
-<!-- 						<span ng-click="showCalendar()">
-							<i class="fa fa-plus" ></i>
-						</span> -->
 					</div>
 				</div>
 			</div>
@@ -24,9 +21,6 @@
 					<div class="inputgroups">
 						<img ng-src="images/icon2.png">
 						<input type="text" ng-model="tourForm.num_people" placeholder="人数">
-<!-- 						<span ng-click="showCalendar()">
-							<i class="fa fa-plus" ></i>
-						</span> -->
 					</div>
 				</div>
 			</div>
@@ -35,9 +29,6 @@
 					<div class="inputgroups">
 						<img ng-src="images/icon2.png">
 						<input type="text" ng-model="tourForm.num_room" placeholder="房间">
-<!-- 						<span ng-click="showCalendar()">
-							<i class="fa fa-plus" ></i>
-						</span> -->
 					</div>
 				</div>
 			</div>
