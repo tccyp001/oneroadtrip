@@ -13,6 +13,7 @@ import org.javatuples.Pair;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.oneroadtrip.matcher.common.Constants;
@@ -55,11 +56,28 @@ public class CityPlanner {
 
     long minDistance = visitor.getMinDistance();
     List<Long> minDistancePath = visitor.getMinDistancePath();
+    List<VisitCity> orderedVisits = reorderVisitCities(visitCities, minDistancePath);
 
     Map<Long, SuggestCityInfo> suggestCityToData = chooseOtherCities(minDistance, minDistancePath);
 
-    return buildResponse(startCityId, endCityId, visitCities, minDistance, minDistancePath,
+    return buildResponse(startCityId, endCityId, orderedVisits, minDistance, minDistancePath,
         suggestCityToData);
+  }
+
+  private List<VisitCity> reorderVisitCities(List<VisitCity> visitCities, List<Long> minDistancePath) {
+    if (minDistancePath.size() == 0) {
+      return visitCities;
+    }
+    List<VisitCity> result = Lists.newArrayList();
+    Map<Long, VisitCity> cityMap = Maps.newTreeMap();
+    for (VisitCity city : visitCities) {
+      cityMap.put(city.getCity().getCityId(), city);
+    }
+    
+    for (int i = 1; i < minDistancePath.size() - 1; ++i) {
+      result.add(cityMap.get(minDistancePath.get(i)));
+    }
+    return result;
   }
 
   String getNameById(long id) {

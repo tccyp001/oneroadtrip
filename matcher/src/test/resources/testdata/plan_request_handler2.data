@@ -1,0 +1,99 @@
+==INSERT_DATA==
+INSERT INTO Cities (city_id, city_name, cn_name, suggest, min) VALUES
+(1, 'San Diego', '圣地亚哥', 2, 1),
+(2, 'Los Angels', '洛杉矶', 3, 2),
+(3, 'Las Vegas', '拉斯维加斯', 2, 2),
+(4, 'Phoenix', '菲尼克斯', 1, 1),
+(5, 'Salt Lake City', '盐湖城', 4, 1),
+(6, 'Reno', '雷诺', 2, 1),
+(7, 'Sacramento', '萨克拉门托', 1, 1),
+(8, 'San Francisco', '旧金山', 2, 1),
+(9, 'Portland', '波特兰', 1, 1),
+(10, 'Seattle', '西雅图', 2, 1),
+(11, 'Vancouvor', '温哥华', 2, 1),
+(12, 'Chicago', '芝加哥', 3, 2),
+(13, 'New York', '纽约', 4, 2),
+(14, 'Washington', '华盛顿', 2, 1),
+(15, 'Philadelphia', '费城', 2, 1),
+(16, 'Boston', '波士顿', 2, 1),
+(17, 'Miami', '迈阿密', 4, 2),
+(18, 'Atlanta', '亚特兰大', 2, 1),
+(19, 'Orlando', '奥兰多', 4, 2),
+(20, 'Houston', '休斯顿', 3, 2),
+(21, 'Denver', '丹佛', 2, 1),
+(22, 'New Orleans', '新奥尔良', 2, 1);
+
+INSERT INTO CityConnections
+(from_city_id, to_city_id, distance, hours) VALUES
+(1, 2, 120, 2),
+(2, 3, 269, 5),
+(3, 4, 297, 5),
+(3, 5, 421, 7),
+(3, 6, 448, 8),
+(5, 6, 518, 9),
+(6, 7, 135, 3),
+(7, 8, 90, 2),
+(2, 8, 383, 7),
+(8, 9, 636, 11),
+(9, 10, 173, 3),
+(7, 2, 386, 7),
+(10, 11, 143, 3);
+
+INSERT INTO CityAliases (city_id, alias) VALUES
+(2, 'LA'),
+(2, 'LSJ'),
+(7, 'SKLMT'),
+(1, 'SD'),
+(1, 'SDYG'),
+(8, 'SF'),
+(8, 'JJS');
+
+==========
+==TESTCASE_DATA==
+=REQUEST
+end_city_id: 3
+keep_order_of_via_cities: false
+start_city_id: 2
+visit_city { city { city_id: 2 } num_days: 0}
+visit_city { city { city_id: 3 } num_days: 0}
+visit_city { city { city_id: 3 } num_days: 0}
+
+=RESPONSE
+status: INCORRECT_REQUEST
+start_city {
+  city_id: 2
+  name: "Los Angels"
+  cn_name: "\346\264\233\346\235\211\347\237\266"
+}
+end_city {
+  city_id: 3
+  name: "Las Vegas"
+  cn_name: "\346\213\211\346\226\257\347\273\264\345\212\240\346\226\257"
+}
+visit {
+  city {
+    city_id: 2
+    name: "Los Angels"
+    cn_name: "\346\264\233\346\235\211\347\237\266"
+  }
+  num_days: 3
+  suggest_rate: 1.0
+}
+visit {
+  city {
+    city_id: 3
+    name: "Las Vegas"
+    cn_name: "\346\213\211\346\226\257\347\273\264\345\212\240\346\226\257"
+  }
+  num_days: 2
+  suggest_rate: 1.0
+}
+visit {
+  city {
+    city_id: 3
+    name: "Las Vegas"
+    cn_name: "\346\213\211\346\226\257\347\273\264\345\212\240\346\226\257"
+  }
+  num_days: 2
+  suggest_rate: 1.0
+}
