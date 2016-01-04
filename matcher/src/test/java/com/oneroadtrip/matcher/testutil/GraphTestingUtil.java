@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.javatuples.Pair;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.oneroadtrip.matcher.proto.CityInfo;
 import com.oneroadtrip.matcher.proto.VisitCity;
@@ -19,6 +20,13 @@ public class GraphTestingUtil {
       int distance, int hours) {
     network.put(Pair.with(x, y), weight(distance, hours));
     network.put(Pair.with(y, x), weight(distance, hours));
+  }
+
+  public static void addLink(
+      ImmutableMap.Builder<Pair<Long, Long>, CityConnectionInfo> networkBuilder, long x, long y,
+      int distance, int hours) {
+    networkBuilder.put(Pair.with(x, y), weight(distance, hours));
+    networkBuilder.put(Pair.with(y, x), weight(distance, hours));
   }
 
   public static List<VisitCity> createVisitCities(long... cityIds) {

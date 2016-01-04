@@ -49,6 +49,11 @@ public class UtilTest {
     expected.put(Pair.with(5L, 2L), GraphTestingUtil.weight(5, 3));
     expected.put(Pair.with(5L, 3L), GraphTestingUtil.weight(1, 2));
     expected.put(Pair.with(5L, 4L), GraphTestingUtil.weight(6, 1));
+    expected.put(Pair.with(1L, 1L), GraphTestingUtil.weight(0, 0));
+    expected.put(Pair.with(2L, 2L), GraphTestingUtil.weight(0, 0));
+    expected.put(Pair.with(3L, 3L), GraphTestingUtil.weight(0, 0));
+    expected.put(Pair.with(4L, 4L), GraphTestingUtil.weight(0, 0));
+    expected.put(Pair.with(5L, 5L), GraphTestingUtil.weight(0, 0));
     Assert.assertEquals(expected, Util.propagateNetwork(nodes, network));
   }
 

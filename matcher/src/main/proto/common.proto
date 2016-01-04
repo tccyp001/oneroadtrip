@@ -21,6 +21,7 @@ enum Status {
   ERR_INSERT_GUIDE_RESERVATION = 13;
   INCORRECT_GUIDE_ID = 14;
   INCORRECT_SPOT_ID = 15;
+  NO_CONNECTION_BETWEEN_CITIES = 16;
 
   // Internal status
   //
@@ -61,11 +62,12 @@ message GuideInfo {
   optional int64 phone = 8;
 
   // 导游可以覆盖城市信息
-  repeated CityInfo cover_city = 9;
+  optional CityInfo host_city = 9;
+  repeated CityInfo cover_city = 10;
 }
 
 enum GuidePlanErrorInfo {
-  // No suitable guide can be found.
+// No suitable guide can be found.
   NOT_FOUND = 1;
 }
 
@@ -97,5 +99,10 @@ message Edge {
   optional CityInfo to_city = 2;
   optional int32 distance = 3;
   optional int32 hours = 4;
-  optional TransportationType transportation_type = 5 [ default = SHUTTLE ];
+  optional TransportationType transportation_type = 5 [default = SHUTTLE];
+}
+
+message Currency {
+  optional int64 currency_id = 1 [ default = 1 ];
+  optional string name = 2 [ default = "USD" ];
 }

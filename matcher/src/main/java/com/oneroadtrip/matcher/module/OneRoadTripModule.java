@@ -18,6 +18,7 @@ import com.oneroadtrip.matcher.resources.GuideInfoResource;
 import com.oneroadtrip.matcher.resources.GuidePlanResource;
 import com.oneroadtrip.matcher.resources.LoginResource;
 import com.oneroadtrip.matcher.resources.PlanResource;
+import com.oneroadtrip.matcher.resources.QuoteResource;
 import com.oneroadtrip.matcher.resources.SignupResource;
 import com.oneroadtrip.matcher.resources.SpotInfoResource;
 import com.oneroadtrip.matcher.resources.SpotResource;
@@ -73,5 +74,6 @@ public class OneRoadTripModule extends AbstractModule {
     bind(SignupResource.class);
     bind(GuideInfoResource.class);
     bind(SpotInfoResource.class);
+    bind(QuoteResource.class);
   }
 }

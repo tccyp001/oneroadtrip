@@ -13,11 +13,11 @@ import com.oneroadtrip.matcher.proto.PlanRequest;
 import com.oneroadtrip.matcher.proto.PlanResponse;
 import com.oneroadtrip.matcher.testutil.TestingDataProcessor;
 
-public class PlanRequestHandlerTest extends DbTest {
+public class PlanRequestHandlerTest2 extends DbTest {
   @Test
   public void basic() throws Exception {
     TestingDataProcessor processor = TestingDataProcessor.loadData(h2Info.connection.get(),
-        Files.toString(new File(TESTDATA_PATH + "plan_request_handler.data"), Charsets.UTF_8));
+        Files.toString(new File(TESTDATA_PATH + "plan_request_handler2.data"), Charsets.UTF_8));
     
     for (Pair<String, String> entry : processor.getCases()) {
       PlanRequest.Builder reqBuilder = PlanRequest.newBuilder();
