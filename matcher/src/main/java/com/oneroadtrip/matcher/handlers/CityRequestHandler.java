@@ -13,6 +13,7 @@ import com.googlecode.protobuf.format.JsonFormat;
 import com.oneroadtrip.matcher.proto.CityInfo;
 import com.oneroadtrip.matcher.proto.CityResponse;
 import com.oneroadtrip.matcher.proto.Status;
+import com.oneroadtrip.matcher.util.LogUtil;
 
 public class CityRequestHandler implements RequestHandler {
   private static final Logger LOG = LogManager.getLogger();
@@ -36,7 +37,7 @@ public class CityRequestHandler implements RequestHandler {
       LOG.error("No DB connection");
       respBuilder.setStatus(Status.NO_DB_CONNECTION);
     }
-    return respBuilder.build();
+    return LogUtil.logAndReturnResponse("/api/city", null, respBuilder.build());
   }
 
   private void mutateCityContent(CityResponse.Builder builder) throws SQLException {

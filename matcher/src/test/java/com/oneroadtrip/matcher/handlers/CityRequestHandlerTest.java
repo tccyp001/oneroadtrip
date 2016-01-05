@@ -25,14 +25,12 @@ public class CityRequestHandlerTest extends DbTest {
 
     CityRequestHandler handler = injector.getInstance(CityRequestHandler.class);
     for (Pair<String, String> entry : processor.getCases()) {
-      LOG.info("xfguo: req text = '{}', resp text = '{}'", entry.getValue0(), entry.getValue1());
       CityRequest.Builder reqBuilder = CityRequest.newBuilder();
       TextFormat.merge(entry.getValue0(), reqBuilder);
       CityResponse.Builder respBuilder = CityResponse.newBuilder();
       TextFormat.merge(entry.getValue1(), respBuilder);
       CityRequest req = reqBuilder.build();
       CityResponse resp = respBuilder.build();
-      LOG.info("xfguo: parsed req = '{}', parsed resp = '{}'", req, resp);
       Assert.assertEquals(resp, handler.process());
     }
   }

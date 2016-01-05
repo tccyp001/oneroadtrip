@@ -19,6 +19,7 @@ import com.oneroadtrip.matcher.proto.Quote;
 import com.oneroadtrip.matcher.proto.QuoteRequest;
 import com.oneroadtrip.matcher.proto.QuoteResponse;
 import com.oneroadtrip.matcher.proto.Status;
+import com.oneroadtrip.matcher.util.LogUtil;
 import com.oneroadtrip.matcher.util.ProtoUtil;
 
 @Path("quote")
@@ -59,7 +60,7 @@ public class QuoteResource {
       }
       QuoteResponse response = QuoteResponse.newBuilder().setItinerary(builder)
           .setStatus(Status.SUCCESS).build();
-      return response;
+      return LogUtil.logAndReturnResponse("/api/quote", request, response);
     } catch (OneRoadTripException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
