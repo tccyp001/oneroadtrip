@@ -86,7 +86,7 @@ function HeaderModalCtrl($scope, $modalInstance, $http, $cookies, $cookieStore, 
       //应用的APPID，请改为你自己的
       var appID = "101277978";
       //成功授权后的回调地址，请改为你自己的
-      var redirectURI = "http://www.legovictor.com/#/userLogin";
+      var redirectURI = "http://www.oneroadtrip.com/";
 
       //构造请求
       console.log(window.location.hash);
