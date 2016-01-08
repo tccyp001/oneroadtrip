@@ -1,0 +1,17 @@
+@import 'variables';
+
+.reviewPage {
+	width: 70%;
+	margin: 0 auto;
+
+	div {
+		font-size: 2rem;
+		text-align: center;
+	}
+	button {
+		margin-top: 20px;
+		background: $traverllerOrange;
+		color: white;
+		font-weight: bold;
+	}
+}

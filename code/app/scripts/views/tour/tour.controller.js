@@ -8,6 +8,7 @@ angular.module('app.controllers')
     '$scope',
     '$http',
     '$modal',
+    '$state',
     'Controller',
     'TourInfo',
     'toastr',
@@ -15,7 +16,7 @@ angular.module('app.controllers')
 ]);
 
 
-function TourCtrl($scope, $http, $modal, Controller, TourInfo, toastr) {
+function TourCtrl($scope, $http, $modal, $state, Controller, TourInfo, toastr) {
 	
 	$scope.TourInfo = TourInfo;
 	$scope.$parent.showfooter = false;
@@ -205,21 +206,39 @@ function TourCtrl($scope, $http, $modal, Controller, TourInfo, toastr) {
 	        "num_room": $scope.requestData.num_room,		
 		}
 
+		console.log($scope.tours);
+
+		obj.city = _.map($scope.tours, function(tour){
+			return {
+				"city": 
+					{
+					"city_id": tour.city.city_id
+					},
+				"num_days": tour.num_days,
+
+			}
+		});
+
+
+		console.log($scope.selectedGuide);
 		if ($scope.chooseGuideTypeStatus === "one") {
-			obj.selectedGuideId = $scope.selectedGuide.id; 
+			obj.selectedGuideId = $scope.selectedGuide.guide_id; 
 			obj.guide_plan_type = "ONE_GUIDE_FOR_THE_WHOLE_TRIP";
 		} else if ($scope.chooseGuideTypeStatus === "multi") {
 			obj.guide_plan_type = "ONE_GUIDE_FOR_EACH_CITY";
 			obj.visit_plan = _.values($scope.multi_city_plan);
 		}
 
-		// $http.post(Controller.base() + 'api/quote', obj).then(function(res){
-		// 	console.log(res);
-		// }) 		
+		console.log(obj);
+		$http.post(Controller.base() + 'api/quote', obj).then(function(res){
+			console.log(res);
+		}) 		
 	}
 
-	$scope.gotoReview = function(){
+	$scope.gotoReview = function(quote){
 		console.log(quote);
+		TourInfo.quote = quote;
+		$state.go('review');
 	}
 
 

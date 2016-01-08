@@ -1,0 +1,35 @@
+<div class="reviewPage">
+	<div>
+	旅行行程
+	</div>
+
+	<div>
+		选择支付方式
+	</div>
+
+	<div>
+		<form ng-submit="paymentThroughStripe()">
+		  <script
+		    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+		    data-key="pk_test_o8vBSoWdOOXImHqSIPJvufTV"
+		    data-name="Demo Site"
+		    data-description="2 widgets ($20.00)"
+		    data-amount="2000"
+		    data-currency="usd"
+		    data-alipay="true">
+		  </script>
+		</form>
+
+	</div>
+
+	<div><button class="btn" stripe-checkout="doCheckout"
+            data-key="pk_test_o8vBSoWdOOXImHqSIPJvufTV"
+            data-name="Simple Example"
+            data-description="Five dollahs!"
+            data-amount="500"
+           	data-currency="usd"
+		    data-alipay="true">支付</button></div>
+
+
+
+</div>

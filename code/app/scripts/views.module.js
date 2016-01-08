@@ -37,6 +37,11 @@ function DashboardConfig ($stateProvider) {
         templateUrl: 'scripts/views/guide/guide.tpl.html',
         controller: 'GuideCtrl'
     });
+    $stateProvider.state('review', {
+        url: '/review',
+        templateUrl: 'scripts/views/review/review.tpl.html',
+        controller: 'ReviewCtrl'
+    });
 }
 
 }());
