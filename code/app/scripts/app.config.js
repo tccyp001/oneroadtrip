@@ -10,10 +10,10 @@ angular.module('app')
     AppConfig
 ])
 
-function AppConfig ($stateProvider, $httpProvider, $urlRouterProvider, $resourceProvider) {
+function AppConfig ($stateProvider, $httpProvider, $urlRouterProvider, $resourceProvider, $$locationProvider) {
     // Setting default route to display index
     $urlRouterProvider.otherwise('/main');
-
+    // $locationProvider.html5Mode(true).hashPrefix('!');
 
     $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
@@ -23,9 +23,9 @@ function AppConfig ($stateProvider, $httpProvider, $urlRouterProvider, $resource
 
 }
 
-
 // Modal Config
-angular.module('app').config(function(toastrConfig) {
+angular.module('app')
+.config(['toastrConfig', function(toastrConfig) {
   angular.extend(toastrConfig, {
     allowHtml: false,
     closeButton: false,
@@ -47,7 +47,15 @@ angular.module('app').config(function(toastrConfig) {
     titleClass: 'modal-toast-title',
     toastClass: 'modal-toast'
   });
-});
+}])
+
+.config(['OAuthProvider', function(OAuthProvider) {
+OAuthProvider.configure({
+  baseUrl: 'https://api.website.com',
+  clientId: 'CLIENT_ID',
+  clientSecret: 'CLIENT_SECRET' // optional
+    });
+}]);
 
 
 }());

@@ -6,6 +6,7 @@
 angular.module('app.controllers')
 .controller('HeaderModalCtrl', [
     '$scope',
+    '$modal',
     '$modalInstance',
     '$http',
     '$cookies',
@@ -17,7 +18,7 @@ angular.module('app.controllers')
 ]);
 
 
-function HeaderModalCtrl($scope, $modalInstance, $http, $cookies, $cookieStore, $window, toastr, User) {
+function HeaderModalCtrl($scope, $modal, $modalInstance, $http, $cookies, $cookieStore, $window, toastr, User) {
 
 	$scope.forms = {};
 
@@ -33,7 +34,7 @@ function HeaderModalCtrl($scope, $modalInstance, $http, $cookies, $cookieStore, 
 		var forms = _.clone($scope.forms);
 		User.signup(forms)
 	    .then(function(res) {
-	        if (res.status === 'SUCCESS') {
+	     if (res.status === 'SUCCESS') {
 				$cookieStore.put('username', $scope.forms.username);
 				$cookieStore.put('token', res.token);
 				$cookieStore.put('isLoggin', true);
@@ -72,7 +73,15 @@ function HeaderModalCtrl($scope, $modalInstance, $http, $cookies, $cookieStore, 
         })
   }
 
-
+  function openModal(url){
+    $scope.url = url;
+    var signupModalInstance = $modal.open({
+      animation: true,
+      scope: $scope,
+      templateUrl: 'scripts/directives/modal/oauthModal.tpl.html',
+      controller: 'OauthModalCtrl'
+    });
+  }
 
   $scope.oauthThroughQQ = function(){
     function callback(user) 
@@ -89,17 +98,16 @@ function HeaderModalCtrl($scope, $modalInstance, $http, $cookies, $cookieStore, 
       var redirectURI = "http://www.oneroadtrip.com/";
 
       //构造请求
-      console.log(window.location.hash);
-      console.log(window.location.hash.length);
       if (window.location.hash.length == 6) 
       {
         var path = 'https://graph.qq.com/oauth2.0/authorize?';
         var queryParams = ['client_id=' + appID,'redirect_uri=' + redirectURI, 'scope=' + 'get_user_info,list_album,upload_pic,add_feeds,do_like','response_type=token'];
-        console.log(queryParams);
         var query = queryParams.join('&');
         var url = path + query;
+        openModal(url);
         // var url = 'https://graph.qq.com/oauth/show?which=ConfirmPage&display=pc&client_id=101045717&redirect_uri=http%3A%2F%2Fwww.mioji.com%2Fuser%2FsnsLogin%3Fsnstype%3Dqq&response_type=code&state=8f14e45fceea167a5a36dedd4bea2543';
-        $window.open(url, 'C-Sharpcorner', 'width=500,height=400');
+        // $window.open(url, 'C-Sharpcorner', 'width=500,height=400');
+        // console.log(window.location.hash);
       }
       else 
       {
