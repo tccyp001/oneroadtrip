@@ -14,9 +14,11 @@ import com.oneroadtrip.matcher.proto.GuidePlanResponse;
 import com.oneroadtrip.matcher.proto.GuidePlanType;
 import com.oneroadtrip.matcher.proto.Status;
 import com.oneroadtrip.matcher.proto.VisitCity;
+import com.oneroadtrip.matcher.util.LogUtil;
 import com.oneroadtrip.matcher.util.ProtoUtil;
 import com.oneroadtrip.matcher.util.Util;
 
+// TODO(xfguo): Maybe we don't need RequestHandler for most of the request, it introduces complexities.
 public class GuidePlanRequestHandler implements RequestHandler {
   private static final Logger LOG = LogManager.getLogger();
 
@@ -30,7 +32,7 @@ public class GuidePlanRequestHandler implements RequestHandler {
       GuidePlanRequest request = ProtoUtil.GetRequest(post, GuidePlanRequest.newBuilder());
       return JsonFormat.printToString(process(request));
     } catch (ParseException e) {
-      LOG.error("failed to parse the json: {}", e);
+      LOG.error("failed to parse the json: {}", post, e);
       return JsonFormat.printToString(GuidePlanResponse.newBuilder()
           .setStatus(Status.INCORRECT_REQUEST).build());
     }
@@ -51,7 +53,7 @@ public class GuidePlanRequestHandler implements RequestHandler {
       LOG.error("OneRoadTrip exception: ", e);
       return builder.setStatus(e.getStatus()).build();
     }
-    return builder.build();
+    return LogUtil.logAndReturnResponse("/api/guide", request, builder.build());
   }
 
   private GuidePlanRequest processRequest(GuidePlanRequest request) throws OneRoadTripException {

@@ -17,6 +17,7 @@ import com.oneroadtrip.matcher.data.SpotPlanner;
 import com.oneroadtrip.matcher.proto.SpotPlanRequest;
 import com.oneroadtrip.matcher.proto.SpotPlanResponse;
 import com.oneroadtrip.matcher.proto.Status;
+import com.oneroadtrip.matcher.util.LogUtil;
 import com.oneroadtrip.matcher.util.ProtoUtil;
 
 public class SpotRequestHandler implements RequestHandler {
@@ -28,7 +29,7 @@ public class SpotRequestHandler implements RequestHandler {
   @Inject
   @Named(Constants.INTEREST_NAME_TO_ID)
   ImmutableMap<String, Long> interestNameToId;
-  
+
   @Override
   public String process(String post) {
     try {
@@ -43,14 +44,10 @@ public class SpotRequestHandler implements RequestHandler {
 
   SpotPlanResponse process(SpotPlanRequest request) {
     List<Long> interestIds = getInterestIdsByName(request.getInterestList());
-    if (request.hasCityId()) {
-      SpotPlanner planner = spotPlanners.get(request.getCityId());
-      if (planner != null) {
-        return planner.planSpot(interestIds, request);
-      }
-    }
-    
-    return SpotPlanResponse.newBuilder().setStatus(Status.INCORRECT_REQUEST).build();
+    SpotPlanner planner = spotPlanners.get(request.getCityId());
+    SpotPlanResponse response = (planner == null) ? SpotPlanResponse.newBuilder()
+        .setStatus(Status.INCORRECT_REQUEST).build() : planner.planSpot(interestIds, request);
+    return LogUtil.logAndReturnResponse("/api/spot", request, response);
   }
 
   private List<Long> getInterestIdsByName(List<String> interestList) {

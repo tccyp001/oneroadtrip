@@ -23,7 +23,6 @@ public class GuidePlanResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public String post(String post) {
-    LOG.info("xfguo: AAA");
     return handler.process(post);
   }
 }

@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
+  <properties>
+    <property name="logPath">/var/lib/oneroadtrip/logs</property>
+  </properties>
   <Appenders>
     <Console name="console" target="SYSTEM_OUT">
-      <PatternLayout
-        pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n" />
+      <PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n" />
     </Console>
+    <RollingFile name="RollingFile" filename="${logPath}/automation.log"
+      filepattern="${logPath}/%d{yyyyMMddHHmmss}-automation.log">
+      <PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n" />
+      <Policies>
+        <SizeBasedTriggeringPolicy size="1 MB" />
+      </Policies>
+      <DefaultRolloverStrategy max="20" />
+    </RollingFile>
   </Appenders>
   <Loggers>
+    <Logger name="com.oneroadtrip.matcher.util.LogUtil" additivity="false" level="INFO">
+      <AppenderRef ref="RollingFile" level="INFO" />
+    </Logger>
     <Root level="info" additivity="false">
       <AppenderRef ref="console" />
     </Root>
