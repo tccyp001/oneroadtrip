@@ -19,12 +19,9 @@ var config = require('./server/config/config')[env];
 // require('./server/config/router')(app);
 
 app.use(cors());
-
-
-
-app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
 
 if (env === 'development') {
 	app.use(express.static('.tmp'));

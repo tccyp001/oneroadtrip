@@ -11,7 +11,6 @@ angular.module('app', [
     'app.filters',
     'ui.router',
     'ui.bootstrap',
-    'angular-oauth2',
     'ngResource',
     'ngMaterial',
     'ngCookies',

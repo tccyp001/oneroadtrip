@@ -15,11 +15,12 @@ function AppConfig ($stateProvider, $httpProvider, $urlRouterProvider, $resource
     $urlRouterProvider.otherwise('/main');
     // $locationProvider.html5Mode(true).hashPrefix('!');
 
+
     $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
     // push interceptor
-    // $httpProvider.interceptors.push('ApiInterceptor');
+    $httpProvider.interceptors.push('ApiInterceptor');
 
 }
 
@@ -48,14 +49,6 @@ angular.module('app')
     toastClass: 'modal-toast'
   });
 }])
-
-.config(['OAuthProvider', function(OAuthProvider) {
-OAuthProvider.configure({
-  baseUrl: 'https://api.website.com',
-  clientId: 'CLIENT_ID',
-  clientSecret: 'CLIENT_SECRET' // optional
-    });
-}]);
 
 
 }());

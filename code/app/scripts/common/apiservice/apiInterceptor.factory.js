@@ -12,10 +12,11 @@ function ApiInterceptorFactory($rootScope) {
 
     service.request = function(config) {
         // config.headers['X-Auth-Token'] = (Token.token)? Token.token.id : '';
-        config.headers['Access-Control-Allow-Origin'] = '*';
-        config.headers['Access-Control-Allow-Headers'] = 'Content-Type, X-Requested-With';
-        config.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS';        
-
+        // config.headers['Access-Control-Allow-Origin'] = '*';
+        // config.headers['Access-Control-Allow-Headers'] = 'Origin, content-type, accept, authorization';
+        // config.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS, HEAD';        
+        // config.headers['Access-Control-Allow-Credentials'] = 'true';
+        // console.log(config);
         return config;
     };
 

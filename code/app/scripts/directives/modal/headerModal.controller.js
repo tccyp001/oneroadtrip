@@ -14,11 +14,12 @@ angular.module('app.controllers')
     '$window',
     'toastr',
     'User',
+    'AccessToken',
     HeaderModalCtrl
 ]);
 
 
-function HeaderModalCtrl($scope, $modal, $modalInstance, $http, $cookies, $cookieStore, $window, toastr, User) {
+function HeaderModalCtrl($scope, $modal, $modalInstance, $http, $cookies, $cookieStore, $window, toastr, User, AccessToken) {
 
 	$scope.forms = {};
 
@@ -73,15 +74,6 @@ function HeaderModalCtrl($scope, $modal, $modalInstance, $http, $cookies, $cooki
         })
   }
 
-  function openModal(url){
-    $scope.url = url;
-    var signupModalInstance = $modal.open({
-      animation: true,
-      scope: $scope,
-      templateUrl: 'scripts/directives/modal/oauthModal.tpl.html',
-      controller: 'OauthModalCtrl'
-    });
-  }
 
   $scope.oauthThroughQQ = function(){
     function callback(user) 
@@ -95,7 +87,7 @@ function HeaderModalCtrl($scope, $modal, $modalInstance, $http, $cookies, $cooki
       //应用的APPID，请改为你自己的
       var appID = "101277978";
       //成功授权后的回调地址，请改为你自己的
-      var redirectURI = "http://www.oneroadtrip.com/";
+      var redirectURI = "http://www.oneroadtrip.com";
 
       //构造请求
       if (window.location.hash.length == 6) 
@@ -104,25 +96,10 @@ function HeaderModalCtrl($scope, $modal, $modalInstance, $http, $cookies, $cooki
         var queryParams = ['client_id=' + appID,'redirect_uri=' + redirectURI, 'scope=' + 'get_user_info,list_album,upload_pic,add_feeds,do_like','response_type=token'];
         var query = queryParams.join('&');
         var url = path + query;
-        openModal(url);
-        // var url = 'https://graph.qq.com/oauth/show?which=ConfirmPage&display=pc&client_id=101045717&redirect_uri=http%3A%2F%2Fwww.mioji.com%2Fuser%2FsnsLogin%3Fsnstype%3Dqq&response_type=code&state=8f14e45fceea167a5a36dedd4bea2543';
-        // $window.open(url, 'C-Sharpcorner', 'width=500,height=400');
-        // console.log(window.location.hash);
+        $window.open(url, 'C-Sharpcorner', 'width=500,height=400');
+        $modalInstance.close();
       }
-      else 
-      {
-        //获取access token
-        var accessToken = window.location.hash.substring(1);
-        console.log(accessToken);
-        //使用Access Token来获取用户的OpenID
-        var path = "https://graph.qq.com/oauth2.0/me?";
-        var queryParams = [accessToken, 'callback=callback'];
-        var query = queryParams.join('&');
-        var url = path + query;
-        var script = document.createElement('script');
-        script.src = url;
-        document.body.appendChild(script);        
-      }
+
     }
 
 

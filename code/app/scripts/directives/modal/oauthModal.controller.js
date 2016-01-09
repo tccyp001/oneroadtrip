@@ -6,19 +6,31 @@
 angular.module('app.controllers')
 .controller('OauthModalCtrl', [
     '$scope',
-    '$modalInstance',
+    '$timeout',
     '$http',
-    '$cookies',
+    '$window',
     '$cookieStore',
     '$location',
+    'AccessToken',
     OauthModalCtrl
 ]);
 
 
-function OauthModalCtrl($scope, $modalInstance, $http, $cookies, $cookieStore, $location) {
-  console.log($location.url);
+function OauthModalCtrl($scope, $timeout, $http, $window, $cookieStore, $location, AccessToken) {
+    var hash = $location.path().substr(1);
+    AccessToken.setTokenFromString(hash);
+    console.log(AccessToken);
+    $scope.$watchCollection(function(){
+        return AccessToken;
+    }, function(val) {
+        if (val.status === 'done') {
+          $timeout(function(){
+              $window.close();
+          }, 1500000);
+        }
+    })
 
-}
+} 
 
 }());
 
