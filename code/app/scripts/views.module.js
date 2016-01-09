@@ -44,10 +44,13 @@ function DashboardConfig ($stateProvider) {
     });
 
     $stateProvider.state('accessToken', {
-        url: '/access_token=:accessToken',
+        url: '/*access_token=:accessToken',
         templateUrl: 'scripts/directives/modal/oauthModal.tpl.html',
         controller: 'OauthModalCtrl'
     });
+
+
+
 }
 
 }());

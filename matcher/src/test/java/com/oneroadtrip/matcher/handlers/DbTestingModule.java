@@ -20,10 +20,10 @@ public class DbTestingModule extends AbstractModule {
   public static class H2Info {
     @Inject
     @Named(H2_TESTING_DIRECTORY)
-    File testingDir;
+    public File testingDir;
 
     @Inject
-    Optional<Connection> connection;
+    public Optional<Connection> connection;
   }
 
   @Override

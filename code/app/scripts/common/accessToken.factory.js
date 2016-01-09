@@ -15,7 +15,8 @@ function AccessTokenFactory($resource, $http, $window) {
 		this.accessToken = {};
 		this.openID = {};
 		this.userInfo = {};
-		this.status= '';
+		this.status = '';
+		this.type = '';
 	}
 
 	OauthToken.prototype.setTokenFromString = function(str){
@@ -27,33 +28,41 @@ function AccessTokenFactory($resource, $http, $window) {
 		    that.accessToken[list.split('=')[0]] = list.split('=')[1];
 		})
 		
-		this.getOpenID();
+		if(this.accessToken && this.accessToken.state === 'weibo') {
+			this.getOpenIDForWeibo();
+		} else if(this.accessToken && this.accessToken.state === 'qq') {
+			this.getOpenIDForQQ();
+		}
+		
 	};
 
 
-	OauthToken.prototype.getOpenID = function(){
+	OauthToken.prototype.getOpenIDForQQ = function(){
 		var that = this;
 		var url = 'https://graph.qq.com/oauth2.0/me' + '?callback=callback' + '&access_token=' + this.accessToken.access_token;
 		console.log(url);	
 		$window.callback = function(data) {
 			console.log(data);
 			that.openID = data;
-			that.getUserInfo();
+			// User.login();
 		}
 
 		$http.jsonp(url).then(function(res){
 			console.log('done');
 		})
 
+	}
 
-		console.log(this);
+
+	OauthToken.prototype.getOpenIDForWeibo = function(){
+		console.log('weibo');
+		// User.login();
 	}
 
 	OauthToken.prototype.getUserInfo = function(){
 		var url = 'https://graph.qq.com/user/get_user_info?access_token=' + this.accessToken.access_token + '&oauth_consumer_key=' + this.openID.client_id + '&openid=' + this.openID.openid;
 	
 			$http.get(url).then(function(res){
-				console.log(res);
 				this.status = "done";
 		})
 	}

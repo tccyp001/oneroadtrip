@@ -16,6 +16,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.oneroadtrip.matcher.OneRoadTripConfig;
 import com.oneroadtrip.matcher.data.PreloadedDataModule;
+import com.oneroadtrip.matcher.data.TestingDataAccessor;
 import com.oneroadtrip.matcher.handlers.DbTestingModule.H2Info;
 import com.oneroadtrip.matcher.module.DbModule;
 import com.oneroadtrip.matcher.util.ScriptRunner;
@@ -24,7 +25,7 @@ public abstract class DbTest {
   protected final String TESTDATA_PATH = "src/test/resources/testdata/";
 
   protected Injector injector;
-  H2Info h2Info;
+  protected H2Info h2Info;
 
   @BeforeClass
   protected void setUp() throws IOException, SQLException, ClassNotFoundException {
@@ -41,6 +42,9 @@ public abstract class DbTest {
         install(new DbTestingModule());
         install(new DbModule());
         install(new PreloadedDataModule());
+        
+        // Testing only
+        bind(TestingDataAccessor.class);
       }
     });
     h2Info = injector.getInstance(H2Info.class);

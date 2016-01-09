@@ -76,30 +76,35 @@ function HeaderModalCtrl($scope, $modal, $modalInstance, $http, $cookies, $cooki
 
 
   $scope.oauthThroughQQ = function(){
-    function callback(user) 
-      {
-        var userName = document.getElementById('userName');
-        console.log(user.openid);
-        var greetingText = document.createTextNode('Greetings, '+ user.openid + '.');
-        userName.appendChild(greetingText);
-      }
-
       //应用的APPID，请改为你自己的
       var appID = "101277978";
       //成功授权后的回调地址，请改为你自己的
       var redirectURI = "http://www.oneroadtrip.com";
 
       //构造请求
-      if (window.location.hash.length == 6) 
-      {
         var path = 'https://graph.qq.com/oauth2.0/authorize?';
-        var queryParams = ['client_id=' + appID,'redirect_uri=' + redirectURI, 'scope=' + 'get_user_info,list_album,upload_pic,add_feeds,do_like','response_type=token'];
+        var queryParams = ['client_id=' + appID,'redirect_uri=' + redirectURI, 'scope=' + 'get_user_info,list_album,upload_pic,add_feeds,do_like','response_type=token', 'state=qq'];
         var query = queryParams.join('&');
         var url = path + query;
         $window.open(url, 'C-Sharpcorner', 'width=500,height=400');
-        $modalInstance.close();
-      }
 
+        $modalInstance.close();
+    }
+
+
+  $scope.oauthThroughWeibo = function(){
+      //应用的APPID，请改为你自己的
+      var appID = "3268335867";
+      //成功授权后的回调地址，请改为你自己的
+      var redirectURI = "http://www.oneroadtrip.com";
+      //构造请求
+
+      var path = 'https://api.weibo.com/oauth2/authorize?';
+      var queryParams = ['client_id=' + appID,'redirect_uri=' + redirectURI, 'response_type=token', 'forcelogin=false', 'state=weibo'];
+      var query = queryParams.join('&');
+      var url = path + query;
+      $window.open(url, 'C-Sharpcorner', 'width=500,height=400');
+      $modalInstance.close();
     }
 
 

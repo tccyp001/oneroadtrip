@@ -8,7 +8,7 @@
             <div class="modal-left-title" ng-if="userStatus === 'login'">欢迎回来</div>
             <div class="modal-left-oauth">
                 <i class="fa fa-qq" ng-click="oauthThroughQQ()"></i>
-                <i class="fa fa-weixin"></i>
+                <i class="fa fa-weibo" ng-click="oauthThroughWeibo()"></i>
             </div>
             <div class="modal-left-login" ng-if="userStatus === 'signup'">已有账号？<span ng-click="changeStatus('login')">登陆</span>
             </div>

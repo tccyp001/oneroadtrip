@@ -18,8 +18,9 @@ angular.module('app.controllers')
 
 function OauthModalCtrl($scope, $timeout, $http, $window, $cookieStore, $location, AccessToken) {
     var hash = $location.path().substr(1);
+
     AccessToken.setTokenFromString(hash);
-    console.log(AccessToken);
+
     $scope.$watchCollection(function(){
         return AccessToken;
     }, function(val) {
