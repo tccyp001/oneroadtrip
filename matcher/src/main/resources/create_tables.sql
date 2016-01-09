@@ -88,12 +88,14 @@ CREATE INDEX GuidesUserId ON Guides(user_id);
 CREATE TABLE GuideReservations (
   reservation_id BIGINT PRIMARY KEY AUTO_INCREMENT,
 	guide_id BIGINT,
+  itinerary_id BIGINT,
 	reserved_date INT,
   is_permanent BOOLEAN,
-  insert_time TIMESTAMP,
-  location_id BIGINT  -- DEPRECATING...
+  update_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 ) DEFAULT CHARSET=utf8;
 CREATE INDEX GuideReservationsGuideId ON GuideReservations(guide_id);
+CREATE INDEX GuideReservationsItineraryId ON GuideReservations(itinerary_id);
+CREATE INDEX GuideReservationsReservedDate ON GuideReservations(reserved_date);
 
 CREATE TABLE GuideCities (
   guide_city_id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -103,25 +105,21 @@ CREATE TABLE GuideCities (
 CREATE INDEX GuideCitiesGuideId ON GuideCities(guide_id);
 CREATE INDEX GuideCitiesCityIt ON GuideCities(city_id);
 
-CREATE TABLE GuideBillingMethods (
-  guide_billing_method_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  guide_id BIGINT,
-  billing_method_id BIGINT
+CREATE TABLE Itineraries (
+  itinerary_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  content VARCHAR(65536)
 ) DEFAULT CHARSET=utf8;
 
-/*
- * guide_location_id: 里面含价格和旅游点
- * reservation_id: 里面含导游被预定的日期
- */
 CREATE TABLE Orders (
   order_id BIGINT PRIMARY KEY AUTO_INCREMENT,
   user_id BIGINT,
-  guide_id BIGINT,
-  guide_location_id BIGINT,
-  reservation_id BIGINT
+  itinerary_id BIGINT,
+  cost_usd FLOAT,
+  cost FLOAT,
+  currency_id BIGINT
 ) DEFAULT CHARSET=utf8;
 CREATE INDEX OrdersUserId ON Orders(user_id);
-CREATE INDEX OrdersGuideId ON Orders(guide_id);
+CREATE INDEX OrdersItineraryId ON Orders(itinerary_id);
 
 CREATE TABLE Photos(
   photo_id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -162,6 +160,12 @@ CREATE TABLE BillingMethods (
 CREATE TABLE Interests (
   interest_id BIGINT PRIMARY KEY AUTO_INCREMENT,
   interest_name VARCHAR(20)
+) DEFAULT CHARSET=utf8;
+
+CREATE TABLE Currencies (
+  currency_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(3),
+  usd_exchange_rate FLOAT
 ) DEFAULT CHARSET=utf8;
 
 -- DEPRECATING...

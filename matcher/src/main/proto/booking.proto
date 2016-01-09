@@ -4,15 +4,15 @@ package match;
 
 option java_package = "com.oneroadtrip.matcher.proto";
 option java_multiple_files = true;
-option java_outer_classname = "QuoteProtos";
+option java_outer_classname = "BookingProto";
 
 import "common.proto";
 
-message QuoteRequest {
+message BookingRequest {
   optional Itinerary itinerary = 1;
 }
 
-message QuoteResponse {
+message BookingResponse {
   optional Status status = 1 [ default = SUCCESS ];
 
   optional Itinerary itinerary = 2;
