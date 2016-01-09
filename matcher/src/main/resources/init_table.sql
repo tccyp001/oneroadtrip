@@ -79,6 +79,15 @@ INSERT INTO GuideReservations (guide_id, reserved_date, is_permanent) VALUES
 
 COMMIT;
 
+START TRANSACTION;
+/*
+ * 插入静态表内容
+ */
+INSERT INTO Currencies (currency_id, name, usd_exchange_rate) VALUES
+  (1, 'USD', 1.0),
+  (2, 'CNY', 0.1518);
+
+
 /*
  * 以下为production真实数据。
  */
