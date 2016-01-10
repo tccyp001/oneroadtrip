@@ -22,6 +22,7 @@ import com.google.protobuf.TextFormat.ParseException;
 import com.oneroadtrip.matcher.proto.Itinerary;
 import com.oneroadtrip.matcher.util.ItineraryUtil;
 import com.oneroadtrip.matcher.util.SqlUtil;
+import com.oneroadtrip.matcher.util.Util;
 
 public class TestingDataAccessor {
   private static final Logger LOG = LogManager.getLogger();
@@ -33,7 +34,7 @@ public class TestingDataAccessor {
       + "WHERE itinerary_id = (?)";
   private static final String SELECT_RESERVATION_BY_IDS = "SELECT "
       + "reservation_id, guide_id, itinerary_id, reserved_date, is_permanent, update_timestamp "
-      + "FROM GuideReservations " + "WHERE update_timestamp >= (?) AND reservation_id IN ";
+      + "FROM GuideReservations " + "WHERE update_timestamp >= (?) AND reservation_id IN (%s)";
   private static final String SELECT_ORDER_BY_ID = "SELECT order_id, user_id, itinerary_id, cost_usd "
       + "FROM Orders WHERE order_id = ?";
   public void validateBooking(Itinerary itin, long orderId, long itinId, List<Long> reservationIds) {
@@ -51,18 +52,15 @@ public class TestingDataAccessor {
         }
       }
 
-      StringJoiner joiner = new StringJoiner(", ", "(", ")");
-      for (int i = 0; i < reservationIds.size(); ++i) {
-        joiner.add("?");
-      }
-      try (PreparedStatement pStmt = conn.prepareStatement(SELECT_RESERVATION_BY_IDS + joiner.toString())) {
+      try (PreparedStatement pStmt = conn.prepareStatement(
+          String.format(SELECT_RESERVATION_BY_IDS, Util.getQuestionMarksForSql(reservationIds.size())))) {
         pStmt.setTimestamp(1, SqlUtil.getTimestampToNow(-10));
         int index = 2;
         for (long reservationId : reservationIds) {
           pStmt.setLong(index++, reservationId);
         }
         try (ResultSet rs = pStmt.executeQuery()) {
-          List<Pair<Long, Integer>> expectedGuideAndDates = DatabaseAccessor.getGuideReservationMap(itin);
+          List<Pair<Long, Integer>> expectedGuideAndDates = Util.getGuideReservationMap(itin);
           for (int i = 0; i < reservationIds.size(); ++i) {
             Preconditions.checkArgument(rs.next());
             long actualId = rs.getLong(1);

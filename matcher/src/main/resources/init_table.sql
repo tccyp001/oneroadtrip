@@ -87,6 +87,7 @@ INSERT INTO Currencies (currency_id, name, usd_exchange_rate) VALUES
   (1, 'USD', 1.0),
   (2, 'CNY', 0.1518);
 
+COMMIT;
 
 /*
  * 以下为production真实数据。

@@ -1,0 +1,42 @@
+syntax = "proto2";
+
+package match;
+
+option java_package = "com.oneroadtrip.matcher.proto";
+option java_multiple_files = true;
+option java_outer_classname = "OrderProtos";
+
+import "common.proto";
+//
+//message Order {
+//  // Card information, unknown now, will add later.
+//  optional bytes card = 1;
+//  optional string client_ip = 2;
+//
+//  // Timestamp (in second) of the creation.
+//  optional int64 created = 3;
+//
+//  optional string email = 4;
+//
+//  // Id token.
+//  optional string id = 5;
+//  optional bool livemode = 6;
+//
+//  optional string object = 7 [ default = "token" ];
+//  optional string type = 8 [ default = "card" ];
+//  optional bool used = 9 [ default = false ];
+//
+//  optional float amount = 10;
+//  optional string currency = 11;
+//  optional string description = 12;
+//  optional string order_token = 13;
+//}
+
+message OrderRequest {
+  optional Itinerary itinerary = 1;
+}
+
+message OrderResponse {
+  optional Status status = 1;
+  optional Itinerary itinerary = 2;
+}

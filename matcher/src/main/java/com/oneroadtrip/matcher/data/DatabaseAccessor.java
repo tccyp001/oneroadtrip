@@ -19,15 +19,14 @@ import org.apache.logging.log4j.Logger;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.protobuf.TextFormat;
 import com.oneroadtrip.matcher.common.OneRoadTripException;
 import com.oneroadtrip.matcher.proto.Itinerary;
+import com.oneroadtrip.matcher.proto.OrderStatus;
 import com.oneroadtrip.matcher.proto.Status;
-import com.oneroadtrip.matcher.proto.VisitCity;
 import com.oneroadtrip.matcher.util.ItineraryUtil;
 import com.oneroadtrip.matcher.util.SqlUtil;
 import com.oneroadtrip.matcher.util.Util;
@@ -39,15 +38,17 @@ public class DatabaseAccessor {
   DataSource dataSource;
 
   private static final String LOAD_GUIDE_RESERVE_DAYS = "SELECT guide_id, reserved_date FROM GuideReservations "
-      + "WHERE (is_permanent = true OR insert_time >= ?) AND guide_id IN (%s)";
+      + "WHERE (is_permanent = true OR update_timestamp >= ?) AND guide_id IN (%s)";
 
   public Map<Long, Set<Integer>> loadGuideToReserveDays(Collection<Long> guides,
       long cutoffTimestamp) throws OneRoadTripException {
     if (guides.size() == 0) {
       return Maps.newTreeMap();
     }
+    
+    // TODO(xfguo): Make the sql generation same as code in prepareOrder().
     // Create SQL
-    String sql = buildGuideReserveSql(guides);
+    String sql = String.format(LOAD_GUIDE_RESERVE_DAYS, Util.getQuestionMarksForSql(guides.size())); 
 
     // Query and return
     Map<Long, Set<Integer>> result = Maps.newTreeMap();
@@ -79,34 +80,6 @@ public class DatabaseAccessor {
     return result;
   }
 
-  private String buildGuideReserveSql(Collection<Long> subList) {
-    Preconditions.checkArgument(subList.size() > 0);
-    StringBuilder builder = new StringBuilder();
-    for (int i = 0; i < subList.size() - 1; ++i) {
-      builder.append("?, ");
-    }
-    String result = String.format(LOAD_GUIDE_RESERVE_DAYS, builder.append("?").toString());
-    return result;
-  }
-//
-//  private static final String INSERT_ONE_RESERVATION = "INSERT INTO GuideReservations (guide_id, reserved_date, is_permanent, insert_time) VALUES (?, ?, ?, ?)";
-//
-//  public void insertOneReservation(long guideId, int reservedDate, boolean isPermanent,
-//      long timestamp) throws OneRoadTripException {
-//    try (Connection conn = dataSource.getConnection()) {
-//      try (PreparedStatement pStmt = conn.prepareStatement(INSERT_ONE_RESERVATION)) {
-//        pStmt.setLong(1, guideId);
-//        pStmt.setInt(2, reservedDate);
-//        pStmt.setBoolean(3, isPermanent);
-//        pStmt.setTimestamp(4, new Timestamp(timestamp));
-//        Preconditions.checkArgument(pStmt.executeUpdate() == 1);
-//      }
-//    } catch (SQLException e) {
-//      LOG.error("DB query errors in inserting reservation...", e);
-//      throw new OneRoadTripException(Status.ERR_INSERT_GUIDE_RESERVATION, e);
-//    }
-//  }
-
   /**
    * Transactionally append order / itinerary / guide reservation ids.
    * 
@@ -118,64 +91,84 @@ public class DatabaseAccessor {
       + "VALUES (?, ?, ?, false, default)";
   private static final String ADD_ORDER = "INSERT INTO Orders "
       + "(user_id, itinerary_id, cost_usd) VALUES (?, ?, ?)";
+  
+  public static Triplet<Long, Long, List<Long>> prepareForOrder(Itinerary itin, Connection conn)
+      throws SQLException {
+    Long itineraryId = null;
+    try (PreparedStatement pStmt = conn.prepareStatement(ADD_ITINERARY,
+        Statement.RETURN_GENERATED_KEYS)) {
+      pStmt.setString(1, TextFormat.printToUnicodeString(itin));
+      itineraryId = SqlUtil.executeStatementAndReturnId(pStmt);
+    }
 
-  public Triplet<Long, Long, List<Long>> appendOrder(Itinerary itin) {
-    try (Connection conn = dataSource.getConnection()) {
-      // 1. disable conn auto-commit
-      conn.setAutoCommit(false);
-
-      // 2. add itinerary
-      Long itineraryId = null;
-      try (PreparedStatement pStmt = conn.prepareStatement(ADD_ITINERARY,
+    // 3. add reservations
+    List<Long> reservedGuideIds = Lists.newArrayList();
+    for (Pair<Long, Integer> guideAndDate : Util.getGuideReservationMap(itin)) {
+      try (PreparedStatement pStmt = conn.prepareStatement(ADD_RESERVATION,
           Statement.RETURN_GENERATED_KEYS)) {
-        pStmt.setString(1, TextFormat.printToUnicodeString(itin));
-        itineraryId = SqlUtil.executeStatementAndReturnId(pStmt);
-      }
-
-      // 3. add reservations
-      List<Long> reservedGuideIds = Lists.newArrayList();
-      for (Pair<Long, Integer> guideAndDate : getGuideReservationMap(itin)) {
-        try (PreparedStatement pStmt = conn.prepareStatement(ADD_RESERVATION,
-            Statement.RETURN_GENERATED_KEYS)) {
-          pStmt.setLong(1, guideAndDate.getValue0());
-          pStmt.setLong(2, itineraryId);
-          pStmt.setInt(3, guideAndDate.getValue1());
-          pStmt.addBatch();
-          reservedGuideIds.add(SqlUtil.executeStatementAndReturnId(pStmt));
-        }
-      }
-
-      Long orderId = null;
-      try (PreparedStatement pStmt = conn.prepareStatement(ADD_ORDER,
-          Statement.RETURN_GENERATED_KEYS)) {
-        // TODO(xiaofengguo):
-        pStmt.setLong(1, itin.getUserId());
+        pStmt.setLong(1, guideAndDate.getValue0());
         pStmt.setLong(2, itineraryId);
-        pStmt.setFloat(3, ItineraryUtil.getCostUsd(itin));
-        pStmt.executeUpdate();
-        orderId = SqlUtil.executeStatementAndReturnId(pStmt);
+        pStmt.setInt(3, guideAndDate.getValue1());
+        pStmt.addBatch();
+        reservedGuideIds.add(SqlUtil.executeStatementAndReturnId(pStmt));
       }
-      conn.commit();
-      return Triplet.with(orderId, itineraryId, reservedGuideIds);
-      // 4. add order
-    } catch (SQLException e) {
-      LOG.error("Error in booking itinerary", e);
-      return Triplet.with(-1L, -1L, Lists.newArrayList());
+    }
+
+    Long orderId = null;
+    try (PreparedStatement pStmt = conn.prepareStatement(ADD_ORDER,
+        Statement.RETURN_GENERATED_KEYS)) {
+      // TODO(xiaofengguo):
+      pStmt.setLong(1, itin.getUserId());
+      pStmt.setLong(2, itineraryId);
+      pStmt.setFloat(3, ItineraryUtil.getCostUsd(itin));
+      pStmt.executeUpdate();
+      orderId = SqlUtil.executeStatementAndReturnId(pStmt);
+    }
+    return Triplet.with(orderId, itineraryId, reservedGuideIds);
+  }
+
+  private static final String RESERVER_GUIDES_PERMANENTLY = "INSERT INTO GuideReservations "
+      + "(guide_id, itinerary_id, reserved_date, is_permanent) VALUES "
+      + "(?, ?, ?, true)";
+  public static List<Long> reserveGuides(Itinerary itin, Connection conn) throws SQLException {
+    List<Long> reservedGuideIds = Lists.newArrayList();
+    long itineraryId = itin.getItineraryId();
+    for (Pair<Long, Integer> guideAndDate : Util.getGuideReservationMap(itin)) {
+      try (PreparedStatement pStmt = conn.prepareStatement(RESERVER_GUIDES_PERMANENTLY,
+          Statement.RETURN_GENERATED_KEYS)) {
+        pStmt.setLong(1, guideAndDate.getValue0());
+        pStmt.setLong(2, itineraryId);
+        pStmt.setInt(3, guideAndDate.getValue1());
+        pStmt.addBatch();
+        reservedGuideIds.add(SqlUtil.executeStatementAndReturnId(pStmt));
+      }
+    }
+    return reservedGuideIds;
+  }
+
+  private static final String REVERT_RESERVED_GUDIES_BY_IDS = "DELETE FROM GuideReservations "
+      + "WHERE reservation_id IN (%s)";
+  public static int revertReservedGuides(List<Long> guideReservationIds, Connection conn) throws SQLException {
+    if (guideReservationIds.isEmpty()) {
+      return 0;
+    }
+    try (PreparedStatement pStmt = conn.prepareStatement(String.format(
+        REVERT_RESERVED_GUDIES_BY_IDS, Util.getQuestionMarksForSql(guideReservationIds.size())))) {
+      int index = 1;
+      for (long reservationId : guideReservationIds) {
+        pStmt.setLong(index++, reservationId);
+      }
+      return pStmt.executeUpdate();
     }
   }
 
-  public static List<Pair<Long, Integer>> getGuideReservationMap(Itinerary itin) {
-    List<Pair<Long, Integer>> result = Lists.newArrayList();
-    for (VisitCity visit : itin.getCityList()) {
-      for (int i = 0; i < visit.getNumDays(); ++i) {
-        int date = Util.advanceDays(visit.getStartDate(), i);
-        if (itin.getChooseOneGuideSolution()) {
-          result.add(Pair.with(ItineraryUtil.getGuideId(itin.getGuideForWholeTrip()), date));
-        } else {
-          result.add(Pair.with(ItineraryUtil.getGuideId(visit.getGuide(0)), date));
-        }
-      }
+  private static final String UPDATE_ORDER_BY_ID = "UPDATE Orders SET status = ? WHERE order_id = ?";
+  public static int updateOrder(Itinerary itin, Connection conn) throws SQLException {
+    try (PreparedStatement pStmt = conn.prepareStatement(UPDATE_ORDER_BY_ID)) {
+      pStmt.setInt(1, OrderStatus.PAID.getNumber());
+      pStmt.setLong(2, itin.getOrder().getOrderId());
+      return pStmt.executeUpdate();
     }
-    return result;
   }
+  
 }

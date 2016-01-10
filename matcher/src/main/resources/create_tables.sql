@@ -110,10 +110,14 @@ CREATE TABLE Itineraries (
   content VARCHAR(65536)
 ) DEFAULT CHARSET=utf8;
 
+/*
+ * Orders.status 对应的protobuf enum是OrderStatus，缺省状况是1 (WAIT_FOR_PAYMENT)
+ */
 CREATE TABLE Orders (
   order_id BIGINT PRIMARY KEY AUTO_INCREMENT,
   user_id BIGINT,
   itinerary_id BIGINT,
+  status INT DEFAULT 1,
   cost_usd FLOAT,
   cost FLOAT,
   currency_id BIGINT
