@@ -8,9 +8,18 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import com.google.common.base.Preconditions;
+import com.oneroadtrip.matcher.common.OneRoadTripException;
+import com.oneroadtrip.matcher.proto.Status;
 
 public class SqlUtil {
+
+  @FunctionalInterface
+  public static interface DatabaseFunction<INPUT_TYPE, RESULT_TYPE> {
+    RESULT_TYPE apply(INPUT_TYPE input) throws SQLException;
+  }
 
   public static PreparedStatement addPreparedStatement(Connection conn, String str,
       List<PreparedStatement> statements) throws SQLException {
@@ -50,4 +59,27 @@ public class SqlUtil {
     cal.add(Calendar.SECOND, seconds);
     return new Timestamp(cal.getTime().getTime());
   }
+  
+  public static <R> R executeTransaction(DataSource dataSource, DatabaseFunction<Connection, R> callback)
+      throws OneRoadTripException {
+    try (Connection conn = dataSource.getConnection()) {
+      boolean originAutoCommit = conn.getAutoCommit();
+      try {
+        // 1. disable conn auto-commit
+        conn.setAutoCommit(false);
+        R result = callback.apply(conn);
+        conn.commit();
+        return result;
+      } catch (SQLException e) {
+        conn.rollback();
+        throw new OneRoadTripException(Status.ERROR_IN_SQL, e);
+      } finally {
+        conn.setAutoCommit(originAutoCommit);
+      }
+    } catch (SQLException e) {
+      // TODO(xfguo): Create ERROR_IN_CONNECTING
+      throw new OneRoadTripException(Status.ERROR_IN_SQL, e);
+    }
+  }
+
 }

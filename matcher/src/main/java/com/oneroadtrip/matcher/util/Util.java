@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +18,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.oneroadtrip.matcher.proto.CityInfo;
 import com.oneroadtrip.matcher.proto.ErrorInfo;
+import com.oneroadtrip.matcher.proto.Itinerary;
 import com.oneroadtrip.matcher.proto.SpotInfo;
+import com.oneroadtrip.matcher.proto.VisitCity;
 import com.oneroadtrip.matcher.proto.VisitSpot;
 import com.oneroadtrip.matcher.proto.internal.CityConnectionInfo;
 import com.oneroadtrip.matcher.proto.internal.EngageType;
@@ -151,4 +154,26 @@ public class Util {
     return result;
   }
 
+  public static List<Pair<Long, Integer>> getGuideReservationMap(Itinerary itin) {
+    List<Pair<Long, Integer>> result = Lists.newArrayList();
+    for (VisitCity visit : itin.getCityList()) {
+      for (int i = 0; i < visit.getNumDays(); ++i) {
+        int date = Util.advanceDays(visit.getStartDate(), i);
+        if (itin.getChooseOneGuideSolution()) {
+          result.add(Pair.with(ItineraryUtil.getGuideId(itin.getGuideForWholeTrip()), date));
+        } else {
+          result.add(Pair.with(ItineraryUtil.getGuideId(visit.getGuide(0)), date));
+        }
+      }
+    }
+    return result;
+  }
+  
+  public static String getQuestionMarksForSql(int n) {
+    StringJoiner joiner = new StringJoiner(",");
+    for (int i = 0; i < n; ++i) {
+      joiner.add("?");
+    }
+    return joiner.toString();
+  }
 }

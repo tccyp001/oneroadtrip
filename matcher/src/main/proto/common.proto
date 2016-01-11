@@ -1,10 +1,13 @@
+// TODO(xfguo): Update protobuf / xtext plugin to fix the
+// "The resource is currently edited by another editor. Do you want to continue" problem.
+// Corresponding link:
+//   https://code.google.com/p/protobuf-dt/issues/detail?id=248
 syntax = "proto2";
 
 package match;
 
 option java_package = "com.oneroadtrip.matcher.proto";
 option java_multiple_files = true;
-
 enum Status {
   SUCCESS = 0;
   INCORRECT_REQUEST = 1;
@@ -22,6 +25,7 @@ enum Status {
   INCORRECT_GUIDE_ID = 14;
   INCORRECT_SPOT_ID = 15;
   NO_CONNECTION_BETWEEN_CITIES = 16;
+  ERROR_IN_STRIPE = 17;
 
   // Internal status
   //
@@ -29,6 +33,12 @@ enum Status {
   // 碰到这种状态我们经常还需要继续我们的逻辑。这些状态主要提供给
   // OneRoadTripException使用。
   GUIDE_NOT_FOUND = 10001;
+}
+
+// 这个protobuf仅仅对应于数据库中的Orders.status，不做其他用途。
+enum OrderStatus {
+  WAIT_FOR_PAYMENT = 1;
+  PAID = 2;
 }
 
 message CityInfo {
@@ -103,19 +113,31 @@ message Edge {
 }
 
 message Currency {
-  optional int64 currency_id = 1 [ default = 1 ];
-  optional string name = 2 [ default = "USD" ];
+  optional int64 currency_id = 1 [default = 1];
+  optional string name = 2 [default = "USD" ];
 }
 
 message Quote {
-  // 以后支持多币种的时候再添加，目前就支持USD
+// 以后支持多币种的时候再添加，目前就支持USD
   optional float cost = 1;
-  optional Currency currency  = 2;
+  optional Currency currency = 2;
   optional float cost_usd = 3;
-
   optional float route_cost = 4;
   optional float hotel_cost = 5;
   optional float hotel_cost_for_guide = 6;
+}
+
+message Order {
+  optional int64 order_id = 1;
+
+  // Stripe request related:
+  optional float cost_usd = 3;
+  optional string description = 4;
+  optional string idempotency_key = 5;
+  // Card token / alipay token / bitcoin token / etc.
+  optional string token = 6;
+
+  optional string stripe_charge_id = 7;
 }
 
 // next tag: 15
@@ -128,12 +150,11 @@ message Itinerary {
   optional int32 num_people = 5;
   optional int32 num_room = 6;
   optional int32 hotel = 7;
-
   optional Quote quote_for_one_guide = 8;
   optional Quote quote_for_multiple_guides = 9;
-  optional bool choose_one_guide_solution = 10 [ default = false ];
+  optional bool choose_one_guide_solution = 10 [default = false];
 
-  optional int64 order_id = 11;
   optional int64 itinerary_id = 12;
   repeated int64 reservation_id = 13;
+  optional Order order = 15;
 }

@@ -1,0 +1,38 @@
+==INSERT_DATA==
+INSERT INTO Orders (order_id, user_id, itinerary_id, cost_usd) VALUES (11, 1, 5, 10.0);
+
+==========
+==TESTCASE_DATA==
+=REQUEST
+itinerary {
+  city {
+    num_days: 2
+    start_date: 20151229
+    guide {
+      guide_id: 1
+    }
+  }
+  city {
+    num_days: 3
+    start_date: 20151231
+    guide {
+      guide_id: 2
+    }
+  }
+  city {
+    num_days: 2
+    start_date: 20160103
+    guide {
+      guide_id: 1
+    }
+  }
+  
+  itinerary_id: 5
+  order {
+    order_id: 11
+    cost_usd: 10.0
+    description: "for testing"
+  }
+}
+=RESPONSE
+status: ERROR_IN_STRIPE

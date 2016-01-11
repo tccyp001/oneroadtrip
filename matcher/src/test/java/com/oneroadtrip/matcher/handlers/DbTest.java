@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Singleton;
+
 import org.apache.commons.io.FileUtils;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -14,7 +16,10 @@ import org.testng.annotations.BeforeClass;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Provides;
 import com.oneroadtrip.matcher.OneRoadTripConfig;
+import com.oneroadtrip.matcher.data.MockPayer;
+import com.oneroadtrip.matcher.data.Payer;
 import com.oneroadtrip.matcher.data.PreloadedDataModule;
 import com.oneroadtrip.matcher.data.TestingDataAccessor;
 import com.oneroadtrip.matcher.handlers.DbTestingModule.H2Info;
@@ -24,13 +29,13 @@ import com.oneroadtrip.matcher.util.ScriptRunner;
 public abstract class DbTest {
   protected final String TESTDATA_PATH = "src/test/resources/testdata/";
 
+  protected AbstractModule testModule;
   protected Injector injector;
   protected H2Info h2Info;
 
   @BeforeClass
   protected void setUp() throws IOException, SQLException, ClassNotFoundException {
-
-    injector = Guice.createInjector(new AbstractModule() {
+    testModule = new AbstractModule() {
       // Test config module
       @Override
       protected void configure() {
@@ -46,7 +51,15 @@ public abstract class DbTest {
         // Testing only
         bind(TestingDataAccessor.class);
       }
-    });
+      
+      private final Payer payer = new MockPayer(true);
+      @Singleton
+      @Provides
+      Payer getPayer() {
+        return payer;
+      }
+    };
+    injector = Guice.createInjector(testModule);
     h2Info = injector.getInstance(H2Info.class);
 
     // Create tables in the database.

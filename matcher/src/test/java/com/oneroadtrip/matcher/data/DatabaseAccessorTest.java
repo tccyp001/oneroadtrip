@@ -10,6 +10,7 @@ import com.google.common.collect.Lists;
 import com.oneroadtrip.matcher.proto.GuideInfo;
 import com.oneroadtrip.matcher.proto.Itinerary;
 import com.oneroadtrip.matcher.proto.VisitCity;
+import com.oneroadtrip.matcher.util.Util;
 
 public class DatabaseAccessorTest {
   @Test
@@ -32,7 +33,7 @@ public class DatabaseAccessorTest {
       for (int i = 0; i < guideIds.length; ++i) {
         expected.add(Pair.with(guideIds[i], dates[i]));
       }
-      Assert.assertEquals(expected, DatabaseAccessor.getGuideReservationMap(itin));
+      Assert.assertEquals(expected, Util.getGuideReservationMap(itin));
     }
 
     {
@@ -42,7 +43,7 @@ public class DatabaseAccessorTest {
       for (int i = 0; i < dates.length; ++i) {
         expected.add(Pair.with(3L, dates[i]));
       }
-      Assert.assertEquals(expected, DatabaseAccessor.getGuideReservationMap(itin2));
+      Assert.assertEquals(expected, Util.getGuideReservationMap(itin2));
     }
   }
 }

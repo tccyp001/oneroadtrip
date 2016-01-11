@@ -12,19 +12,18 @@ import org.apache.logging.log4j.Logger;
 
 import com.googlecode.protobuf.format.JsonFormat;
 import com.googlecode.protobuf.format.JsonFormat.ParseException;
-import com.oneroadtrip.matcher.data.Booker;
-import com.oneroadtrip.matcher.proto.BookingRequest;
+import com.oneroadtrip.matcher.data.OrderProcessor;
+import com.oneroadtrip.matcher.proto.OrderRequest;
 import com.oneroadtrip.matcher.proto.OrderResponse;
 import com.oneroadtrip.matcher.proto.Status;
-import com.oneroadtrip.matcher.util.LogUtil;
 import com.oneroadtrip.matcher.util.ProtoUtil;
 
-@Path("booking")
-public class BookingResource {
+@Path("order")
+public class OrderResource {
   private static final Logger LOG = LogManager.getLogger();
-
+  
   @Inject
-  Booker booker;
+  OrderProcessor stripeProcessor;
 
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
@@ -32,14 +31,12 @@ public class BookingResource {
   public String post(String post) {
     try {
       LOG.info("/api/quote: '{}'", post);
-      BookingRequest request = ProtoUtil.GetRequest(post, BookingRequest.newBuilder());
-      return JsonFormat.printToString(LogUtil.logAndReturnResponse("/api/booking", request,
-          booker.process(request)));
+      OrderRequest request = ProtoUtil.GetRequest(post, OrderRequest.newBuilder());
+      return JsonFormat.printToString(stripeProcessor.process(request));
     } catch (ParseException e) {
       LOG.error("failed to parse the json: {}", e);
       return JsonFormat.printToString(OrderResponse.newBuilder()
           .setStatus(Status.INCORRECT_REQUEST).build());
     }
   }
-
 }
