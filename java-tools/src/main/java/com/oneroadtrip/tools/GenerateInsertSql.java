@@ -51,8 +51,8 @@ public class GenerateInsertSql {
     return origin.replaceAll("\\p{Cntrl}", "").trim();
   }
 
-  private static Long getLongByDigitOnly(String str) {
-    str = str.replaceAll("[^\\d.]", "");
+  public static Long getLongByDigitOnly(String str) {
+    str = str.replaceAll("[^0-9]", "");
     return Long.valueOf(str);
   }
 
@@ -139,14 +139,16 @@ public class GenerateInsertSql {
           }
 
           cityNameToId.put(cityName.toLowerCase(), id);
+          cityNameToId.put(cnName.toLowerCase(), id);
           aliasBuilder.add(String.format("\n  (%d, '%s')", id, escapeSql(cityName)));
+          aliasBuilder.add(String.format("\n  (%d, '%s')", id, escapeSql(cnName)));
           for (String alias : aliases) {
             String t = trimString(alias);
             cityNameToId.put(t.toLowerCase(), id);
             aliasBuilder.add(String.format("\n  (%d, '%s')", id, escapeSql(t)));
           }
         } catch (RuntimeException e) {
-          LOG.info("Error in parsing the record: {}", csvRecord, e);
+          LOG.info("Error in parsing the record:", e);
         }
       }
       writer.print(builder.toString() + ";\n\n");
@@ -191,9 +193,9 @@ public class GenerateInsertSql {
       StringBuilder builder = new StringBuilder();
       StringBuilder userBuilder = new StringBuilder();
       StringBuilder guideCityBuidler = new StringBuilder();
-      builder
-          .append("INSERT INTO Guides ("
-              + "guide_id, user_id, description, max_persons, has_car, score, interests, phone) VALUES ");
+      builder.append("INSERT INTO Guides ("
+          + "guide_id, user_id, description, max_persons, has_car, "
+          + "score, host_city_id, interests, phone) VALUES ");
       userBuilder.append("INSERT INTO Users (user_id, user_name) VALUES ");
       guideCityBuidler.append("INSERT INTO GuideCities (guide_id, city_id) VALUES ");
       StringJoiner guideCityJoiner = new StringJoiner(",");
@@ -205,7 +207,8 @@ public class GenerateInsertSql {
           long id = Long.valueOf(record.get(0));
           long userId = id; // 导游的userId跟guideId保持一致，其它用户从100000开始给。
           String name = trimString(record.get(1));
-          String description = record.get(2);
+          String hostCity = record.get(2);
+          long hostCityId = cityNameToId.get(hostCity.toLowerCase());
           List<String> topics = splitString(record.get(3));
           float score = Float.valueOf(record.get(4));
           int numPeople = Integer.valueOf(record.get(5));
@@ -220,8 +223,9 @@ public class GenerateInsertSql {
             builder.append(",");
             userBuilder.append(",");
           }
-          builder.append(String.format("\n  (%d, %d, '%s', %d, %s, %.2f, '%s', %d)", id, userId,
-              escapeSql(description), numPeople, escapeSql(hasCar), score, mergeStrings(topics),
+          // TODO(xfguo): 我们现在没有description，暂时用hostCity代替。
+          builder.append(String.format("\n  (%d, %d, '%s', %d, %s, %.2f, %d, '%s', %d)", id, userId,
+              escapeSql(hostCity), numPeople, escapeSql(hasCar), score, hostCityId, mergeStrings(topics),
               phone));
           userBuilder.append(String.format("\n  (%d, '%s')", userId, escapeSql(name)));
 
@@ -232,7 +236,7 @@ public class GenerateInsertSql {
             }
           }
         } catch (RuntimeException e) {
-          LOG.info("Error in parsing the guide record", e);
+          LOG.info("Error in parsing the guide record ", e);
         }
       }
 

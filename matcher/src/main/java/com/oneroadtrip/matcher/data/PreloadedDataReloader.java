@@ -268,7 +268,7 @@ public class PreloadedDataReloader {
   }
 
   private static final String QUERY_GUIDE_INFO =
-      "SELECT guide_id, user_name, description, max_persons, has_car, score, interests, phone "
+      "SELECT guide_id, user_name, description, max_persons, has_car, score, host_city_id, interests, phone "
       + "FROM Guides g INNER JOIN Users u ON (g.user_id = u.user_id)";
   private static final String QUERY_GUIDE_CITY_INFO =
       "SELECT guide_id, city_id FROM GuideCities";
@@ -307,8 +307,9 @@ public class PreloadedDataReloader {
             int maxPeople = rs.getInt(4);
             boolean hasCar = rs.getBoolean(5);
             float score = rs.getFloat(6);
-            List<String> topics = Util.splitString(rs.getString(7));
-            long phone = rs.getLong(8);
+            CityInfo hostCityInfo = cityIdToInfo.get(rs.getLong(7));
+            List<String> topics = Util.splitString(rs.getString(8));
+            long phone = rs.getLong(9);
             Set<Long> cities = guideToCityIds.get(guideId);
             List<CityInfo> coverCities = Lists.newArrayList();
             if (cities != null) {
@@ -321,7 +322,8 @@ public class PreloadedDataReloader {
             }
             GuideInfo info = GuideInfo.newBuilder().setGuideId(guideId).setName(name)
                 .setDescription(desc).setMaxPeople(maxPeople).setHasCar(hasCar).setScore(score)
-                .setPhone(phone).addAllTopic(topics).addAllCoverCity(coverCities).build();
+                .setHostCity(hostCityInfo).setPhone(phone).addAllTopic(topics)
+                .addAllCoverCity(coverCities).build();
             builder.put(guideId, info);
           } catch (NullPointerException e) {
             StringJoiner joiner = new StringJoiner(",");
