@@ -57,11 +57,9 @@ function HeaderModalCtrl($scope, $modal, $modalInstance, $http, $cookies, $cooki
       	User.login(forms)
         .then(function(res) {
             if (res.status === 'SUCCESS') {
-            	console.log($scope.forms.username);
-            	console.log(typeof $scope.forms.username);
-				$cookieStore.put('username', $scope.forms.username);
-				$cookieStore.put('token', res.token);
-				$cookieStore.put('isLoggin', true);
+        				$cookieStore.put('username', $scope.forms.username);
+        				$cookieStore.put('token', res.token);
+        				$cookieStore.put('isLoggin', true);
               	$modalInstance.close();
               	$scope.$parent.updateHeader();
 	          	toastr.success('Login Success');    

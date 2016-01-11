@@ -1,15 +1,14 @@
 <header>
     <div class="header-top">
-		<ul class="nav navbar-nav navbar-right nav-modify">
+		<ul class="nav navbar-nav navbar-right nav-modify pull-right">
 			<li><a ui-sref="main">成为认证导游</a></li>
 			<li ng-if="!isLoggin"><a><div class="headerbutton2" ng-click="openModal('login')" >登陆</div></a></li>
 			<li ng-if="!isLoggin"><a><div class="headerbutton" ng-click="openModal('signup')">注册</div></a></li>
-			<li ng-if="isLoggin" ng-mouseenter="ShowDropdown()" ng-mouseleave="HideDropdown()" style="cursor: pointer">
-				<a class="header-dropdown" > 欢迎: {{loginName}} <span class="caret"></span></a>
-				<div class="header-dropdown-manu" ng-if="showDropdownStatus" ng-mouseleave="HideDropdown()">
+			<li class="header-dropdown-toggle" ng-class="{'hidecontent' : !isLoggin}">
+				<a class="header-dropdown" > <img src="images/people.png"> {{loginName}} <span class="caret"></span></a>
+				<div class="header-dropdown-manu" style="cursor: pointer">
 					<div>个人中心</div>
-					<div ng-click="logout()">退出</div>				  
-					</ul>
+					<div ng-click="logout()">退出</div>				  	
 				</div>
 			</li>
 		</ul>

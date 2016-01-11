@@ -13,7 +13,14 @@ angular.module('app.directives', [])
 }]);
 
 function linkFunc (scope, elem, attrs) {
+	var element = angular.element($('.header-dropdown-toggle'))
 
+	element.mouseenter(function(e){
+		angular.element($('.header-dropdown-manu')).css('display', 'block');
+	})
+	element.mouseleave(function(){
+		angular.element($('.header-dropdown-manu')).css('display', 'none');
+	})
 }
 
 

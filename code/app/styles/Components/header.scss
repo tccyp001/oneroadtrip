@@ -43,21 +43,54 @@ header .navbar-modified .navbar-right li a{
   color: $traverllerOrange;
 }
 
+.nav-modify {
+  li.hidecontent {
+      display: none;
+  }
+}
+
 .nav-modify li {
     font-size: 1.5rem;
     color: $traverllerOrange;
-    padding: 0;
-    div {
-      width: 70px;
-      text-align: center;
-      font-size: 1.5rem;
-      font-weight: 500;
-      border: 2px solid $traverllerOrange;
-    }
-    div:hover {
+    &:hover {
       cursor: pointer;
-      opacity: 0.6;
     }
+    .header-dropdown-manu {
+      display: none;
+      position: absolute;
+      font-size: 1.3rem;
+      width: 80%;
+      cursor: pointer;
+      z-index: 999;
+      div {
+        width: 80%;
+        text-align: center;
+        font-weight: 500;
+        border: 1px solid $traverllerOrange;
+        padding: 10px;
+        background: white;
+      }
+    }
+    .header-dropdown {
+      width: 100%;
+      margin-left: 50px;
+      img {
+        width: 10%;
+      }
+    }
+
+    div {
+      cursor: pointer;
+      width: 80%;
+      div{
+        width: 70%;
+        &:hover {
+          background: $traverllerOrange;
+          color: white
+        }
+      }
+    }
+
    .headerbutton {
     color: white;
     border-radius: 20px;
@@ -70,6 +103,16 @@ header .navbar-modified .navbar-right li a{
     color: $traverllerOrange;
     border-radius: 20px;
     background: white;
+  }
+  a {
+    padding: 10px;
+      div {
+        width: 70px;
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 500;
+        border: 2px solid $traverllerOrange;
+    }
   }
 }
 
@@ -85,24 +128,9 @@ header .navbar-modified .navbar-right li a{
 }
 
 
-.header-dropdown {
-  
-}
 
-.header-dropdown-manu {
-  position: absolute;
-  background: white;
-  font-size: 1.3rem;
-  width: 100%;
-  cursor: pointer;
-}
 
-.header-dropdown-manu>div {
-  padding: 10px;
-}
 
-.header-dropdown-manu>div:hover {
-  cursor: pointer;
-  opacity: 0.5;
-}
+
+
 
