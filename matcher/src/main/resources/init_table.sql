@@ -884,3 +884,24 @@ INSERT INTO Interests (interest_id, interest_name) VALUES
   (14, '高端礼宾车');
 
 COMMIT;
+
+
+/*
+ * CityConnections，千万不要再删掉了。
+ */
+START TRANSACTION;
+INSERT INTO CityConnections (from_city_id, to_city_id, distance, hours) VALUES
+  (1, 2, 120, 2),
+  (2, 3, 269, 5),
+  (3, 4, 297, 5),
+  (3, 5, 421, 7),
+  (3, 6, 448, 8),
+  (5, 6, 518, 9),
+  (6, 7, 135, 3),
+  (7, 8, 90, 2),
+  (2, 8, 383, 7),
+  (8, 9, 636, 11),
+  (9, 10, 173, 3),
+  (7, 2, 386, 7),
+  (10, 11, 143, 3);
+COMMIT;

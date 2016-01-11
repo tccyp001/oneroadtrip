@@ -90,11 +90,11 @@
         "end_city_id": 2,
         "visit_city": [
             {
-                "city_id": 1,
+                "city": { "city_id": 1 },
                 "num_days": 0
             },
             {
-                "city_id": 7,
+                "city": { "city_id": 7 },
                 "num_days": 0
             }
         ],
