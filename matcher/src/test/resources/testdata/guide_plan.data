@@ -46,14 +46,14 @@ INSERT INTO Users (user_id, user_name) VALUES
   (6, 'FF'),
   (7, 'GG');
 
-INSERT INTO Guides (guide_id, user_id, description, max_persons, has_car, score, interests, phone) VALUES
-  (1, 1, '旧金山导游', 15, False, 9.00, '家庭|商务', 5108574829),
-  (2, 2, '旧金山导游', 7, False, 8.00, '浪漫|家庭', 8163388888),
-  (3, 3, '旧金山导游', 5, False, 7.00, '高尔夫|家庭|浪漫', 6264562143),
-  (4, 4, '旧金山导游', 7, False, 6.00, '高端礼宾车', 5105857097),
-  (5, 5, '旧金山导游', 7, False, 5.00, '摄影|拍照', 5105857097),
-  (6, 6, '旧金山导游', 7, False, 4.00, '浪漫|家庭', 4086561788),
-  (7, 7, '旧金山导游', 60, False,3.00, '历史|商务|家庭', 4154898122);
+INSERT INTO Guides (guide_id, user_id, description, max_persons, has_car, score, interests, phone, host_city_id) VALUES
+  (1, 1, '旧金山导游', 15, False, 9.00, '家庭|商务', 5108574829, 8),
+  (2, 2, '旧金山导游', 7, False, 8.00, '浪漫|家庭', 8163388888, 8),
+  (3, 3, '旧金山导游', 5, False, 7.00, '高尔夫|家庭|浪漫', 6264562143, 8),
+  (4, 4, '旧金山导游', 7, False, 6.00, '高端礼宾车', 5105857097, 8),
+  (5, 5, '旧金山导游', 7, False, 5.00, '摄影|拍照', 5105857097, 8),
+  (6, 6, '旧金山导游', 7, False, 4.00, '浪漫|家庭', 4086561788, 8),
+  (7, 7, '旧金山导游', 60, False,3.00, '历史|商务|家庭', 4154898122, 8);
 
 INSERT INTO GuideReservations (guide_id, reserved_date, is_permanent) VALUES
   (1, 20151225, true),
@@ -94,6 +94,13 @@ guide_plan {
       topic: "浪漫"
       topic: "家庭"
       phone: 8163388888
+      host_city {
+        city_id: 8
+        name: "San Francisco"
+        cn_name: "旧金山"
+        suggest: 3
+        min: 1
+      }
       cover_city {
         city_id: 1
         name: "San Diego"
@@ -126,6 +133,13 @@ guide_plan {
       topic: "摄影"
       topic: "拍照"
       phone: 5105857097
+      host_city {
+        city_id: 8
+        name: "San Francisco"
+        cn_name: "旧金山"
+        suggest: 3
+        min: 1
+      }
       cover_city {
         city_id: 1
         name: "San Diego"
@@ -162,6 +176,13 @@ guide_plan {
       topic: "浪漫"
       topic: "家庭"
       phone: 4086561788
+      host_city {
+        city_id: 8
+        name: "San Francisco"
+        cn_name: "旧金山"
+        suggest: 3
+        min: 1
+      }
       cover_city {
         city_id: 2
         name: "Los Angels"
@@ -187,6 +208,13 @@ guide_plan {
       topic: "家庭"
       topic: "商务"
       phone: 5108574829
+      host_city {
+        city_id: 8
+        name: "San Francisco"
+        cn_name: "旧金山"
+        suggest: 3
+        min: 1
+      }
       cover_city {
         city_id: 1
         name: "San Diego"
@@ -218,6 +246,13 @@ guide_plan {
       score: 6.0
       topic: "高端礼宾车"
       phone: 5105857097
+      host_city {
+        city_id: 8
+        name: "San Francisco"
+        cn_name: "旧金山"
+        suggest: 3
+        min: 1
+      }
       cover_city {
         city_id: 1
         name: "San Diego"
@@ -244,6 +279,13 @@ guide_plan {
       topic: "商务"
       topic: "家庭"
       phone: 4154898122
+      host_city {
+        city_id: 8
+        name: "San Francisco"
+        cn_name: "旧金山"
+        suggest: 3
+        min: 1
+      }
       cover_city {
         city_id: 2
         name: "Los Angels"
