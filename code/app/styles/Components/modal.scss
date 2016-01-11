@@ -24,7 +24,7 @@
 .modal-left {
   color: white;
   flex: 3;
-  background: #F73146;
+  background: $traverllerOrange;
   border-radius: 5px 0 0 5px;
   display: flex;
   flex-direction: column;
@@ -48,7 +48,7 @@
         background: white;
         padding: 5px;
         border-radius: 50%;
-        color: red;
+        color: $traverllerOrange;
         cursor: pointer
         }
   }
@@ -79,7 +79,7 @@
     margin-bottom: 40px;
     cursor: pointer;
     .modalTitleRed {
-      color: #F73146;
+      color: $traverllerOrange;
     }
   }
   .modal-form-input {
@@ -88,7 +88,7 @@
   }
   .modal-submit {
     width: 80%;
-    background: #F73146;
+    background: $traverllerOrange;
     color: white;
     padding: 8px;
     border-radius: 5px;

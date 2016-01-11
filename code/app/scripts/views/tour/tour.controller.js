@@ -27,7 +27,7 @@ function TourCtrl($scope, $http, $modal, $state, Controller, TourInfo, toastr) {
 	if (TourInfo.requestData && TourInfo.requestData.date) {
 		$scope.startDate = TourInfo.requestData.date.startDate.format('YYYY-MM-DD');
 		$scope.endDate = TourInfo.requestData.date.endDate.format('YYYY-MM-DD');
-		$scope.diffDate = TourInfo.requestData.date.endDate.diff(TourInfo.requestData.date.startDate, 'days');		
+		$scope.diffDate = TourInfo.requestData.date.endDate.diff(TourInfo.requestData.date.startDate, 'days') + 1;		
 	}
 
 	$scope.dragmoved = function(index) {
@@ -44,9 +44,21 @@ function TourCtrl($scope, $http, $modal, $state, Controller, TourInfo, toastr) {
 		})
 	}
 
+	$scope.getDays = function(){
+		var totalDays = 0;
+		_.each($scope.tours, function(tour){
+			totalDays += tour.num_days;
+		})
+		return totalDays;
+	}
 
 	$scope.planPlus = function(tour){
-		tour.num_days++;
+		if ($scope.getDays() < $scope.diffDate) {
+			tour.num_days++;			
+		} else {
+			toastr.error('已经达到安排日期上限');
+		}
+
 		updatePlan(tour, tour.city.city_id, tour.num_days);
 	}
 
@@ -112,7 +124,12 @@ function TourCtrl($scope, $http, $modal, $state, Controller, TourInfo, toastr) {
 	}
 
 	$scope.chooseGuide = function(){
-			
+		
+		if ($scope.getDays() !== $scope.diffDate) {
+			toastr.error('安排时间和规划时间不符');
+			return
+		}
+
 		$scope.showGuide = true;
 		$scope.showMap = false;
 
