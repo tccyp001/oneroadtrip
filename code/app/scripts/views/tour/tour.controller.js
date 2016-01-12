@@ -9,14 +9,17 @@ angular.module('app.controllers')
     '$http',
     '$modal',
     '$state',
+    '$rootScope',
     'Controller',
     'TourInfo',
     'toastr',
+    'User',
+    'AUTH_EVENTS',
     TourCtrl
 ]);
 
 
-function TourCtrl($scope, $http, $modal, $state, Controller, TourInfo, toastr) {
+function TourCtrl($scope, $http, $modal, $state, $rootScope, Controller, TourInfo, toastr, User, AUTH_EVENTS) {
 	
 	$scope.TourInfo = TourInfo;
 	$scope.$parent.showfooter = false;
@@ -127,6 +130,12 @@ function TourCtrl($scope, $http, $modal, $state, Controller, TourInfo, toastr) {
 		
 		if ($scope.getDays() !== $scope.diffDate) {
 			toastr.error('安排时间和规划时间不符');
+			return
+		}
+
+		if(!User.persistentData.loggedIn) {
+			toastr.error('未登录，请先登录');
+			$rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
 			return
 		}
 

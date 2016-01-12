@@ -7,11 +7,12 @@ angular.module('app.shared')
         '$resource',
         '$state',
         '$cookies',
+        '$cookieStore',
         'Controller',
         UserFactory
     ]);
 
-function UserFactory($rootScope, $resource, $state, $cookies, Controller) {
+function UserFactory($rootScope, $resource, $state, $cookies, $cookieStore, Controller) {
 
     /**
      * Creates a new User
@@ -43,22 +44,7 @@ function UserFactory($rootScope, $resource, $state, $cookies, Controller) {
     User.prototype.signup = function(auth) {
         return $resource(Controller.base() + 'api/signup')
             .save(auth).$promise
-            // .then(function(res) {
-
-            //     // var parsedToken = parseUserToken(res);
-            //     // this.persistentData.token = parsedToken;
-            //     // this.persistentData.loggedIn = true;
-            //     // this.persistentData.username = auth.UserName;
-
-            //     // // save new persistentData
-            //     // this.setToLocalStorage();
-            //     // Token.token = this.persistentData.token;
-
-            //     // // reset expire timer to new expire time
-            //     // clearTimeout(this.expireTimer);
-            //     // var timeout = this.persistentData.token.expires - Date.now();
-            //     // this.expireTimer = timer(timeout, this.logout.bind(this));
-            // });
+            .then(this.login.bind(this, auth));
     };
 
     /**
@@ -71,24 +57,30 @@ function UserFactory($rootScope, $resource, $state, $cookies, Controller) {
      * @param {String} auth.Password
      */
     User.prototype.login = function(auth) {
+        var that = this;
+        var deferred = Q.defer();
         return $resource(Controller.base() + 'api/login')
             .save(auth).$promise
-            // .then(function(res) {
-            //     console.log(res)
-            //     // var parsedToken = parseUserToken(res);
-            //     // this.persistentData.token = parsedToken;
-            //     // this.persistentData.loggedIn = true;
-            //     // this.persistentData.username = auth.UserName;
+            .then(function(res) {
+                 if (res.status === 'SUCCESS') {
+                    $cookieStore.put('username', auth.username);
+                    $cookieStore.put('token', res.token);
+                    $cookieStore.put('isLoggin', true);
+                    that.persistentData.token = res.token;
+                    that.persistentData.loggedIn = true;
+                    that.persistentData.username = auth.username;
+                    deferred.resolve(res);
+                } else {
+                    deferred.reject(res);
+                }
+                return deferred.promise;
+                // Token.token = this.persistentData.token;
 
-            //     // // save new persistentData
-            //     // this.setToLocalStorage();
-            //     // Token.token = this.persistentData.token;
-
-            //     // // reset expire timer to new expire time
-            //     // clearTimeout(this.expireTimer);
-            //     // var timeout = this.persistentData.token.expires - Date.now();
-            //     // this.expireTimer = timer(timeout, this.logout.bind(this));
-            // });
+                // // reset expire timer to new expire time
+                // clearTimeout(this.expireTimer);
+                // var timeout = this.persistentData.token.expires - Date.now();
+                // this.expireTimer = timer(timeout, this.logout.bind(this));
+            });
     };
 
 
@@ -130,25 +122,25 @@ function UserFactory($rootScope, $resource, $state, $cookies, Controller) {
      * clears the expire time
      */
     User.prototype.logout = function() {
+        for (var prop in this.persistentData) delete this.persistentData[prop];
         var cookies = $cookies.getAll();
             _.each(cookies, function (v, k) {
                 $cookies.remove(k);
         });
 
-        // clearTimeout(this.expireTimer);
+        $state.go('main');
 
         if (!$rootScope.$$phase) $rootScope.$apply();
     }
 
     var user = new User();
 
-    // Log user out on unauthorized response
-    $rootScope.$on('unauthorized', function() {
-        user.logout();
-    });
+    // // Log user out on unauthorized response
+    // $rootScope.$on('unauthorized', function() {
+    //     user.logout();
+    // });
 
     return user;
-
 }
 
 

@@ -10,7 +10,6 @@ angular.module('app.controllers')
     '$modalInstance',
     '$http',
     '$cookies',
-    '$cookieStore',
     '$window',
     'toastr',
     'User',
@@ -19,7 +18,7 @@ angular.module('app.controllers')
 ]);
 
 
-function HeaderModalCtrl($scope, $modal, $modalInstance, $http, $cookies, $cookieStore, $window, toastr, User, AccessToken) {
+function HeaderModalCtrl($scope, $modal, $modalInstance, $http, $cookies, $window, toastr, User, AccessToken) {
 
 	$scope.forms = {};
 
@@ -33,43 +32,26 @@ function HeaderModalCtrl($scope, $modal, $modalInstance, $http, $cookies, $cooki
 
 	$scope.signup = function() {
 		var forms = _.clone($scope.forms);
-		User.signup(forms)
-	    .then(function(res) {
-	     if (res.status === 'SUCCESS') {
-				$cookieStore.put('username', $scope.forms.username);
-				$cookieStore.put('token', res.token);
-				$cookieStore.put('isLoggin', true);
-				$modalInstance.close();
-				$scope.$parent.updateHeader();
-	          	toastr.success('Signup Success', '');    
-	        } else {
-	          toastr.error(res.status);  
-	        }
-	    })
-	    .catch(function(e) {
-          toastr.error(e.toString());
-	    })
+		User.signup(forms).then(function(){
+        $modalInstance.close();
+        $scope.$parent.updateHeader();
+        toastr.success('注册并且登陆成功!'); 
+      }, function(err){
+        toastr.error(err.status);  
+      })
 	}
 
 
   $scope.login = function() {
     var forms = _.clone($scope.forms);
-      	User.login(forms)
-        .then(function(res) {
-            if (res.status === 'SUCCESS') {
-        				$cookieStore.put('username', $scope.forms.username);
-        				$cookieStore.put('token', res.token);
-        				$cookieStore.put('isLoggin', true);
-              	$modalInstance.close();
-              	$scope.$parent.updateHeader();
-	          	toastr.success('Login Success');    
-            } else {
-              toastr.error(res.status);  
-            }
-        })
-        .catch(function(e) {
-          toastr.error(e.toString());
-        })
+  	User.login(forms)
+    .then(function(res) {
+        $modalInstance.close();
+        $scope.$parent.updateHeader();
+        toastr.success('登陆成功!');    
+    }, function(err){
+       toastr.error(err.status);  
+    })
   }
 
 

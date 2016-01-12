@@ -10,12 +10,14 @@ angular.module('app.controllers')
     '$cookieStore',
     '$location',
     '$window',
+    '$rootScope',
     'User',
+    'AUTH_EVENTS',
     HeaderCtrl
 ]);
 
 
-function HeaderCtrl($scope, $modal, $cookieStore, $location, $window, User) {
+function HeaderCtrl($scope, $modal, $cookieStore, $location, $window, $rootScope, User, AUTH_EVENTS) {
 
   $scope.User = User;
 
@@ -28,6 +30,10 @@ function HeaderCtrl($scope, $modal, $cookieStore, $location, $window, User) {
       controller: 'HeaderModalCtrl'
     });
   }
+
+  $rootScope.$on(AUTH_EVENTS.notAuthenticated, function(){
+    $scope.openModal('login');
+  })
 
   $scope.HideDropdown = function() {
     $scope.showDropdownStatus = false;
