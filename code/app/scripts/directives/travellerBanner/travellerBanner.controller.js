@@ -93,11 +93,20 @@ function BannerCtrl($scope, $http, $state, toastr, Controller, TourInfo) {
     $scope.submitTour = function() {
 
     	$scope.tourForm.visit_city = $scope.tourForm.visit_city || [];
-    	if ($scope.tourForm.start_city_id) {
-			$scope.tourForm.visit_city.unshift({"city": {"city_id":$scope.tourForm.start_city_id}});    		
+    		var start_obj = {"city": {"city_id":$scope.tourForm.start_city_id}};
+    		var end_obj = {"city": {"city_id":$scope.tourForm.end_city_id}};
+    		var start_index = _($scope.tourForm.visit_city).map(function(city) {
+    			return city.city.city_id === $scope.tourForm.start_city_id;
+    		}).compact().value();
+    		var end_index = _($scope.tourForm.visit_city).map(function(city) {
+    			return city.city.city_id === $scope.tourForm.end_city_id;
+    		}).compact().value();
+
+    	if ($scope.tourForm.start_city_id && start_index.length === 0) {   		
+			$scope.tourForm.visit_city.unshift(start_obj);    		
     	}
-    	if ($scope.tourForm.end_city_id) {
-			$scope.tourForm.visit_city.push({"city": {'city_id': $scope.tourForm.end_city_id}});    		
+    	if ($scope.tourForm.end_city_id && end_index.length === 0) {
+			$scope.tourForm.visit_city.push(end_obj);    		
     	}
 
     	$scope.tourForm.keep_order_of_via_cities = false;
@@ -114,27 +123,26 @@ function BannerCtrl($scope, $http, $state, toastr, Controller, TourInfo) {
     	$scope.tourForm.hotel = parseInt($scope.tourForm.hotel);
 
 
-    	$scope.tourForm = {
-    		"end_city_id": 8,
-			"enddate": 20160113,
-			"hotel": 5,
-			"keep_order_of_via_cities": false,
-			"num_people": 3,
-			"num_room": 2,
-			"start_city_id": 1,
-			"startdate": 20160107,
-			"visit_city": [
-				{ "city": {"city_id": 1} },
-		      	{ "city": {"city_id": 2} },
-		      	{ "city": {"city_id": 8} }
-		      	],
-			"date": $scope.datePicker.date
-    	}
+   //  	$scope.tourForm = {
+   //  		"end_city_id": 8,
+			// "enddate": 20160113,
+			// "hotel": 5,
+			// "keep_order_of_via_cities": false,
+			// "num_people": 3,
+			// "num_room": 2,
+			// "start_city_id": 1,
+			// "startdate": 20160107,
+			// "visit_city": [
+			// 	{ "city": {"city_id": 1} },
+		 //      	{ "city": {"city_id": 2} },
+		 //      	{ "city": {"city_id": 8} }
+		 //      	],
+			// "date": $scope.datePicker.date
+   //  	}
 
 		$http.post(Controller.base() + 'api/plan', $scope.tourForm).then(function(res){
+			$scope.tourForm.visit_city = [];
 			if (res.data && res.data.status === 'SUCCESS') {
-				// $scope.tourForm.visit_city = [];
-				// $scope.tourForm.start_city_id = $scope.tourForm.end_city_id = undefined;
 				toastr.success('订制成功!');
 				TourInfo.data = res.data;
 				TourInfo.requestData = $scope.tourForm;

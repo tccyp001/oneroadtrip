@@ -36,6 +36,12 @@ function linkFunc($timeout, toastr, scope, elem, attrs) {
         };
     })
 
+    scope.$watch('selected', function(val){
+        if(val && val.length === 0) {
+            scope.selected_city = [];
+            scope.selected_city_ids = [];
+        }
+    })
 
     function searchHandler(e) {
         var term = e.target.value;
