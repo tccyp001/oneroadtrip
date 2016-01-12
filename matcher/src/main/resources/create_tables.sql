@@ -77,10 +77,12 @@ CREATE TABLE Guides (
 	has_car BOOLEAN,
 	score FLOAT,
   location_id BIGINT,  -- DEPRECATING...
+	host_city_id BIGINT,
   interests VARCHAR(100),
   phone BIGINT
 ) DEFAULT CHARSET=utf8;
 CREATE INDEX GuidesUserId ON Guides(user_id);
+CREATE INDEX GuidesHostCityId ON Guides(host_city_id);
 
 /*
  * reserved_date: 因为导游空闲时间是以天为单位的，所以INT比较简洁（20151210 -- Dec. 10, 2015)
@@ -91,7 +93,8 @@ CREATE TABLE GuideReservations (
   itinerary_id BIGINT,
 	reserved_date INT,
   is_permanent BOOLEAN,
-  update_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  location_id BIGINT,  -- DEPRECATING...
+  update_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) DEFAULT CHARSET=utf8;
 CREATE INDEX GuideReservationsGuideId ON GuideReservations(guide_id);
 CREATE INDEX GuideReservationsItineraryId ON GuideReservations(itinerary_id);
@@ -107,7 +110,7 @@ CREATE INDEX GuideCitiesCityIt ON GuideCities(city_id);
 
 CREATE TABLE Itineraries (
   itinerary_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  content VARCHAR(65536)
+  content VARCHAR(16384)
 ) DEFAULT CHARSET=utf8;
 
 /*

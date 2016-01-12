@@ -2,6 +2,8 @@
 **/.project
 **/.settings/**
 **/bin/**
+**/target/**
+**/test-output/**
 
 code/node_modules/
 code/bower_components/
