@@ -161,6 +161,7 @@ function TourCtrl($scope, $http, $modal, $state, $rootScope, Controller, TourInf
 		});
 
 		$http.post(Controller.base() + 'api/guide', obj).then(function(res){
+			console.log(res.data);
 			parseGuideInfo(res.data.guide_plan);
 		}) 
 	}
@@ -226,13 +227,12 @@ function TourCtrl($scope, $http, $modal, $state, $rootScope, Controller, TourInf
 		$scope.quoteToPay = "预览最终行程并支付";
 
 		var obj = {
+			"end_date": $scope.requestData.startdate,
 			"start_date": $scope.requestData.startdate,
 	        "hotel": $scope.requestData.hotel,
 	        "num_people": $scope.requestData.num_people,
 	        "num_room": $scope.requestData.num_room,		
 		}
-
-		console.log($scope.tours);
 
 		obj.city = _.map($scope.tours, function(tour){
 			return {
@@ -241,15 +241,21 @@ function TourCtrl($scope, $http, $modal, $state, $rootScope, Controller, TourInf
 					"city_id": tour.city.city_id
 					},
 				"num_days": tour.num_days,
-
+				"guide": 
+					{
+					"host_city": {"city_id" : $scope.selectedGuide.host_city.city_id}
+					}
 			}
 		});
 
+		console.log(obj);
 
-		console.log($scope.selectedGuide);
 		if ($scope.chooseGuideTypeStatus === "one") {
 			obj.selectedGuideId = $scope.selectedGuide.guide_id; 
-			obj.guide_plan_type = "ONE_GUIDE_FOR_THE_WHOLE_TRIP";
+			// obj.guide_plan_type = "ONE_GUIDE_FOR_THE_WHOLE_TRIP";
+			obj["guide_for_whole_trip"] = {
+				"host_city": {"city_id" : $scope.selectedGuide.host_city.city_id}
+			}
 		} else if ($scope.chooseGuideTypeStatus === "multi") {
 			obj.guide_plan_type = "ONE_GUIDE_FOR_EACH_CITY";
 			obj.visit_plan = _.values($scope.multi_city_plan);
@@ -262,7 +268,6 @@ function TourCtrl($scope, $http, $modal, $state, $rootScope, Controller, TourInf
 	}
 
 	$scope.gotoReview = function(quote){
-		console.log(quote);
 		TourInfo.quote = quote;
 		$state.go('review');
 	}

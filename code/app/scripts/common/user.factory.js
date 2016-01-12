@@ -31,15 +31,24 @@ function UserFactory($rootScope, $resource, $state, $cookies, $cookieStore, Cont
         // this.currNode = undefined;
         // this.displayNodeLevels = [];
 
-        // // load from local storage on init
-        // this.getFromLocalStorage();
         // * set the auth token only use for {@link ApiService} 
         // Token.token = this.persistentData.token;
 
         // // expire timer starts now
         // var timeout = this.persistentData.token.expires - Date.now();
         // this.expireTimer = timer(timeout, this.logout.bind(this));
+
+        // load from local storage on init
+        this.getFromLocalCookie();
     }
+
+    User.prototype.getFromLocalCookie = function(){
+        if($cookieStore.get('isLoggin') && $cookieStore.get('username')) {
+            this.persistentData.loggedIn = $cookieStore.get('isLoggin');
+            this.persistentData.username = $cookieStore.get('username');
+        }
+    };
+
 
     User.prototype.signup = function(auth) {
         return $resource(Controller.base() + 'api/signup')
