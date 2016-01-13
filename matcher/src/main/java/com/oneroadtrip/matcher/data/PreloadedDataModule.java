@@ -87,4 +87,10 @@ public class PreloadedDataModule extends AbstractModule {
   ImmutableMap<Long, SpotInfo> providesSpotIdToInfo(PreloadedData data) {
     return data.getSpotIdToInfo();
   }
+  
+  @Provides
+  @Named(Constants.TOKEN_TO_USER_ID)
+  ImmutableMap<String, Long> providesTokenToUserId(PreloadedData data) {
+    return data.getTokenToUserId();
+  }
 }

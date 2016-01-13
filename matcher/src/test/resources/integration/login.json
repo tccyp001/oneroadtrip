@@ -1,44 +1,67 @@
 [
-    {
-        "request": "signup",
-        "username": "user1",
-        "email": "user1@a.com",
-        "password": "user1pass"
-    },
-    {
-        "status": "SUCCESS"
-    },
-    {
-        "request": "signup",
-        "username": "user1",
-        "email": "user1@a.com",
-        "password": "user1pass"
-    },
-    {
-        "status": "INCORRECT_USER_NAME"
-    },
-    {
-        "request": "login",
-        "username": "user1",
-        "password": "user1pass"
-    },
-    {
-        "status": "SUCCESS"
-    },
-    {
-        "request": "login",
-        "username": "user1",
-        "password": "user2pass"
-    },
-    {
-        "status": "NO_TOKEN"
-    },
-    {
-        "request": "login",
-        "username": "user2",
-        "password": "user2pass"
-    },
-    {
-        "status": "NO_TOKEN"
-    }
+  {
+    "request": "signup",
+    "type": "QQ_OAUTH",
+    "access_token": "CB1551A90B3308CAB76603B47625C516",
+    "client_id": "101277978",
+    "open_id": "CF1C38F60AFF1F9183C7466EF8C7917D"
+  },
+
+  {
+    "status": "SUCCESS"
+  },
+
+  {
+    "request": "signup",
+    "type": "TRADITIONAL",
+    "username": "user1",
+    "email": "user1@a.com",
+    "password": "user1pass"
+  },
+
+  {
+    "status": "SUCCESS"
+  },
+
+  {
+    "request": "signup",
+    "type": "TRADITIONAL",
+    "username": "user1",
+    "email": "user1@a.com",
+    "password": "user1pass"
+  },
+
+  {
+    "status": "INCORRECT_USER_NAME"
+  },
+
+  {
+    "request": "login",
+    "username": "user1",
+    "password": "user1pass"
+  },
+
+  {
+    "status": "SUCCESS"
+  },
+
+  {
+    "request": "login",
+    "username": "user1",
+    "password": "user2pass"
+  },
+
+  {
+    "status": "INCORRECT_PASSWORD"
+  },
+
+  {
+    "request": "login",
+    "username": "user2",
+    "password": "user2pass"
+  },
+
+  {
+    "status": "UNKNOWN_USER"
+  }
 ]

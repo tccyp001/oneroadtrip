@@ -10,11 +10,15 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.google.common.base.Preconditions;
 import com.oneroadtrip.matcher.common.OneRoadTripException;
 import com.oneroadtrip.matcher.proto.Status;
 
 public class SqlUtil {
+  private static final Logger LOG = LogManager.getLogger();
 
   @FunctionalInterface
   public static interface DatabaseFunction<INPUT_TYPE, RESULT_TYPE> {
@@ -72,6 +76,7 @@ public class SqlUtil {
         return result;
       } catch (SQLException e) {
         conn.rollback();
+        LOG.info("SQL error", e);
         throw new OneRoadTripException(Status.ERROR_IN_SQL, e);
       } finally {
         conn.setAutoCommit(originAutoCommit);

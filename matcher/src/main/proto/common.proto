@@ -26,6 +26,8 @@ enum Status {
   INCORRECT_SPOT_ID = 15;
   NO_CONNECTION_BETWEEN_CITIES = 16;
   ERROR_IN_STRIPE = 17;
+  ERROR_IN_OAUTH_CONFIRMATION = 18;
+  SHOULD_NOT_REACH = 19;
 
   // Internal status
   //
@@ -39,6 +41,13 @@ enum Status {
 enum OrderStatus {
   WAIT_FOR_PAYMENT = 1;
   PAID = 2;
+}
+
+message UserInfo {
+  optional int64 user_id = 1;
+  optional string user_name = 2;
+  optional string nick_name = 3;
+  optional string password = 4;
 }
 
 message CityInfo {

@@ -15,4 +15,5 @@ public class Constants {
   public static final String CITY_TO_GUIDES = "city_to_guides";
   public static final String GUIDE_TO_INTERESTS = "guide_to_interests";
   public static final String GUIDE_TO_SCORE = "guide_to_score";
+  public static final String TOKEN_TO_USER_ID = "token_to_user_id";
 }

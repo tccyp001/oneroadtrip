@@ -1,0 +1,28 @@
+==INSERT_DATA==
+INSERT INTO Users (user_id, user_name, nick_name, password) VALUES
+  (1, 'test', 'testnick', 'ecd71870d1963316a97e3ac3408c9835ad8cf0f3c1bc703527c3265534f75ae'); 
+
+==========
+==TESTCASE_DATA==
+=REQUEST
+username: "test"
+password: "test123"
+=RESPONSE
+status: SUCCESS
+token: "ABCDEFGHIJKLMNOPG"
+
+==========
+==TESTCASE_DATA==
+=REQUEST
+username: "test"
+password: "unknown_password"
+=RESPONSE
+status: INCORRECT_PASSWORD
+
+==========
+==TESTCASE_DATA==
+=REQUEST
+username: "unknown_user"
+password: "test123"
+=RESPONSE
+status: UNKNOWN_USER

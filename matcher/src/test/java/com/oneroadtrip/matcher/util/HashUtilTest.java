@@ -5,11 +5,15 @@ import java.security.NoSuchAlgorithmException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.oneroadtrip.matcher.util.HashUtil.Hasher;
+import com.oneroadtrip.matcher.util.HashUtil.HasherImpl;
+
 public class HashUtilTest {
   @Test
   public void testGetRandomString() {
+    Hasher hasher = new HasherImpl();
     for (int i = 0; i < 10; ++i) {
-      Assert.assertTrue(HashUtil.getRandomString().length() <= 40);
+      Assert.assertTrue(hasher.getRandomString().length() <= 40);
     }
   }
 

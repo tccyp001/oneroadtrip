@@ -64,6 +64,7 @@ public class OneRoadTripModule extends AbstractModule {
     });
     install(new DbModule());
     install(new PreloadedDataModule());
+    install(new ServingToolModule());
 
     // Bind application resources
     bind(CityResource.class);
