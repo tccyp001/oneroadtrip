@@ -83,6 +83,7 @@ public class PreloadedData {
   final ImmutableMap<Long, CityInfo> cityIdToInfo;
   final ImmutableMap<Long, GuideInfo> guideIdToInfo;
   final ImmutableMap<Long, SpotInfo> spotIdToInfo;
+  final ImmutableMap<String, Long> tokenToUserId;
 
   PreloadedData(ImmutableMap<Pair<Long, Long>, CityConnectionInfo> cityNetwork,
       ImmutableMap<Long, Integer> suggestDaysForCities,
@@ -93,7 +94,8 @@ public class PreloadedData {
       ImmutableMap<Long, Float> guideToScore,
       ImmutableMap<Long, CityInfo> cityIdToInfo,
       ImmutableMap<Long, GuideInfo> guideIdToInfo,
-      ImmutableMap<Long, SpotInfo> spotIdToInfo) {
+      ImmutableMap<Long, SpotInfo> spotIdToInfo,
+      ImmutableMap<String, Long> tokenToUserId) {
     this.cityNetwork = cityNetwork;
     this.suggestDaysForCities = suggestDaysForCities;
     this.cityIdToSpotPlanner = cityIdToSpotPlanner;
@@ -104,6 +106,7 @@ public class PreloadedData {
     this.cityIdToInfo = cityIdToInfo;
     this.guideIdToInfo = guideIdToInfo;
     this.spotIdToInfo = spotIdToInfo;
+    this.tokenToUserId = tokenToUserId;
   }
 
   public ImmutableMap<Pair<Long, Long>, CityConnectionInfo> getCityNetwork() {
@@ -144,5 +147,9 @@ public class PreloadedData {
   
   public ImmutableMap<Long, SpotInfo> getSpotIdToInfo() {
     return spotIdToInfo;
+  }
+  
+  public ImmutableMap<String, Long> getTokenToUserId() {
+    return tokenToUserId;
   }
 }

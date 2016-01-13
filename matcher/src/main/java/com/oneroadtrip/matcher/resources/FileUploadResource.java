@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -18,7 +19,7 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.oneroadtrip.matcher.util.HashUtil;
+import com.oneroadtrip.matcher.util.HashUtil.Hasher;
 import com.sun.jersey.multipart.FormDataParam;
 
 // TODO(xfguo): (P3) Make this a separate service?
@@ -29,12 +30,15 @@ public class FileUploadResource {
   private static final String PARAM_NAME = "file";
   // TODO(xfguo): (P3) We may need to find a better directory for saving these files.
   private static final String IMAGE_DIRECTORY = "/tmp/data";
+  
+  @Inject
+  Hasher hasher;
 
   @POST
   @Path("/upload")
   @Consumes(MediaType.MULTIPART_FORM_DATA)
   public Response uploadFile(@FormDataParam(PARAM_NAME) InputStream in) {
-    String randStr = HashUtil.getRandomString();
+    String randStr = hasher.getRandomString();
     File upload = new File(IMAGE_DIRECTORY, randStr);
 
     try {

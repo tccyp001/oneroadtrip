@@ -18,8 +18,9 @@ import java.util.concurrent.TimeUnit;
 
 import javax.sql.DataSource;
 
+import junit.framework.Assert;
+
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpPost;
@@ -42,15 +43,16 @@ import com.google.gson.JsonParser;
 import com.oneroadtrip.matcher.testutil.DockerProcess;
 import com.oneroadtrip.matcher.testutil.TestingUtil;
 import com.oneroadtrip.matcher.util.HashUtil;
+import com.oneroadtrip.matcher.util.HashUtil.Hasher;
+import com.oneroadtrip.matcher.util.HashUtil.HasherImpl;
 import com.oneroadtrip.matcher.util.ScriptRunner;
-
-import junit.framework.Assert;
 
 public class FirstIntegrationTest {
   private static final Logger LOG = LogManager.getLogger();
 
   public static class OneRoadTripTestingEnv implements Closeable {
     final File testingDirectory = Files.createTempDir();
+    final Hasher hasher = new HasherImpl();
 
     public File getTestingDirectory() {
       return testingDirectory;
@@ -72,7 +74,7 @@ public class FirstIntegrationTest {
     }
 
     public File createOneTestingDir() {
-      return createOneTestingDir(HashUtil.getRandomString(20));
+      return createOneTestingDir(hasher.getRandomString(20));
     }
 
     public File createOneTestingDir(String name) {

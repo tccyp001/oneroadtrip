@@ -1,14 +1,30 @@
 /*
- * password: one-way-hash
+ * password: one-way-hash. 并且password是optional的，譬如有时候你是用oauth的内容发过来的，
+ *    这种情况下，我们默认接受。
  */
 CREATE TABLE Users(
   user_id BIGINT PRIMARY KEY AUTO_INCREMENT,
   user_name VARCHAR(100),
+  nick_name VARCHAR(100),
   email VARCHAR(100),
-  password CHAR(64),
-  photo_id BIGINT
+  password CHAR(64)
 ) DEFAULT CHARSET=utf8;
 CREATE INDEX UsersUserName ON Users(user_name);
+
+/*
+ * source -- QQ / Weibo or others.
+ */
+CREATE TABLE OAuthUsers(
+  oauth_user_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  user_id BIGINT,
+  source INT,
+  access_token VARCHAR(80),
+  client_id VARCHAR(80),
+  openid VARCHAR(80)
+) DEFAULT CHARSET=utf8;
+CREATE INDEX OAuthUsersUserId ON OAuthUsers(user_id);
+CREATE INDEX OAuthUsersAccessToken ON OAuthUsers(access_token);
+CREATE INDEX OAuthUsersClientId ON OAuthUsers(client_id);
 
 /*
  * About user expiration: 对于一个用户而言，有可能对应有多个tokens，有些过期了，有些没有。
@@ -24,6 +40,7 @@ CREATE TABLE Tokens (
   is_expired BOOLEAN
 ) DEFAULT CHARSET=utf8;
 CREATE INDEX TokensToken ON Tokens(token);
+CREATE INDEX TokensUserId ON Tokens(user_id);
 
 CREATE TABLE Cities(
   city_id BIGINT PRIMARY KEY AUTO_INCREMENT,

@@ -20,6 +20,7 @@ import org.javatuples.Pair;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -29,6 +30,7 @@ import com.oneroadtrip.matcher.proto.GuideInfo;
 import com.oneroadtrip.matcher.proto.SpotInfo;
 import com.oneroadtrip.matcher.proto.VisitSpot;
 import com.oneroadtrip.matcher.proto.internal.CityConnectionInfo;
+import com.oneroadtrip.matcher.util.SqlUtil;
 import com.oneroadtrip.matcher.util.Util;
 
 public class PreloadedDataReloader {
@@ -157,6 +159,9 @@ public class PreloadedDataReloader {
 
     ImmutableMap.Builder<Long, GuideInfo> guideIdToInfo = ImmutableMap.builder();
     reloadGuideInfo(cityIdToInfo, guideIdToInfo);
+    
+    ImmutableMap.Builder<String, Long> tokenToUserId = ImmutableMap.builder();
+    reloadTokenToUserId(tokenToUserId);
 
     if (cityNetwork == null || suggestDaysForCities == null || cityNetwork.size() == 0
         || suggestDaysForCities.size() == 0) {
@@ -166,7 +171,27 @@ public class PreloadedDataReloader {
     return new PreloadedData(cityNetwork, suggestDaysForCities,
         ImmutableMap.copyOf(cityIdToSpotPlanner), ImmutableMap.copyOf(interestNameToId),
         cityToGuides.build(), guideToInterests.build(), guideToScore.build(), cityIdToInfo,
-        guideIdToInfo.build(), spotIdToInfo);
+        guideIdToInfo.build(), spotIdToInfo, tokenToUserId.build());
+  }
+  
+  private static final String LOAD_TOKEN_TO_USER_ID = "SELECT token, user_id "
+      + "FROM Tokens WHERE expired_ts > ? AND is_expired = false";
+  private void reloadTokenToUserId(Builder<String, Long> tokenToUserId) {
+    // TODO(xfguo): Double check the performance of using just one connection for all
+    // retrieving and using multiple connections for reloading different data. (maybe
+    // parallel it)
+    try (Connection conn = dataSource.getConnection();
+        PreparedStatement pStmt = conn.prepareStatement(LOAD_TOKEN_TO_USER_ID)) {
+      pStmt.setTimestamp(1, SqlUtil.getCurrentJavaSqlTimestamp());
+      try (ResultSet rs = pStmt.executeQuery()) {
+        while (rs.next()) {
+          tokenToUserId.put(rs.getString(1), rs.getLong(2));
+        }
+      }
+    } catch (SQLException e) {
+      LOG.error("DB error in reload guide related data", e);
+      // TODO(xfguo): Should fail the whole preloading if having any error in reloading any data.
+    }
   }
 
   private static final String LOAD_CITY_TO_GUIDES = "SELECT city_id, guide_id FROM GuideCities ORDER BY city_id";

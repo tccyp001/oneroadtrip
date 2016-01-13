@@ -18,12 +18,14 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
 import com.oneroadtrip.matcher.OneRoadTripConfig;
+import com.oneroadtrip.matcher.data.Curl;
 import com.oneroadtrip.matcher.data.MockPayer;
 import com.oneroadtrip.matcher.data.Payer;
 import com.oneroadtrip.matcher.data.PreloadedDataModule;
 import com.oneroadtrip.matcher.data.TestingDataAccessor;
 import com.oneroadtrip.matcher.handlers.DbTestingModule.H2Info;
 import com.oneroadtrip.matcher.module.DbModule;
+import com.oneroadtrip.matcher.util.HashUtil.Hasher;
 import com.oneroadtrip.matcher.util.ScriptRunner;
 
 public abstract class DbTest {
@@ -52,13 +54,46 @@ public abstract class DbTest {
         bind(TestingDataAccessor.class);
       }
       
+      // TODO(xfguo): Move this into getPayer().
       private final Payer payer = new MockPayer(true);
-      @Singleton
+
       @Provides
+      @Singleton
       Payer getPayer() {
         return payer;
       }
+      
+      @Provides
+      @Singleton
+      Curl getCurl() {
+        return new Curl() {
+          @Override
+          public String curl(String url) throws IOException {
+            if (url.contains("CF1C38F60AFF1F9183C7466EF8C7917D")) {
+              return "{ \"nickname\": \"Victor\" }";
+            }
+            throw new IOException("No match");
+          }
+        };
+      }
+      
+      @Provides
+      @Singleton
+      Hasher getHasher() {
+        return new Hasher() {
+          @Override
+          public String getRandomString() {
+            return "ABCDEFGHIJKLMNOPG";
+          }
+
+          @Override
+          public String getRandomString(int length) {
+            return null;
+          }
+        };
+      }
     };
+
     injector = Guice.createInjector(testModule);
     h2Info = injector.getInstance(H2Info.class);
 

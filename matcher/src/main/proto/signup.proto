@@ -1,0 +1,34 @@
+syntax = "proto2";
+
+package match;
+
+option java_package = "com.oneroadtrip.matcher.proto";
+option java_multiple_files = true;
+option java_outer_classname = "SignupProtos";
+
+import "common.proto";
+
+enum SignupType {
+  TRADITIONAL = 1;
+  QQ_OAUTH = 2;
+  WEIBO_OAUTH = 3;
+}
+
+message SignupRequest {
+  optional SignupType type = 1;
+
+  optional string username = 2;
+  optional string nickname = 3;
+  optional string email = 4;
+  optional string password = 5;
+
+  // For OAuth login.
+  optional string access_token = 6;
+  optional string client_id = 7;
+  optional string open_id = 8;
+}
+
+message SignupResponse {
+  optional Status status = 1;
+  optional string token = 2;
+}
