@@ -41,7 +41,6 @@ function HeaderModalCtrl($scope, $modal, $modalInstance, $http, $cookies, $windo
       })
 	}
 
-
   $scope.login = function() {
     var forms = _.clone($scope.forms);
   	User.login(forms)
@@ -53,8 +52,7 @@ function HeaderModalCtrl($scope, $modal, $modalInstance, $http, $cookies, $windo
        toastr.error(err.status);  
     })
   }
-
-
+  var $scopeParent = $scope.$parent;
   $scope.oauthThroughQQ = function(){
       //应用的APPID，请改为你自己的
       var appID = "101277978";
@@ -66,9 +64,18 @@ function HeaderModalCtrl($scope, $modal, $modalInstance, $http, $cookies, $windo
         var queryParams = ['client_id=' + appID,'redirect_uri=' + redirectURI, 'scope=' + 'get_user_info,list_album,upload_pic,add_feeds,do_like','response_type=token', 'state=qq'];
         var query = queryParams.join('&');
         var url = path + query;
-        $window.open(url, 'C-Sharpcorner', 'width=500,height=400');
-
-        $modalInstance.close();
+        var david = $window.open(url, 'C-Sharpcorner', 'width=500,height=400');
+        var interval = $window.setInterval(function() {
+            try {
+                if (david == null || david.closed) {
+                    window.clearInterval(interval);
+                    $scopeParent.updateHeader();
+                    $modalInstance.close();
+                }
+            }
+            catch (e) {
+            }
+        }, 1000);
     }
 
 

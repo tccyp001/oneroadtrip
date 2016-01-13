@@ -6,11 +6,12 @@ angular.module('app.shared')
     '$resource',
     '$http',
     '$window',
+    'User',
     AccessTokenFactory
 ]);
 
 
-function AccessTokenFactory($resource, $http, $window) {
+function AccessTokenFactory($resource, $http, $window, User) {
 	function OauthToken(){
 		this.accessToken = {};
 		this.openID = {};
@@ -42,9 +43,18 @@ function AccessTokenFactory($resource, $http, $window) {
 		var url = 'https://graph.qq.com/oauth2.0/me' + '?callback=callback' + '&access_token=' + this.accessToken.access_token;
 		console.log(url);	
 		$window.callback = function(data) {
-			console.log(data);
+			
 			that.openID = data;
-			// User.login();
+			console.log(that);
+			var auth = {
+				'type': 'QQ_OAUTH',
+				'access_token': that.accessToken.access_token,
+				'client_id': that.openID.client_id,
+				'open_id': that.openID.openid
+			}
+			User.signup(auth).then(function(){
+				that.status = 'done';
+			});
 		}
 
 		$http.jsonp(url).then(function(res){

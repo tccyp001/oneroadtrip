@@ -51,9 +51,24 @@ function UserFactory($rootScope, $resource, $state, $cookies, $cookieStore, Cont
 
 
     User.prototype.signup = function(auth) {
+        var that = this;
+        var deferred = Q.defer();
         return $resource(Controller.base() + 'api/signup')
             .save(auth).$promise
-            .then(this.login.bind(this, auth));
+            .then(function(res) {
+                 if (res.status === 'SUCCESS') {
+                    $cookieStore.put('username', 'Oauth');
+                    $cookieStore.put('token', res.token);
+                    $cookieStore.put('isLoggin', true);
+                    that.persistentData.token = res.token;
+                    that.persistentData.loggedIn = true;
+                    that.persistentData.username = auth.username;
+                    deferred.resolve(res);
+                } else {
+                    deferred.reject(res);
+                }
+                return deferred.promise;
+        });
     };
 
     /**

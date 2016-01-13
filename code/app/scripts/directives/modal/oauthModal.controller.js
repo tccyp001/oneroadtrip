@@ -27,7 +27,7 @@ function OauthModalCtrl($scope, $timeout, $http, $window, $cookieStore, $locatio
         if (val.status === 'done') {
           $timeout(function(){
               $window.close();
-          }, 1500000);
+          }, 3000);
         }
     })
 
