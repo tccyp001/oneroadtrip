@@ -4,15 +4,15 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
+
+import junit.framework.Assert;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.common.base.Preconditions;
-import com.oneroadtrip.matcher.util.HashUtil;
-
-import junit.framework.Assert;
+import com.oneroadtrip.matcher.util.HashUtil.Hasher;
+import com.oneroadtrip.matcher.util.HashUtil.HasherImpl;
 
 public abstract class DockerProcess implements Closeable {
   private static final Logger LOG = LogManager.getLogger();
@@ -26,6 +26,8 @@ public abstract class DockerProcess implements Closeable {
   private final int incomingPort;
   private final String volumnPair;
   private final String otherParams;
+  
+  private final Hasher hasher = new HasherImpl();
 
   protected Process process = null;
 
@@ -53,7 +55,7 @@ public abstract class DockerProcess implements Closeable {
   public DockerProcess(String imageName, String postfix, int port, int incomingPort,
       String volumnPair, String otherParams) {
     this.imageName = imageName;
-    dockerName = String.format("%s-%s", HashUtil.getRandomString(40), postfix);
+    dockerName = String.format("%s-%s", hasher.getRandomString(40), postfix);
     this.port = port;
     this.incomingPort = incomingPort;
     this.volumnPair = Preconditions.checkNotNull(volumnPair);
