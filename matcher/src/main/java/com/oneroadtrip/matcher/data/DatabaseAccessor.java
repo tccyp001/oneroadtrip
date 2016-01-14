@@ -193,17 +193,16 @@ public class DatabaseAccessor {
 
   // ============== SIGN-UP / LOGIN related =================
   private static final String INSERT_OAUTH_USER = "INSERT INTO OAuthUsers "
-      + "(user_id, source, access_token, client_id, openid) VALUES " + "(?, ?, ?, ?, ?)";
+      + "(user_id, source, access_token, unique_id) VALUES " + "(?, ?, ?, ?)";
 
   private UserInfo addOAuthUser(Connection conn, UserInfo userInfo, SignupType type,
-      String accessToken, String clientId, String openId) throws OneRoadTripException {
+      String accessToken, String uniqueId) throws OneRoadTripException {
     try (PreparedStatement pStmt = conn.prepareStatement(INSERT_OAUTH_USER,
         Statement.RETURN_GENERATED_KEYS)) {
       pStmt.setLong(1, userInfo.getUserId());
       pStmt.setInt(2, type.getNumber());
       pStmt.setString(3, accessToken);
-      pStmt.setString(4, clientId);
-      pStmt.setString(5, openId);
+      pStmt.setString(4, uniqueId);
       SqlUtil.executeStatementAndReturnId(pStmt);
       return userInfo;
     } catch (SQLException e) {
@@ -231,13 +230,13 @@ public class DatabaseAccessor {
   }
 
   public UserInfo addOAuthUser(UserInfo oauthUser, SignupType type, String accessToken,
-      String clientId, String openId) throws OneRoadTripException {
+      String uniqueId) throws OneRoadTripException {
     UserInfo user = SqlUtil.executeTransaction(
         dataSource,
         (Connection conn) -> addUser("", oauthUser.getNickName(), oauthUser.getPictureUrl(), "",
             conn));
     return SqlUtil.executeTransaction(dataSource,
-        (Connection conn) -> addOAuthUser(conn, user, type, accessToken, clientId, openId));
+        (Connection conn) -> addOAuthUser(conn, user, type, accessToken, uniqueId));
   }
 
   public UserInfo addUser(String username, String nickname, String pictureUrl, String password)
@@ -266,13 +265,13 @@ public class DatabaseAccessor {
 
   private static final String LOOKUP_OAUTH_USER = "SELECT u.user_id, u.user_name, u.nick_name, u.password, u.picture_url "
       + "FROM OAuthUsers ou INNER JOIN Users u ON (ou.user_id = u.user_id) "
-      + "WHERE client_id = ? AND openid = ?";
+      + "WHERE source = ? AND unique_id = ?";
 
-  public UserInfo lookupOAuthUser(String clientId, String openId) throws OneRoadTripException {
+  public UserInfo lookupOAuthUser(SignupType type, String uniqueId) throws OneRoadTripException {
     try (Connection conn = dataSource.getConnection();
         PreparedStatement pStmt = conn.prepareStatement(LOOKUP_OAUTH_USER)) {
-      pStmt.setString(1, clientId);
-      pStmt.setString(2, openId);
+      pStmt.setInt(1, type.getNumber());
+      pStmt.setString(2, uniqueId);
       return getUserBySql(pStmt);
     } catch (SQLException e) {
       throw new OneRoadTripException(Status.ERROR_IN_SQL, e);

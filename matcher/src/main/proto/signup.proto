@@ -26,6 +26,7 @@ message SignupRequest {
   optional string access_token = 6;
   optional string client_id = 7;
   optional string open_id = 8;
+  optional string uid = 9;  // For weibo.
 }
 
 message SignupResponse {

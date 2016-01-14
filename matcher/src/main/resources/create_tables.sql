@@ -14,18 +14,18 @@ CREATE INDEX UsersUserName ON Users(user_name);
 
 /*
  * source -- QQ / Weibo or others.
+ * unique_id -- 不同的平台，可以有不同的unique_id，譬如qq的，可以用client_id + open_id作为unique_id.
  */
 CREATE TABLE OAuthUsers(
   oauth_user_id BIGINT PRIMARY KEY AUTO_INCREMENT,
   user_id BIGINT,
   source INT,
-  access_token VARCHAR(80),
-  client_id VARCHAR(80),
-  openid VARCHAR(80)
+  unique_id VARCHAR(80),
+  access_token VARCHAR(80)
 ) DEFAULT CHARSET=utf8;
 CREATE INDEX OAuthUsersUserId ON OAuthUsers(user_id);
 CREATE INDEX OAuthUsersAccessToken ON OAuthUsers(access_token);
-CREATE INDEX OAuthUsersClientId ON OAuthUsers(client_id);
+CREATE INDEX OAuthUsersUniqueId ON OAuthUsers(unique_id);
 
 /*
  * About user expiration: 对于一个用户而言，有可能对应有多个tokens，有些过期了，有些没有。
