@@ -31,7 +31,6 @@ import com.oneroadtrip.matcher.proto.OrderStatus;
 import com.oneroadtrip.matcher.proto.SignupType;
 import com.oneroadtrip.matcher.proto.Status;
 import com.oneroadtrip.matcher.proto.UserInfo;
-import com.oneroadtrip.matcher.util.HashUtil;
 import com.oneroadtrip.matcher.util.HashUtil.Hasher;
 import com.oneroadtrip.matcher.util.ItineraryUtil;
 import com.oneroadtrip.matcher.util.SqlUtil;
@@ -99,12 +98,14 @@ public class DatabaseAccessor {
       + "(user_id, itinerary_id, cost_usd) VALUES (?, ?, ?)";
 
   public static Triplet<Long, Long, List<Long>> prepareForOrder(Itinerary itin, Connection conn)
-      throws SQLException {
+      throws OneRoadTripException {
     Long itineraryId = null;
     try (PreparedStatement pStmt = conn.prepareStatement(ADD_ITINERARY,
         Statement.RETURN_GENERATED_KEYS)) {
       pStmt.setString(1, TextFormat.printToUnicodeString(itin));
       itineraryId = SqlUtil.executeStatementAndReturnId(pStmt);
+    } catch (SQLException e) {
+      throw new OneRoadTripException(Status.ERR_ADD_ITINERARY_FOR_ORDER, e);
     }
 
     // 3. add reservations
@@ -117,6 +118,8 @@ public class DatabaseAccessor {
         pStmt.setInt(3, guideAndDate.getValue1());
         pStmt.addBatch();
         reservedGuideIds.add(SqlUtil.executeStatementAndReturnId(pStmt));
+      } catch (SQLException e) {
+        throw new OneRoadTripException(Status.ERR_ADD_RESERVATION_FOR_ORDER, e);
       }
     }
 
@@ -129,6 +132,8 @@ public class DatabaseAccessor {
       pStmt.setFloat(3, ItineraryUtil.getCostUsd(itin));
       pStmt.executeUpdate();
       orderId = SqlUtil.executeStatementAndReturnId(pStmt);
+    } catch (SQLException e) {
+      throw new OneRoadTripException(Status.ERR_ADD_ORDER_FOR_ORDER, e);
     }
     return Triplet.with(orderId, itineraryId, reservedGuideIds);
   }
@@ -136,7 +141,7 @@ public class DatabaseAccessor {
   private static final String RESERVER_GUIDES_PERMANENTLY = "INSERT INTO GuideReservations "
       + "(guide_id, itinerary_id, reserved_date, is_permanent) VALUES " + "(?, ?, ?, true)";
 
-  public static List<Long> reserveGuides(Itinerary itin, Connection conn) throws SQLException {
+  public static List<Long> reserveGuides(Itinerary itin, Connection conn) throws OneRoadTripException {
     List<Long> reservedGuideIds = Lists.newArrayList();
     long itineraryId = itin.getItineraryId();
     for (Pair<Long, Integer> guideAndDate : Util.getGuideReservationMap(itin)) {
@@ -147,6 +152,8 @@ public class DatabaseAccessor {
         pStmt.setInt(3, guideAndDate.getValue1());
         pStmt.addBatch();
         reservedGuideIds.add(SqlUtil.executeStatementAndReturnId(pStmt));
+      } catch (SQLException e) {
+        throw new OneRoadTripException(Status.ERR_INSERT_GUIDE_RESERVATION, e);
       }
     }
     return reservedGuideIds;
@@ -156,7 +163,7 @@ public class DatabaseAccessor {
       + "WHERE reservation_id IN (%s)";
 
   public static int revertReservedGuides(List<Long> guideReservationIds, Connection conn)
-      throws SQLException {
+      throws OneRoadTripException {
     if (guideReservationIds.isEmpty()) {
       return 0;
     }
@@ -167,16 +174,20 @@ public class DatabaseAccessor {
         pStmt.setLong(index++, reservationId);
       }
       return pStmt.executeUpdate();
+    } catch (SQLException e) {
+      throw new OneRoadTripException(Status.ERR_DELETE_GUIDE_RESERVATIONS, e);
     }
   }
 
   private static final String UPDATE_ORDER_BY_ID = "UPDATE Orders SET status = ? WHERE order_id = ?";
 
-  public static int updateOrder(Itinerary itin, Connection conn) throws SQLException {
+  public static int updateOrder(Itinerary itin, Connection conn) throws OneRoadTripException {
     try (PreparedStatement pStmt = conn.prepareStatement(UPDATE_ORDER_BY_ID)) {
       pStmt.setInt(1, OrderStatus.PAID.getNumber());
       pStmt.setLong(2, itin.getOrder().getOrderId());
       return pStmt.executeUpdate();
+    } catch (SQLException e) {
+      throw new OneRoadTripException(Status.ERR_UPDATE_ORDER_STATUS, e);
     }
   }
 
@@ -185,7 +196,7 @@ public class DatabaseAccessor {
       + "(user_id, source, access_token, client_id, openid) VALUES " + "(?, ?, ?, ?, ?)";
 
   private UserInfo addOAuthUser(Connection conn, UserInfo userInfo, SignupType type,
-      String accessToken, String clientId, String openId) throws SQLException {
+      String accessToken, String clientId, String openId) throws OneRoadTripException {
     try (PreparedStatement pStmt = conn.prepareStatement(INSERT_OAUTH_USER,
         Statement.RETURN_GENERATED_KEYS)) {
       pStmt.setLong(1, userInfo.getUserId());
@@ -195,6 +206,8 @@ public class DatabaseAccessor {
       pStmt.setString(5, openId);
       SqlUtil.executeStatementAndReturnId(pStmt);
       return userInfo;
+    } catch (SQLException e) {
+      throw new OneRoadTripException(Status.ERR_ADD_OAUTH_USER, e);
     }
   }
 
@@ -202,7 +215,7 @@ public class DatabaseAccessor {
       + "(user_name, nick_name, picture_url, password) VALUES (?, ?, ?, ?)";
 
   public UserInfo addUser(String username, String nickname, String pictureUrl, String password,
-      Connection conn) throws SQLException {
+      Connection conn) throws OneRoadTripException {
     try (PreparedStatement pStmt = conn.prepareStatement(INSERT_USER,
         Statement.RETURN_GENERATED_KEYS)) {
       pStmt.setString(1, username);
@@ -212,6 +225,8 @@ public class DatabaseAccessor {
       UserInfo user = UserInfo.newBuilder().setUserId(SqlUtil.executeStatementAndReturnId(pStmt))
           .setUserName(username).setNickName(nickname).setPictureUrl(pictureUrl).build();
       return user;
+    } catch (SQLException e) {
+      throw new OneRoadTripException(Status.ERR_ADD_USER, e);
     }
   }
 
@@ -280,10 +295,12 @@ public class DatabaseAccessor {
   private static final String EXPIRE_ALL_TOKENS_OF_USER = "UPDATE Tokens SET is_expired = True "
       + "WHERE user_id = ?";
 
-  private int expireTokensOfUser(Connection conn, long userId) throws SQLException {
+  private int expireTokensOfUser(Connection conn, long userId) throws OneRoadTripException {
     try (PreparedStatement pStmt = conn.prepareStatement(EXPIRE_ALL_TOKENS_OF_USER)) {
       pStmt.setLong(1, userId);
       return pStmt.executeUpdate();
+    } catch (SQLException e) {
+      throw new OneRoadTripException(Status.ERR_EXPIRE_ALL_USER_TOKENS, e);
     }
   }
 
@@ -298,12 +315,14 @@ public class DatabaseAccessor {
       + "(token, user_id, expired_ts, is_expired) VALUES (?, ?, ?, false)";
 
   private int insertOneTokenForUser(Connection conn, UserInfo user, String token)
-      throws SQLException {
+      throws OneRoadTripException {
     try (PreparedStatement pStmt = conn.prepareStatement(INSERT_ONE_TOKEN_FOR_USER)) {
       pStmt.setString(1, token);
       pStmt.setLong(2, user.getUserId());
       pStmt.setTimestamp(3, SqlUtil.getTimestampToNow((int) TimeUnit.DAYS.toSeconds(30)));
       return pStmt.executeUpdate();
+    } catch (SQLException e) {
+      throw new OneRoadTripException(Status.ERR_INSERT_TOKEN, e);
     }
   }
 

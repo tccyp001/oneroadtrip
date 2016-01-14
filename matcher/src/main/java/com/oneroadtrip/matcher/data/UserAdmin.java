@@ -58,7 +58,7 @@ public class UserAdmin {
       return LoginResponse.newBuilder().setStatus(Status.SUCCESS).setToken(refreshToken(user))
           .setUserInfo(UserInfo.newBuilder(user).clearPassword().build()).build();
     } catch (NoSuchAlgorithmException e) {
-      throw new OneRoadTripException(Status.SERVER_ERROR, e);
+      throw new OneRoadTripException(Status.ERR_IN_PASSWORD_ENCODING, e);
     }
   }
 
@@ -154,7 +154,7 @@ public class UserAdmin {
       return SignupResponse.newBuilder().setStatus(Status.SUCCESS).setToken(refreshToken(user))
           .setUserInfo(UserInfo.newBuilder(user).clearPassword().build()).build();
     } catch (NoSuchAlgorithmException e) {
-      throw new OneRoadTripException(Status.SERVER_ERROR, e);
+      throw new OneRoadTripException(Status.ERR_IN_PASSWORD_ENCODING, e);
     }
   }
 }
