@@ -29,6 +29,7 @@ message SignupRequest {
 }
 
 message SignupResponse {
-  optional Status status = 1;
+  optional Status status = 1 [ default = SUCCESS ];
   optional string token = 2;
+  optional UserInfo user_info = 3;
 }

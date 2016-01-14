@@ -7,7 +7,8 @@ CREATE TABLE Users(
   user_name VARCHAR(100),
   nick_name VARCHAR(100),
   email VARCHAR(100),
-  password CHAR(64)
+  password CHAR(64),
+  picture_url VARCHAR(1024) DEFAULT ''
 ) DEFAULT CHARSET=utf8;
 CREATE INDEX UsersUserName ON Users(user_name);
 

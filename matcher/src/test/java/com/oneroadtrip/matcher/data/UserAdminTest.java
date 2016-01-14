@@ -36,7 +36,6 @@ public class UserAdminTest {
   }
   
   public static class Login extends DbTest {
-
     @Test
     public void testLogin() throws Exception {
       TestingDataProcessor processor = TestingDataProcessor.loadData(h2Info.connection.get(),

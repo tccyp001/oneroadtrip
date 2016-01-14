@@ -10,6 +10,12 @@ password: "test123"
 =RESPONSE
 status: SUCCESS
 token: "ABCDEFGHIJKLMNOPG"
+user_info {
+  user_id: 1
+  user_name: "test"
+  nick_name: "testnick"
+  picture_url: ""
+}
 
 ==========
 ==TESTCASE_DATA==
@@ -31,6 +37,12 @@ open_id: "CF1C38F60AFF1F9183C7466EF8C7917D"
 =RESPONSE
 status: SUCCESS
 token: "ABCDEFGHIJKLMNOPG"
+user_info {
+  user_id: 2
+  user_name: ""
+  nick_name: "Victor"
+  picture_url: "http://qzapp.qlogo.cn/"
+}
 
 ==========
 ==TESTCASE_DATA==
@@ -42,6 +54,12 @@ open_id: "CF1C38F60AFF1F9183C7466EF8C7917D"
 =RESPONSE
 status: SUCCESS
 token: "ABCDEFGHIJKLMNOPG"
+user_info {
+  user_id: 2
+  user_name: ""
+  nick_name: "Victor"
+  picture_url: "http://qzapp.qlogo.cn/"
+}
 
 ==========
 ==TESTCASE_DATA==

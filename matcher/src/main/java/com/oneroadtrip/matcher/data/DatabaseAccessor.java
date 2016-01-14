@@ -51,10 +51,10 @@ public class DatabaseAccessor {
     if (guides.size() == 0) {
       return Maps.newTreeMap();
     }
-    
+
     // TODO(xfguo): Make the sql generation same as code in prepareOrder().
     // Create SQL
-    String sql = String.format(LOAD_GUIDE_RESERVE_DAYS, Util.getQuestionMarksForSql(guides.size())); 
+    String sql = String.format(LOAD_GUIDE_RESERVE_DAYS, Util.getQuestionMarksForSql(guides.size()));
 
     // Query and return
     Map<Long, Set<Integer>> result = Maps.newTreeMap();
@@ -97,7 +97,7 @@ public class DatabaseAccessor {
       + "VALUES (?, ?, ?, false, default)";
   private static final String ADD_ORDER = "INSERT INTO Orders "
       + "(user_id, itinerary_id, cost_usd) VALUES (?, ?, ?)";
-  
+
   public static Triplet<Long, Long, List<Long>> prepareForOrder(Itinerary itin, Connection conn)
       throws SQLException {
     Long itineraryId = null;
@@ -121,8 +121,8 @@ public class DatabaseAccessor {
     }
 
     Long orderId = null;
-    try (PreparedStatement pStmt = conn.prepareStatement(ADD_ORDER,
-        Statement.RETURN_GENERATED_KEYS)) {
+    try (PreparedStatement pStmt = conn
+        .prepareStatement(ADD_ORDER, Statement.RETURN_GENERATED_KEYS)) {
       // TODO(xiaofengguo):
       pStmt.setLong(1, itin.getUserId());
       pStmt.setLong(2, itineraryId);
@@ -134,8 +134,8 @@ public class DatabaseAccessor {
   }
 
   private static final String RESERVER_GUIDES_PERMANENTLY = "INSERT INTO GuideReservations "
-      + "(guide_id, itinerary_id, reserved_date, is_permanent) VALUES "
-      + "(?, ?, ?, true)";
+      + "(guide_id, itinerary_id, reserved_date, is_permanent) VALUES " + "(?, ?, ?, true)";
+
   public static List<Long> reserveGuides(Itinerary itin, Connection conn) throws SQLException {
     List<Long> reservedGuideIds = Lists.newArrayList();
     long itineraryId = itin.getItineraryId();
@@ -154,7 +154,9 @@ public class DatabaseAccessor {
 
   private static final String REVERT_RESERVED_GUDIES_BY_IDS = "DELETE FROM GuideReservations "
       + "WHERE reservation_id IN (%s)";
-  public static int revertReservedGuides(List<Long> guideReservationIds, Connection conn) throws SQLException {
+
+  public static int revertReservedGuides(List<Long> guideReservationIds, Connection conn)
+      throws SQLException {
     if (guideReservationIds.isEmpty()) {
       return 0;
     }
@@ -169,6 +171,7 @@ public class DatabaseAccessor {
   }
 
   private static final String UPDATE_ORDER_BY_ID = "UPDATE Orders SET status = ? WHERE order_id = ?";
+
   public static int updateOrder(Itinerary itin, Connection conn) throws SQLException {
     try (PreparedStatement pStmt = conn.prepareStatement(UPDATE_ORDER_BY_ID)) {
       pStmt.setInt(1, OrderStatus.PAID.getNumber());
@@ -176,15 +179,15 @@ public class DatabaseAccessor {
       return pStmt.executeUpdate();
     }
   }
-  
+
   // ============== SIGN-UP / LOGIN related =================
   private static final String INSERT_OAUTH_USER = "INSERT INTO OAuthUsers "
-      + "(user_id, source, access_token, client_id, openid) VALUES "
-      + "(?, ?, ?, ?, ?)";
+      + "(user_id, source, access_token, client_id, openid) VALUES " + "(?, ?, ?, ?, ?)";
 
-  private UserInfo addOAuthUser(Connection conn, UserInfo userInfo, SignupType type, String accessToken,
-      String clientId, String openId) throws SQLException {
-    try (PreparedStatement pStmt = conn.prepareStatement(INSERT_OAUTH_USER, Statement.RETURN_GENERATED_KEYS)) {
+  private UserInfo addOAuthUser(Connection conn, UserInfo userInfo, SignupType type,
+      String accessToken, String clientId, String openId) throws SQLException {
+    try (PreparedStatement pStmt = conn.prepareStatement(INSERT_OAUTH_USER,
+        Statement.RETURN_GENERATED_KEYS)) {
       pStmt.setLong(1, userInfo.getUserId());
       pStmt.setInt(2, type.getNumber());
       pStmt.setString(3, accessToken);
@@ -194,33 +197,38 @@ public class DatabaseAccessor {
       return userInfo;
     }
   }
-  
+
   private static final String INSERT_USER = "INSERT INTO Users "
-      + "(user_name, nick_name, password) VALUES (?, ?, ?)";
-  public UserInfo addUser(String username, String nickname, String password, Connection conn)
-      throws SQLException {
-    try (PreparedStatement pStmt = conn.prepareStatement(INSERT_USER, Statement.RETURN_GENERATED_KEYS)) {
+      + "(user_name, nick_name, picture_url, password) VALUES (?, ?, ?, ?)";
+
+  public UserInfo addUser(String username, String nickname, String pictureUrl, String password,
+      Connection conn) throws SQLException {
+    try (PreparedStatement pStmt = conn.prepareStatement(INSERT_USER,
+        Statement.RETURN_GENERATED_KEYS)) {
       pStmt.setString(1, username);
       pStmt.setString(2, nickname);
-      pStmt.setString(3, password);
+      pStmt.setString(3, pictureUrl);
+      pStmt.setString(4, password);
       UserInfo user = UserInfo.newBuilder().setUserId(SqlUtil.executeStatementAndReturnId(pStmt))
-          .setUserName(username).setNickName(nickname).build();
+          .setUserName(username).setNickName(nickname).setPictureUrl(pictureUrl).build();
       return user;
     }
   }
 
-  public UserInfo addOAuthUser(String nickname, SignupType type, String accessToken,
+  public UserInfo addOAuthUser(UserInfo oauthUser, SignupType type, String accessToken,
       String clientId, String openId) throws OneRoadTripException {
-    UserInfo user = SqlUtil.executeTransaction(dataSource,
-        (Connection conn) -> addUser("", nickname, "", conn));
+    UserInfo user = SqlUtil.executeTransaction(
+        dataSource,
+        (Connection conn) -> addUser("", oauthUser.getNickName(), oauthUser.getPictureUrl(), "",
+            conn));
     return SqlUtil.executeTransaction(dataSource,
         (Connection conn) -> addOAuthUser(conn, user, type, accessToken, clientId, openId));
   }
 
-  public UserInfo addUser(String username, String nickname, String password)
+  public UserInfo addUser(String username, String nickname, String pictureUrl, String password)
       throws OneRoadTripException {
     return SqlUtil.executeTransaction(dataSource,
-        (Connection conn) -> addUser(username, nickname, password, conn));
+        (Connection conn) -> addUser(username, nickname, pictureUrl, password, conn));
   }
 
   private UserInfo getUserBySql(PreparedStatement pStmt) throws OneRoadTripException {
@@ -229,7 +237,8 @@ public class DatabaseAccessor {
         return null;
       }
       UserInfo user = UserInfo.newBuilder().setUserId(rs.getLong(1)).setUserName(rs.getString(2))
-          .setNickName(rs.getString(3)).setPassword(rs.getString(4)).build();
+          .setNickName(rs.getString(3)).setPassword(rs.getString(4)).setPictureUrl(rs.getString(5))
+          .build();
       Preconditions.checkArgument(!rs.next());
       return user;
     } catch (SQLException e) {
@@ -240,10 +249,10 @@ public class DatabaseAccessor {
     }
   }
 
-  private static final String LOOKUP_OAUTH_USER = "SELECT u.user_id, u.user_name, u.nick_name, u.password "
+  private static final String LOOKUP_OAUTH_USER = "SELECT u.user_id, u.user_name, u.nick_name, u.password, u.picture_url "
       + "FROM OAuthUsers ou INNER JOIN Users u ON (ou.user_id = u.user_id) "
       + "WHERE client_id = ? AND openid = ?";
-  
+
   public UserInfo lookupOAuthUser(String clientId, String openId) throws OneRoadTripException {
     try (Connection conn = dataSource.getConnection();
         PreparedStatement pStmt = conn.prepareStatement(LOOKUP_OAUTH_USER)) {
@@ -255,8 +264,9 @@ public class DatabaseAccessor {
     }
   }
 
-  private static final String LOOKUP_USER = "SELECT user_id, user_name, nick_name, password "
+  private static final String LOOKUP_USER = "SELECT user_id, user_name, nick_name, password, picture_url "
       + "FROM Users WHERE user_name = ?";
+
   public UserInfo lookupUser(String username) throws OneRoadTripException {
     try (Connection conn = dataSource.getConnection();
         PreparedStatement pStmt = conn.prepareStatement(LOOKUP_USER)) {
@@ -269,21 +279,26 @@ public class DatabaseAccessor {
 
   private static final String EXPIRE_ALL_TOKENS_OF_USER = "UPDATE Tokens SET is_expired = True "
       + "WHERE user_id = ?";
+
   private int expireTokensOfUser(Connection conn, long userId) throws SQLException {
     try (PreparedStatement pStmt = conn.prepareStatement(EXPIRE_ALL_TOKENS_OF_USER)) {
       pStmt.setLong(1, userId);
       return pStmt.executeUpdate();
     }
   }
+
   public void expireTokensOfUser(UserInfo user) throws OneRoadTripException {
     int updateRows = SqlUtil.executeTransaction(dataSource,
         (Connection conn) -> expireTokensOfUser(conn, user.getUserId()));
-    LOG.info("Expires {} tokens for user: {} ({})", updateRows, user.getUserName(), user.getNickName());
+    LOG.info("Expires {} tokens for user: {} ({})", updateRows, user.getUserName(),
+        user.getNickName());
   }
-  
+
   private static final String INSERT_ONE_TOKEN_FOR_USER = "INSERT INTO Tokens "
       + "(token, user_id, expired_ts, is_expired) VALUES (?, ?, ?, false)";
-  private int insertOneTokenForUser(Connection conn, UserInfo user, String token) throws SQLException {
+
+  private int insertOneTokenForUser(Connection conn, UserInfo user, String token)
+      throws SQLException {
     try (PreparedStatement pStmt = conn.prepareStatement(INSERT_ONE_TOKEN_FOR_USER)) {
       pStmt.setString(1, token);
       pStmt.setLong(2, user.getUserId());

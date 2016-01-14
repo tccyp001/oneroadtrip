@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.oneroadtrip.matcher.common.OneRoadTripException;
 import com.oneroadtrip.matcher.proto.LoginRequest;
@@ -25,10 +26,10 @@ public class UserAdmin {
 
   @Inject
   private DatabaseAccessor dbAccessor;
-  
+
   @Inject
   private Curl curl;
-  
+
   @Inject
   private Hasher hasher;
 
@@ -40,7 +41,7 @@ public class UserAdmin {
       return LoginResponse.newBuilder().setStatus(e.getStatus()).build();
     }
   }
-  
+
   private LoginResponse internalLogin(LoginRequest request) throws OneRoadTripException {
     try {
       // 1. Lookup user
@@ -53,10 +54,20 @@ public class UserAdmin {
       } else if (!user.getPassword().equals(HashUtil.getOneWayHash(request.getPassword()))) {
         throw new OneRoadTripException(Status.INCORRECT_PASSWORD, null);
       }
-      return LoginResponse.newBuilder().setStatus(Status.SUCCESS).setToken(login(user)).build();
+      // wipe out password
+      return LoginResponse.newBuilder().setStatus(Status.SUCCESS).setToken(refreshToken(user))
+          .setUserInfo(UserInfo.newBuilder(user).clearPassword().build()).build();
     } catch (NoSuchAlgorithmException e) {
       throw new OneRoadTripException(Status.SERVER_ERROR, e);
     }
+  }
+
+  private String refreshToken(UserInfo user) throws OneRoadTripException {
+    // 1. Set all current avail tokens expired
+    // 2. Create one token and add it as a valid one.
+    // 3. Returns it.
+    dbAccessor.expireTokensOfUser(user);
+    return dbAccessor.addOneValidToken(hasher, user);
   }
 
   public SignupResponse signUp(SignupRequest request) {
@@ -97,28 +108,32 @@ public class UserAdmin {
     try {
       String oauthResp = curl.curl(String.format(getFormatByType(request.getType()),
           request.getAccessToken(), request.getClientId(), request.getOpenId()));
-      String nickname = getNicknameByOauthResponse(request.getType(), oauthResp);
+      UserInfo oauthUserInfo = getNicknameByOauthResponse(request.getType(), oauthResp);
 
       UserInfo user = dbAccessor.lookupOAuthUser(request.getClientId(), request.getOpenId());
 
       if (user == null) {
         // TODO(xfguo): 其实我们不需要保留accessToken，这里的保留只是第一次顺便做的。如果需要保留，
         // DB里面需要有个ts域来保留存入accessToken的时间。
-        user = dbAccessor.addOAuthUser(nickname, request.getType(), request.getAccessToken(),
+        user = dbAccessor.addOAuthUser(oauthUserInfo, request.getType(), request.getAccessToken(),
             request.getClientId(), request.getOpenId());
       }
 
-      String token = login(user);
-      return SignupResponse.newBuilder().setStatus(Status.SUCCESS).setToken(token).build();
+      return SignupResponse.newBuilder().setStatus(Status.SUCCESS).setToken(refreshToken(user))
+          .setUserInfo(UserInfo.newBuilder(user).clearPassword().build()).build();
     } catch (IOException e) {
       throw new OneRoadTripException(Status.ERROR_IN_OAUTH_CONFIRMATION, e);
     }
   }
 
-  private String getNicknameByOauthResponse(SignupType type, String oauthResp)
+  private UserInfo getNicknameByOauthResponse(SignupType type, String oauthResp)
       throws OneRoadTripException {
     if (type.equals(SignupType.QQ_OAUTH)) {
-      return new JsonParser().parse(oauthResp).getAsJsonObject().get("nickname").getAsString();
+      JsonObject obj = new JsonParser().parse(oauthResp).getAsJsonObject();
+      UserInfo.Builder builder = UserInfo.newBuilder();
+      builder.setNickName(obj.get("nickname").getAsString());
+      builder.setPictureUrl(obj.get("figureurl").getAsString());
+      return builder.build();
     }
     // TODO(xfguo): Add other cases, for example weibo.
     throw new OneRoadTripException(Status.SHOULD_NOT_REACH, null);
@@ -134,26 +149,12 @@ public class UserAdmin {
       if (user != null) {
         throw new OneRoadTripException(Status.INCORRECT_USER_NAME, null);
       }
-      user = dbAccessor.addUser(request.getUsername(), request.getNickname(),
+      user = dbAccessor.addUser(request.getUsername(), request.getNickname(), "",
           HashUtil.getOneWayHash(request.getPassword()));
-      return SignupResponse.newBuilder().setStatus(Status.SUCCESS).setToken(login(user)).build();
+      return SignupResponse.newBuilder().setStatus(Status.SUCCESS).setToken(refreshToken(user))
+          .setUserInfo(UserInfo.newBuilder(user).clearPassword().build()).build();
     } catch (NoSuchAlgorithmException e) {
       throw new OneRoadTripException(Status.SERVER_ERROR, e);
     }
   }
-
-  /**
-   * Login and return a new token for the user.
-   * 
-   * @return
-   * @throws OneRoadTripException 
-   */
-  private String login(UserInfo user) throws OneRoadTripException {
-    // 1. Set all current avail tokens expired
-    // 2. Create one token and add it as a valid one.
-    // 3. Returns it.
-    dbAccessor.expireTokensOfUser(user);
-    return dbAccessor.addOneValidToken(hasher, user);
-  }
-
 }

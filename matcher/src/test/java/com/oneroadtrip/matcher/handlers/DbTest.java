@@ -70,7 +70,7 @@ public abstract class DbTest {
           @Override
           public String curl(String url) throws IOException {
             if (url.contains("CF1C38F60AFF1F9183C7466EF8C7917D")) {
-              return "{ \"nickname\": \"Victor\" }";
+              return "{ \"nickname\": \"Victor\", \"figureurl\": \"http://qzapp.qlogo.cn/\" }";
             }
             throw new IOException("No match");
           }
