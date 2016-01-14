@@ -58,7 +58,7 @@ function UserFactory($rootScope, $resource, $state, $cookies, $cookieStore, Cont
             .save(auth).$promise
             .then(function(res) {
                  if (res.status === 'SUCCESS') {
-                    $cookieStore.put('username', res.user_info.nickname);
+                    $cookieStore.put('username', res.user_info.nick_name);
                     $cookieStore.put('userimage', res.user_info.picture_url);
                     $cookieStore.put('token', res.token);
                     $cookieStore.put('isLoggin', true);
