@@ -132,7 +132,7 @@ public class UserAdmin {
       JsonObject obj = new JsonParser().parse(oauthResp).getAsJsonObject();
       UserInfo.Builder builder = UserInfo.newBuilder();
       builder.setNickName(obj.get("nickname").getAsString());
-      builder.setPictureUrl(obj.get("figureurl").getAsString());
+      builder.setPictureUrl(obj.get("figureurl_qq_1").getAsString());
       return builder.build();
     }
     // TODO(xfguo): Add other cases, for example weibo.
