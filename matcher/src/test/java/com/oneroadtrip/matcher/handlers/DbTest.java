@@ -67,10 +67,15 @@ public abstract class DbTest {
       @Singleton
       Curl getCurl() {
         return new Curl() {
+          private int count = 0;
           @Override
           public String curl(String url) throws IOException {
             if (url.contains("CF1C38F60AFF1F9183C7466EF8C7917D")) {
-              return "{ \"nickname\": \"Victor\", \"figureurl\": \"http://qzapp.qlogo.cn/\" }";
+              if (count++ % 3 == 0) {
+                return "{ \"nickname\": \"Victor\", \"figureurl_qq_1\": \"http://qzapp.qlogo.cn/\" }"; 
+              } else {
+                return "{ \"nickname\": \"Victor\", \"figureurl_qq_1\": \"http://qzapp.qlogo.cn/abc\" }";
+              }
             }
             throw new IOException("No match");
           }
