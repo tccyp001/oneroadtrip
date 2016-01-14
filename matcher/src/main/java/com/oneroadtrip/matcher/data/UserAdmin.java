@@ -111,12 +111,15 @@ public class UserAdmin {
       UserInfo oauthUserInfo = getNicknameByOauthResponse(request.getType(), oauthResp);
 
       UserInfo user = dbAccessor.lookupOAuthUser(request.getClientId(), request.getOpenId());
-
       if (user == null) {
-        // TODO(xfguo): 其实我们不需要保留accessToken，这里的保留只是第一次顺便做的。如果需要保留，
-        // DB里面需要有个ts域来保留存入accessToken的时间。
         user = dbAccessor.addOAuthUser(oauthUserInfo, request.getType(), request.getAccessToken(),
             request.getClientId(), request.getOpenId());
+      } else if (!user.getNickName().equals(oauthUserInfo.getNickName())
+          || !user.getPictureUrl().equals(oauthUserInfo.getPictureUrl())) {
+        // 当获取的用户信息跟数据库中不一致的时候，即刻更改数据库，保持一致。
+        user = dbAccessor.updateUser(UserInfo.newBuilder(user)
+            .setNickName(oauthUserInfo.getNickName()).setPictureUrl(oauthUserInfo.getPictureUrl())
+            .build());
       }
 
       return SignupResponse.newBuilder().setStatus(Status.SUCCESS).setToken(refreshToken(user))

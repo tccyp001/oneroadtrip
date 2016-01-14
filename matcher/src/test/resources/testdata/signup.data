@@ -3,33 +3,6 @@
 ==========
 ==TESTCASE_DATA==
 =REQUEST
-type: TRADITIONAL
-username: "test"
-nickname: "testnick"
-password: "test123"
-=RESPONSE
-status: SUCCESS
-token: "ABCDEFGHIJKLMNOPG"
-user_info {
-  user_id: 1
-  user_name: "test"
-  nick_name: "testnick"
-  picture_url: ""
-}
-
-==========
-==TESTCASE_DATA==
-=REQUEST
-type: TRADITIONAL
-username: "test"
-nickname: "testnick"
-password: "test123"
-=RESPONSE
-status: INCORRECT_USER_NAME
-
-==========
-==TESTCASE_DATA==
-=REQUEST
 type: QQ_OAUTH
 access_token: "CB1551A90B3308CAB76603B47625C516"
 client_id: "101277978"
@@ -38,7 +11,7 @@ open_id: "CF1C38F60AFF1F9183C7466EF8C7917D"
 status: SUCCESS
 token: "ABCDEFGHIJKLMNOPG"
 user_info {
-  user_id: 2
+  user_id: 1
   user_name: ""
   nick_name: "Victor"
   picture_url: "http://qzapp.qlogo.cn/"
@@ -55,10 +28,27 @@ open_id: "CF1C38F60AFF1F9183C7466EF8C7917D"
 status: SUCCESS
 token: "ABCDEFGHIJKLMNOPG"
 user_info {
-  user_id: 2
+  user_id: 1
   user_name: ""
   nick_name: "Victor"
-  picture_url: "http://qzapp.qlogo.cn/"
+  picture_url: "http://qzapp.qlogo.cn/abc"
+}
+
+==========
+==TESTCASE_DATA==
+=REQUEST
+type: QQ_OAUTH
+access_token: "CB1551A90B3308CAB76603B47625C517"
+client_id: "101277978"
+open_id: "CF1C38F60AFF1F9183C7466EF8C7917D"
+=RESPONSE
+status: SUCCESS
+token: "ABCDEFGHIJKLMNOPG"
+user_info {
+  user_id: 1
+  user_name: ""
+  nick_name: "Victor"
+  picture_url: "http://qzapp.qlogo.cn/abc"
 }
 
 ==========
@@ -70,3 +60,30 @@ client_id: "101277978"
 open_id: "CF1C38F60AFF1F9183C7466EF8C7917E"
 =RESPONSE
 status: ERROR_IN_OAUTH_CONFIRMATION
+
+==========
+==TESTCASE_DATA==
+=REQUEST
+type: TRADITIONAL
+username: "test"
+nickname: "testnick"
+password: "test123"
+=RESPONSE
+status: SUCCESS
+token: "ABCDEFGHIJKLMNOPG"
+user_info {
+  user_id: 2
+  user_name: "test"
+  nick_name: "testnick"
+  picture_url: ""
+}
+
+==========
+==TESTCASE_DATA==
+=REQUEST
+type: TRADITIONAL
+username: "test"
+nickname: "testnick"
+password: "test123"
+=RESPONSE
+status: INCORRECT_USER_NAME

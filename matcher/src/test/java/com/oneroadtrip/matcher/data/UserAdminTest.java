@@ -30,7 +30,7 @@ public class UserAdminTest {
         SignupResponse.Builder respBuilder = SignupResponse.newBuilder();
         TextFormat.merge(entry.getValue1(), respBuilder);
         SignupResponse actual = userAdmin.signUp(reqBuilder.build());
-        Assert.assertEquals(respBuilder.build(), actual);
+        Assert.assertEquals(actual, respBuilder.build());
       }
     }
   }

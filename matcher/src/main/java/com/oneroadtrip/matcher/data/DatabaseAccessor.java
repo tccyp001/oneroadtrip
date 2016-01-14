@@ -278,6 +278,31 @@ public class DatabaseAccessor {
       throw new OneRoadTripException(Status.ERROR_IN_SQL, e);
     }
   }
+  
+  private static final String UPDATE_USER = "UPDATE Users "
+      + "SET user_name=?,nick_name=?,email=?,password=?,picture_url=? "
+      + "WHERE user_id = ?";
+  private int updateUser(Connection conn, UserInfo user) throws OneRoadTripException {
+    try (PreparedStatement pStmt = conn.prepareStatement(UPDATE_USER)) {
+      pStmt.setString(1, user.getUserName());
+      pStmt.setString(2, user.getNickName());
+      pStmt.setString(3, user.getEmail());
+      pStmt.setString(4, user.getPassword());
+      pStmt.setString(5, user.getPictureUrl());
+      pStmt.setLong(6, user.getUserId());
+      return pStmt.executeUpdate(); 
+    } catch (SQLException e) {
+      throw new OneRoadTripException(Status.ERR_UPDATE_USER, e);
+    }
+  }
+  
+  public UserInfo updateUser(UserInfo user) throws OneRoadTripException {
+    int updatedRows = SqlUtil.executeTransaction(dataSource, (Connection conn) -> updateUser(conn, user));
+    if (updatedRows != 1) {
+      throw new OneRoadTripException(Status.ERR_UPDATE_USER, null);
+    }
+    return user;
+  }
 
   private static final String LOOKUP_USER = "SELECT user_id, user_name, nick_name, password, picture_url "
       + "FROM Users WHERE user_name = ?";
