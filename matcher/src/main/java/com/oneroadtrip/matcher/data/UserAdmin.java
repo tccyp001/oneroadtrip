@@ -58,7 +58,7 @@ public class UserAdmin {
       return LoginResponse.newBuilder().setStatus(Status.SUCCESS).setToken(refreshToken(user))
           .setUserInfo(UserInfo.newBuilder(user).clearPassword().build()).build();
     } catch (NoSuchAlgorithmException e) {
-      throw new OneRoadTripException(Status.SERVER_ERROR, e);
+      throw new OneRoadTripException(Status.ERR_IN_PASSWORD_ENCODING, e);
     }
   }
 
@@ -132,7 +132,7 @@ public class UserAdmin {
       JsonObject obj = new JsonParser().parse(oauthResp).getAsJsonObject();
       UserInfo.Builder builder = UserInfo.newBuilder();
       builder.setNickName(obj.get("nickname").getAsString());
-      builder.setPictureUrl(obj.get("figureurl").getAsString());
+      builder.setPictureUrl(obj.get("figureurl_qq_1").getAsString());
       return builder.build();
     }
     // TODO(xfguo): Add other cases, for example weibo.
@@ -154,7 +154,7 @@ public class UserAdmin {
       return SignupResponse.newBuilder().setStatus(Status.SUCCESS).setToken(refreshToken(user))
           .setUserInfo(UserInfo.newBuilder(user).clearPassword().build()).build();
     } catch (NoSuchAlgorithmException e) {
-      throw new OneRoadTripException(Status.SERVER_ERROR, e);
+      throw new OneRoadTripException(Status.ERR_IN_PASSWORD_ENCODING, e);
     }
   }
 }

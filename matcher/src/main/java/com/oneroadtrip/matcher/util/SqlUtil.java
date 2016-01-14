@@ -22,7 +22,7 @@ public class SqlUtil {
 
   @FunctionalInterface
   public static interface DatabaseFunction<INPUT_TYPE, RESULT_TYPE> {
-    RESULT_TYPE apply(INPUT_TYPE input) throws SQLException;
+    RESULT_TYPE apply(INPUT_TYPE input) throws OneRoadTripException;
   }
 
   public static PreparedStatement addPreparedStatement(Connection conn, String str,
@@ -74,16 +74,15 @@ public class SqlUtil {
         R result = callback.apply(conn);
         conn.commit();
         return result;
-      } catch (SQLException e) {
+      } catch (OneRoadTripException e) {
         conn.rollback();
         LOG.info("SQL error", e);
-        throw new OneRoadTripException(Status.ERROR_IN_SQL, e);
+        throw e;
       } finally {
         conn.setAutoCommit(originAutoCommit);
       }
     } catch (SQLException e) {
-      // TODO(xfguo): Create ERROR_IN_CONNECTING
-      throw new OneRoadTripException(Status.ERROR_IN_SQL, e);
+      throw new OneRoadTripException(Status.ERR_IN_CONNECTING, e);
     }
   }
 
