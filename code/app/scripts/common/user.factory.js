@@ -58,13 +58,14 @@ function UserFactory($rootScope, $resource, $state, $cookies, $cookieStore, Cont
             .save(auth).$promise
             .then(function(res) {
                  if (res.status === 'SUCCESS') {
-                    $cookieStore.put('username', res.user_info.nick_name);
+                    $cookieStore.put('username', res.user_info.user_name);
+                    $cookieStore.put('nickname', res.user_info.nick_name);
                     $cookieStore.put('userimage', res.user_info.picture_url);
                     $cookieStore.put('token', res.token);
                     $cookieStore.put('isLoggin', true);
                     that.persistentData.token = res.token;
                     that.persistentData.loggedIn = true;
-                    that.persistentData.username = res.user_info.nickname;
+                    that.persistentData.username = res.user_info.username;
                     that.persistentData.user_info = res.user_info;
                     deferred.resolve(res);
                 } else {

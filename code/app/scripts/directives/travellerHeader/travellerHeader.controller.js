@@ -51,8 +51,8 @@ function HeaderCtrl($scope, $modal, $cookieStore, $location, $window, $rootScope
         $scope.isLoggin = false;
       }
 
-      $scope.loginName = $cookieStore.get('username');
-      $scope.userImage = $cookieStore.get('userimage');     
+      $scope.loginName = $cookieStore.get('nickname') || $cookieStore.get('username');
+      $scope.userImage = $cookieStore.get('userimage') || "images/people.png";     
       // if($cookies.get('is_admin') === 'true') {
       //   $scope.isAdmin = true;
       // } else {

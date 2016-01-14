@@ -32,6 +32,7 @@ function HeaderModalCtrl($scope, $modal, $modalInstance, $http, $cookies, $windo
 
 	$scope.signup = function() {
 		var forms = _.clone($scope.forms);
+    forms.type = 'TRADITIONAL';
 		User.signup(forms).then(function(){
         $modalInstance.close();
         $scope.$parent.updateHeader();
