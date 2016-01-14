@@ -8,3 +8,13 @@ option java_multiple_files = true;
 // Legacy protobuf, testing only
 message CityRequest {
 }
+
+message CurlResponse {
+  // QQ OAuth
+  optional string nickname = 1;
+  optional string figureurl_qq_1 = 2;
+
+  // Weibo OAuth
+  optional string name = 3;
+  optional string profile_image_url = 4;
+}

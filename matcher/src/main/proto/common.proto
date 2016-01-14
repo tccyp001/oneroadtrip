@@ -25,6 +25,7 @@ enum Status {
   ERR_EXPIRE_ALL_USER_TOKENS = 23;
   ERR_INSERT_TOKEN = 24;
   ERR_UPDATE_USER = 25;
+  INCORRECT_OAUTH_REQUEST = 26;
 
   // Other return code.
   // TODO(xfguo): Clean up the return code.

@@ -87,15 +87,31 @@ public class UserAdmin {
     // Should not reach here.
     return SignupResponse.newBuilder().setStatus(Status.SHOULD_NOT_REACH).build();
   }
+  
+  private static final String QQ_OAUTH_FORMAT = "https://graph.qq.com/user/get_user_info?"
+      + "access_token=%s&oauth_consumer_key=%s&openid=%s";
+  private static final String WEIBO_OAUTH_FORMAT = "https://api.weibo.com/2/users/show.json?"
+      + "access_token=%s&uid=%s";
 
-  String getFormatByType(SignupType type) {
-    if (type.getNumber() == SignupType.QQ_OAUTH_VALUE) {
-      return "https://graph.qq.com/user/get_user_info?"
-          + "access_token=%s&oauth_consumer_key=%s&openid=%s";
-    } else if (type.getNumber() == SignupType.WEIBO_OAUTH_VALUE) {
-      return "";
+  private String getOAuthUrl(SignupRequest request) throws OneRoadTripException {
+    switch (request.getType().getNumber()) {
+    case SignupType.QQ_OAUTH_VALUE:
+      return String.format(QQ_OAUTH_FORMAT, request.getAccessToken(), request.getClientId(),
+          request.getOpenId());
+    case SignupType.WEIBO_OAUTH_VALUE:
+      return String.format(WEIBO_OAUTH_FORMAT, request.getAccessToken(), request.getUid());
     }
-    return "";
+    throw new OneRoadTripException(Status.INCORRECT_OAUTH_REQUEST, null);
+  }
+  
+  private String getUniqueIdOfRequest(SignupRequest request) throws OneRoadTripException {
+    switch (request.getType().getNumber()) {
+    case SignupType.QQ_OAUTH_VALUE:
+      return String.format("%s|%s", request.getClientId(), request.getOpenId());
+    case SignupType.WEIBO_OAUTH_VALUE:
+      return request.getUid();
+    }
+    throw new OneRoadTripException(Status.INCORRECT_OAUTH_REQUEST, null);
   }
 
   public SignupResponse oauthSignup(SignupRequest request) throws OneRoadTripException {
@@ -106,14 +122,14 @@ public class UserAdmin {
     // - If found, go to next step.
     // 3. Go to login and return the token.
     try {
-      String oauthResp = curl.curl(String.format(getFormatByType(request.getType()),
-          request.getAccessToken(), request.getClientId(), request.getOpenId()));
+      String oauthResp = curl.curl(getOAuthUrl(request));
       UserInfo oauthUserInfo = getNicknameByOauthResponse(request.getType(), oauthResp);
 
-      UserInfo user = dbAccessor.lookupOAuthUser(request.getClientId(), request.getOpenId());
+      String uniqueId = getUniqueIdOfRequest(request);
+      UserInfo user = dbAccessor.lookupOAuthUser(request.getType(), uniqueId);
       if (user == null) {
         user = dbAccessor.addOAuthUser(oauthUserInfo, request.getType(), request.getAccessToken(),
-            request.getClientId(), request.getOpenId());
+            uniqueId);
       } else if (!user.getNickName().equals(oauthUserInfo.getNickName())
           || !user.getPictureUrl().equals(oauthUserInfo.getPictureUrl())) {
         // 当获取的用户信息跟数据库中不一致的时候，即刻更改数据库，保持一致。
@@ -131,15 +147,22 @@ public class UserAdmin {
 
   private UserInfo getNicknameByOauthResponse(SignupType type, String oauthResp)
       throws OneRoadTripException {
-    if (type.equals(SignupType.QQ_OAUTH)) {
-      JsonObject obj = new JsonParser().parse(oauthResp).getAsJsonObject();
-      UserInfo.Builder builder = UserInfo.newBuilder();
+    JsonObject obj = new JsonParser().parse(oauthResp).getAsJsonObject();
+    UserInfo.Builder builder = UserInfo.newBuilder();
+    switch (type.getNumber()) {
+    case SignupType.QQ_OAUTH_VALUE:
       builder.setNickName(obj.get("nickname").getAsString());
       builder.setPictureUrl(obj.get("figureurl_qq_1").getAsString());
-      return builder.build();
-    }
-    // TODO(xfguo): Add other cases, for example weibo.
-    throw new OneRoadTripException(Status.SHOULD_NOT_REACH, null);
+      break;
+    case SignupType.WEIBO_OAUTH_VALUE:
+      builder.setNickName(obj.get("name").getAsString());
+      builder.setPictureUrl(obj.get("profile_image_url").getAsString());
+      break;
+    default:
+      // TODO(xfguo): Add other cases, for example weibo.
+      throw new OneRoadTripException(Status.SHOULD_NOT_REACH, null);
+    }      
+    return builder.build();
   }
 
   private SignupResponse traditionalSignup(SignupRequest request) throws OneRoadTripException {
