@@ -498,7 +498,7 @@ visit {
     name: "Los Angels"
     cn_name: "洛杉矶"
   }
-  num_days: 1
+  num_days: 2
   suggest_rate: 1.0
 }
 

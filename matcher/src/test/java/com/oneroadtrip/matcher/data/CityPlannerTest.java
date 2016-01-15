@@ -175,8 +175,18 @@ public class CityPlannerTest {
         createVisitCity(1L, 2, 1.0f),
         createVisitCity(2L, 0, 1.0f),
         createVisitCity(3L, 0, 1.0f));
+    Assert.assertEquals(cityPlanner.calculateDaysForVisit(3, cities),
+        Lists.newArrayList(2, 0, 1));
+    Assert.assertEquals(cityPlanner.calculateDaysForVisit(4, cities),
+        Lists.newArrayList(2, 1, 1));
     Assert.assertEquals(cityPlanner.calculateDaysForVisit(5, cities),
         Lists.newArrayList(2, 1, 2));
+    Assert.assertEquals(cityPlanner.calculateDaysForVisit(6, cities),
+        Lists.newArrayList(2, 2, 2));
+    Assert.assertEquals(cityPlanner.calculateDaysForVisit(7, cities),
+        Lists.newArrayList(2, 2, 3));
+    Assert.assertEquals(cityPlanner.calculateDaysForVisit(8, cities),
+        Lists.newArrayList(2, 3, 3));
     Assert.assertEquals(cityPlanner.calculateDaysForVisit(10, cities),
         Lists.newArrayList(2, 3, 4));
   }

@@ -1,11 +1,38 @@
 [
   {
     "request": "quote",
-    "itinerary": [
-      {
-        "city": {
+    "end_date": 20160107,
+    "start_date": 20160107,
+    "hotel": 5,
+    "num_people": 3,
+    "num_room": 2,
+    "itinerary": {
+      "city": [
+        {
           "city": {
             "city_id": 1
+          },
+          "num_days": 2,
+          "guide": {
+            "host_city": {
+              "city_id": 8
+            }
+          }
+        },
+        {
+          "city": {
+            "city_id": 2
+          },
+          "num_days": 3,
+          "guide": {
+            "host_city": {
+              "city_id": 8
+            }
+          }
+        },
+        {
+          "city": {
+            "city_id": 8
           },
           "num_days": 3,
           "guide": {
@@ -14,32 +41,30 @@
             }
           }
         }
-      },
-      {
-        "city": {
-          "city": {
-            "city_id": 2
+      ],
+      "edge": [
+        {
+          "from_city": {
+            "city_id": 1,
+            "name": "San Diego",
+            "cn_name": "圣地亚哥"
           },
-          "num_days": 5,
-          "guide": {
-            "host_city": {
-              "city_id": 8
-            }
-          }
+          "to_city": {
+            "city_id": 8,
+            "name": "San Francisco",
+            "cn_name": "旧金山"
+          },
+          "distance": 503,
+          "hours": 9
         }
-      }
-    ],
-    "end_date": 20160113,
+      ]
+    },
+    "selectedGuideId": 200,
     "guide_for_whole_trip": {
       "host_city": {
         "city_id": 8
       }
-    },
-    "hotel": 5,
-    "num_people": 3,
-    "num_room": 2,
-    "selectedGuideId": 200,
-    "start_date": 20160113
+    }
   },
   {
     

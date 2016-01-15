@@ -79,11 +79,13 @@ public class CityPlanner {
   List<Integer> calculateDaysForVisit(int totalDays, List<VisitCity> visitCities) {
     List<Integer> suggestDays = Lists.newArrayList();
     int totalSuggestDays = 0;
+    int reservedDays = 0;
     for (VisitCity city : visitCities) {
       int numDays = city.getNumDays();
       if (numDays > 0) {
         suggestDays.add(city.getNumDays());
         totalSuggestDays += city.getNumDays();
+        reservedDays += city.getNumDays();
         continue;
       }
 
@@ -101,27 +103,29 @@ public class CityPlanner {
       return suggestDays;
     }
     
+    List<Integer> adjustedDays = Lists.newArrayList();
     {
       int total = 0;
-      LOG.info("xfguo: totalDays = {}, orginal suggest days: {}", totalDays, suggestDays);
       for (int i = 0; i < suggestDays.size(); ++i) {
         int numDays = visitCities.get(i).getNumDays();
         if (numDays > 0) {
           int days = visitCities.get(i).getNumDays();
-          suggestDays.set(i, days);
+          adjustedDays.add(days);
           total += days;
           continue;
         }
         int days = suggestDays.get(i);
-        suggestDays.set(i, days * totalDays / totalSuggestDays);
+        float t = ((float) days) * (totalDays - reservedDays) / (totalSuggestDays - reservedDays);
+        adjustedDays.add(Math.round(t));
         total += suggestDays.get(i);
       }
       if (total != totalDays) {
-        LOG.error("xfguo: error case: new suggest days: {}", suggestDays);
+        LOG.error("xfguo: error case: totalDays: {}, reservedDays: {}; totalSuggestDays: {}, "
+            + "suggest days: {}, adjusted days: {}", totalDays, reservedDays, totalSuggestDays,
+            suggestDays, adjustedDays);
       }
     }
-    
-    return suggestDays;
+    return adjustedDays;
   }
 
   PlanResponse buildResponse(int totalDays, long startCityId, long endCityId, List<VisitCity> visitCities,
