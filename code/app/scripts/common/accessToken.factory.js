@@ -45,7 +45,6 @@ function AccessTokenFactory($resource, $http, $window, User) {
 		$window.callback = function(data) {
 			
 			that.openID = data;
-			console.log(that);
 			var auth = {
 				'type': 'QQ_OAUTH',
 				'access_token': that.accessToken.access_token,
@@ -65,7 +64,16 @@ function AccessTokenFactory($resource, $http, $window, User) {
 
 
 	OauthToken.prototype.getOpenIDForWeibo = function(){
-		console.log('weibo');
+		console.log(this);
+		var that = this;
+		var auth = {
+			'type': 'WEIBO_OAUTH',
+			'access_token': this.accessToken.access_token,
+			'uid': this.accessToken.uid,
+		}
+		User.signup(auth).then(function(){
+			that.status = 'done';
+		});
 		// User.login();
 	}
 

@@ -44,6 +44,7 @@ function HeaderCtrl($scope, $modal, $cookieStore, $location, $window, $rootScope
   }
 
   $scope.updateHeader = function() {
+    console.log($cookieStore.get('isLoggin'), $cookieStore.get('username'));
     if($cookieStore.get('isLoggin') && $cookieStore.get('username')) {
       if($cookieStore.get('isLoggin')) {
         $scope.isLoggin = true;

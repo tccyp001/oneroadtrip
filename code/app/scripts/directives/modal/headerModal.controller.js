@@ -65,16 +65,17 @@ function HeaderModalCtrl($scope, $modal, $modalInstance, $http, $cookies, $windo
         var queryParams = ['client_id=' + appID,'redirect_uri=' + redirectURI, 'scope=' + 'get_user_info,list_album,upload_pic,add_feeds,do_like','response_type=token', 'state=qq'];
         var query = queryParams.join('&');
         var url = path + query;
-        var david = $window.open(url, 'C-Sharpcorner', 'width=500,height=400');
+        var openwindow = $window.open(url, 'C-Sharpcorner', 'width=500,height=400');
         var interval = $window.setInterval(function() {
             try {
-                if (david == null || david.closed) {
+                if (openwindow == null || openwindow.closed) {
                     window.clearInterval(interval);
                     $scopeParent.updateHeader();
                     $modalInstance.close();
                 }
             }
             catch (e) {
+              console.log(e);
             }
         }, 1000);
     }
@@ -91,8 +92,19 @@ function HeaderModalCtrl($scope, $modal, $modalInstance, $http, $cookies, $windo
       var queryParams = ['client_id=' + appID,'redirect_uri=' + redirectURI, 'response_type=token', 'forcelogin=false', 'state=weibo'];
       var query = queryParams.join('&');
       var url = path + query;
-      $window.open(url, 'C-Sharpcorner', 'width=500,height=400');
-      $modalInstance.close();
+      var openwindow = $window.open(url, 'C-Sharpcorner', 'width=500,height=400');
+      var interval = $window.setInterval(function() {
+          try {
+              if (openwindow == null || openwindow.closed) {
+                  window.clearInterval(interval);
+                  $scopeParent.updateHeader();
+                  $modalInstance.close();
+              }
+          }
+          catch (e) {
+            console.log(e);
+          }
+      }, 1000);
     }
 
 
