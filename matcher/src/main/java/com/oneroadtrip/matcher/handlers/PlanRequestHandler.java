@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.googlecode.protobuf.format.JsonFormat;
 import com.googlecode.protobuf.format.JsonFormat.ParseException;
+import com.oneroadtrip.matcher.common.OneRoadTripException;
 import com.oneroadtrip.matcher.data.CityPlanner;
 import com.oneroadtrip.matcher.proto.PlanRequest;
 import com.oneroadtrip.matcher.proto.PlanResponse;
@@ -38,12 +39,13 @@ public class PlanRequestHandler implements RequestHandler {
 
   PlanResponse process(PlanRequest request) {
     try {
-      PlanResponse response = cityPlanner.get().makePlan(request.getStartCityId(),
-          request.getEndCityId(), request.getVisitCityList(), request.getKeepOrderOfViaCities());
+      PlanResponse response = cityPlanner.get().makePlan(request);
       return LogUtil.logAndReturnResponse("/api/plan", request, response);
     } catch (NoSuchElementException e) {
       LOG.error("No city planner");
       return PlanResponse.newBuilder().setStatus(Status.SERVER_ERROR).build();
+    } catch (OneRoadTripException e) {
+      return PlanResponse.newBuilder().setStatus(e.getStatus()).build();
     }
   }
 

@@ -102,6 +102,19 @@ public class CityPlannerTest {
     });
   }
 
+  VisitCity createVisitCity(long cityId, int numDays, float suggestRate) {
+    VisitCity.Builder builder = VisitCity.newBuilder();
+    if (numDays > 0) {
+      builder.setNumDays(numDays);
+    }
+    return builder.setCity(getCityInfo(cityId)).setSuggestRate(suggestRate).build();
+  }
+
+  private Edge createEdge(long from, long to, int distance, int hours) {
+    return Edge.newBuilder().setFromCity(getCityInfo(from)).setToCity(getCityInfo(to))
+        .setDistance(distance).setHours(hours).build();
+  }
+
   @Test
   public void testChooseOtherCities() throws Exception {
     List<Long> chosenPath = Lists.newArrayList(1L, 1L, 3L, 4L, 5L, 2L, 2L);
@@ -114,16 +127,6 @@ public class CityPlannerTest {
   
   String getNameById(long id) {
     return cityIdToInfo.get(id).getName();
-  }
-
-  VisitCity createVisitCity(long cityId, int numDays, float suggestRate) {
-    return VisitCity.newBuilder().setCity(getCityInfo(cityId))
-        .setNumDays(numDays).setSuggestRate(suggestRate).build();
-  }
-
-  private Edge createEdge(long from, long to, int distance, int hours) {
-    return Edge.newBuilder().setFromCity(getCityInfo(from)).setToCity(getCityInfo(to))
-        .setDistance(distance).setHours(hours).build();
   }
 
   @Test
@@ -149,6 +152,7 @@ public class CityPlannerTest {
         .build();
     Assert.assertEquals(
         cityPlanner.buildResponse(
+            100,
             1L,
             2L,
             Lists.newArrayList(
@@ -164,4 +168,16 @@ public class CityPlannerTest {
         expected);
   }
 
+  @Test
+  public void testCalculateDaysForVisit() throws Exception {
+    CityPlanner cityPlanner = injector.getInstance(CityPlanner.class);
+    List<VisitCity> cities = Lists.newArrayList(
+        createVisitCity(1L, 2, 1.0f),
+        createVisitCity(2L, 0, 1.0f),
+        createVisitCity(3L, 0, 1.0f));
+    Assert.assertEquals(cityPlanner.calculateDaysForVisit(5, cities),
+        Lists.newArrayList(2, 1, 2));
+    Assert.assertEquals(cityPlanner.calculateDaysForVisit(10, cities),
+        Lists.newArrayList(2, 3, 4));
+  }
 }

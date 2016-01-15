@@ -52,6 +52,7 @@ INSERT INTO CityAliases (city_id, alias) VALUES
 ==TESTCASE_DATA==
 
 =REQUEST
+startdate: 20151201
 enddate: 20151210
 start_city_id: 1
 end_city_id: 1
@@ -59,7 +60,6 @@ hotel: 3
 keep_order_of_via_cities: false
 num_people: 2
 num_room: 3
-startdate: 20151201
 topic: "蜜月"
 visit_city { city { city_id: 1 } }
 visit_city { city { city_id: 2 } }
@@ -70,18 +70,18 @@ status: SUCCESS
 start_city {
   city_id: 1
   name: "San Diego"
-  cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+  cn_name: "圣地亚哥"
 }
 end_city {
   city_id: 1
   name: "San Diego"
-  cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+  cn_name: "圣地亚哥"
 }
 visit {
   city {
     city_id: 4
     name: "Phoenix"
-    cn_name: "\350\217\262\345\260\274\345\205\213\346\226\257"
+    cn_name: "菲尼克斯"
   }
   num_days: 1
   suggest_rate: 1.0
@@ -90,7 +90,7 @@ visit {
   city {
     city_id: 2
     name: "Los Angels"
-    cn_name: "\346\264\233\346\235\211\347\237\266"
+    cn_name: "洛杉矶"
   }
   num_days: 3
   suggest_rate: 1.0
@@ -99,7 +99,7 @@ visit {
   city {
     city_id: 1
     name: "San Diego"
-    cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+    cn_name: "圣地亚哥"
   }
   num_days: 2
   suggest_rate: 1.0
@@ -108,12 +108,12 @@ edge {
   from_city {
     city_id: 1
     name: "San Diego"
-    cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+    cn_name: "圣地亚哥"
   }
   to_city {
     city_id: 4
     name: "Phoenix"
-    cn_name: "\350\217\262\345\260\274\345\205\213\346\226\257"
+    cn_name: "菲尼克斯"
   }
   distance: 686
   hours: 12
@@ -122,12 +122,12 @@ edge {
   from_city {
     city_id: 4
     name: "Phoenix"
-    cn_name: "\350\217\262\345\260\274\345\205\213\346\226\257"
+    cn_name: "菲尼克斯"
   }
   to_city {
     city_id: 2
     name: "Los Angels"
-    cn_name: "\346\264\233\346\235\211\347\237\266"
+    cn_name: "洛杉矶"
   }
   distance: 566
   hours: 10
@@ -136,12 +136,12 @@ edge {
   from_city {
     city_id: 2
     name: "Los Angels"
-    cn_name: "\346\264\233\346\235\211\347\237\266"
+    cn_name: "洛杉矶"
   }
   to_city {
     city_id: 1
     name: "San Diego"
-    cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+    cn_name: "圣地亚哥"
   }
   distance: 120
   hours: 2
@@ -150,12 +150,12 @@ edge {
   from_city {
     city_id: 1
     name: "San Diego"
-    cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+    cn_name: "圣地亚哥"
   }
   to_city {
     city_id: 1
     name: "San Diego"
-    cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+    cn_name: "圣地亚哥"
   }
   distance: 0
   hours: 0
@@ -164,7 +164,7 @@ suggest_city {
   city {
     city_id: 3
     name: "Las Vegas"
-    cn_name: "\346\213\211\346\226\257\347\273\264\345\212\240\346\226\257"
+    cn_name: "拉斯维加斯"
   }
   num_days: 2
   suggest_rate: 1.0
@@ -173,7 +173,7 @@ suggest_city {
   city {
     city_id: 5
     name: "Salt Lake City"
-    cn_name: "\347\233\220\346\271\226\345\237\216"
+    cn_name: "盐湖城"
   }
   num_days: 4
   suggest_rate: 0.3862974
@@ -182,7 +182,7 @@ suggest_city {
   city {
     city_id: 6
     name: "Reno"
-    cn_name: "\351\233\267\350\257\272"
+    cn_name: "雷诺"
   }
   num_days: 2
   suggest_rate: 0.48979592
@@ -191,7 +191,7 @@ suggest_city {
   city {
     city_id: 7
     name: "Sacramento"
-    cn_name: "\350\220\250\345\205\213\346\213\211\351\227\250\346\211\230"
+    cn_name: "萨克拉门托"
   }
   num_days: 1
   suggest_rate: 0.48979592
@@ -200,222 +200,10 @@ suggest_city {
   city {
     city_id: 8
     name: "San Francisco"
-    cn_name: "\346\227\247\351\207\221\345\261\261"
+    cn_name: "旧金山"
   }
   num_days: 2
   suggest_rate: 0.44169098
-}
-
-==========
-==TESTCASE_DATA==
-=REQUEST
-enddate: 20151210
-start_city_id: 1
-end_city_id: 1
-hotel: 3
-keep_order_of_via_cities: false
-num_people: 2
-num_room: 3
-startdate: 20151201
-topic: "蜜月"
-visit_city { city { city_id: 1 } }
-visit_city { city { city_id: 2 } }
-visit_city { city { city_id: 4 } }
-
-=RESPONSE
-status: SUCCESS
-start_city {
-  city_id: 1
-  name: "San Diego"
-  cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
-}
-end_city {
-  city_id: 1
-  name: "San Diego"
-  cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
-}
-visit {
-  city {
-    city_id: 4
-    name: "Phoenix"
-    cn_name: "\350\217\262\345\260\274\345\205\213\346\226\257"
-  }
-  num_days: 1
-  suggest_rate: 1.0
-}
-visit {
-  city {
-    city_id: 2
-    name: "Los Angels"
-    cn_name: "\346\264\233\346\235\211\347\237\266"
-  }
-  num_days: 3
-  suggest_rate: 1.0
-}
-visit {
-  city {
-    city_id: 1
-    name: "San Diego"
-    cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
-  }
-  num_days: 2
-  suggest_rate: 1.0
-}
-edge {
-  from_city {
-    city_id: 1
-    name: "San Diego"
-    cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
-  }
-  to_city {
-    city_id: 4
-    name: "Phoenix"
-    cn_name: "\350\217\262\345\260\274\345\205\213\346\226\257"
-  }
-  distance: 686
-  hours: 12
-}
-edge {
-  from_city {
-    city_id: 4
-    name: "Phoenix"
-    cn_name: "\350\217\262\345\260\274\345\205\213\346\226\257"
-  }
-  to_city {
-    city_id: 2
-    name: "Los Angels"
-    cn_name: "\346\264\233\346\235\211\347\237\266"
-  }
-  distance: 566
-  hours: 10
-}
-edge {
-  from_city {
-    city_id: 2
-    name: "Los Angels"
-    cn_name: "\346\264\233\346\235\211\347\237\266"
-  }
-  to_city {
-    city_id: 1
-    name: "San Diego"
-    cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
-  }
-  distance: 120
-  hours: 2
-}
-edge {
-  from_city {
-    city_id: 1
-    name: "San Diego"
-    cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
-  }
-  to_city {
-    city_id: 1
-    name: "San Diego"
-    cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
-  }
-  distance: 0
-  hours: 0
-}
-suggest_city {
-  city {
-    city_id: 3
-    name: "Las Vegas"
-    cn_name: "\346\213\211\346\226\257\347\273\264\345\212\240\346\226\257"
-  }
-  num_days: 2
-  suggest_rate: 1.0
-}
-suggest_city {
-  city {
-    city_id: 5
-    name: "Salt Lake City"
-    cn_name: "\347\233\220\346\271\226\345\237\216"
-  }
-  num_days: 4
-  suggest_rate: 0.3862974
-}
-suggest_city {
-  city {
-    city_id: 6
-    name: "Reno"
-    cn_name: "\351\233\267\350\257\272"
-  }
-  num_days: 2
-  suggest_rate: 0.48979592
-}
-suggest_city {
-  city {
-    city_id: 7
-    name: "Sacramento"
-    cn_name: "\350\220\250\345\205\213\346\213\211\351\227\250\346\211\230"
-  }
-  num_days: 1
-  suggest_rate: 0.48979592
-}
-suggest_city {
-  city {
-    city_id: 8
-    name: "San Francisco"
-    cn_name: "\346\227\247\351\207\221\345\261\261"
-  }
-  num_days: 2
-  suggest_rate: 0.44169098
-}
-
-==========
-==TESTCASE_DATA==
-=REQUEST
-enddate: 20160109
-end_city_id: 2
-hotel: 5
-keep_order_of_via_cities: false
-num_people: 2
-num_room: 3
-startdate: 20160106
-start_city_id: 1
-visit_city { city { city_id: 1 } }
-visit_city { city { city_id: 21 } }
-visit_city { city { city_id: 2 } }
-
-=RESPONSE
-status: INCORRECT_REQUEST
-start_city {
-  city_id: 1
-  name: "San Diego"
-  cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
-}
-end_city {
-  city_id: 2
-  name: "Los Angels"
-  cn_name: "\346\264\233\346\235\211\347\237\266"
-}
-visit {
-  city {
-    city_id: 1
-    name: "San Diego"
-    cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
-  }
-  num_days: 2
-  suggest_rate: 1.0
-}
-visit {
-  city {
-    city_id: 21
-    name: "Denver"
-    cn_name: "\344\270\271\344\275\233"
-  }
-  num_days: 2
-  suggest_rate: 1.0
-}
-visit {
-  city {
-    city_id: 2
-    name: "Los Angels"
-    cn_name: "\346\264\233\346\235\211\347\237\266"
-  }
-  num_days: 3
-  suggest_rate: 1.0
 }
 
 ==========
@@ -439,18 +227,18 @@ status: SUCCESS
 start_city {
   city_id: 1
   name: "San Diego"
-  cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+  cn_name: "圣地亚哥"
 }
 end_city {
   city_id: 4
   name: "Phoenix"
-  cn_name: "\350\217\262\345\260\274\345\205\213\346\226\257"
+  cn_name: "菲尼克斯"
 }
 visit {
   city {
     city_id: 1
     name: "San Diego"
-    cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+    cn_name: "圣地亚哥"
   }
   num_days: 2
   suggest_rate: 1.0
@@ -459,7 +247,7 @@ visit {
   city {
     city_id: 2
     name: "Los Angels"
-    cn_name: "\346\264\233\346\235\211\347\237\266"
+    cn_name: "洛杉矶"
   }
   num_days: 3
   suggest_rate: 1.0
@@ -468,7 +256,7 @@ visit {
   city {
     city_id: 4
     name: "Phoenix"
-    cn_name: "\350\217\262\345\260\274\345\205\213\346\226\257"
+    cn_name: "菲尼克斯"
   }
   num_days: 1
   suggest_rate: 1.0
@@ -477,12 +265,12 @@ edge {
   from_city {
     city_id: 1
     name: "San Diego"
-    cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+    cn_name: "圣地亚哥"
   }
   to_city {
     city_id: 1
     name: "San Diego"
-    cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+    cn_name: "圣地亚哥"
   }
   distance: 0
   hours: 0
@@ -491,12 +279,12 @@ edge {
   from_city {
     city_id: 1
     name: "San Diego"
-    cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+    cn_name: "圣地亚哥"
   }
   to_city {
     city_id: 2
     name: "Los Angels"
-    cn_name: "\346\264\233\346\235\211\347\237\266"
+    cn_name: "洛杉矶"
   }
   distance: 120
   hours: 2
@@ -505,12 +293,12 @@ edge {
   from_city {
     city_id: 2
     name: "Los Angels"
-    cn_name: "\346\264\233\346\235\211\347\237\266"
+    cn_name: "洛杉矶"
   }
   to_city {
     city_id: 4
     name: "Phoenix"
-    cn_name: "\350\217\262\345\260\274\345\205\213\346\226\257"
+    cn_name: "菲尼克斯"
   }
   distance: 566
   hours: 10
@@ -519,12 +307,12 @@ edge {
   from_city {
     city_id: 4
     name: "Phoenix"
-    cn_name: "\350\217\262\345\260\274\345\205\213\346\226\257"
+    cn_name: "菲尼克斯"
   }
   to_city {
     city_id: 4
     name: "Phoenix"
-    cn_name: "\350\217\262\345\260\274\345\205\213\346\226\257"
+    cn_name: "菲尼克斯"
   }
   distance: 0
   hours: 0
@@ -533,7 +321,7 @@ suggest_city {
   city {
     city_id: 3
     name: "Las Vegas"
-    cn_name: "\346\213\211\346\226\257\347\273\264\345\212\240\346\226\257"
+    cn_name: "拉斯维加斯"
   }
   num_days: 2
   suggest_rate: 1.0
@@ -555,18 +343,18 @@ status: SUCCESS
 start_city {
   city_id: 8
   name: "San Francisco"
-  cn_name: "\346\227\247\351\207\221\345\261\261"
+  cn_name: "旧金山"
 }
 end_city {
   city_id: 2
   name: "Los Angels"
-  cn_name: "\346\264\233\346\235\211\347\237\266"
+  cn_name: "洛杉矶"
 }
 visit {
   city {
     city_id: 7
     name: "Sacramento"
-    cn_name: "\350\220\250\345\205\213\346\213\211\351\227\250\346\211\230"
+    cn_name: "萨克拉门托"
   }
   num_days: 1
   suggest_rate: 1.0
@@ -575,7 +363,7 @@ visit {
   city {
     city_id: 1
     name: "San Diego"
-    cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+    cn_name: "圣地亚哥"
   }
   num_days: 2
   suggest_rate: 1.0
@@ -584,12 +372,12 @@ edge {
   from_city {
     city_id: 8
     name: "San Francisco"
-    cn_name: "\346\227\247\351\207\221\345\261\261"
+    cn_name: "旧金山"
   }
   to_city {
     city_id: 7
     name: "Sacramento"
-    cn_name: "\350\220\250\345\205\213\346\213\211\351\227\250\346\211\230"
+    cn_name: "萨克拉门托"
   }
   distance: 90
   hours: 2
@@ -598,12 +386,12 @@ edge {
   from_city {
     city_id: 7
     name: "Sacramento"
-    cn_name: "\350\220\250\345\205\213\346\213\211\351\227\250\346\211\230"
+    cn_name: "萨克拉门托"
   }
   to_city {
     city_id: 1
     name: "San Diego"
-    cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+    cn_name: "圣地亚哥"
   }
   distance: 506
   hours: 9
@@ -612,12 +400,12 @@ edge {
   from_city {
     city_id: 1
     name: "San Diego"
-    cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+    cn_name: "圣地亚哥"
   }
   to_city {
     city_id: 2
     name: "Los Angels"
-    cn_name: "\346\264\233\346\235\211\347\237\266"
+    cn_name: "洛杉矶"
   }
   distance: 120
   hours: 2
@@ -626,7 +414,7 @@ suggest_city {
   city {
     city_id: 2
     name: "Los Angels"
-    cn_name: "\346\264\233\346\235\211\347\237\266"
+    cn_name: "洛杉矶"
   }
   num_days: 3
   suggest_rate: 1.0
@@ -635,7 +423,7 @@ suggest_city {
   city {
     city_id: 3
     name: "Las Vegas"
-    cn_name: "\346\213\211\346\226\257\347\273\264\345\212\240\346\226\257"
+    cn_name: "拉斯维加斯"
   }
   num_days: 2
   suggest_rate: 0.34916198
@@ -644,7 +432,7 @@ suggest_city {
   city {
     city_id: 6
     name: "Reno"
-    cn_name: "\351\233\267\350\257\272"
+    cn_name: "雷诺"
   }
   num_days: 2
   suggest_rate: 0.622905
@@ -653,9 +441,64 @@ suggest_city {
   city {
     city_id: 8
     name: "San Francisco"
-    cn_name: "\346\227\247\351\207\221\345\261\261"
+    cn_name: "旧金山"
   }
   num_days: 2
+  suggest_rate: 1.0
+}
+
+==========
+==TESTCASE_DATA==
+=REQUEST
+enddate: 20160109
+end_city_id: 2
+hotel: 5
+keep_order_of_via_cities: false
+num_people: 2
+num_room: 3
+startdate: 20160106
+start_city_id: 1
+visit_city { city { city_id: 1 } }
+visit_city { city { city_id: 21 } }
+visit_city { city { city_id: 2 } }
+
+=RESPONSE
+status: INCORRECT_REQUEST
+start_city {
+  city_id: 1
+  name: "San Diego"
+  cn_name: "圣地亚哥"
+}
+end_city {
+  city_id: 2
+  name: "Los Angels"
+  cn_name: "洛杉矶"
+}
+visit {
+  city {
+    city_id: 1
+    name: "San Diego"
+    cn_name: "圣地亚哥"
+  }
+  num_days: 1
+  suggest_rate: 1.0
+}
+visit {
+  city {
+    city_id: 21
+    name: "Denver"
+    cn_name: "丹佛"
+  }
+  num_days: 1
+  suggest_rate: 1.0
+}
+visit {
+  city {
+    city_id: 2
+    name: "Los Angels"
+    cn_name: "洛杉矶"
+  }
+  num_days: 1
   suggest_rate: 1.0
 }
 
@@ -673,23 +516,24 @@ visit_city { city { city_id: 5 } num_days: 0}
 keep_order_of_via_cities: false
 startdate: 20151225
 enddate: 20160110
+
 =RESPONSE
 status: SUCCESS
 start_city {
   city_id: 8
   name: "San Francisco"
-  cn_name: "\346\227\247\351\207\221\345\261\261"
+  cn_name: "旧金山"
 }
 end_city {
   city_id: 2
   name: "Los Angels"
-  cn_name: "\346\264\233\346\235\211\347\237\266"
+  cn_name: "洛杉矶"
 }
 visit {
   city {
     city_id: 8
     name: "San Francisco"
-    cn_name: "\346\227\247\351\207\221\345\261\261"
+    cn_name: "旧金山"
   }
   num_days: 3
   suggest_rate: 1.0
@@ -698,7 +542,7 @@ visit {
   city {
     city_id: 7
     name: "Sacramento"
-    cn_name: "\350\220\250\345\205\213\346\213\211\351\227\250\346\211\230"
+    cn_name: "萨克拉门托"
   }
   num_days: 2
   suggest_rate: 1.0
@@ -707,7 +551,7 @@ visit {
   city {
     city_id: 6
     name: "Reno"
-    cn_name: "\351\233\267\350\257\272"
+    cn_name: "雷诺"
   }
   num_days: 2
   suggest_rate: 1.0
@@ -716,7 +560,7 @@ visit {
   city {
     city_id: 5
     name: "Salt Lake City"
-    cn_name: "\347\233\220\346\271\226\345\237\216"
+    cn_name: "盐湖城"
   }
   num_days: 4
   suggest_rate: 1.0
@@ -725,7 +569,7 @@ visit {
   city {
     city_id: 2
     name: "Los Angels"
-    cn_name: "\346\264\233\346\235\211\347\237\266"
+    cn_name: "洛杉矶"
   }
   num_days: 4
   suggest_rate: 1.0
@@ -734,7 +578,7 @@ visit {
   city {
     city_id: 1
     name: "San Diego"
-    cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+    cn_name: "圣地亚哥"
   }
   num_days: 2
   suggest_rate: 1.0
@@ -743,12 +587,12 @@ edge {
   from_city {
     city_id: 8
     name: "San Francisco"
-    cn_name: "\346\227\247\351\207\221\345\261\261"
+    cn_name: "旧金山"
   }
   to_city {
     city_id: 8
     name: "San Francisco"
-    cn_name: "\346\227\247\351\207\221\345\261\261"
+    cn_name: "旧金山"
   }
   distance: 0
   hours: 0
@@ -757,12 +601,12 @@ edge {
   from_city {
     city_id: 8
     name: "San Francisco"
-    cn_name: "\346\227\247\351\207\221\345\261\261"
+    cn_name: "旧金山"
   }
   to_city {
     city_id: 7
     name: "Sacramento"
-    cn_name: "\350\220\250\345\205\213\346\213\211\351\227\250\346\211\230"
+    cn_name: "萨克拉门托"
   }
   distance: 90
   hours: 2
@@ -771,12 +615,12 @@ edge {
   from_city {
     city_id: 7
     name: "Sacramento"
-    cn_name: "\350\220\250\345\205\213\346\213\211\351\227\250\346\211\230"
+    cn_name: "萨克拉门托"
   }
   to_city {
     city_id: 6
     name: "Reno"
-    cn_name: "\351\233\267\350\257\272"
+    cn_name: "雷诺"
   }
   distance: 135
   hours: 3
@@ -785,12 +629,12 @@ edge {
   from_city {
     city_id: 6
     name: "Reno"
-    cn_name: "\351\233\267\350\257\272"
+    cn_name: "雷诺"
   }
   to_city {
     city_id: 5
     name: "Salt Lake City"
-    cn_name: "\347\233\220\346\271\226\345\237\216"
+    cn_name: "盐湖城"
   }
   distance: 518
   hours: 9
@@ -799,12 +643,12 @@ edge {
   from_city {
     city_id: 5
     name: "Salt Lake City"
-    cn_name: "\347\233\220\346\271\226\345\237\216"
+    cn_name: "盐湖城"
   }
   to_city {
     city_id: 2
     name: "Los Angels"
-    cn_name: "\346\264\233\346\235\211\347\237\266"
+    cn_name: "洛杉矶"
   }
   distance: 690
   hours: 12
@@ -813,12 +657,12 @@ edge {
   from_city {
     city_id: 2
     name: "Los Angels"
-    cn_name: "\346\264\233\346\235\211\347\237\266"
+    cn_name: "洛杉矶"
   }
   to_city {
     city_id: 1
     name: "San Diego"
-    cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+    cn_name: "圣地亚哥"
   }
   distance: 120
   hours: 2
@@ -827,12 +671,12 @@ edge {
   from_city {
     city_id: 1
     name: "San Diego"
-    cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+    cn_name: "圣地亚哥"
   }
   to_city {
     city_id: 2
     name: "Los Angels"
-    cn_name: "\346\264\233\346\235\211\347\237\266"
+    cn_name: "洛杉矶"
   }
   distance: 120
   hours: 2
@@ -841,7 +685,7 @@ suggest_city {
   city {
     city_id: 3
     name: "Las Vegas"
-    cn_name: "\346\213\211\346\226\257\347\273\264\345\212\240\346\226\257"
+    cn_name: "拉斯维加斯"
   }
   num_days: 2
   suggest_rate: 1.0
@@ -850,7 +694,7 @@ suggest_city {
   city {
     city_id: 4
     name: "Phoenix"
-    cn_name: "\350\217\262\345\260\274\345\205\213\346\226\257"
+    cn_name: "菲尼克斯"
   }
   num_days: 1
   suggest_rate: 0.6449492
@@ -859,7 +703,7 @@ suggest_city {
   city {
     city_id: 9
     name: "Portland"
-    cn_name: "\346\263\242\347\211\271\345\205\260"
+    cn_name: "波特兰"
   }
   num_days: 1
   suggest_rate: 0.23968917
@@ -868,7 +712,7 @@ suggest_city {
   city {
     city_id: 10
     name: "Seattle"
-    cn_name: "\350\245\277\351\233\205\345\233\276"
+    cn_name: "西雅图"
   }
   num_days: 2
   suggest_rate: 0.03287506
@@ -893,18 +737,18 @@ status: SUCCESS
 start_city {
   city_id: 8
   name: "San Francisco"
-  cn_name: "\346\227\247\351\207\221\345\261\261"
+  cn_name: "旧金山"
 }
 end_city {
   city_id: 2
   name: "Los Angels"
-  cn_name: "\346\264\233\346\235\211\347\237\266"
+  cn_name: "洛杉矶"
 }
 visit {
   city {
     city_id: 8
     name: "San Francisco"
-    cn_name: "\346\227\247\351\207\221\345\261\261"
+    cn_name: "旧金山"
   }
   num_days: 3
   suggest_rate: 1.0
@@ -913,7 +757,7 @@ visit {
   city {
     city_id: 6
     name: "Reno"
-    cn_name: "\351\233\267\350\257\272"
+    cn_name: "雷诺"
   }
   num_days: 2
   suggest_rate: 1.0
@@ -922,7 +766,7 @@ visit {
   city {
     city_id: 7
     name: "Sacramento"
-    cn_name: "\350\220\250\345\205\213\346\213\211\351\227\250\346\211\230"
+    cn_name: "萨克拉门托"
   }
   num_days: 2
   suggest_rate: 1.0
@@ -931,7 +775,7 @@ visit {
   city {
     city_id: 1
     name: "San Diego"
-    cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+    cn_name: "圣地亚哥"
   }
   num_days: 2
   suggest_rate: 1.0
@@ -940,7 +784,7 @@ visit {
   city {
     city_id: 2
     name: "Los Angels"
-    cn_name: "\346\264\233\346\235\211\347\237\266"
+    cn_name: "洛杉矶"
   }
   num_days: 4
   suggest_rate: 1.0
@@ -949,12 +793,12 @@ edge {
   from_city {
     city_id: 8
     name: "San Francisco"
-    cn_name: "\346\227\247\351\207\221\345\261\261"
+    cn_name: "旧金山"
   }
   to_city {
     city_id: 8
     name: "San Francisco"
-    cn_name: "\346\227\247\351\207\221\345\261\261"
+    cn_name: "旧金山"
   }
   distance: 0
   hours: 0
@@ -963,12 +807,12 @@ edge {
   from_city {
     city_id: 8
     name: "San Francisco"
-    cn_name: "\346\227\247\351\207\221\345\261\261"
+    cn_name: "旧金山"
   }
   to_city {
     city_id: 6
     name: "Reno"
-    cn_name: "\351\233\267\350\257\272"
+    cn_name: "雷诺"
   }
   distance: 225
   hours: 5
@@ -977,12 +821,12 @@ edge {
   from_city {
     city_id: 6
     name: "Reno"
-    cn_name: "\351\233\267\350\257\272"
+    cn_name: "雷诺"
   }
   to_city {
     city_id: 7
     name: "Sacramento"
-    cn_name: "\350\220\250\345\205\213\346\213\211\351\227\250\346\211\230"
+    cn_name: "萨克拉门托"
   }
   distance: 135
   hours: 3
@@ -991,12 +835,12 @@ edge {
   from_city {
     city_id: 7
     name: "Sacramento"
-    cn_name: "\350\220\250\345\205\213\346\213\211\351\227\250\346\211\230"
+    cn_name: "萨克拉门托"
   }
   to_city {
     city_id: 1
     name: "San Diego"
-    cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+    cn_name: "圣地亚哥"
   }
   distance: 506
   hours: 9
@@ -1005,12 +849,12 @@ edge {
   from_city {
     city_id: 1
     name: "San Diego"
-    cn_name: "\345\234\243\345\234\260\344\272\232\345\223\245"
+    cn_name: "圣地亚哥"
   }
   to_city {
     city_id: 2
     name: "Los Angels"
-    cn_name: "\346\264\233\346\235\211\347\237\266"
+    cn_name: "洛杉矶"
   }
   distance: 120
   hours: 2
@@ -1019,12 +863,12 @@ edge {
   from_city {
     city_id: 2
     name: "Los Angels"
-    cn_name: "\346\264\233\346\235\211\347\237\266"
+    cn_name: "洛杉矶"
   }
   to_city {
     city_id: 2
     name: "Los Angels"
-    cn_name: "\346\264\233\346\235\211\347\237\266"
+    cn_name: "洛杉矶"
   }
   distance: 0
   hours: 0
@@ -1033,7 +877,7 @@ suggest_city {
   city {
     city_id: 3
     name: "Las Vegas"
-    cn_name: "\346\213\211\346\226\257\347\273\264\345\212\240\346\226\257"
+    cn_name: "拉斯维加斯"
   }
   num_days: 2
   suggest_rate: 0.5273833
@@ -1042,8 +886,285 @@ suggest_city {
   city {
     city_id: 5
     name: "Salt Lake City"
-    cn_name: "\347\233\220\346\271\226\345\237\216"
+    cn_name: "盐湖城"
   }
   num_days: 4
   suggest_rate: 0.029411793
+}
+
+==========
+==TESTCASE_DATA==
+=REQUEST
+start_city_id: 8
+end_city_id: 2
+visit_city { city { city_id: 1 } num_days: 0}
+visit_city { city { city_id: 7 } num_days: 0}
+keep_order_of_via_cities: false
+startdate: 20151225
+enddate: 20160110
+
+=RESPONSE
+status: SUCCESS
+start_city {
+  city_id: 8
+  name: "San Francisco"
+  cn_name: "旧金山"
+}
+end_city {
+  city_id: 2
+  name: "Los Angels"
+  cn_name: "洛杉矶"
+}
+visit {
+  city {
+    city_id: 7
+    name: "Sacramento"
+    cn_name: "萨克拉门托"
+  }
+  num_days: 1
+  suggest_rate: 1.0
+}
+visit {
+  city {
+    city_id: 1
+    name: "San Diego"
+    cn_name: "圣地亚哥"
+  }
+  num_days: 2
+  suggest_rate: 1.0
+}
+edge {
+  from_city {
+    city_id: 8
+    name: "San Francisco"
+    cn_name: "旧金山"
+  }
+  to_city {
+    city_id: 7
+    name: "Sacramento"
+    cn_name: "萨克拉门托"
+  }
+  distance: 90
+  hours: 2
+}
+edge {
+  from_city {
+    city_id: 7
+    name: "Sacramento"
+    cn_name: "萨克拉门托"
+  }
+  to_city {
+    city_id: 1
+    name: "San Diego"
+    cn_name: "圣地亚哥"
+  }
+  distance: 506
+  hours: 9
+}
+edge {
+  from_city {
+    city_id: 1
+    name: "San Diego"
+    cn_name: "圣地亚哥"
+  }
+  to_city {
+    city_id: 2
+    name: "Los Angels"
+    cn_name: "洛杉矶"
+  }
+  distance: 120
+  hours: 2
+}
+suggest_city {
+  city {
+    city_id: 2
+    name: "Los Angels"
+    cn_name: "洛杉矶"
+  }
+  num_days: 3
+  suggest_rate: 1.0
+}
+suggest_city {
+  city {
+    city_id: 3
+    name: "Las Vegas"
+    cn_name: "拉斯维加斯"
+  }
+  num_days: 2
+  suggest_rate: 0.34916198
+}
+suggest_city {
+  city {
+    city_id: 6
+    name: "Reno"
+    cn_name: "雷诺"
+  }
+  num_days: 2
+  suggest_rate: 0.622905
+}
+suggest_city {
+  city {
+    city_id: 8
+    name: "San Francisco"
+    cn_name: "旧金山"
+  }
+  num_days: 2
+  suggest_rate: 1.0
+}
+
+==========
+==TESTCASE_DATA==
+=REQUEST
+enddate: 20151210
+start_city_id: 1
+end_city_id: 1
+hotel: 3
+keep_order_of_via_cities: false
+num_people: 2
+num_room: 3
+startdate: 20151201
+topic: "蜜月"
+visit_city { city { city_id: 1 } }
+visit_city { city { city_id: 2 } }
+visit_city { city { city_id: 4 } }
+
+=RESPONSE
+status: SUCCESS
+start_city {
+  city_id: 1
+  name: "San Diego"
+  cn_name: "圣地亚哥"
+}
+end_city {
+  city_id: 1
+  name: "San Diego"
+  cn_name: "圣地亚哥"
+}
+visit {
+  city {
+    city_id: 4
+    name: "Phoenix"
+    cn_name: "菲尼克斯"
+  }
+  num_days: 1
+  suggest_rate: 1.0
+}
+visit {
+  city {
+    city_id: 2
+    name: "Los Angels"
+    cn_name: "洛杉矶"
+  }
+  num_days: 3
+  suggest_rate: 1.0
+}
+visit {
+  city {
+    city_id: 1
+    name: "San Diego"
+    cn_name: "圣地亚哥"
+  }
+  num_days: 2
+  suggest_rate: 1.0
+}
+edge {
+  from_city {
+    city_id: 1
+    name: "San Diego"
+    cn_name: "圣地亚哥"
+  }
+  to_city {
+    city_id: 4
+    name: "Phoenix"
+    cn_name: "菲尼克斯"
+  }
+  distance: 686
+  hours: 12
+}
+edge {
+  from_city {
+    city_id: 4
+    name: "Phoenix"
+    cn_name: "菲尼克斯"
+  }
+  to_city {
+    city_id: 2
+    name: "Los Angels"
+    cn_name: "洛杉矶"
+  }
+  distance: 566
+  hours: 10
+}
+edge {
+  from_city {
+    city_id: 2
+    name: "Los Angels"
+    cn_name: "洛杉矶"
+  }
+  to_city {
+    city_id: 1
+    name: "San Diego"
+    cn_name: "圣地亚哥"
+  }
+  distance: 120
+  hours: 2
+}
+edge {
+  from_city {
+    city_id: 1
+    name: "San Diego"
+    cn_name: "圣地亚哥"
+  }
+  to_city {
+    city_id: 1
+    name: "San Diego"
+    cn_name: "圣地亚哥"
+  }
+  distance: 0
+  hours: 0
+}
+suggest_city {
+  city {
+    city_id: 3
+    name: "Las Vegas"
+    cn_name: "拉斯维加斯"
+  }
+  num_days: 2
+  suggest_rate: 1.0
+}
+suggest_city {
+  city {
+    city_id: 5
+    name: "Salt Lake City"
+    cn_name: "盐湖城"
+  }
+  num_days: 4
+  suggest_rate: 0.3862974
+}
+suggest_city {
+  city {
+    city_id: 6
+    name: "Reno"
+    cn_name: "雷诺"
+  }
+  num_days: 2
+  suggest_rate: 0.48979592
+}
+suggest_city {
+  city {
+    city_id: 7
+    name: "Sacramento"
+    cn_name: "萨克拉门托"
+  }
+  num_days: 1
+  suggest_rate: 0.48979592
+}
+suggest_city {
+  city {
+    city_id: 8
+    name: "San Francisco"
+    cn_name: "旧金山"
+  }
+  num_days: 2
+  suggest_rate: 0.44169098
 }

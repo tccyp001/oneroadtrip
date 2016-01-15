@@ -1,0 +1,130 @@
+[
+  {
+    "request": "quote",
+    "itinerary": [
+      {
+        "city": {
+          "city": {
+            "city_id": 1
+          },
+          "num_days": 3,
+          "guide": {
+            "host_city": {
+              "city_id": 8
+            }
+          }
+        }
+      },
+      {
+        "city": {
+          "city": {
+            "city_id": 2
+          },
+          "num_days": 5,
+          "guide": {
+            "host_city": {
+              "city_id": 8
+            }
+          }
+        }
+      }
+    ],
+    "end_date": 20160113,
+    "guide_for_whole_trip": {
+      "host_city": {
+        "city_id": 8
+      }
+    },
+    "hotel": 5,
+    "num_people": 3,
+    "num_room": 2,
+    "selectedGuideId": 200,
+    "start_date": 20160113
+  },
+  {
+    
+  },
+  {
+    "request": "quote",
+    "itinerary": {
+      "city": [
+        {
+          "city": {
+            "city_id": 2
+          },
+          "num_days": 2,
+          "guide": {
+            "host_city": {
+              "city_id": 2
+            }
+          }
+        },
+        {
+          "city": {
+            "city_id": 3
+          },
+          "num_days": 3,
+          "guide": {
+            "host_city": {
+              "city_id": 2
+            }
+          }
+        },
+        {
+          "city": {
+            "city_id": 4
+          },
+          "num_days": 2,
+          "guide": {
+            "host_city": {
+              "city_id": 4
+            }
+          }
+        }
+      ],
+      "edge": [
+        {
+          "from_city": {
+            "city_id": 1
+          },
+          "to_city": {
+            "city_id": 2
+          }
+        },
+        {
+          "from_city": {
+            "city_id": 2
+          },
+          "to_city": {
+            "city_id": 3
+          }
+        },
+        {
+          "from_city": {
+            "city_id": 3
+          },
+          "to_city": {
+            "city_id": 4
+          }
+        },
+        {
+          "from_city": {
+            "city_id": 4
+          },
+          "to_city": {
+            "city_id": 5
+          }
+        }
+      ],
+      "guide_for_whole_trip": {
+        "host_city": {
+          "city_id": 2
+        }
+      },
+      "num_room": 2
+    }
+  },
+  {
+    
+  }
+]
