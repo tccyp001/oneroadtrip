@@ -1,5 +1,7 @@
 package com.oneroadtrip.matcher.util;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
@@ -16,10 +18,12 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.oneroadtrip.matcher.common.OneRoadTripException;
 import com.oneroadtrip.matcher.proto.CityInfo;
 import com.oneroadtrip.matcher.proto.ErrorInfo;
 import com.oneroadtrip.matcher.proto.Itinerary;
 import com.oneroadtrip.matcher.proto.SpotInfo;
+import com.oneroadtrip.matcher.proto.Status;
 import com.oneroadtrip.matcher.proto.VisitCity;
 import com.oneroadtrip.matcher.proto.VisitSpot;
 import com.oneroadtrip.matcher.proto.internal.CityConnectionInfo;
@@ -175,5 +179,20 @@ public class Util {
       joiner.add("?");
     }
     return joiner.toString();
+  }
+  
+  public static LocalDate getDateByInt(int date) {
+    return LocalDate.of(date / 10000, date / 100 % 100, date % 100);
+  }
+
+  public static int calculateDaysByStartEndDate(int startdate, int enddate) throws OneRoadTripException {
+    try {
+      LocalDate start = getDateByInt(startdate);
+      LocalDate end = getDateByInt(enddate);
+
+      return (int) ChronoUnit.DAYS.between(start, end) + 1;
+    } catch (RuntimeException e) {
+      throw new OneRoadTripException(Status.ERROR_IN_GUIDE_PLAN, e);
+    }
   }
 }

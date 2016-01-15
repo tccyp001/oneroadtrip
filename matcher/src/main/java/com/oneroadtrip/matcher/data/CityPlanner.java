@@ -17,8 +17,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.oneroadtrip.matcher.common.Constants;
+import com.oneroadtrip.matcher.common.OneRoadTripException;
 import com.oneroadtrip.matcher.proto.CityInfo;
 import com.oneroadtrip.matcher.proto.Edge;
+import com.oneroadtrip.matcher.proto.PlanRequest;
 import com.oneroadtrip.matcher.proto.PlanResponse;
 import com.oneroadtrip.matcher.proto.Status;
 import com.oneroadtrip.matcher.proto.VisitCity;
@@ -49,21 +51,6 @@ public class CityPlanner {
     this.cityIdToInfo = cityIdToInfo;
   }
 
-  public PlanResponse makePlan(long startCityId, long endCityId,
-      List<VisitCity> visitCities, boolean keepOrderOrViaCities) {
-    CityVisitor visitor = new CityVisitor(startCityId, endCityId, visitCities, cityNetwork);
-    visitor.visit(startCityId, 0L);
-
-    long minDistance = visitor.getMinDistance();
-    List<Long> minDistancePath = visitor.getMinDistancePath();
-    List<VisitCity> orderedVisits = reorderVisitCities(visitCities, minDistancePath);
-
-    Map<Long, SuggestCityInfo> suggestCityToData = chooseOtherCities(minDistance, minDistancePath);
-
-    return buildResponse(startCityId, endCityId, orderedVisits, minDistance, minDistancePath,
-        suggestCityToData);
-  }
-
   private List<VisitCity> reorderVisitCities(List<VisitCity> visitCities, List<Long> minDistancePath) {
     if (minDistancePath.size() == 0) {
       return visitCities;
@@ -89,20 +76,71 @@ public class CityPlanner {
     return Util.getCityInfo(cityIdToInfo, cityId);
   }
 
-  PlanResponse buildResponse(long startCityId, long endCityId, List<VisitCity> visitCities,
+  List<Integer> calculateDaysForVisit(int totalDays, List<VisitCity> visitCities) {
+    List<Integer> suggestDays = Lists.newArrayList();
+    int totalSuggestDays = 0;
+    int reservedDays = 0;
+    for (VisitCity city : visitCities) {
+      int numDays = city.getNumDays();
+      if (numDays > 0) {
+        suggestDays.add(city.getNumDays());
+        totalSuggestDays += city.getNumDays();
+        reservedDays += city.getNumDays();
+        continue;
+      }
+
+      long cityId = city.getCity().getCityId();
+      Integer suggest = suggestDaysForCities.get(cityId);
+      if (suggest == null) {
+        suggestDays.add(0);
+        continue;
+      }
+      suggestDays.add(suggest);
+      totalSuggestDays += suggest;
+    }
+    
+    if (totalSuggestDays <= totalDays) {
+      return suggestDays;
+    }
+    
+    List<Integer> adjustedDays = Lists.newArrayList();
+    {
+      int total = 0;
+      for (int i = 0; i < suggestDays.size(); ++i) {
+        int numDays = visitCities.get(i).getNumDays();
+        if (numDays > 0) {
+          int days = visitCities.get(i).getNumDays();
+          adjustedDays.add(days);
+          total += days;
+          continue;
+        }
+        int days = suggestDays.get(i);
+        float t = ((float) days) * (totalDays - reservedDays) / (totalSuggestDays - reservedDays);
+        adjustedDays.add(Math.round(t));
+        total += suggestDays.get(i);
+      }
+      if (total != totalDays) {
+        LOG.error("xfguo: error case: totalDays: {}, reservedDays: {}; totalSuggestDays: {}, "
+            + "suggest days: {}, adjusted days: {}", totalDays, reservedDays, totalSuggestDays,
+            suggestDays, adjustedDays);
+      }
+    }
+    return adjustedDays;
+  }
+
+  PlanResponse buildResponse(int totalDays, long startCityId, long endCityId, List<VisitCity> visitCities,
       long minDistance, List<Long> path, Map<Long, SuggestCityInfo> suggestCityToData) {
     PlanResponse.Builder builder = PlanResponse.newBuilder().setStatus(Status.SUCCESS)
         .setStartCity(getCityInfo(startCityId))
         .setEndCity(getCityInfo(endCityId));
 
+    List<Integer> numDaysForVisit = calculateDaysForVisit(totalDays, visitCities);
+    Preconditions.checkArgument(numDaysForVisit.size() == visitCities.size());
+    int index = 0;
     for (VisitCity city : visitCities) {
       long cityId = city.getCity().getCityId();
       VisitCity.Builder cityBuilder = VisitCity.newBuilder(city).setCity(getCityInfo(cityId))
-          .setSuggestRate(MUST_SELECT_CITY_RATE);
-      Integer suggestDays = suggestDaysForCities.get(cityId);
-      if (city.getNumDays() == 0 && suggestDays != null) {
-        cityBuilder.setNumDays(suggestDays);
-      }
+          .setSuggestRate(MUST_SELECT_CITY_RATE).setNumDays(numDaysForVisit.get(index++));
       builder.addVisit(cityBuilder);
     }
 
@@ -205,5 +243,37 @@ public class CityPlanner {
       suggestCityToData.put(cityId, Util.createSuggestCityInfo(cityId, index, engageType, min));
     }
     return suggestCityToData;
+  }
+//
+//  public PlanResponse makePlan(long startCityId, long endCityId,
+//      List<VisitCity> visitCities, boolean keepOrderOrViaCities) {
+//    CityVisitor visitor = new CityVisitor(startCityId, endCityId, visitCities, cityNetwork);
+//    visitor.visit(startCityId, 0L);
+//
+//    long minDistance = visitor.getMinDistance();
+//    List<Long> minDistancePath = visitor.getMinDistancePath();
+//    List<VisitCity> orderedVisits = reorderVisitCities(visitCities, minDistancePath);
+//
+//    Map<Long, SuggestCityInfo> suggestCityToData = chooseOtherCities(minDistance, minDistancePath);
+//    int totalDays = 
+//
+//    return buildResponse(totalDays, startCityId, endCityId, orderedVisits, minDistance, minDistancePath,
+//        suggestCityToData);
+//  }
+
+  public PlanResponse makePlan(PlanRequest request) throws OneRoadTripException {
+    CityVisitor visitor = new CityVisitor(request.getStartCityId(), request.getEndCityId(),
+        request.getVisitCityList(), cityNetwork);
+    visitor.visit(request.getStartCityId(), 0L);
+    
+    long minDistance = visitor.getMinDistance();
+    List<Long> minDistancePath = visitor.getMinDistancePath();
+    List<VisitCity> orderedVisits = reorderVisitCities(request.getVisitCityList(), minDistancePath);
+
+    Map<Long, SuggestCityInfo> suggestCityToData = chooseOtherCities(minDistance, minDistancePath);
+    int totalDays = Util.calculateDaysByStartEndDate(request.getStartdate(), request.getEnddate());
+
+    return buildResponse(totalDays, request.getStartCityId(), request.getEndCityId(),
+        orderedVisits, minDistance, minDistancePath, suggestCityToData);
   }
 }

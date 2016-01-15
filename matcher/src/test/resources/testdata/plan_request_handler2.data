@@ -59,41 +59,4 @@ visit_city { city { city_id: 3 } num_days: 0}
 visit_city { city { city_id: 3 } num_days: 0}
 
 =RESPONSE
-status: INCORRECT_REQUEST
-start_city {
-  city_id: 2
-  name: "Los Angels"
-  cn_name: "\346\264\233\346\235\211\347\237\266"
-}
-end_city {
-  city_id: 3
-  name: "Las Vegas"
-  cn_name: "\346\213\211\346\226\257\347\273\264\345\212\240\346\226\257"
-}
-visit {
-  city {
-    city_id: 2
-    name: "Los Angels"
-    cn_name: "\346\264\233\346\235\211\347\237\266"
-  }
-  num_days: 3
-  suggest_rate: 1.0
-}
-visit {
-  city {
-    city_id: 3
-    name: "Las Vegas"
-    cn_name: "\346\213\211\346\226\257\347\273\264\345\212\240\346\226\257"
-  }
-  num_days: 2
-  suggest_rate: 1.0
-}
-visit {
-  city {
-    city_id: 3
-    name: "Las Vegas"
-    cn_name: "\346\213\211\346\226\257\347\273\264\345\212\240\346\226\257"
-  }
-  num_days: 2
-  suggest_rate: 1.0
-}
+status: ERROR_IN_GUIDE_PLAN
