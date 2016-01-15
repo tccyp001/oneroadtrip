@@ -111,6 +111,7 @@ CREATE TABLE GuideReservations (
   itinerary_id BIGINT,
 	reserved_date INT,
   is_permanent BOOLEAN,
+  is_cancel BOOLEAN DEFAULT false,
   location_id BIGINT,  -- DEPRECATING...
   update_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) DEFAULT CHARSET=utf8;

@@ -99,6 +99,7 @@ public class DatabaseAccessor {
 
   public static Triplet<Long, Long, List<Long>> prepareForOrder(Itinerary itin, Connection conn)
       throws OneRoadTripException {
+    // TODO(xfguo): Use another service to keep itinerary.
     Long itineraryId = null;
     try (PreparedStatement pStmt = conn.prepareStatement(ADD_ITINERARY,
         Statement.RETURN_GENERATED_KEYS)) {
@@ -124,9 +125,8 @@ public class DatabaseAccessor {
     }
 
     Long orderId = null;
-    try (PreparedStatement pStmt = conn
-        .prepareStatement(ADD_ORDER, Statement.RETURN_GENERATED_KEYS)) {
-      // TODO(xiaofengguo):
+    try (PreparedStatement pStmt = conn.prepareStatement(ADD_ORDER,
+        Statement.RETURN_GENERATED_KEYS)) {
       pStmt.setLong(1, itin.getUserId());
       pStmt.setLong(2, itineraryId);
       pStmt.setFloat(3, ItineraryUtil.getCostUsd(itin));

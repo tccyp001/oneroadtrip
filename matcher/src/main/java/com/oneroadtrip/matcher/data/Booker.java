@@ -35,5 +35,4 @@ public class Booker {
       return BookingResponse.newBuilder().setStatus(e.getStatus()).build();
     }
   }
-
 }

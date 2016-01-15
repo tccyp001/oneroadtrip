@@ -7,6 +7,8 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.oneroadtrip.matcher.data.Curl;
 import com.oneroadtrip.matcher.data.Curl.CurlImpl;
+import com.oneroadtrip.matcher.data.Payer;
+import com.oneroadtrip.matcher.data.StripePayer;
 import com.oneroadtrip.matcher.util.HashUtil.Hasher;
 import com.oneroadtrip.matcher.util.HashUtil.HasherImpl;
 
@@ -26,5 +28,11 @@ public class ServingToolModule implements Module {
   @Singleton
   Hasher getHasher() {
     return new HasherImpl();
+  }
+  
+  @Provides
+  @Singleton
+  Payer getPayer() {
+    return new StripePayer();
   }
 }
