@@ -1,0 +1,6078 @@
+api/city 	Get
+
+Response:
+
+{
+	"status": "SUCCESS",
+	"city": [{
+		"city_id": 1,
+		"name": "San Diego",
+		"cn_name": "圣地亚哥",
+		"suggest": 2,
+		"min": 1,
+		"alias": ["San Diego", "圣地亚哥", "SD", "SDYG", "SHIDIYAGE", "SAN"]
+	}, {
+		"city_id": 2,
+		"name": "Los Angels",
+		"cn_name": "洛杉矶",
+		"suggest": 3,
+		"min": 2,
+		"alias": ["Los Angels", "洛杉矶", "LA", "LUOSANJI", "LDJ", "LAX"]
+	}, {
+		"city_id": 3,
+		"name": "Las Vegas",
+		"cn_name": "拉斯维加斯",
+		"suggest": 3,
+		"min": 2,
+		"alias": ["Las Vegas", "拉斯维加斯", "LV", "LSWJS", "LaSiWeiJiaSi"]
+	}, {
+		"city_id": 4,
+		"name": "Phoenix",
+		"cn_name": "菲尼克斯",
+		"suggest": 1,
+		"min": 1,
+		"alias": ["Phoenix", "菲尼克斯", "FNKS", "FeiNiKeSi"]
+	}, {
+		"city_id": 5,
+		"name": "Salt Lake City",
+		"cn_name": "盐湖城",
+		"suggest": 2,
+		"min": 1,
+		"alias": ["Salt Lake City", "盐湖城", "SLC", "YHC", "YanHuCheng"]
+	}, {
+		"city_id": 6,
+		"name": "Reno",
+		"cn_name": "雷诺",
+		"suggest": 2,
+		"min": 1,
+		"alias": ["Reno", "雷诺", "LN", "LeiNuo"]
+	}, {
+		"city_id": 7,
+		"name": "Sacramento",
+		"cn_name": "萨克拉门托",
+		"suggest": 1,
+		"min": 1,
+		"alias": ["Sacramento", "萨克拉门托", "SKLMT", "SaKeLaMenTuo"]
+	}, {
+		"city_id": 8,
+		"name": "San Francisco",
+		"cn_name": "旧金山",
+		"suggest": 3,
+		"min": 1,
+		"alias": ["San Francisco", "旧金山", "SF", "JJS", "JIUJINGSHAN", "SFO"]
+	}, {
+		"city_id": 9,
+		"name": "Portland",
+		"cn_name": "波特兰",
+		"suggest": 1,
+		"min": 1,
+		"alias": ["Portland", "波特兰", "BTL", "BoTeLan"]
+	}, {
+		"city_id": 10,
+		"name": "Seattle",
+		"cn_name": "西雅图",
+		"suggest": 2,
+		"min": 1,
+		"alias": ["Seattle", "西雅图", "XYT", "XIYATU", "SEA"]
+	}, {
+		"city_id": 11,
+		"name": "Vancouvor",
+		"cn_name": "温哥华",
+		"suggest": 2,
+		"min": 1,
+		"alias": ["Vancouvor", "温哥华", "WGH", "WenGeHua"]
+	}, {
+		"city_id": 12,
+		"name": "Chicago",
+		"cn_name": "芝加哥",
+		"suggest": 3,
+		"min": 2,
+		"alias": ["Chicago", "芝加哥", "ZHIJIAGE", "ZHJG", "ORD"]
+	}, {
+		"city_id": 13,
+		"name": "New York",
+		"cn_name": "纽约",
+		"suggest": 4,
+		"min": 2,
+		"alias": ["New York", "纽约", "NY", "NiuYue"]
+	}, {
+		"city_id": 14,
+		"name": "Washington",
+		"cn_name": "华盛顿",
+		"suggest": 2,
+		"min": 1,
+		"alias": ["Washington", "华盛顿", "HSD", "HuaShengDun", "DC"]
+	}, {
+		"city_id": 15,
+		"name": "Philadelphia",
+		"cn_name": "费城",
+		"suggest": 2,
+		"min": 1,
+		"alias": ["Philadelphia", "费城", "FC", "FeiCheng"]
+	}, {
+		"city_id": 16,
+		"name": "Boston",
+		"cn_name": "波士顿",
+		"suggest": 2,
+		"min": 1,
+		"alias": ["Boston", "波士顿", "BSD", "BoShiDun"]
+	}, {
+		"city_id": 17,
+		"name": "Miami",
+		"cn_name": "迈阿密",
+		"suggest": 4,
+		"min": 2,
+		"alias": ["Miami", "迈阿密", "MAM", "MaiAMi"]
+	}, {
+		"city_id": 18,
+		"name": "Atlanta",
+		"cn_name": "亚特兰大",
+		"suggest": 2,
+		"min": 1,
+		"alias": ["Atlanta", "亚特兰大", "YTLD", "YaTeLanDa"]
+	}, {
+		"city_id": 19,
+		"name": "Orlando",
+		"cn_name": "奥兰多",
+		"suggest": 4,
+		"min": 2,
+		"alias": ["Orlando", "奥兰多", "ALD", "AoLanDuo"]
+	}, {
+		"city_id": 20,
+		"name": "Houston",
+		"cn_name": "休斯顿",
+		"suggest": 3,
+		"min": 2,
+		"alias": ["Houston", "休斯顿", "XSD", "XiuSiDun"]
+	}, {
+		"city_id": 21,
+		"name": "Denver",
+		"cn_name": "丹佛",
+		"suggest": 2,
+		"min": 1,
+		"alias": ["Denver", "丹佛", "DF", "DanFo"]
+	}, {
+		"city_id": 22,
+		"name": "New Orleans",
+		"cn_name": "新奥尔良",
+		"suggest": 2,
+		"min": 1,
+		"alias": ["New Orleans", "新奥尔良", "NO", "XAEL", "XinAoErLiang"]
+	}, {
+		"city_id": 23,
+		"name": "Hawaii",
+		"cn_name": "夏威夷",
+		"suggest": 5,
+		"min": 2,
+		"alias": ["Hawaii", "夏威夷", "HI", "XWY", "XIAWEIYI"]
+	}, {
+		"city_id": 24,
+		"name": "Columbus",
+		"cn_name": "哥伦布",
+		"suggest": 1,
+		"min": 1,
+		"alias": ["Columbus", "哥伦布", "GLB", "GeLunBu", "COLO"]
+	}, {
+		"city_id": 25,
+		"name": "Niagara Fall",
+		"cn_name": "大瀑布",
+		"suggest": 2,
+		"min": 1,
+		"alias": ["Niagara Fall", "大瀑布", "NF", "NiYaJiaLa", "NYJL", "DPB", "DaPuBu"]
+	}, {
+		"city_id": 26,
+		"name": "Dallas",
+		"cn_name": "达拉斯",
+		"suggest": 2,
+		"min": 1,
+		"alias": ["Dallas", "达拉斯", "DLS", "DaLaSi"]
+	}]
+}
+
+
+api/plan 	Post
+
+Request
+
+{
+	"end_city_id": 2,
+	"enddate": 20151208,
+	"hotel": 5,
+	"keep_order_of_via_cities": false,
+	"num_people": 3,
+	"num_room": 2,
+	"start_city_id": 1,
+	"startdate": 20151201,
+	"visit_city": [{
+		"city": {
+			"city_id": 1
+		}
+	}, {
+		"city": {
+			"city_id": 8
+		}
+	}, {
+		"city": {
+			"city_id": 2
+		}
+	}]
+}
+
+
+Response
+{
+	"status": "SUCCESS",
+	"start_city": {
+		"city_id": 1,
+		"name": "San Diego",
+		"cn_name": "圣地亚哥"
+	},
+	"end_city": {
+		"city_id": 2,
+		"name": "Los Angels",
+		"cn_name": "洛杉矶"
+	},
+	"visit": [{
+		"city": {
+			"city_id": 1,
+			"name": "San Diego",
+			"cn_name": "圣地亚哥"
+		},
+		"num_days": 2,
+		"suggest_rate": 1.0
+	}, {
+		"city": {
+			"city_id": 2,
+			"name": "Los Angels",
+			"cn_name": "洛杉矶"
+		},
+		"num_days": 3,
+		"suggest_rate": 1.0
+	}, {
+		"city": {
+			"city_id": 8,
+			"name": "San Francisco",
+			"cn_name": "旧金山"
+		},
+		"num_days": 3,
+		"suggest_rate": 1.0
+	}],
+	"edge": [{
+		"from_city": {
+			"city_id": 1,
+			"name": "San Diego",
+			"cn_name": "圣地亚哥"
+		},
+		"to_city": {
+			"city_id": 1,
+			"name": "San Diego",
+			"cn_name": "圣地亚哥"
+		},
+		"distance": 0,
+		"hours": 0
+	}, {
+		"from_city": {
+			"city_id": 1,
+			"name": "San Diego",
+			"cn_name": "圣地亚哥"
+		},
+		"to_city": {
+			"city_id": 2,
+			"name": "Los Angels",
+			"cn_name": "洛杉矶"
+		},
+		"distance": 120,
+		"hours": 2
+	}, {
+		"from_city": {
+			"city_id": 2,
+			"name": "Los Angels",
+			"cn_name": "洛杉矶"
+		},
+		"to_city": {
+			"city_id": 8,
+			"name": "San Francisco",
+			"cn_name": "旧金山"
+		},
+		"distance": 383,
+		"hours": 7
+	}, {
+		"from_city": {
+			"city_id": 8,
+			"name": "San Francisco",
+			"cn_name": "旧金山"
+		},
+		"to_city": {
+			"city_id": 2,
+			"name": "Los Angels",
+			"cn_name": "洛杉矶"
+		},
+		"distance": 383,
+		"hours": 7
+	}],
+	"suggest_city": [{
+		"city": {
+			"city_id": 3,
+			"name": "Las Vegas",
+			"cn_name": "拉斯维加斯"
+		},
+		"num_days": 3,
+		"suggest_rate": 0.39277655
+	}, {
+		"city": {
+			"city_id": 6,
+			"name": "Reno",
+			"cn_name": "雷诺"
+		},
+		"num_days": 2,
+		"suggest_rate": 0.59029347
+	}, {
+		"city": {
+			"city_id": 7,
+			"name": "Sacramento",
+			"cn_name": "萨克拉门托"
+		},
+		"num_days": 1,
+		"suggest_rate": 0.89503384
+	}]
+}
+
+
+api/spot	Post
+
+Request:
+{
+	"city_id": 1, 
+	"num_days": 2
+}
+
+Response:
+
+{
+	"city_id": 1,
+	"num_days": 2,
+	"day_plan": [{
+		"day_id": 1,
+		"spot": [{
+			"hours": 2,
+			"info": {
+				"spot_id": 14,
+				"city_id": 1,
+				"name": "中途岛航母博物馆",
+				"description": "",
+				"hours": 2.0,
+				"score": 9.0,
+				"topics": ["家庭", "商务"]
+			}
+		}, {
+			"hours": 1,
+			"info": {
+				"spot_id": 15,
+				"city_id": 1,
+				"name": "圣地亚哥动物园",
+				"description": "",
+				"hours": 1.0,
+				"score": 9.0,
+				"topics": ["家庭", "商务", "浪漫"]
+			}
+		}, {
+			"hours": 1,
+			"info": {
+				"spot_id": 16,
+				"city_id": 1,
+				"name": "巴波亚公园",
+				"description": "",
+				"hours": 1.0,
+				"score": 9.0,
+				"topics": ["家庭", "浪漫"]
+			}
+		}, {
+			"hours": 2,
+			"info": {
+				"spot_id": 17,
+				"city_id": 1,
+				"name": "托里派因斯州立公园",
+				"description": "",
+				"hours": 2.0,
+				"score": 9.0,
+				"topics": ["家庭", "浪漫"]
+			}
+		}, {
+			"hours": 1,
+			"info": {
+				"spot_id": 18,
+				"city_id": 1,
+				"name": "La Jolla Cove (拉荷亚)",
+				"description": "",
+				"hours": 1.0,
+				"score": 9.0,
+				"topics": ["家庭", "浪漫"]
+			}
+		}]
+	}, {
+		"day_id": 2,
+		"spot": [{
+			"hours": 3,
+			"info": {
+				"spot_id": 19,
+				"city_id": 1,
+				"name": "乘船游览",
+				"description": "",
+				"hours": 3.0,
+				"score": 9.0,
+				"topics": ["家庭", "商务", "浪漫"]
+			}
+		}, {
+			"hours": 2,
+			"info": {
+				"spot_id": 20,
+				"city_id": 1,
+				"name": "卡布里欧国家纪念碑",
+				"description": "",
+				"hours": 2.0,
+				"score": 9.0,
+				"topics": ["家庭", "浪漫"]
+			}
+		}, {
+			"hours": 1,
+			"info": {
+				"spot_id": 21,
+				"city_id": 1,
+				"name": "圣地亚哥日落悬崖自然公园",
+				"description": "",
+				"hours": 1.0,
+				"score": 9.0,
+				"topics": ["家庭", "浪漫"]
+			}
+		}],
+		"error_info": ["LEFT_HOURS"]
+	}]
+}
+
+
+api/guide		Post
+
+Request
+{
+	"startdate": 20160107,
+	"enddata": 20160113,
+	"one_guide_for_whole_trip": "BOTH",
+	"hotel": 5,
+	"num_people": 3,
+	"num_room": 2,
+	"city_plan": [{
+		"city": {
+			"city_id": 1
+		},
+		"num_days": 1
+	}, {
+		"city": {
+			"city_id": 2
+		},
+		"num_days": 3
+	}, {
+		"city": {
+			"city_id": 8
+		},
+		"num_days": 3
+	}]
+}
+
+Response
+{
+  "status": "SUCCESS",
+  "guide_plan": [
+    {
+      "plan_status": "SUCCESS",
+      "guide_plan_type": "ONE_GUIDE_FOR_EACH_CITY",
+      "city_plan": [
+        {
+          "city": {
+            "city_id": 1,
+            "name": "San Diego",
+            "cn_name": "圣地亚哥",
+            "suggest": 2,
+            "min": 1,
+            "alias": [
+              "San Diego",
+              "圣地亚哥",
+              "SD",
+              "SDYG",
+              "SHIDIYAGE",
+              "SAN"
+            ]
+          },
+          "num_days": 1,
+          "start_date": 20160107,
+          "guide": [
+            {
+              "guide_id": 200,
+              "name": "董琪",
+              "description": "旧金山",
+              "max_people": 7,
+              "has_car": true,
+              "score": 9,
+              "topic": [
+                "浪漫",
+                "商务",
+                "家庭"
+              ],
+              "phone": 4155280389,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 201,
+              "name": "郝峰",
+              "description": "旧金山",
+              "max_people": 15,
+              "has_car": false,
+              "score": 9,
+              "topic": [
+                "家庭",
+                "商务"
+              ],
+              "phone": 5108574829,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 210,
+              "name": "杜新",
+              "description": "洛杉矶",
+              "max_people": 15,
+              "has_car": true,
+              "score": 9,
+              "topic": [
+                "浪漫",
+                "家庭",
+                "商务"
+              ],
+              "phone": 6269057979,
+              "host_city": {
+                "city_id": 2,
+                "name": "Los Angels",
+                "cn_name": "洛杉矶",
+                "suggest": 3,
+                "min": 2,
+                "alias": [
+                  "Los Angels",
+                  "洛杉矶",
+                  "LA",
+                  "LUOSANJI",
+                  "LDJ",
+                  "LAX"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 214,
+              "name": "李龙祥Max",
+              "description": "洛杉矶",
+              "max_people": 7,
+              "has_car": true,
+              "score": 9,
+              "topic": [
+                "商务",
+                "家庭",
+                "浪漫"
+              ],
+              "phone": 6268185575,
+              "host_city": {
+                "city_id": 2,
+                "name": "Los Angels",
+                "cn_name": "洛杉矶",
+                "suggest": 3,
+                "min": 2,
+                "alias": [
+                  "Los Angels",
+                  "洛杉矶",
+                  "LA",
+                  "LUOSANJI",
+                  "LDJ",
+                  "LAX"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 204,
+              "name": "Eric",
+              "description": "旧金山",
+              "max_people": 7,
+              "has_car": true,
+              "score": 8,
+              "topic": [
+                "高端礼宾车"
+              ],
+              "phone": 5105857097,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 207,
+              "name": "David pan",
+              "description": "旧金山",
+              "max_people": 60,
+              "has_car": false,
+              "score": 8,
+              "topic": [
+                "历史",
+                "商务",
+                "家庭"
+              ],
+              "phone": 4154898122,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 208,
+              "name": "danver 赵",
+              "description": "旧金山",
+              "max_people": 60,
+              "has_car": true,
+              "score": 8,
+              "topic": [
+                "商务",
+                "家庭"
+              ],
+              "phone": 4155833252,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 211,
+              "name": "杨飞",
+              "description": "洛杉矶",
+              "max_people": 7,
+              "has_car": true,
+              "score": 8,
+              "topic": [
+                "浪漫",
+                "家庭",
+                "商务"
+              ],
+              "phone": 6264174274,
+              "host_city": {
+                "city_id": 2,
+                "name": "Los Angels",
+                "cn_name": "洛杉矶",
+                "suggest": 3,
+                "min": 2,
+                "alias": [
+                  "Los Angels",
+                  "洛杉矶",
+                  "LA",
+                  "LUOSANJI",
+                  "LDJ",
+                  "LAX"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 212,
+              "name": "小吴",
+              "description": "洛杉矶",
+              "max_people": 7,
+              "has_car": true,
+              "score": 8,
+              "topic": [
+                "浪漫",
+                "家庭"
+              ],
+              "phone": 6267828475,
+              "host_city": {
+                "city_id": 2,
+                "name": "Los Angels",
+                "cn_name": "洛杉矶",
+                "suggest": 3,
+                "min": 2,
+                "alias": [
+                  "Los Angels",
+                  "洛杉矶",
+                  "LA",
+                  "LUOSANJI",
+                  "LDJ",
+                  "LAX"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 213,
+              "name": "mark",
+              "description": "洛杉矶",
+              "max_people": 15,
+              "has_car": true,
+              "score": 8,
+              "topic": [
+                "商务",
+                "家庭",
+                "浪漫"
+              ],
+              "phone": 6262025526,
+              "host_city": {
+                "city_id": 2,
+                "name": "Los Angels",
+                "cn_name": "洛杉矶",
+                "suggest": 3,
+                "min": 2,
+                "alias": [
+                  "Los Angels",
+                  "洛杉矶",
+                  "LA",
+                  "LUOSANJI",
+                  "LDJ",
+                  "LAX"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 215,
+              "name": "小萱",
+              "description": "洛杉矶",
+              "max_people": 7,
+              "has_car": true,
+              "score": 8,
+              "topic": [
+                "商务",
+                "家庭"
+              ],
+              "phone": 6265596581,
+              "host_city": {
+                "city_id": 2,
+                "name": "Los Angels",
+                "cn_name": "洛杉矶",
+                "suggest": 3,
+                "min": 2,
+                "alias": [
+                  "Los Angels",
+                  "洛杉矶",
+                  "LA",
+                  "LUOSANJI",
+                  "LDJ",
+                  "LAX"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 216,
+              "name": "贺雷",
+              "description": "洛杉矶",
+              "max_people": 7,
+              "has_car": true,
+              "score": 8,
+              "topic": [
+                "商务",
+                "家庭"
+              ],
+              "phone": 6263805826,
+              "host_city": {
+                "city_id": 2,
+                "name": "Los Angels",
+                "cn_name": "洛杉矶",
+                "suggest": 3,
+                "min": 2,
+                "alias": [
+                  "Los Angels",
+                  "洛杉矶",
+                  "LA",
+                  "LUOSANJI",
+                  "LDJ",
+                  "LAX"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 217,
+              "name": "Helen",
+              "description": "洛杉矶",
+              "max_people": 7,
+              "has_car": true,
+              "score": 8,
+              "topic": [
+                "浪漫",
+                "家庭"
+              ],
+              "phone": 6262838629,
+              "host_city": {
+                "city_id": 2,
+                "name": "Los Angels",
+                "cn_name": "洛杉矶",
+                "suggest": 3,
+                "min": 2,
+                "alias": [
+                  "Los Angels",
+                  "洛杉矶",
+                  "LA",
+                  "LUOSANJI",
+                  "LDJ",
+                  "LAX"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 202,
+              "name": "tony",
+              "description": "旧金山",
+              "max_people": 7,
+              "has_car": true,
+              "score": 7,
+              "topic": [
+                "浪漫",
+                "家庭"
+              ],
+              "phone": 8163388888,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 203,
+              "name": "david lu",
+              "description": "旧金山",
+              "max_people": 5,
+              "has_car": true,
+              "score": 7,
+              "topic": [
+                "高尔夫",
+                "家庭",
+                "浪漫"
+              ],
+              "phone": 6264562143,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 209,
+              "name": "Danny",
+              "description": "旧金山",
+              "max_people": 7,
+              "has_car": true,
+              "score": 7,
+              "topic": [
+                "家庭",
+                "浪漫"
+              ],
+              "phone": 4156303880,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 205,
+              "name": "沈哲浩",
+              "description": "旧金山",
+              "max_people": 7,
+              "has_car": true,
+              "score": 6,
+              "topic": [
+                "摄影",
+                "拍照"
+              ],
+              "phone": 5105857097,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 206,
+              "name": "杨光",
+              "description": "旧金山",
+              "max_people": 7,
+              "has_car": true,
+              "score": 6,
+              "topic": [
+                "浪漫",
+                "家庭"
+              ],
+              "phone": 4086561788,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "city": {
+            "city_id": 2,
+            "name": "Los Angels",
+            "cn_name": "洛杉矶",
+            "suggest": 3,
+            "min": 2,
+            "alias": [
+              "Los Angels",
+              "洛杉矶",
+              "LA",
+              "LUOSANJI",
+              "LDJ",
+              "LAX"
+            ]
+          },
+          "num_days": 3,
+          "start_date": 20160108,
+          "guide": [
+            {
+              "guide_id": 200,
+              "name": "董琪",
+              "description": "旧金山",
+              "max_people": 7,
+              "has_car": true,
+              "score": 9,
+              "topic": [
+                "浪漫",
+                "商务",
+                "家庭"
+              ],
+              "phone": 4155280389,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 201,
+              "name": "郝峰",
+              "description": "旧金山",
+              "max_people": 15,
+              "has_car": false,
+              "score": 9,
+              "topic": [
+                "家庭",
+                "商务"
+              ],
+              "phone": 5108574829,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 210,
+              "name": "杜新",
+              "description": "洛杉矶",
+              "max_people": 15,
+              "has_car": true,
+              "score": 9,
+              "topic": [
+                "浪漫",
+                "家庭",
+                "商务"
+              ],
+              "phone": 6269057979,
+              "host_city": {
+                "city_id": 2,
+                "name": "Los Angels",
+                "cn_name": "洛杉矶",
+                "suggest": 3,
+                "min": 2,
+                "alias": [
+                  "Los Angels",
+                  "洛杉矶",
+                  "LA",
+                  "LUOSANJI",
+                  "LDJ",
+                  "LAX"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 214,
+              "name": "李龙祥Max",
+              "description": "洛杉矶",
+              "max_people": 7,
+              "has_car": true,
+              "score": 9,
+              "topic": [
+                "商务",
+                "家庭",
+                "浪漫"
+              ],
+              "phone": 6268185575,
+              "host_city": {
+                "city_id": 2,
+                "name": "Los Angels",
+                "cn_name": "洛杉矶",
+                "suggest": 3,
+                "min": 2,
+                "alias": [
+                  "Los Angels",
+                  "洛杉矶",
+                  "LA",
+                  "LUOSANJI",
+                  "LDJ",
+                  "LAX"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 204,
+              "name": "Eric",
+              "description": "旧金山",
+              "max_people": 7,
+              "has_car": true,
+              "score": 8,
+              "topic": [
+                "高端礼宾车"
+              ],
+              "phone": 5105857097,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 207,
+              "name": "David pan",
+              "description": "旧金山",
+              "max_people": 60,
+              "has_car": false,
+              "score": 8,
+              "topic": [
+                "历史",
+                "商务",
+                "家庭"
+              ],
+              "phone": 4154898122,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 208,
+              "name": "danver 赵",
+              "description": "旧金山",
+              "max_people": 60,
+              "has_car": true,
+              "score": 8,
+              "topic": [
+                "商务",
+                "家庭"
+              ],
+              "phone": 4155833252,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 211,
+              "name": "杨飞",
+              "description": "洛杉矶",
+              "max_people": 7,
+              "has_car": true,
+              "score": 8,
+              "topic": [
+                "浪漫",
+                "家庭",
+                "商务"
+              ],
+              "phone": 6264174274,
+              "host_city": {
+                "city_id": 2,
+                "name": "Los Angels",
+                "cn_name": "洛杉矶",
+                "suggest": 3,
+                "min": 2,
+                "alias": [
+                  "Los Angels",
+                  "洛杉矶",
+                  "LA",
+                  "LUOSANJI",
+                  "LDJ",
+                  "LAX"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 212,
+              "name": "小吴",
+              "description": "洛杉矶",
+              "max_people": 7,
+              "has_car": true,
+              "score": 8,
+              "topic": [
+                "浪漫",
+                "家庭"
+              ],
+              "phone": 6267828475,
+              "host_city": {
+                "city_id": 2,
+                "name": "Los Angels",
+                "cn_name": "洛杉矶",
+                "suggest": 3,
+                "min": 2,
+                "alias": [
+                  "Los Angels",
+                  "洛杉矶",
+                  "LA",
+                  "LUOSANJI",
+                  "LDJ",
+                  "LAX"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 213,
+              "name": "mark",
+              "description": "洛杉矶",
+              "max_people": 15,
+              "has_car": true,
+              "score": 8,
+              "topic": [
+                "商务",
+                "家庭",
+                "浪漫"
+              ],
+              "phone": 6262025526,
+              "host_city": {
+                "city_id": 2,
+                "name": "Los Angels",
+                "cn_name": "洛杉矶",
+                "suggest": 3,
+                "min": 2,
+                "alias": [
+                  "Los Angels",
+                  "洛杉矶",
+                  "LA",
+                  "LUOSANJI",
+                  "LDJ",
+                  "LAX"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 215,
+              "name": "小萱",
+              "description": "洛杉矶",
+              "max_people": 7,
+              "has_car": true,
+              "score": 8,
+              "topic": [
+                "商务",
+                "家庭"
+              ],
+              "phone": 6265596581,
+              "host_city": {
+                "city_id": 2,
+                "name": "Los Angels",
+                "cn_name": "洛杉矶",
+                "suggest": 3,
+                "min": 2,
+                "alias": [
+                  "Los Angels",
+                  "洛杉矶",
+                  "LA",
+                  "LUOSANJI",
+                  "LDJ",
+                  "LAX"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 216,
+              "name": "贺雷",
+              "description": "洛杉矶",
+              "max_people": 7,
+              "has_car": true,
+              "score": 8,
+              "topic": [
+                "商务",
+                "家庭"
+              ],
+              "phone": 6263805826,
+              "host_city": {
+                "city_id": 2,
+                "name": "Los Angels",
+                "cn_name": "洛杉矶",
+                "suggest": 3,
+                "min": 2,
+                "alias": [
+                  "Los Angels",
+                  "洛杉矶",
+                  "LA",
+                  "LUOSANJI",
+                  "LDJ",
+                  "LAX"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 217,
+              "name": "Helen",
+              "description": "洛杉矶",
+              "max_people": 7,
+              "has_car": true,
+              "score": 8,
+              "topic": [
+                "浪漫",
+                "家庭"
+              ],
+              "phone": 6262838629,
+              "host_city": {
+                "city_id": 2,
+                "name": "Los Angels",
+                "cn_name": "洛杉矶",
+                "suggest": 3,
+                "min": 2,
+                "alias": [
+                  "Los Angels",
+                  "洛杉矶",
+                  "LA",
+                  "LUOSANJI",
+                  "LDJ",
+                  "LAX"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 202,
+              "name": "tony",
+              "description": "旧金山",
+              "max_people": 7,
+              "has_car": true,
+              "score": 7,
+              "topic": [
+                "浪漫",
+                "家庭"
+              ],
+              "phone": 8163388888,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 203,
+              "name": "david lu",
+              "description": "旧金山",
+              "max_people": 5,
+              "has_car": true,
+              "score": 7,
+              "topic": [
+                "高尔夫",
+                "家庭",
+                "浪漫"
+              ],
+              "phone": 6264562143,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 209,
+              "name": "Danny",
+              "description": "旧金山",
+              "max_people": 7,
+              "has_car": true,
+              "score": 7,
+              "topic": [
+                "家庭",
+                "浪漫"
+              ],
+              "phone": 4156303880,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 205,
+              "name": "沈哲浩",
+              "description": "旧金山",
+              "max_people": 7,
+              "has_car": true,
+              "score": 6,
+              "topic": [
+                "摄影",
+                "拍照"
+              ],
+              "phone": 5105857097,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 206,
+              "name": "杨光",
+              "description": "旧金山",
+              "max_people": 7,
+              "has_car": true,
+              "score": 6,
+              "topic": [
+                "浪漫",
+                "家庭"
+              ],
+              "phone": 4086561788,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "city": {
+            "city_id": 8,
+            "name": "San Francisco",
+            "cn_name": "旧金山",
+            "suggest": 3,
+            "min": 1,
+            "alias": [
+              "San Francisco",
+              "旧金山",
+              "SF",
+              "JJS",
+              "JIUJINGSHAN",
+              "SFO"
+            ]
+          },
+          "num_days": 3,
+          "start_date": 20160111,
+          "guide": [
+            {
+              "guide_id": 200,
+              "name": "董琪",
+              "description": "旧金山",
+              "max_people": 7,
+              "has_car": true,
+              "score": 9,
+              "topic": [
+                "浪漫",
+                "商务",
+                "家庭"
+              ],
+              "phone": 4155280389,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 201,
+              "name": "郝峰",
+              "description": "旧金山",
+              "max_people": 15,
+              "has_car": false,
+              "score": 9,
+              "topic": [
+                "家庭",
+                "商务"
+              ],
+              "phone": 5108574829,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 210,
+              "name": "杜新",
+              "description": "洛杉矶",
+              "max_people": 15,
+              "has_car": true,
+              "score": 9,
+              "topic": [
+                "浪漫",
+                "家庭",
+                "商务"
+              ],
+              "phone": 6269057979,
+              "host_city": {
+                "city_id": 2,
+                "name": "Los Angels",
+                "cn_name": "洛杉矶",
+                "suggest": 3,
+                "min": 2,
+                "alias": [
+                  "Los Angels",
+                  "洛杉矶",
+                  "LA",
+                  "LUOSANJI",
+                  "LDJ",
+                  "LAX"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 214,
+              "name": "李龙祥Max",
+              "description": "洛杉矶",
+              "max_people": 7,
+              "has_car": true,
+              "score": 9,
+              "topic": [
+                "商务",
+                "家庭",
+                "浪漫"
+              ],
+              "phone": 6268185575,
+              "host_city": {
+                "city_id": 2,
+                "name": "Los Angels",
+                "cn_name": "洛杉矶",
+                "suggest": 3,
+                "min": 2,
+                "alias": [
+                  "Los Angels",
+                  "洛杉矶",
+                  "LA",
+                  "LUOSANJI",
+                  "LDJ",
+                  "LAX"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 204,
+              "name": "Eric",
+              "description": "旧金山",
+              "max_people": 7,
+              "has_car": true,
+              "score": 8,
+              "topic": [
+                "高端礼宾车"
+              ],
+              "phone": 5105857097,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 207,
+              "name": "David pan",
+              "description": "旧金山",
+              "max_people": 60,
+              "has_car": false,
+              "score": 8,
+              "topic": [
+                "历史",
+                "商务",
+                "家庭"
+              ],
+              "phone": 4154898122,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 208,
+              "name": "danver 赵",
+              "description": "旧金山",
+              "max_people": 60,
+              "has_car": true,
+              "score": 8,
+              "topic": [
+                "商务",
+                "家庭"
+              ],
+              "phone": 4155833252,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 211,
+              "name": "杨飞",
+              "description": "洛杉矶",
+              "max_people": 7,
+              "has_car": true,
+              "score": 8,
+              "topic": [
+                "浪漫",
+                "家庭",
+                "商务"
+              ],
+              "phone": 6264174274,
+              "host_city": {
+                "city_id": 2,
+                "name": "Los Angels",
+                "cn_name": "洛杉矶",
+                "suggest": 3,
+                "min": 2,
+                "alias": [
+                  "Los Angels",
+                  "洛杉矶",
+                  "LA",
+                  "LUOSANJI",
+                  "LDJ",
+                  "LAX"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 212,
+              "name": "小吴",
+              "description": "洛杉矶",
+              "max_people": 7,
+              "has_car": true,
+              "score": 8,
+              "topic": [
+                "浪漫",
+                "家庭"
+              ],
+              "phone": 6267828475,
+              "host_city": {
+                "city_id": 2,
+                "name": "Los Angels",
+                "cn_name": "洛杉矶",
+                "suggest": 3,
+                "min": 2,
+                "alias": [
+                  "Los Angels",
+                  "洛杉矶",
+                  "LA",
+                  "LUOSANJI",
+                  "LDJ",
+                  "LAX"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 213,
+              "name": "mark",
+              "description": "洛杉矶",
+              "max_people": 15,
+              "has_car": true,
+              "score": 8,
+              "topic": [
+                "商务",
+                "家庭",
+                "浪漫"
+              ],
+              "phone": 6262025526,
+              "host_city": {
+                "city_id": 2,
+                "name": "Los Angels",
+                "cn_name": "洛杉矶",
+                "suggest": 3,
+                "min": 2,
+                "alias": [
+                  "Los Angels",
+                  "洛杉矶",
+                  "LA",
+                  "LUOSANJI",
+                  "LDJ",
+                  "LAX"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 215,
+              "name": "小萱",
+              "description": "洛杉矶",
+              "max_people": 7,
+              "has_car": true,
+              "score": 8,
+              "topic": [
+                "商务",
+                "家庭"
+              ],
+              "phone": 6265596581,
+              "host_city": {
+                "city_id": 2,
+                "name": "Los Angels",
+                "cn_name": "洛杉矶",
+                "suggest": 3,
+                "min": 2,
+                "alias": [
+                  "Los Angels",
+                  "洛杉矶",
+                  "LA",
+                  "LUOSANJI",
+                  "LDJ",
+                  "LAX"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 216,
+              "name": "贺雷",
+              "description": "洛杉矶",
+              "max_people": 7,
+              "has_car": true,
+              "score": 8,
+              "topic": [
+                "商务",
+                "家庭"
+              ],
+              "phone": 6263805826,
+              "host_city": {
+                "city_id": 2,
+                "name": "Los Angels",
+                "cn_name": "洛杉矶",
+                "suggest": 3,
+                "min": 2,
+                "alias": [
+                  "Los Angels",
+                  "洛杉矶",
+                  "LA",
+                  "LUOSANJI",
+                  "LDJ",
+                  "LAX"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 217,
+              "name": "Helen",
+              "description": "洛杉矶",
+              "max_people": 7,
+              "has_car": true,
+              "score": 8,
+              "topic": [
+                "浪漫",
+                "家庭"
+              ],
+              "phone": 6262838629,
+              "host_city": {
+                "city_id": 2,
+                "name": "Los Angels",
+                "cn_name": "洛杉矶",
+                "suggest": 3,
+                "min": 2,
+                "alias": [
+                  "Los Angels",
+                  "洛杉矶",
+                  "LA",
+                  "LUOSANJI",
+                  "LDJ",
+                  "LAX"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 202,
+              "name": "tony",
+              "description": "旧金山",
+              "max_people": 7,
+              "has_car": true,
+              "score": 7,
+              "topic": [
+                "浪漫",
+                "家庭"
+              ],
+              "phone": 8163388888,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 203,
+              "name": "david lu",
+              "description": "旧金山",
+              "max_people": 5,
+              "has_car": true,
+              "score": 7,
+              "topic": [
+                "高尔夫",
+                "家庭",
+                "浪漫"
+              ],
+              "phone": 6264562143,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 209,
+              "name": "Danny",
+              "description": "旧金山",
+              "max_people": 7,
+              "has_car": true,
+              "score": 7,
+              "topic": [
+                "家庭",
+                "浪漫"
+              ],
+              "phone": 4156303880,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 205,
+              "name": "沈哲浩",
+              "description": "旧金山",
+              "max_people": 7,
+              "has_car": true,
+              "score": 6,
+              "topic": [
+                "摄影",
+                "拍照"
+              ],
+              "phone": 5105857097,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            },
+            {
+              "guide_id": 206,
+              "name": "杨光",
+              "description": "旧金山",
+              "max_people": 7,
+              "has_car": true,
+              "score": 6,
+              "topic": [
+                "浪漫",
+                "家庭"
+              ],
+              "phone": 4086561788,
+              "host_city": {
+                "city_id": 8,
+                "name": "San Francisco",
+                "cn_name": "旧金山",
+                "suggest": 3,
+                "min": 1,
+                "alias": [
+                  "San Francisco",
+                  "旧金山",
+                  "SF",
+                  "JJS",
+                  "JIUJINGSHAN",
+                  "SFO"
+                ]
+              },
+              "cover_city": [
+                {
+                  "city_id": 1,
+                  "name": "San Diego",
+                  "cn_name": "圣地亚哥",
+                  "suggest": 2,
+                  "min": 1,
+                  "alias": [
+                    "San Diego",
+                    "圣地亚哥",
+                    "SD",
+                    "SDYG",
+                    "SHIDIYAGE",
+                    "SAN"
+                  ]
+                },
+                {
+                  "city_id": 2,
+                  "name": "Los Angels",
+                  "cn_name": "洛杉矶",
+                  "suggest": 3,
+                  "min": 2,
+                  "alias": [
+                    "Los Angels",
+                    "洛杉矶",
+                    "LA",
+                    "LUOSANJI",
+                    "LDJ",
+                    "LAX"
+                  ]
+                },
+                {
+                  "city_id": 8,
+                  "name": "San Francisco",
+                  "cn_name": "旧金山",
+                  "suggest": 3,
+                  "min": 1,
+                  "alias": [
+                    "San Francisco",
+                    "旧金山",
+                    "SF",
+                    "JJS",
+                    "JIUJINGSHAN",
+                    "SFO"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "plan_status": "SUCCESS",
+      "guide_plan_type": "ONE_GUIDE_FOR_THE_WHOLE_TRIP",
+      "city_plan": [
+        {
+          "city": {
+            "city_id": 1,
+            "name": "San Diego",
+            "cn_name": "圣地亚哥",
+            "suggest": 2,
+            "min": 1,
+            "alias": [
+              "San Diego",
+              "圣地亚哥",
+              "SD",
+              "SDYG",
+              "SHIDIYAGE",
+              "SAN"
+            ]
+          },
+          "num_days": 1,
+          "start_date": 20160107
+        },
+        {
+          "city": {
+            "city_id": 2,
+            "name": "Los Angels",
+            "cn_name": "洛杉矶",
+            "suggest": 3,
+            "min": 2,
+            "alias": [
+              "Los Angels",
+              "洛杉矶",
+              "LA",
+              "LUOSANJI",
+              "LDJ",
+              "LAX"
+            ]
+          },
+          "num_days": 3,
+          "start_date": 20160108
+        },
+        {
+          "city": {
+            "city_id": 8,
+            "name": "San Francisco",
+            "cn_name": "旧金山",
+            "suggest": 3,
+            "min": 1,
+            "alias": [
+              "San Francisco",
+              "旧金山",
+              "SF",
+              "JJS",
+              "JIUJINGSHAN",
+              "SFO"
+            ]
+          },
+          "num_days": 3,
+          "start_date": 20160111
+        }
+      ],
+      "guide_for_whole_trip": [
+        {
+          "guide_id": 200,
+          "name": "董琪",
+          "description": "旧金山",
+          "max_people": 7,
+          "has_car": true,
+          "score": 9,
+          "topic": [
+            "浪漫",
+            "商务",
+            "家庭"
+          ],
+          "phone": 4155280389,
+          "host_city": {
+            "city_id": 8,
+            "name": "San Francisco",
+            "cn_name": "旧金山",
+            "suggest": 3,
+            "min": 1,
+            "alias": [
+              "San Francisco",
+              "旧金山",
+              "SF",
+              "JJS",
+              "JIUJINGSHAN",
+              "SFO"
+            ]
+          },
+          "cover_city": [
+            {
+              "city_id": 1,
+              "name": "San Diego",
+              "cn_name": "圣地亚哥",
+              "suggest": 2,
+              "min": 1,
+              "alias": [
+                "San Diego",
+                "圣地亚哥",
+                "SD",
+                "SDYG",
+                "SHIDIYAGE",
+                "SAN"
+              ]
+            },
+            {
+              "city_id": 2,
+              "name": "Los Angels",
+              "cn_name": "洛杉矶",
+              "suggest": 3,
+              "min": 2,
+              "alias": [
+                "Los Angels",
+                "洛杉矶",
+                "LA",
+                "LUOSANJI",
+                "LDJ",
+                "LAX"
+              ]
+            },
+            {
+              "city_id": 8,
+              "name": "San Francisco",
+              "cn_name": "旧金山",
+              "suggest": 3,
+              "min": 1,
+              "alias": [
+                "San Francisco",
+                "旧金山",
+                "SF",
+                "JJS",
+                "JIUJINGSHAN",
+                "SFO"
+              ]
+            }
+          ]
+        },
+        {
+          "guide_id": 201,
+          "name": "郝峰",
+          "description": "旧金山",
+          "max_people": 15,
+          "has_car": false,
+          "score": 9,
+          "topic": [
+            "家庭",
+            "商务"
+          ],
+          "phone": 5108574829,
+          "host_city": {
+            "city_id": 8,
+            "name": "San Francisco",
+            "cn_name": "旧金山",
+            "suggest": 3,
+            "min": 1,
+            "alias": [
+              "San Francisco",
+              "旧金山",
+              "SF",
+              "JJS",
+              "JIUJINGSHAN",
+              "SFO"
+            ]
+          },
+          "cover_city": [
+            {
+              "city_id": 1,
+              "name": "San Diego",
+              "cn_name": "圣地亚哥",
+              "suggest": 2,
+              "min": 1,
+              "alias": [
+                "San Diego",
+                "圣地亚哥",
+                "SD",
+                "SDYG",
+                "SHIDIYAGE",
+                "SAN"
+              ]
+            },
+            {
+              "city_id": 2,
+              "name": "Los Angels",
+              "cn_name": "洛杉矶",
+              "suggest": 3,
+              "min": 2,
+              "alias": [
+                "Los Angels",
+                "洛杉矶",
+                "LA",
+                "LUOSANJI",
+                "LDJ",
+                "LAX"
+              ]
+            },
+            {
+              "city_id": 8,
+              "name": "San Francisco",
+              "cn_name": "旧金山",
+              "suggest": 3,
+              "min": 1,
+              "alias": [
+                "San Francisco",
+                "旧金山",
+                "SF",
+                "JJS",
+                "JIUJINGSHAN",
+                "SFO"
+              ]
+            }
+          ]
+        },
+        {
+          "guide_id": 210,
+          "name": "杜新",
+          "description": "洛杉矶",
+          "max_people": 15,
+          "has_car": true,
+          "score": 9,
+          "topic": [
+            "浪漫",
+            "家庭",
+            "商务"
+          ],
+          "phone": 6269057979,
+          "host_city": {
+            "city_id": 2,
+            "name": "Los Angels",
+            "cn_name": "洛杉矶",
+            "suggest": 3,
+            "min": 2,
+            "alias": [
+              "Los Angels",
+              "洛杉矶",
+              "LA",
+              "LUOSANJI",
+              "LDJ",
+              "LAX"
+            ]
+          },
+          "cover_city": [
+            {
+              "city_id": 1,
+              "name": "San Diego",
+              "cn_name": "圣地亚哥",
+              "suggest": 2,
+              "min": 1,
+              "alias": [
+                "San Diego",
+                "圣地亚哥",
+                "SD",
+                "SDYG",
+                "SHIDIYAGE",
+                "SAN"
+              ]
+            },
+            {
+              "city_id": 2,
+              "name": "Los Angels",
+              "cn_name": "洛杉矶",
+              "suggest": 3,
+              "min": 2,
+              "alias": [
+                "Los Angels",
+                "洛杉矶",
+                "LA",
+                "LUOSANJI",
+                "LDJ",
+                "LAX"
+              ]
+            },
+            {
+              "city_id": 8,
+              "name": "San Francisco",
+              "cn_name": "旧金山",
+              "suggest": 3,
+              "min": 1,
+              "alias": [
+                "San Francisco",
+                "旧金山",
+                "SF",
+                "JJS",
+                "JIUJINGSHAN",
+                "SFO"
+              ]
+            }
+          ]
+        },
+        {
+          "guide_id": 214,
+          "name": "李龙祥Max",
+          "description": "洛杉矶",
+          "max_people": 7,
+          "has_car": true,
+          "score": 9,
+          "topic": [
+            "商务",
+            "家庭",
+            "浪漫"
+          ],
+          "phone": 6268185575,
+          "host_city": {
+            "city_id": 2,
+            "name": "Los Angels",
+            "cn_name": "洛杉矶",
+            "suggest": 3,
+            "min": 2,
+            "alias": [
+              "Los Angels",
+              "洛杉矶",
+              "LA",
+              "LUOSANJI",
+              "LDJ",
+              "LAX"
+            ]
+          },
+          "cover_city": [
+            {
+              "city_id": 1,
+              "name": "San Diego",
+              "cn_name": "圣地亚哥",
+              "suggest": 2,
+              "min": 1,
+              "alias": [
+                "San Diego",
+                "圣地亚哥",
+                "SD",
+                "SDYG",
+                "SHIDIYAGE",
+                "SAN"
+              ]
+            },
+            {
+              "city_id": 2,
+              "name": "Los Angels",
+              "cn_name": "洛杉矶",
+              "suggest": 3,
+              "min": 2,
+              "alias": [
+                "Los Angels",
+                "洛杉矶",
+                "LA",
+                "LUOSANJI",
+                "LDJ",
+                "LAX"
+              ]
+            },
+            {
+              "city_id": 8,
+              "name": "San Francisco",
+              "cn_name": "旧金山",
+              "suggest": 3,
+              "min": 1,
+              "alias": [
+                "San Francisco",
+                "旧金山",
+                "SF",
+                "JJS",
+                "JIUJINGSHAN",
+                "SFO"
+              ]
+            }
+          ]
+        },
+        {
+          "guide_id": 204,
+          "name": "Eric",
+          "description": "旧金山",
+          "max_people": 7,
+          "has_car": true,
+          "score": 8,
+          "topic": [
+            "高端礼宾车"
+          ],
+          "phone": 5105857097,
+          "host_city": {
+            "city_id": 8,
+            "name": "San Francisco",
+            "cn_name": "旧金山",
+            "suggest": 3,
+            "min": 1,
+            "alias": [
+              "San Francisco",
+              "旧金山",
+              "SF",
+              "JJS",
+              "JIUJINGSHAN",
+              "SFO"
+            ]
+          },
+          "cover_city": [
+            {
+              "city_id": 1,
+              "name": "San Diego",
+              "cn_name": "圣地亚哥",
+              "suggest": 2,
+              "min": 1,
+              "alias": [
+                "San Diego",
+                "圣地亚哥",
+                "SD",
+                "SDYG",
+                "SHIDIYAGE",
+                "SAN"
+              ]
+            },
+            {
+              "city_id": 2,
+              "name": "Los Angels",
+              "cn_name": "洛杉矶",
+              "suggest": 3,
+              "min": 2,
+              "alias": [
+                "Los Angels",
+                "洛杉矶",
+                "LA",
+                "LUOSANJI",
+                "LDJ",
+                "LAX"
+              ]
+            },
+            {
+              "city_id": 8,
+              "name": "San Francisco",
+              "cn_name": "旧金山",
+              "suggest": 3,
+              "min": 1,
+              "alias": [
+                "San Francisco",
+                "旧金山",
+                "SF",
+                "JJS",
+                "JIUJINGSHAN",
+                "SFO"
+              ]
+            }
+          ]
+        },
+        {
+          "guide_id": 207,
+          "name": "David pan",
+          "description": "旧金山",
+          "max_people": 60,
+          "has_car": false,
+          "score": 8,
+          "topic": [
+            "历史",
+            "商务",
+            "家庭"
+          ],
+          "phone": 4154898122,
+          "host_city": {
+            "city_id": 8,
+            "name": "San Francisco",
+            "cn_name": "旧金山",
+            "suggest": 3,
+            "min": 1,
+            "alias": [
+              "San Francisco",
+              "旧金山",
+              "SF",
+              "JJS",
+              "JIUJINGSHAN",
+              "SFO"
+            ]
+          },
+          "cover_city": [
+            {
+              "city_id": 1,
+              "name": "San Diego",
+              "cn_name": "圣地亚哥",
+              "suggest": 2,
+              "min": 1,
+              "alias": [
+                "San Diego",
+                "圣地亚哥",
+                "SD",
+                "SDYG",
+                "SHIDIYAGE",
+                "SAN"
+              ]
+            },
+            {
+              "city_id": 2,
+              "name": "Los Angels",
+              "cn_name": "洛杉矶",
+              "suggest": 3,
+              "min": 2,
+              "alias": [
+                "Los Angels",
+                "洛杉矶",
+                "LA",
+                "LUOSANJI",
+                "LDJ",
+                "LAX"
+              ]
+            },
+            {
+              "city_id": 8,
+              "name": "San Francisco",
+              "cn_name": "旧金山",
+              "suggest": 3,
+              "min": 1,
+              "alias": [
+                "San Francisco",
+                "旧金山",
+                "SF",
+                "JJS",
+                "JIUJINGSHAN",
+                "SFO"
+              ]
+            }
+          ]
+        },
+        {
+          "guide_id": 208,
+          "name": "danver 赵",
+          "description": "旧金山",
+          "max_people": 60,
+          "has_car": true,
+          "score": 8,
+          "topic": [
+            "商务",
+            "家庭"
+          ],
+          "phone": 4155833252,
+          "host_city": {
+            "city_id": 8,
+            "name": "San Francisco",
+            "cn_name": "旧金山",
+            "suggest": 3,
+            "min": 1,
+            "alias": [
+              "San Francisco",
+              "旧金山",
+              "SF",
+              "JJS",
+              "JIUJINGSHAN",
+              "SFO"
+            ]
+          },
+          "cover_city": [
+            {
+              "city_id": 1,
+              "name": "San Diego",
+              "cn_name": "圣地亚哥",
+              "suggest": 2,
+              "min": 1,
+              "alias": [
+                "San Diego",
+                "圣地亚哥",
+                "SD",
+                "SDYG",
+                "SHIDIYAGE",
+                "SAN"
+              ]
+            },
+            {
+              "city_id": 2,
+              "name": "Los Angels",
+              "cn_name": "洛杉矶",
+              "suggest": 3,
+              "min": 2,
+              "alias": [
+                "Los Angels",
+                "洛杉矶",
+                "LA",
+                "LUOSANJI",
+                "LDJ",
+                "LAX"
+              ]
+            },
+            {
+              "city_id": 8,
+              "name": "San Francisco",
+              "cn_name": "旧金山",
+              "suggest": 3,
+              "min": 1,
+              "alias": [
+                "San Francisco",
+                "旧金山",
+                "SF",
+                "JJS",
+                "JIUJINGSHAN",
+                "SFO"
+              ]
+            }
+          ]
+        },
+        {
+          "guide_id": 211,
+          "name": "杨飞",
+          "description": "洛杉矶",
+          "max_people": 7,
+          "has_car": true,
+          "score": 8,
+          "topic": [
+            "浪漫",
+            "家庭",
+            "商务"
+          ],
+          "phone": 6264174274,
+          "host_city": {
+            "city_id": 2,
+            "name": "Los Angels",
+            "cn_name": "洛杉矶",
+            "suggest": 3,
+            "min": 2,
+            "alias": [
+              "Los Angels",
+              "洛杉矶",
+              "LA",
+              "LUOSANJI",
+              "LDJ",
+              "LAX"
+            ]
+          },
+          "cover_city": [
+            {
+              "city_id": 1,
+              "name": "San Diego",
+              "cn_name": "圣地亚哥",
+              "suggest": 2,
+              "min": 1,
+              "alias": [
+                "San Diego",
+                "圣地亚哥",
+                "SD",
+                "SDYG",
+                "SHIDIYAGE",
+                "SAN"
+              ]
+            },
+            {
+              "city_id": 2,
+              "name": "Los Angels",
+              "cn_name": "洛杉矶",
+              "suggest": 3,
+              "min": 2,
+              "alias": [
+                "Los Angels",
+                "洛杉矶",
+                "LA",
+                "LUOSANJI",
+                "LDJ",
+                "LAX"
+              ]
+            },
+            {
+              "city_id": 8,
+              "name": "San Francisco",
+              "cn_name": "旧金山",
+              "suggest": 3,
+              "min": 1,
+              "alias": [
+                "San Francisco",
+                "旧金山",
+                "SF",
+                "JJS",
+                "JIUJINGSHAN",
+                "SFO"
+              ]
+            }
+          ]
+        },
+        {
+          "guide_id": 212,
+          "name": "小吴",
+          "description": "洛杉矶",
+          "max_people": 7,
+          "has_car": true,
+          "score": 8,
+          "topic": [
+            "浪漫",
+            "家庭"
+          ],
+          "phone": 6267828475,
+          "host_city": {
+            "city_id": 2,
+            "name": "Los Angels",
+            "cn_name": "洛杉矶",
+            "suggest": 3,
+            "min": 2,
+            "alias": [
+              "Los Angels",
+              "洛杉矶",
+              "LA",
+              "LUOSANJI",
+              "LDJ",
+              "LAX"
+            ]
+          },
+          "cover_city": [
+            {
+              "city_id": 1,
+              "name": "San Diego",
+              "cn_name": "圣地亚哥",
+              "suggest": 2,
+              "min": 1,
+              "alias": [
+                "San Diego",
+                "圣地亚哥",
+                "SD",
+                "SDYG",
+                "SHIDIYAGE",
+                "SAN"
+              ]
+            },
+            {
+              "city_id": 2,
+              "name": "Los Angels",
+              "cn_name": "洛杉矶",
+              "suggest": 3,
+              "min": 2,
+              "alias": [
+                "Los Angels",
+                "洛杉矶",
+                "LA",
+                "LUOSANJI",
+                "LDJ",
+                "LAX"
+              ]
+            },
+            {
+              "city_id": 8,
+              "name": "San Francisco",
+              "cn_name": "旧金山",
+              "suggest": 3,
+              "min": 1,
+              "alias": [
+                "San Francisco",
+                "旧金山",
+                "SF",
+                "JJS",
+                "JIUJINGSHAN",
+                "SFO"
+              ]
+            }
+          ]
+        },
+        {
+          "guide_id": 213,
+          "name": "mark",
+          "description": "洛杉矶",
+          "max_people": 15,
+          "has_car": true,
+          "score": 8,
+          "topic": [
+            "商务",
+            "家庭",
+            "浪漫"
+          ],
+          "phone": 6262025526,
+          "host_city": {
+            "city_id": 2,
+            "name": "Los Angels",
+            "cn_name": "洛杉矶",
+            "suggest": 3,
+            "min": 2,
+            "alias": [
+              "Los Angels",
+              "洛杉矶",
+              "LA",
+              "LUOSANJI",
+              "LDJ",
+              "LAX"
+            ]
+          },
+          "cover_city": [
+            {
+              "city_id": 1,
+              "name": "San Diego",
+              "cn_name": "圣地亚哥",
+              "suggest": 2,
+              "min": 1,
+              "alias": [
+                "San Diego",
+                "圣地亚哥",
+                "SD",
+                "SDYG",
+                "SHIDIYAGE",
+                "SAN"
+              ]
+            },
+            {
+              "city_id": 2,
+              "name": "Los Angels",
+              "cn_name": "洛杉矶",
+              "suggest": 3,
+              "min": 2,
+              "alias": [
+                "Los Angels",
+                "洛杉矶",
+                "LA",
+                "LUOSANJI",
+                "LDJ",
+                "LAX"
+              ]
+            },
+            {
+              "city_id": 8,
+              "name": "San Francisco",
+              "cn_name": "旧金山",
+              "suggest": 3,
+              "min": 1,
+              "alias": [
+                "San Francisco",
+                "旧金山",
+                "SF",
+                "JJS",
+                "JIUJINGSHAN",
+                "SFO"
+              ]
+            }
+          ]
+        },
+        {
+          "guide_id": 215,
+          "name": "小萱",
+          "description": "洛杉矶",
+          "max_people": 7,
+          "has_car": true,
+          "score": 8,
+          "topic": [
+            "商务",
+            "家庭"
+          ],
+          "phone": 6265596581,
+          "host_city": {
+            "city_id": 2,
+            "name": "Los Angels",
+            "cn_name": "洛杉矶",
+            "suggest": 3,
+            "min": 2,
+            "alias": [
+              "Los Angels",
+              "洛杉矶",
+              "LA",
+              "LUOSANJI",
+              "LDJ",
+              "LAX"
+            ]
+          },
+          "cover_city": [
+            {
+              "city_id": 1,
+              "name": "San Diego",
+              "cn_name": "圣地亚哥",
+              "suggest": 2,
+              "min": 1,
+              "alias": [
+                "San Diego",
+                "圣地亚哥",
+                "SD",
+                "SDYG",
+                "SHIDIYAGE",
+                "SAN"
+              ]
+            },
+            {
+              "city_id": 2,
+              "name": "Los Angels",
+              "cn_name": "洛杉矶",
+              "suggest": 3,
+              "min": 2,
+              "alias": [
+                "Los Angels",
+                "洛杉矶",
+                "LA",
+                "LUOSANJI",
+                "LDJ",
+                "LAX"
+              ]
+            },
+            {
+              "city_id": 8,
+              "name": "San Francisco",
+              "cn_name": "旧金山",
+              "suggest": 3,
+              "min": 1,
+              "alias": [
+                "San Francisco",
+                "旧金山",
+                "SF",
+                "JJS",
+                "JIUJINGSHAN",
+                "SFO"
+              ]
+            }
+          ]
+        },
+        {
+          "guide_id": 216,
+          "name": "贺雷",
+          "description": "洛杉矶",
+          "max_people": 7,
+          "has_car": true,
+          "score": 8,
+          "topic": [
+            "商务",
+            "家庭"
+          ],
+          "phone": 6263805826,
+          "host_city": {
+            "city_id": 2,
+            "name": "Los Angels",
+            "cn_name": "洛杉矶",
+            "suggest": 3,
+            "min": 2,
+            "alias": [
+              "Los Angels",
+              "洛杉矶",
+              "LA",
+              "LUOSANJI",
+              "LDJ",
+              "LAX"
+            ]
+          },
+          "cover_city": [
+            {
+              "city_id": 1,
+              "name": "San Diego",
+              "cn_name": "圣地亚哥",
+              "suggest": 2,
+              "min": 1,
+              "alias": [
+                "San Diego",
+                "圣地亚哥",
+                "SD",
+                "SDYG",
+                "SHIDIYAGE",
+                "SAN"
+              ]
+            },
+            {
+              "city_id": 2,
+              "name": "Los Angels",
+              "cn_name": "洛杉矶",
+              "suggest": 3,
+              "min": 2,
+              "alias": [
+                "Los Angels",
+                "洛杉矶",
+                "LA",
+                "LUOSANJI",
+                "LDJ",
+                "LAX"
+              ]
+            },
+            {
+              "city_id": 8,
+              "name": "San Francisco",
+              "cn_name": "旧金山",
+              "suggest": 3,
+              "min": 1,
+              "alias": [
+                "San Francisco",
+                "旧金山",
+                "SF",
+                "JJS",
+                "JIUJINGSHAN",
+                "SFO"
+              ]
+            }
+          ]
+        },
+        {
+          "guide_id": 217,
+          "name": "Helen",
+          "description": "洛杉矶",
+          "max_people": 7,
+          "has_car": true,
+          "score": 8,
+          "topic": [
+            "浪漫",
+            "家庭"
+          ],
+          "phone": 6262838629,
+          "host_city": {
+            "city_id": 2,
+            "name": "Los Angels",
+            "cn_name": "洛杉矶",
+            "suggest": 3,
+            "min": 2,
+            "alias": [
+              "Los Angels",
+              "洛杉矶",
+              "LA",
+              "LUOSANJI",
+              "LDJ",
+              "LAX"
+            ]
+          },
+          "cover_city": [
+            {
+              "city_id": 1,
+              "name": "San Diego",
+              "cn_name": "圣地亚哥",
+              "suggest": 2,
+              "min": 1,
+              "alias": [
+                "San Diego",
+                "圣地亚哥",
+                "SD",
+                "SDYG",
+                "SHIDIYAGE",
+                "SAN"
+              ]
+            },
+            {
+              "city_id": 2,
+              "name": "Los Angels",
+              "cn_name": "洛杉矶",
+              "suggest": 3,
+              "min": 2,
+              "alias": [
+                "Los Angels",
+                "洛杉矶",
+                "LA",
+                "LUOSANJI",
+                "LDJ",
+                "LAX"
+              ]
+            },
+            {
+              "city_id": 8,
+              "name": "San Francisco",
+              "cn_name": "旧金山",
+              "suggest": 3,
+              "min": 1,
+              "alias": [
+                "San Francisco",
+                "旧金山",
+                "SF",
+                "JJS",
+                "JIUJINGSHAN",
+                "SFO"
+              ]
+            }
+          ]
+        },
+        {
+          "guide_id": 202,
+          "name": "tony",
+          "description": "旧金山",
+          "max_people": 7,
+          "has_car": true,
+          "score": 7,
+          "topic": [
+            "浪漫",
+            "家庭"
+          ],
+          "phone": 8163388888,
+          "host_city": {
+            "city_id": 8,
+            "name": "San Francisco",
+            "cn_name": "旧金山",
+            "suggest": 3,
+            "min": 1,
+            "alias": [
+              "San Francisco",
+              "旧金山",
+              "SF",
+              "JJS",
+              "JIUJINGSHAN",
+              "SFO"
+            ]
+          },
+          "cover_city": [
+            {
+              "city_id": 1,
+              "name": "San Diego",
+              "cn_name": "圣地亚哥",
+              "suggest": 2,
+              "min": 1,
+              "alias": [
+                "San Diego",
+                "圣地亚哥",
+                "SD",
+                "SDYG",
+                "SHIDIYAGE",
+                "SAN"
+              ]
+            },
+            {
+              "city_id": 2,
+              "name": "Los Angels",
+              "cn_name": "洛杉矶",
+              "suggest": 3,
+              "min": 2,
+              "alias": [
+                "Los Angels",
+                "洛杉矶",
+                "LA",
+                "LUOSANJI",
+                "LDJ",
+                "LAX"
+              ]
+            },
+            {
+              "city_id": 8,
+              "name": "San Francisco",
+              "cn_name": "旧金山",
+              "suggest": 3,
+              "min": 1,
+              "alias": [
+                "San Francisco",
+                "旧金山",
+                "SF",
+                "JJS",
+                "JIUJINGSHAN",
+                "SFO"
+              ]
+            }
+          ]
+        },
+        {
+          "guide_id": 203,
+          "name": "david lu",
+          "description": "旧金山",
+          "max_people": 5,
+          "has_car": true,
+          "score": 7,
+          "topic": [
+            "高尔夫",
+            "家庭",
+            "浪漫"
+          ],
+          "phone": 6264562143,
+          "host_city": {
+            "city_id": 8,
+            "name": "San Francisco",
+            "cn_name": "旧金山",
+            "suggest": 3,
+            "min": 1,
+            "alias": [
+              "San Francisco",
+              "旧金山",
+              "SF",
+              "JJS",
+              "JIUJINGSHAN",
+              "SFO"
+            ]
+          },
+          "cover_city": [
+            {
+              "city_id": 1,
+              "name": "San Diego",
+              "cn_name": "圣地亚哥",
+              "suggest": 2,
+              "min": 1,
+              "alias": [
+                "San Diego",
+                "圣地亚哥",
+                "SD",
+                "SDYG",
+                "SHIDIYAGE",
+                "SAN"
+              ]
+            },
+            {
+              "city_id": 2,
+              "name": "Los Angels",
+              "cn_name": "洛杉矶",
+              "suggest": 3,
+              "min": 2,
+              "alias": [
+                "Los Angels",
+                "洛杉矶",
+                "LA",
+                "LUOSANJI",
+                "LDJ",
+                "LAX"
+              ]
+            },
+            {
+              "city_id": 8,
+              "name": "San Francisco",
+              "cn_name": "旧金山",
+              "suggest": 3,
+              "min": 1,
+              "alias": [
+                "San Francisco",
+                "旧金山",
+                "SF",
+                "JJS",
+                "JIUJINGSHAN",
+                "SFO"
+              ]
+            }
+          ]
+        },
+        {
+          "guide_id": 209,
+          "name": "Danny",
+          "description": "旧金山",
+          "max_people": 7,
+          "has_car": true,
+          "score": 7,
+          "topic": [
+            "家庭",
+            "浪漫"
+          ],
+          "phone": 4156303880,
+          "host_city": {
+            "city_id": 8,
+            "name": "San Francisco",
+            "cn_name": "旧金山",
+            "suggest": 3,
+            "min": 1,
+            "alias": [
+              "San Francisco",
+              "旧金山",
+              "SF",
+              "JJS",
+              "JIUJINGSHAN",
+              "SFO"
+            ]
+          },
+          "cover_city": [
+            {
+              "city_id": 1,
+              "name": "San Diego",
+              "cn_name": "圣地亚哥",
+              "suggest": 2,
+              "min": 1,
+              "alias": [
+                "San Diego",
+                "圣地亚哥",
+                "SD",
+                "SDYG",
+                "SHIDIYAGE",
+                "SAN"
+              ]
+            },
+            {
+              "city_id": 2,
+              "name": "Los Angels",
+              "cn_name": "洛杉矶",
+              "suggest": 3,
+              "min": 2,
+              "alias": [
+                "Los Angels",
+                "洛杉矶",
+                "LA",
+                "LUOSANJI",
+                "LDJ",
+                "LAX"
+              ]
+            },
+            {
+              "city_id": 8,
+              "name": "San Francisco",
+              "cn_name": "旧金山",
+              "suggest": 3,
+              "min": 1,
+              "alias": [
+                "San Francisco",
+                "旧金山",
+                "SF",
+                "JJS",
+                "JIUJINGSHAN",
+                "SFO"
+              ]
+            }
+          ]
+        },
+        {
+          "guide_id": 205,
+          "name": "沈哲浩",
+          "description": "旧金山",
+          "max_people": 7,
+          "has_car": true,
+          "score": 6,
+          "topic": [
+            "摄影",
+            "拍照"
+          ],
+          "phone": 5105857097,
+          "host_city": {
+            "city_id": 8,
+            "name": "San Francisco",
+            "cn_name": "旧金山",
+            "suggest": 3,
+            "min": 1,
+            "alias": [
+              "San Francisco",
+              "旧金山",
+              "SF",
+              "JJS",
+              "JIUJINGSHAN",
+              "SFO"
+            ]
+          },
+          "cover_city": [
+            {
+              "city_id": 1,
+              "name": "San Diego",
+              "cn_name": "圣地亚哥",
+              "suggest": 2,
+              "min": 1,
+              "alias": [
+                "San Diego",
+                "圣地亚哥",
+                "SD",
+                "SDYG",
+                "SHIDIYAGE",
+                "SAN"
+              ]
+            },
+            {
+              "city_id": 2,
+              "name": "Los Angels",
+              "cn_name": "洛杉矶",
+              "suggest": 3,
+              "min": 2,
+              "alias": [
+                "Los Angels",
+                "洛杉矶",
+                "LA",
+                "LUOSANJI",
+                "LDJ",
+                "LAX"
+              ]
+            },
+            {
+              "city_id": 8,
+              "name": "San Francisco",
+              "cn_name": "旧金山",
+              "suggest": 3,
+              "min": 1,
+              "alias": [
+                "San Francisco",
+                "旧金山",
+                "SF",
+                "JJS",
+                "JIUJINGSHAN",
+                "SFO"
+              ]
+            }
+          ]
+        },
+        {
+          "guide_id": 206,
+          "name": "杨光",
+          "description": "旧金山",
+          "max_people": 7,
+          "has_car": true,
+          "score": 6,
+          "topic": [
+            "浪漫",
+            "家庭"
+          ],
+          "phone": 4086561788,
+          "host_city": {
+            "city_id": 8,
+            "name": "San Francisco",
+            "cn_name": "旧金山",
+            "suggest": 3,
+            "min": 1,
+            "alias": [
+              "San Francisco",
+              "旧金山",
+              "SF",
+              "JJS",
+              "JIUJINGSHAN",
+              "SFO"
+            ]
+          },
+          "cover_city": [
+            {
+              "city_id": 1,
+              "name": "San Diego",
+              "cn_name": "圣地亚哥",
+              "suggest": 2,
+              "min": 1,
+              "alias": [
+                "San Diego",
+                "圣地亚哥",
+                "SD",
+                "SDYG",
+                "SHIDIYAGE",
+                "SAN"
+              ]
+            },
+            {
+              "city_id": 2,
+              "name": "Los Angels",
+              "cn_name": "洛杉矶",
+              "suggest": 3,
+              "min": 2,
+              "alias": [
+                "Los Angels",
+                "洛杉矶",
+                "LA",
+                "LUOSANJI",
+                "LDJ",
+                "LAX"
+              ]
+            },
+            {
+              "city_id": 8,
+              "name": "San Francisco",
+              "cn_name": "旧金山",
+              "suggest": 3,
+              "min": 1,
+              "alias": [
+                "San Francisco",
+                "旧金山",
+                "SF",
+                "JJS",
+                "JIUJINGSHAN",
+                "SFO"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+
+
+api/quote
+
+
+
+
+api/booking
+
+
+
+api/order
+
+
+
+//Login and signup
+api/Login
+
+
+
+api/signup
+
+
+
+
+//user_info
+api/user_info
+
+
+api/booking_info
+
+
+api/order_info

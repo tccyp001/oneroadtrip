@@ -250,11 +250,14 @@
 			</div>
 		</div>
 		<div class="quoteView" ng-if="showQuoteView">
-			<div ng-repeat="quote in quotes" class="priceinfo" ng-click="gotoReview(quote)">
-				￥ {{quote.value}} 人
+			<div class="priceinfo" ng-click="gotoReview()">
+				￥ {{quotes}}
 			</div>
 		</div>
-		<div class="guide-content-footer" ng-click="getQuote()">
+		<div class="guide-content-footer" ng-click="getQuote()" ng-if="!showQuoteView">
+			<div class="content">{{quoteToPay}}</div>
+		</div>
+		<div class="guide-content-footer" ng-click="gotoReview()" ng-if="showQuoteView">
 			<div class="content">{{quoteToPay}}</div>
 		</div>
 	</div>

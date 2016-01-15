@@ -57,12 +57,11 @@ function TourCtrl($scope, $http, $modal, $state, $rootScope, Controller, TourInf
 
 	$scope.planPlus = function(tour){
 		if ($scope.getDays() < $scope.diffDate) {
-			tour.num_days++;			
+			tour.num_days++;
+			updatePlan(tour, tour.city.city_id, tour.num_days);		
 		} else {
 			toastr.error('已经达到安排日期上限');
 		}
-
-		updatePlan(tour, tour.city.city_id, tour.num_days);
 	}
 
 
@@ -73,6 +72,7 @@ function TourCtrl($scope, $http, $modal, $state, $rootScope, Controller, TourInf
 		updatePlan(tour, tour.city.city_id, tour.num_days);
 	}
 
+
 	function updatePlan(tour, id, days) {
 		$http.post(Controller.base() + 'api/spot', {
 			'city_id': id,
@@ -80,9 +80,10 @@ function TourCtrl($scope, $http, $modal, $state, $rootScope, Controller, TourInf
 		}).then(function(res){
 			tour.plans = res.data.day_plan;
 		}, function(err){
-			console.log(err);
+			toastr.error(err);
 		}) 
 	}
+
 
 	$scope.addPlan = function() {
 		TourInfo.requestData.visit_city = _.clone($scope.tours);
@@ -144,6 +145,9 @@ function TourCtrl($scope, $http, $modal, $state, $rootScope, Controller, TourInf
 
 		var obj = {
 			"start_date": $scope.requestData.startdate,
+			"end_date": $scope.requestData.enddate,
+			"startdate": $scope.requestData.startdate,
+			"enddate": $scope.requestData.enddate,
 	        "one_guide_for_whole_trip": "BOTH",
 	        "hotel": $scope.requestData.hotel,
 	        "num_people": $scope.requestData.num_people,
@@ -160,10 +164,17 @@ function TourCtrl($scope, $http, $modal, $state, $rootScope, Controller, TourInf
 			}
 		});
 
-		$http.post(Controller.base() + 'api/guide', obj).then(function(res){
-			console.log(res.data);
-			parseGuideInfo(res.data.guide_plan);
-		}) 
+		obj.start_city_id = obj.city_plan[0].city.city_id;
+		obj.end_city_id = obj.city_plan[obj.city_plan.length - 1].city.city_id;
+		obj.visit_city = _.clone(obj.city_plan);
+
+		$http.post(Controller.base() + 'api/plan', obj).then(function(res){
+			TourInfo.data = res.data;
+			$http.post(Controller.base() + 'api/guide', obj).then(function(res){
+				parseGuideInfo(res.data.guide_plan);
+			}) 			
+		})
+
 	}
 
 	// Default view to show one
@@ -189,20 +200,7 @@ function TourCtrl($scope, $http, $modal, $state, $rootScope, Controller, TourInf
 	}
 
 
-	$scope.quotes = [
-		{
-			"value": "10000/1"
-		},
-		{
-			"value": "20000/2"
-		},
-		{
-			"value": "24000/3"
-		},
-		{
-			"value": "28000/4"
-		}
-	]
+	
 
 	$scope.multi_city_plan = {};
 	$scope.selectGuide = function(guide, plan){
@@ -223,8 +221,7 @@ function TourCtrl($scope, $http, $modal, $state, $rootScope, Controller, TourInf
 
 
 	$scope.getQuote = function(){
-		$scope.showQuoteView = true;
-		$scope.quoteToPay = "预览最终行程并支付";
+
 
 		var obj = {
 			"end_date": $scope.requestData.startdate,
@@ -234,7 +231,10 @@ function TourCtrl($scope, $http, $modal, $state, $rootScope, Controller, TourInf
 	        "num_room": $scope.requestData.num_room,		
 		}
 
-		obj.city = _.map($scope.tours, function(tour){
+		obj.itinerary = {};
+
+
+		obj.itinerary.city = _.map($scope.tours, function(tour){
 			return {
 				"city": 
 					{
@@ -248,7 +248,7 @@ function TourCtrl($scope, $http, $modal, $state, $rootScope, Controller, TourInf
 			}
 		});
 
-		console.log(obj);
+		obj.itinerary.edge = TourInfo.data.edge;
 
 		if ($scope.chooseGuideTypeStatus === "one") {
 			obj.selectedGuideId = $scope.selectedGuide.guide_id; 
@@ -261,14 +261,21 @@ function TourCtrl($scope, $http, $modal, $state, $rootScope, Controller, TourInf
 			obj.visit_plan = _.values($scope.multi_city_plan);
 		}
 
-		console.log(obj);
+		$scope.quotes = [];
+		// console.log(JSON.stringify(obj));
 		$http.post(Controller.base() + 'api/quote', obj).then(function(res){
-			console.log(res);
+			TourInfo.data = res.data;
+			console.log(TourInfo.data);
+			$scope.quotes = res.data.itinerary.quote_for_multiple_guides.cost_usd;
+			$scope.showQuoteView = true;
+			$scope.quoteToPay = "预览最终行程并支付";
+		}).catch(function(e){
+			console.log(e);
 		}) 		
 	}
 
 	$scope.gotoReview = function(quote){
-		TourInfo.quote = quote;
+		console.log(JSON.stringify(TourInfo));
 		$state.go('review');
 	}
 

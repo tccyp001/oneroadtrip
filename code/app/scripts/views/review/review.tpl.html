@@ -3,6 +3,18 @@
 	旅行行程
 	</div>
 
+	<div ng-repeat="city in itinerary.city">
+		<div>城市: {{city.city.city_id}}</div>
+		<div>停留时间: {{city.num_days}} 天</div>
+		<div ng-repeat="plan in city.plans">
+			<div> Day {{plan.day_id}} </div>
+			<div ng-repeat="spot in plan.spot">
+				{{spot.hours}} {{spot.info.name}}
+			</div>
+		</div>
+
+	</div>
+
 	<div>
 		选择支付方式
 	</div>
@@ -28,7 +40,9 @@
             data-description="Five dollahs!"
             data-amount="500"
            	data-currency="usd"
-		    data-alipay="true">支付</button></div>
+		    data-alipay="true">支付</button>
+	</div>
+
 
 
 

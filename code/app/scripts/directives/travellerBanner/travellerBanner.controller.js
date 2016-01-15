@@ -123,22 +123,23 @@ function BannerCtrl($scope, $http, $state, toastr, Controller, TourInfo) {
     	$scope.tourForm.hotel = parseInt($scope.tourForm.hotel);
 
 
-   //  	$scope.tourForm = {
-   //  		"end_city_id": 8,
-			// "enddate": 20160113,
-			// "hotel": 5,
-			// "keep_order_of_via_cities": false,
-			// "num_people": 3,
-			// "num_room": 2,
-			// "start_city_id": 1,
-			// "startdate": 20160107,
-			// "visit_city": [
-			// 	{ "city": {"city_id": 1} },
-		 //      	{ "city": {"city_id": 2} },
-		 //      	{ "city": {"city_id": 8} }
-		 //      	],
-			// "date": $scope.datePicker.date
-   //  	}
+    	$scope.tourForm = {
+    		"end_city_id": 8,
+			"enddate": 20160113,
+			"hotel": 5,
+			"keep_order_of_via_cities": false,
+			"num_people": 3,
+			"num_room": 2,
+			"start_city_id": 1,
+			"startdate": 20160107,
+			"visit_city": [
+				{ "city": {"city_id": 1} },
+		      	{ "city": {"city_id": 2} },
+		      	{ "city": {"city_id": 8} }
+		      	],
+			"date": $scope.datePicker.date
+    	}
+    	
 
 		$http.post(Controller.base() + 'api/plan', $scope.tourForm).then(function(res){
 			$scope.tourForm.visit_city = [];
@@ -168,8 +169,8 @@ function BannerCtrl($scope, $http, $state, toastr, Controller, TourInfo) {
 	  $scope.myDate.getDate());
 
 	$scope.onlyWeekendsPredicate = function(date) {
-	var day = date.getDay();
-	return day === 0 || day === 6;
+		var day = date.getDay();
+		return day === 0 || day === 6;
 	}
 
 }
