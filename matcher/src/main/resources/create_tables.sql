@@ -142,7 +142,9 @@ CREATE TABLE Orders (
   status INT DEFAULT 1,
   cost_usd FLOAT,
   cost FLOAT,
-  currency_id BIGINT
+  currency_id BIGINT,
+  charge_id VARCHAR(100),
+  is_cancel BOOLEAN DEFAULT false
 ) DEFAULT CHARSET=utf8;
 CREATE INDEX OrdersUserId ON Orders(user_id);
 CREATE INDEX OrdersItineraryId ON Orders(itinerary_id);

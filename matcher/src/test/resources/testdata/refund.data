@@ -1,0 +1,18 @@
+==INSERT_DATA==
+INSERT INTO Orders (order_id, user_id, itinerary_id, cost_usd) VALUES (11, 1, 5, 10.0);
+
+==========
+==TESTCASE_DATA==
+=REQUEST
+itinerary {
+  order {
+    order_id: 11
+    cost_usd: 10.0
+    description: "for testing"
+    refund_usd: 8.0
+    refund_reason: "refund test"
+    stripe_charge_id: "abcdefg"
+  }
+}
+=RESPONSE
+status: SUCCESS
