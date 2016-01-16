@@ -27,6 +27,7 @@ import com.google.common.collect.Sets;
 import com.google.protobuf.TextFormat;
 import com.oneroadtrip.matcher.common.OneRoadTripException;
 import com.oneroadtrip.matcher.proto.Itinerary;
+import com.oneroadtrip.matcher.proto.Order;
 import com.oneroadtrip.matcher.proto.OrderStatus;
 import com.oneroadtrip.matcher.proto.SignupType;
 import com.oneroadtrip.matcher.proto.Status;
@@ -99,6 +100,7 @@ public class DatabaseAccessor {
 
   public static Triplet<Long, Long, List<Long>> prepareForOrder(Itinerary itin, Connection conn)
       throws OneRoadTripException {
+    // TODO(xfguo): Use another service to keep itinerary.
     Long itineraryId = null;
     try (PreparedStatement pStmt = conn.prepareStatement(ADD_ITINERARY,
         Statement.RETURN_GENERATED_KEYS)) {
@@ -124,9 +126,8 @@ public class DatabaseAccessor {
     }
 
     Long orderId = null;
-    try (PreparedStatement pStmt = conn
-        .prepareStatement(ADD_ORDER, Statement.RETURN_GENERATED_KEYS)) {
-      // TODO(xiaofengguo):
+    try (PreparedStatement pStmt = conn.prepareStatement(ADD_ORDER,
+        Statement.RETURN_GENERATED_KEYS)) {
       pStmt.setLong(1, itin.getUserId());
       pStmt.setLong(2, itineraryId);
       pStmt.setFloat(3, ItineraryUtil.getCostUsd(itin));
@@ -179,15 +180,25 @@ public class DatabaseAccessor {
     }
   }
 
-  private static final String UPDATE_ORDER_BY_ID = "UPDATE Orders SET status = ? WHERE order_id = ?";
+  private static final String UPDATE_ORDER_BY_ID = "UPDATE Orders "
+      + "SET status = ?, charge_id = ? WHERE order_id = ?";
 
-  public static int updateOrder(Itinerary itin, Connection conn) throws OneRoadTripException {
+  private int updateOrder(Connection conn, long orderId, String chargeId)
+      throws OneRoadTripException {
     try (PreparedStatement pStmt = conn.prepareStatement(UPDATE_ORDER_BY_ID)) {
       pStmt.setInt(1, OrderStatus.PAID.getNumber());
-      pStmt.setLong(2, itin.getOrder().getOrderId());
+      pStmt.setString(2, chargeId);
+      pStmt.setLong(3, orderId);
       return pStmt.executeUpdate();
     } catch (SQLException e) {
       throw new OneRoadTripException(Status.ERR_UPDATE_ORDER_STATUS, e);
+    }
+  }
+  public void updateOrder(long orderId, String chargeId) throws OneRoadTripException {
+    int updateRows = SqlUtil.executeTransaction(dataSource,
+        (Connection conn) -> updateOrder(conn, orderId, chargeId));
+    if (updateRows != 1) {
+      throw new OneRoadTripException(Status.ERR_UPDATE_ORDER_STATUS, null);
     }
   }
 
@@ -296,7 +307,8 @@ public class DatabaseAccessor {
   }
   
   public UserInfo updateUser(UserInfo user) throws OneRoadTripException {
-    int updatedRows = SqlUtil.executeTransaction(dataSource, (Connection conn) -> updateUser(conn, user));
+    int updatedRows = SqlUtil.executeTransaction(dataSource,
+        (Connection conn) -> updateUser(conn, user));
     if (updatedRows != 1) {
       throw new OneRoadTripException(Status.ERR_UPDATE_USER, null);
     }
@@ -360,6 +372,41 @@ public class DatabaseAccessor {
       return token;
     } catch (IllegalArgumentException e) {
       throw new OneRoadTripException(Status.INCORRECT_REQUEST, e);
+    }
+  }
+  
+  private static final String CANCEL_ORDER = "UPDATE Orders SET is_cancel = True "
+      + "WHERE order_id = ?";
+  private int cancelOrder(Connection conn, long orderId) throws OneRoadTripException {
+    try (PreparedStatement pStmt = conn.prepareStatement(CANCEL_ORDER)) {
+      pStmt.setLong(1, orderId);
+      return pStmt.executeUpdate();
+    } catch (SQLException e) {
+      throw new OneRoadTripException(Status.ERR_CANCEL_ORDER, e);
+    }
+  }
+
+  public void cancelOrder(Order order) throws OneRoadTripException {
+    int updateRows = SqlUtil.executeTransaction(dataSource,
+        (Connection conn) -> cancelOrder(conn, order.getOrderId()));
+    if (updateRows != 1) {
+      throw new OneRoadTripException(Status.ERR_CANCEL_ORDER, null);
+    }
+  }
+
+  private static final String GET_CHARGE_ID = "SELECT charge_id FROM Orders WHERE order_id = ?";
+  public String getChargeId(long orderId) throws OneRoadTripException {
+    try (Connection conn = dataSource.getConnection();
+        PreparedStatement pStmt = conn.prepareStatement(GET_CHARGE_ID)) {
+      pStmt.setLong(1, orderId);
+      try (ResultSet rs = pStmt.executeQuery()) {
+        Preconditions.checkArgument(rs.next());
+        String chargeId = rs.getString(1);
+        Preconditions.checkArgument(!rs.next());
+        return chargeId;
+      }
+    } catch (SQLException e) {
+      throw new OneRoadTripException(Status.ERR_GET_CHARGE_ID, e);
     }
   }
 }

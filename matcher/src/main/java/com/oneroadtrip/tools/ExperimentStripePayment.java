@@ -44,5 +44,7 @@ public class ExperimentStripePayment {
     Order newOrder = payer.makePayment(order);
     LOG.info("xfguo: origin order: \n{}", order);
     LOG.info("xfguo: returned order:\n{}", newOrder);
+    
+    payer.refundCharge(newOrder.getStripeChargeId(), newOrder.getCostUsd() * 0.8f, "requested_by_customer");
   }
 }

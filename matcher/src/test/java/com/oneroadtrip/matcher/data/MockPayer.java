@@ -25,4 +25,11 @@ public class MockPayer implements Payer {
         .build();
   }
 
+  @Override
+  public void refundCharge(String chargeId, float refundAmount, String reason)
+      throws OneRoadTripException {
+    if (!success) {
+      throw new OneRoadTripException(Status.ERROR_IN_STRIPE, null);
+    }
+  }
 }

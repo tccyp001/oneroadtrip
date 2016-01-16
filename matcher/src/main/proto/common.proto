@@ -48,6 +48,8 @@ enum Status {
   ERR_ADD_ITINERARY_FOR_ORDER = 116;
   ERR_ADD_RESERVATION_FOR_ORDER = 117;
   ERR_ADD_ORDER_FOR_ORDER = 118;
+  ERR_CANCEL_ORDER = 119;
+  ERR_GET_CHARGE_ID = 120;
 
   // Status for testing.
   ERR_TESTING_VALIDATE_RESERVED_GUIDES = 1000;
@@ -173,6 +175,8 @@ message Order {
   optional string token = 6;
 
   optional string stripe_charge_id = 7;
+  optional float refund_usd = 8;  // Possible to be partial of the cost, default is fully-refund.
+  optional string refund_reason = 9;
 }
 
 // next tag: 15
