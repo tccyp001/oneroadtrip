@@ -9,6 +9,7 @@ angular.module('app', [
     'app.shared',
     'app.controllers',
     'app.filters',
+    'views.users',
     'ui.router',
     'ui.bootstrap',
     'ngResource',

@@ -102,9 +102,6 @@ function TourCtrl($scope, $http, $modal, $state, $rootScope, Controller, TourInf
 			TourInfo.requestData.visit_city.push(newCity);		
 			$http.post(Controller.base() + 'api/plan', TourInfo.requestData).then(function(res){
 				if (res.data && res.data.status === 'SUCCESS') {
-					// $scope.tourForm.visit_city = [];
-					// $scope.tourForm.start_city_id = $scope.tourForm.end_city_id = undefined;
-					
 					TourInfo.data = res.data;
 					$scope.tours = TourInfo.data.visit;	
 					getTours();
@@ -221,8 +218,6 @@ function TourCtrl($scope, $http, $modal, $state, $rootScope, Controller, TourInf
 
 
 	$scope.getQuote = function(){
-
-
 		var obj = {
 			"end_date": $scope.requestData.startdate,
 			"start_date": $scope.requestData.startdate,
@@ -253,12 +248,11 @@ function TourCtrl($scope, $http, $modal, $state, $rootScope, Controller, TourInf
 		if ($scope.chooseGuideTypeStatus === "one") {
 			obj.selectedGuideId = $scope.selectedGuide.guide_id; 
 			// obj.guide_plan_type = "ONE_GUIDE_FOR_THE_WHOLE_TRIP";
-			obj["guide_for_whole_trip"] = {
-				"host_city": {"city_id" : $scope.selectedGuide.host_city.city_id}
-			}
+			obj.itinerary["guide_for_whole_trip"] = $scope.selectedGuide;
+			obj.itinerary['choose_one_guide_solution'] = true;
 		} else if ($scope.chooseGuideTypeStatus === "multi") {
-			obj.guide_plan_type = "ONE_GUIDE_FOR_EACH_CITY";
-			obj.visit_plan = _.values($scope.multi_city_plan);
+			obj.city = _.values($scope.multi_city_plan);
+			obj.itinerary['choose_one_guide_solution'] = false;
 		}
 
 		$scope.quotes = [];
@@ -266,7 +260,11 @@ function TourCtrl($scope, $http, $modal, $state, $rootScope, Controller, TourInf
 		$http.post(Controller.base() + 'api/quote', obj).then(function(res){
 			TourInfo.data = res.data;
 			console.log(TourInfo.data);
-			$scope.quotes = res.data.itinerary.quote_for_multiple_guides.cost_usd;
+			if(obj.guide_plan_type = "ONE_GUIDE_FOR_EACH_CITY") {
+				$scope.quotes = res.data.itinerary.quote_for_multiple_guides.cost_usd;
+			} else {
+				$scope.quotes = res.data.itinerary.guide_for_whole_trip.cost_usd;
+			}
 			$scope.showQuoteView = true;
 			$scope.quoteToPay = "预览最终行程并支付";
 		}).catch(function(e){
@@ -276,7 +274,13 @@ function TourCtrl($scope, $http, $modal, $state, $rootScope, Controller, TourInf
 
 	$scope.gotoReview = function(quote){
 		console.log(JSON.stringify(TourInfo));
-		$state.go('review');
+		$http.post(Controller.base() + 'api/booking', obj).then(function(res){
+			console.log(res);
+			$state.go('review');
+		}).catch(function(err){
+			console.log(err);
+		});
+		
 	}
 
 
