@@ -1,17 +1,23 @@
 <header>
     <div class="header-top">
-		<ul class="nav navbar-nav navbar-right nav-modify pull-right">
-			<li><a ui-sref="main">成为认证导游</a></li>
-			<li ng-if="!isLoggin"><a><div class="headerbutton2" ng-click="openModal('login')" >登陆</div></a></li>
-			<li ng-if="!isLoggin"><a><div class="headerbutton" ng-click="openModal('signup')">注册</div></a></li>
-			<li class="header-dropdown-toggle" ng-class="{'hidecontent' : !isLoggin}">
-				<a class="header-dropdown" > <img ng-src="{{userImage}}"> {{loginName}} <span class="caret"></span></a>
+		<div class="nav-modify pull-right">
+			<div><a ui-sref="main">成为认证导游</a></div>
+			<div ng-if="!isLoggin"><a><div class="headerbutton2" ng-click="openModal('login')" >登陆</div></a></div>
+			<div ng-if="!isLoggin"><a><div class="headerbutton" ng-click="openModal('signup')">注册</div></a></div>
+			<div class="dropdown-flag" ng-class="{'hidecontent' : !isLoggin}">
+				<div class="header-dropdown-toggle">
+					<img ng-src="{{userImage}}" ng-if="userImage">
+					<i class="fa fa-user"  ng-if="!userImage"></i>
+					<a class="header-dropdown" >  {{loginName}} 
+						<span class="caret"></span>
+					</a>
+				</div>
 				<div class="header-dropdown-manu" style="cursor: pointer">
-					<div><a ui-sref="user">个人中心</a></div>
+					<div><a ui-sref="user.info">个人中心</a></div>
 					<div ng-click="logout()">退出</div>				  	
 				</div>
-			</li>
-		</ul>
+			</div>
+		</div>
 	</div>
 
 	<div>

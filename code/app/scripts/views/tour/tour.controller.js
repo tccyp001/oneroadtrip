@@ -23,7 +23,7 @@ function TourCtrl($scope, $http, $modal, $state, $rootScope, Controller, TourInf
 	
 	$scope.TourInfo = TourInfo;
 	$scope.$parent.showfooter = false;
-	$scope.tours = TourInfo.data.visit;
+	$scope.tours = TourInfo.itinerary;
 	$scope.requestData = TourInfo.requestData;
 	$scope.option = {};
 

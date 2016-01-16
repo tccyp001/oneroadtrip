@@ -195,148 +195,90 @@ api/plan 	Post
 Request
 
 {
-	"end_city_id": 2,
-	"enddate": 20151208,
-	"hotel": 5,
-	"keep_order_of_via_cities": false,
-	"num_people": 3,
-	"num_room": 2,
-	"start_city_id": 1,
-	"startdate": 20151201,
-	"visit_city": [{
-		"city": {
+	"itinerary": {
+		"start_city_id": 1,
+		"city_plan": [{
+			"city": {
+				"city_id": 1
+			}
+		}, {
+			"city": {
+				"city_id": 8
+			}
+		}, {
+			"city": {
+				"city_id": 2
+			}
+		}],
+		"end_city_id": 2,
+		"keep_order_of_via_cities": false,
+		"startdate": 20160116,
+		"enddate": 20160122,
+		"date": {
+			"startDate": "2016-01-16T08:00:00.000Z",
+			"endDate": "2016-01-23T07:59:59.999Z"
+		},
+		"num_people": 2,
+		"num_room": 3,
+		"hotel": 3,
+		"one_guide_for_whole_trip": "BOTH",
+		"start_city": {
 			"city_id": 1
-		}
-	}, {
-		"city": {
-			"city_id": 8
-		}
-	}, {
-		"city": {
+		},
+		"end_city": {
 			"city_id": 2
 		}
-	}]
+	}
 }
 
 
 Response
 {
 	"status": "SUCCESS",
-	"start_city": {
-		"city_id": 1,
-		"name": "San Diego",
-		"cn_name": "圣地亚哥"
-	},
-	"end_city": {
-		"city_id": 2,
-		"name": "Los Angels",
-		"cn_name": "洛杉矶"
-	},
-	"visit": [{
-		"city": {
+	"itinerary": {
+		"start_city": {
 			"city_id": 1,
 			"name": "San Diego",
 			"cn_name": "圣地亚哥"
 		},
-		"num_days": 2,
-		"suggest_rate": 1.0
-	}, {
-		"city": {
+		"end_city": {
 			"city_id": 2,
 			"name": "Los Angels",
 			"cn_name": "洛杉矶"
 		},
-		"num_days": 3,
-		"suggest_rate": 1.0
-	}, {
-		"city": {
-			"city_id": 8,
-			"name": "San Francisco",
-			"cn_name": "旧金山"
-		},
-		"num_days": 3,
-		"suggest_rate": 1.0
-	}],
-	"edge": [{
-		"from_city": {
-			"city_id": 1,
-			"name": "San Diego",
-			"cn_name": "圣地亚哥"
-		},
-		"to_city": {
-			"city_id": 1,
-			"name": "San Diego",
-			"cn_name": "圣地亚哥"
-		},
-		"distance": 0,
-		"hours": 0
-	}, {
-		"from_city": {
-			"city_id": 1,
-			"name": "San Diego",
-			"cn_name": "圣地亚哥"
-		},
-		"to_city": {
-			"city_id": 2,
-			"name": "Los Angels",
-			"cn_name": "洛杉矶"
-		},
-		"distance": 120,
-		"hours": 2
-	}, {
-		"from_city": {
-			"city_id": 2,
-			"name": "Los Angels",
-			"cn_name": "洛杉矶"
-		},
-		"to_city": {
-			"city_id": 8,
-			"name": "San Francisco",
-			"cn_name": "旧金山"
-		},
-		"distance": 383,
-		"hours": 7
-	}, {
-		"from_city": {
-			"city_id": 8,
-			"name": "San Francisco",
-			"cn_name": "旧金山"
-		},
-		"to_city": {
-			"city_id": 2,
-			"name": "Los Angels",
-			"cn_name": "洛杉矶"
-		},
-		"distance": 383,
-		"hours": 7
-	}],
-	"suggest_city": [{
-		"city": {
-			"city_id": 3,
-			"name": "Las Vegas",
-			"cn_name": "拉斯维加斯"
-		},
-		"num_days": 3,
-		"suggest_rate": 0.39277655
-	}, {
-		"city": {
-			"city_id": 6,
-			"name": "Reno",
-			"cn_name": "雷诺"
-		},
-		"num_days": 2,
-		"suggest_rate": 0.59029347
-	}, {
-		"city": {
-			"city_id": 7,
-			"name": "Sacramento",
-			"cn_name": "萨克拉门托"
-		},
-		"num_days": 1,
-		"suggest_rate": 0.89503384
-	}]
+		"edge": [{
+			"from_city": {
+				"city_id": 1,
+				"name": "San Diego",
+				"cn_name": "圣地亚哥"
+			},
+			"to_city": {
+				"city_id": 2,
+				"name": "Los Angels",
+				"cn_name": "洛杉矶"
+			},
+			"distance": 120,
+			"hours": 2
+		}],
+		"suggest_city": [{
+			"city": {
+				"city_id": 1,
+				"name": "San Diego",
+				"cn_name": "圣地亚哥"
+			},
+			"num_days": 2,
+			"suggest_rate": 1.0
+		}, {
+			"city": {
+				"city_id": 2,
+				"name": "Los Angels",
+				"cn_name": "洛杉矶"
+			},
+			"num_days": 3,
+			"suggest_rate": 1.0
+		}]
+	}
 }
-
 
 api/spot	Post
 

@@ -16,24 +16,23 @@ angular.module('app.shared')
 function ItneraryFactory($http, VisitCity, Edge, GuideInfo, Quote, Order) {
 
     function Itnerary(opt) {
-        this.user_token = '';
-        this.startdate = '';
+        // this.user_token = '';
+        // this.startdate = '';
 
-        this.city = VisitCity;
-        this.edge = Edge;
-        this.guide_for_whole_trip = GuideInfo;
+        // this.city = VisitCity;
+        // this.edge = Edge;
+        // this.guide_for_whole_trip = GuideInfo;
 
-        this.num_people = '';
-        this.num_room = '';
-        this.hotel = '';
-        this.quote_for_one_guide = Quote;
-        this.quote_for_multiple_guides = Quote;
+        // this.num_people = '';
+        // this.num_room = '';
+        // this.hotel = '';
+        // this.quote_for_one_guide = Quote;
+        // this.quote_for_multiple_guides = Quote;
 
-        this.choose_one_guide_solution = false;
-        this.itinerary_id = '';
-        this.reservation_id = '';
-        this.order = Order;
-
+        // this.choose_one_guide_solution = false;
+        // this.itinerary_id = '';
+        // this.reservation_id = '';
+        // this.order = Order;
     }
 
 

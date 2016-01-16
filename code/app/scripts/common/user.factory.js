@@ -158,7 +158,7 @@ function UserFactory($rootScope, $resource, $state, $cookies, $cookieStore, Cont
 
         $state.go('main');
 
-        if (!$rootScope.$$phase) $rootScope.$apply();
+        return Q.resolve();
     }
 
     var user = new User();

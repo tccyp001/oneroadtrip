@@ -15,6 +15,13 @@ function viewsUserConfig($stateProvider) {
         controller: 'UserCtrl'
     });
 
+    $stateProvider.state('user.info', {
+        url: '/info',
+        templateUrl: 'scripts/views/user/info/info.tpl.html',
+        controller: 'InfoCtrl'
+    });
+
+
     $stateProvider.state('user.booking', {
         url: '/booking',
         templateUrl: 'scripts/views/user/booking/booking.tpl.html',
