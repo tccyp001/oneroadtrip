@@ -1,9 +1,13 @@
 ==INSERT_DATA==
+INSERT INTO Users (user_id, user_name, nick_name) VALUES (1, 'test', 'testnick');
+INSERT INTO Tokens (token_id, token, user_id, is_expired, expired_ts) VALUES
+  (1, 'usertokenabc', 1, false, TIMESTAMP '2105-12-31 23:59:59');
 
 ==========
 ==TESTCASE_DATA==
 =REQUEST
 itinerary {
+  user_token: "usertokenabc"
   city {
     num_days: 2
     start_date: 20151229
@@ -88,4 +92,5 @@ itinerary {
     order_id: 2
     cost_usd: 5000.0
   }
+  user_token: "usertokenabc"
 }

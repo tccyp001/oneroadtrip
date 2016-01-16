@@ -128,7 +128,8 @@ public class DatabaseAccessor {
     Long orderId = null;
     try (PreparedStatement pStmt = conn.prepareStatement(ADD_ORDER,
         Statement.RETURN_GENERATED_KEYS)) {
-      pStmt.setLong(1, itin.getUserId());
+      long userId = getUserId(conn, itin.getUserToken());
+      pStmt.setLong(1, userId);
       pStmt.setLong(2, itineraryId);
       pStmt.setFloat(3, ItineraryUtil.getCostUsd(itin));
       pStmt.executeUpdate();
@@ -137,6 +138,23 @@ public class DatabaseAccessor {
       throw new OneRoadTripException(Status.ERR_ADD_ORDER_FOR_ORDER, e);
     }
     return Triplet.with(orderId, itineraryId, reservedGuideIds);
+  }
+  
+  private static final String GET_USER_ID_BY_TOKEN = "SELECT user_id FROM Tokens "
+      + "WHERE token = ? AND is_expired = false AND expired_ts > ?";
+  private static long getUserId(Connection conn, String userToken) throws OneRoadTripException {
+    try (PreparedStatement pStmt = conn.prepareStatement(GET_USER_ID_BY_TOKEN)) {
+      pStmt.setString(1, userToken);
+      pStmt.setTimestamp(2, SqlUtil.getTimestampToNow(0));
+      try (ResultSet rs = pStmt.executeQuery()) {
+        Preconditions.checkArgument(rs.next());
+        long userId = rs.getLong(1);
+        Preconditions.checkArgument(!rs.next());
+        return userId;
+      }
+    } catch (IllegalArgumentException| SQLException e) {
+      throw new OneRoadTripException(Status.ERR_GET_USER_ID, e);
+    }
   }
 
   private static final String RESERVER_GUIDES_PERMANENTLY = "INSERT INTO GuideReservations "

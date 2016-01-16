@@ -50,6 +50,7 @@ enum Status {
   ERR_ADD_ORDER_FOR_ORDER = 118;
   ERR_CANCEL_ORDER = 119;
   ERR_GET_CHARGE_ID = 120;
+  ERR_GET_USER_ID = 121;
 
   // Status for testing.
   ERR_TESTING_VALIDATE_RESERVED_GUIDES = 1000;
@@ -179,9 +180,11 @@ message Order {
   optional string refund_reason = 9;
 }
 
-// next tag: 15
+// next tag: 17
 message Itinerary {
+  // wipe-out the id.
   optional int64 user_id = 14;
+  optional string user_token = 16;
   optional int32 startdate = 1;
   repeated VisitCity city = 2;
   repeated Edge edge = 3;
