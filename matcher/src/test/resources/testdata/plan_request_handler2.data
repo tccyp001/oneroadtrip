@@ -51,12 +51,14 @@ INSERT INTO CityAliases (city_id, alias) VALUES
 ==========
 ==TESTCASE_DATA==
 =REQUEST
-end_city_id: 3
-keep_order_of_via_cities: false
-start_city_id: 2
-visit_city { city { city_id: 2 } num_days: 0}
-visit_city { city { city_id: 3 } num_days: 0}
-visit_city { city { city_id: 3 } num_days: 0}
+itinerary {
+  start_city { city_id: 2 }
+  end_city { city_id: 3 }
+  keep_order_of_via_cities: false
+  city { city { city_id: 2 } num_days: 0}
+  city { city { city_id: 3 } num_days: 0}
+  city { city { city_id: 3 } num_days: 0}
+}
 
 =RESPONSE
 status: ERROR_IN_GUIDE_PLAN

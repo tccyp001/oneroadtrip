@@ -8,6 +8,7 @@ CREATE TABLE Users(
   nick_name VARCHAR(100),
   email VARCHAR(100),
   password CHAR(64),
+  misc VARCHAR(16384),
   picture_url VARCHAR(1024) DEFAULT ''
 ) DEFAULT CHARSET=utf8;
 CREATE INDEX UsersUserName ON Users(user_name);
@@ -73,7 +74,7 @@ CREATE TABLE Spots (
   spot_id BIGINT PRIMARY KEY AUTO_INCREMENT,
   city_id BIGINT,
   name VARCHAR(100),
-  description VARCHAR(200),
+  description VARCHAR(2048),
   hours INT,
   score FLOAT,
   interests VARCHAR(100)

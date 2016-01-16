@@ -50,6 +50,8 @@ enum Status {
   ERR_ADD_ORDER_FOR_ORDER = 118;
   ERR_CANCEL_ORDER = 119;
   ERR_GET_CHARGE_ID = 120;
+  ERR_GET_USER_ID = 121;
+  ERR_PATH_NOT_FOUND = 122;
 
   // Status for testing.
   ERR_TESTING_VALIDATE_RESERVED_GUIDES = 1000;
@@ -179,21 +181,51 @@ message Order {
   optional string refund_reason = 9;
 }
 
-// next tag: 15
+// next tag: 17
 message Itinerary {
-  optional int64 user_id = 14;
-  optional int32 startdate = 1;
-  repeated VisitCity city = 2;
-  repeated Edge edge = 3;
-  optional GuideInfo guide_for_whole_trip = 4;
-  optional int32 num_people = 5;
-  optional int32 num_room = 6;
-  optional int32 hotel = 7;
-  optional Quote quote_for_one_guide = 8;
-  optional Quote quote_for_multiple_guides = 9;
-  optional bool choose_one_guide_solution = 10 [default = false];
+  // wipe-out the id
+  optional int64 user_id = 1;
+  optional string user_token = 2;
 
-  optional int64 itinerary_id = 12;
-  repeated int64 reservation_id = 13;
-  optional Order order = 15;
+  // 包括startdate / enddate这两天
+  optional int32 startdate = 3;
+  optional int32 enddate = 4;
+
+  optional CityInfo start_city = 5;
+  optional CityInfo end_city = 6;
+
+  // - city里面包括所有途经的城市，还有起点和终点。如果没有包括进去的话，
+  //   我们在做plan的时候会把它放进去。
+  // - city.num_days表示该城市访问的天数。如果为0的话，说明希望系统建议。
+  repeated VisitCity city = 7;
+
+  // visit + edge 组成一条路线。这里有些细节需要注意：
+  // - 首先，一开始的城市有可能不是visit中的第一个城市，同样，离开的城市也有可能不是最后一个
+  //   城市。这就意味着，我们有可能落地了之后，马上坐车离开该城市。只有当该城市被放置到
+  //   PlanRequest.visit_city当中的时候，我们才将其考虑为我们需要访问的城市。
+  // - 我们将keep这样的关系：visit.size() + 1 = edge.size()
+  //   这也意味着，即使到达城市跟第一个旅游城市一致的时候，我们也会构造一条长为0的边来连接
+  //   他们。
+  repeated Edge edge = 8;
+
+  // 下面一项如果是true的话，我们会保持途经城市的次序。
+  optional bool keep_order_of_via_cities = 9 [ default = false ];
+
+  // suggest_city：这是推荐城市，所有可达城市，我们都会放到这里来，当然，suggest_rate
+  // 不一样。
+  repeated VisitCity suggest_city = 10;
+
+  optional int32 num_people = 11;
+  optional int32 num_room = 12;
+  optional string topic = 13;
+  optional int32 hotel = 14;
+
+  optional GuideInfo guide_for_whole_trip = 15;
+  optional Quote quote_for_one_guide = 17;
+  optional Quote quote_for_multiple_guides = 18;
+  optional bool choose_one_guide_solution = 19 [default = false];
+
+  optional int64 itinerary_id = 20;
+  repeated int64 reservation_id = 21;
+  optional Order order = 22;
 }
