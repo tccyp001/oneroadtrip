@@ -20,6 +20,7 @@ import com.google.inject.Provides;
 import com.oneroadtrip.matcher.common.Constants;
 import com.oneroadtrip.matcher.proto.CityInfo;
 import com.oneroadtrip.matcher.proto.Edge;
+import com.oneroadtrip.matcher.proto.Itinerary;
 import com.oneroadtrip.matcher.proto.PlanResponse;
 import com.oneroadtrip.matcher.proto.Status;
 import com.oneroadtrip.matcher.proto.VisitCity;
@@ -133,14 +134,14 @@ public class CityPlannerTest {
   public void testBuildResponse() throws Exception {
     CityPlanner cityPlanner = injector.getInstance(CityPlanner.class);
 
-    PlanResponse expected = PlanResponse.newBuilder().setStatus(Status.SUCCESS)
+    Itinerary itin = Itinerary.newBuilder()
         .setStartCity(getCityInfo(1L))
         .setEndCity(getCityInfo(2L))
-        .addVisit(createVisitCity(1L, 2, 1.0f))
-        .addVisit(createVisitCity(2L, 3, 1.0f))
-        .addVisit(createVisitCity(3L, 2, 1.0f))
-        .addVisit(createVisitCity(4L, 2, 1.0f))
-        .addVisit(createVisitCity(5L, 4, 1.0f))
+        .addCity(createVisitCity(1L, 2, 1.0f))
+        .addCity(createVisitCity(2L, 3, 1.0f))
+        .addCity(createVisitCity(3L, 2, 1.0f))
+        .addCity(createVisitCity(4L, 2, 1.0f))
+        .addCity(createVisitCity(5L, 4, 1.0f))
         .addEdge(createEdge(1L, 1L, 0, 0))
         .addEdge(createEdge(1L, 3L, 10, 1))
         .addEdge(createEdge(3L, 4L, 20, 1))
@@ -149,6 +150,8 @@ public class CityPlannerTest {
         .addEdge(createEdge(2L, 2L, 0, 0))
         .addSuggestCity(createVisitCity(6L, 1, 0.6363636f))
         .addSuggestCity(createVisitCity(8L, 2, 0.72727275f))
+        .build();
+    PlanResponse expected = PlanResponse.newBuilder().setStatus(Status.SUCCESS).setItinerary(itin)
         .build();
     Assert.assertEquals(
         cityPlanner.buildResponse(

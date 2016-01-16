@@ -74,7 +74,7 @@ CREATE TABLE Spots (
   spot_id BIGINT PRIMARY KEY AUTO_INCREMENT,
   city_id BIGINT,
   name VARCHAR(100),
-  description VARCHAR(200),
+  description VARCHAR(2048),
   hours INT,
   score FLOAT,
   interests VARCHAR(100)
