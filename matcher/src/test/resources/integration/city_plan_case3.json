@@ -1,0 +1,35 @@
+[
+  {
+    "request": "plan",
+    "itinerary": {
+      "num_people": 3,
+      "num_room": 2,
+      "hotel": 5,
+      "city": [
+        {
+          "city": {
+            "city_id": 1
+          }
+        },
+        {
+          "city": {
+            "city_id": 1
+          }
+        }
+      ],
+      "keep_order_of_via_cities": false,
+      "startdate": 20160121,
+      "enddate": 20160128,
+      "one_guide_for_whole_trip": "BOTH",
+      "start_city": {
+        "city_id": 1
+      },
+      "end_city": {
+        "city_id": 1
+      }
+    }
+  },
+  {
+    "status": "ERR_PATH_NOT_FOUND"
+  }
+]
