@@ -20,6 +20,8 @@ function ReviewCtrl($scope, $http, $state, $location, $timeout, TourInfo, Contro
 
 	$scope.$parent.showfooter = true;
 
+	$scope.TourInfo = TourInfo;
+
 // 	var FakeTourInfo = {
 // 	"data": {
 // 		"status": "SUCCESS",
@@ -285,9 +287,6 @@ function ReviewCtrl($scope, $http, $state, $location, $timeout, TourInfo, Contro
 		}) 
 	}
 	
-
-
-
 	// var handler = StripeCheckout.configure({
 	//   name: "Custom Example",
 	//   token: function(token, args) {
@@ -305,10 +304,9 @@ function ReviewCtrl($scope, $http, $state, $location, $timeout, TourInfo, Contro
 	$scope.doCheckout = function(token) {
 		console.log(token);
 		console.log(TourInfo);
-		// TourInfo.itinerary.order = {
-		// 	"order_id": token;
 
-		// }
+		TourInfo.itinerary.order.token = token.id;
+		console.log(JSON.stringify({"itinerary": TourInfo.itinerary}));
 		$http.post(Controller.base() + 'api/order', {"itinerary": TourInfo.itinerary}).then(function(res){
 			console.log(res);
 			if(res.data.status === 'SUCCESS') {
