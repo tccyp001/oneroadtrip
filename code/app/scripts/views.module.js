@@ -37,6 +37,11 @@ function DashboardConfig ($stateProvider) {
         controller: 'ReviewCtrl'
     });
 
+    $stateProvider.state('confirm', {
+        url: '/confirm',
+        templateUrl: 'scripts/views/confirm/confirm.tpl.html',
+        controller: 'ConfirmCtrl'
+    });
 }
 
 }());

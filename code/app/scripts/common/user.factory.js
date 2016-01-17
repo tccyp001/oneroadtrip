@@ -9,10 +9,11 @@ angular.module('app.shared')
         '$cookies',
         '$cookieStore',
         'Controller',
+        'AUTH_EVENTS',
         UserFactory
     ]);
 
-function UserFactory($rootScope, $resource, $state, $cookies, $cookieStore, Controller) {
+function UserFactory($rootScope, $resource, $state, $cookies, $cookieStore, Controller, AUTH_EVENTS) {
 
     /**
      * Creates a new User
@@ -57,7 +58,6 @@ function UserFactory($rootScope, $resource, $state, $cookies, $cookieStore, Cont
         return $resource(Controller.base() + 'api/signup')
             .save(auth).$promise
             .then(function(res) {
-                console.log(res);
                  if (res.status === 'SUCCESS') {
                     $cookieStore.put('username', res.user_info.user_name || res.user_info.nick_name);
                     $cookieStore.put('userimage', res.user_info.picture_url);
@@ -67,6 +67,7 @@ function UserFactory($rootScope, $resource, $state, $cookies, $cookieStore, Cont
                     that.persistentData.loggedIn = true;
                     that.persistentData.username = res.user_info.user_name || res.user_info.nick_name;
                     that.persistentData.user_info = res.user_info;
+                    $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
                     deferred.resolve(res);
                 } else {
                     deferred.reject(res);
@@ -97,6 +98,7 @@ function UserFactory($rootScope, $resource, $state, $cookies, $cookieStore, Cont
                     that.persistentData.token = res.token;
                     that.persistentData.loggedIn = true;
                     that.persistentData.username = auth.username;
+                    $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
                     deferred.resolve(res);
                 } else {
                     deferred.reject(res);
@@ -155,8 +157,6 @@ function UserFactory($rootScope, $resource, $state, $cookies, $cookieStore, Cont
             _.each(cookies, function (v, k) {
                 $cookies.remove(k);
         });
-
-        $state.go('main');
 
         return Q.resolve();
     }

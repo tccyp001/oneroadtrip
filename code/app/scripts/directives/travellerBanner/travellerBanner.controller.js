@@ -21,8 +21,6 @@ function BannerCtrl($scope, $http, $state, toastr, Controller, TourInfo, CitiInf
 	$scope.options = {};
 
 	$http.get(Controller.base() + 'api/city').then(function(res){
-		CitiInfo.children = res.data.city;
-		TourInfo.city = res.data.city;
 		$scope.options.city = _.map(res.data.city, function(city){
 			return {
 				name: city.cn_name,
@@ -31,6 +29,7 @@ function BannerCtrl($scope, $http, $state, toastr, Controller, TourInfo, CitiInf
 				alias: city.alias
 			}
 		})
+		TourInfo.city = $scope.options.city;
 	});
 
 	$scope.datePicker = {
@@ -94,7 +93,7 @@ function BannerCtrl($scope, $http, $state, toastr, Controller, TourInfo, CitiInf
 
     $scope.submitTour = function() {
 
-    	$scope.tourForm.city_plan = _.clone($scope.tourForm.city_plan) || [];
+    	$scope.tourForm.city = _.clone($scope.tourForm.city_plan) || [];
 		
 		var start_obj = {"city": {"city_id":$scope.tourForm.start_city_id}};
 		var end_obj = {"city": {"city_id":$scope.tourForm.end_city_id}};
@@ -106,10 +105,10 @@ function BannerCtrl($scope, $http, $state, toastr, Controller, TourInfo, CitiInf
 		}).compact().value();
 
     	if ($scope.tourForm.start_city_id && start_index.length === 0) {   		
-			$scope.tourForm.city_plan.unshift(start_obj);    		
+			$scope.tourForm.city.unshift(start_obj);    		
     	}
     	if ($scope.tourForm.end_city_id && end_index.length === 0) {
-			$scope.tourForm.city_plan.push(end_obj);    		
+			$scope.tourForm.city.push(end_obj);    		
     	}
 
     	$scope.tourForm.keep_order_of_via_cities = false;
@@ -128,11 +127,9 @@ function BannerCtrl($scope, $http, $state, toastr, Controller, TourInfo, CitiInf
     	$scope.tourForm.start_city = start_obj.city;
 		$scope.tourForm.end_city = end_obj.city;
 
-;
-
     	$scope.tourForm = {
 			"start_city_id": 1,
-			"city_plan": [{
+			"city": [{
 				"city": {
 					"city_id": 1
 				}
@@ -149,10 +146,7 @@ function BannerCtrl($scope, $http, $state, toastr, Controller, TourInfo, CitiInf
 			"keep_order_of_via_cities": false,
 			"startdate": 20160116,
 			"enddate": 20160122,
-			"date": {
-				"startDate": "2016-01-16T08:00:00.000Z",
-				"endDate": "2016-01-23T07:59:59.999Z"
-			},
+			"date": $scope.datePicker.date,
 			"num_people": 3,
 			"num_room": 3,
 			"hotel": 3,
@@ -165,10 +159,8 @@ function BannerCtrl($scope, $http, $state, toastr, Controller, TourInfo, CitiInf
 			}
 		}
 
-    	console.log(JSON.stringify({'itinerary': $scope.tourForm}));
-
 		$http.post(Controller.base() + 'api/plan', {'itinerary': $scope.tourForm}).then(function(res){
-			$scope.tourForm.visit_city = [];
+			$scope.tourForm.city = [];
 			if (res.data && res.data.status === 'SUCCESS') {
 				toastr.success('订制成功!');
 				TourInfo.itinerary = res.data.itinerary;
