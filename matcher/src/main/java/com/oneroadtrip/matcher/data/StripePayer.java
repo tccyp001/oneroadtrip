@@ -3,10 +3,13 @@ package com.oneroadtrip.matcher.data;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.inject.Inject;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.Maps;
+import com.oneroadtrip.matcher.OneRoadTripConfig;
 import com.oneroadtrip.matcher.common.OneRoadTripException;
 import com.oneroadtrip.matcher.proto.Order;
 import com.oneroadtrip.matcher.proto.Status;
@@ -22,9 +25,12 @@ import com.stripe.net.RequestOptions.RequestOptionsBuilder;
 
 public class StripePayer implements Payer {
   private static final Logger LOG = LogManager.getLogger();
-
-  // TODO(xfguo): Inject api key.
-  private static final String apiKey = "sk_test_x7J2qxqTLBNo4WQoYkRNMEGx";
+  
+  @Inject
+  OneRoadTripConfig config;
+//
+//  // TODO(xfguo): Inject api key.
+//  private static final String apiKey = "sk_test_x7J2qxqTLBNo4WQoYkRNMEGx";
 
   public Order makePayment(Order order) throws OneRoadTripException {
     Order.Builder builder = Order.newBuilder(order);
@@ -35,7 +41,7 @@ public class StripePayer implements Payer {
     }
 
     RequestOptions options = new RequestOptionsBuilder().setIdempotencyKey(idempotencyKey)
-        .setApiKey(apiKey).build();
+        .setApiKey(config.stripeSecureKey).build();
 
     Map<String, Object> chargeParams = Maps.newHashMap();
     chargeParams.put("amount", (long) (order.getCostUsd() * 100));
@@ -59,7 +65,7 @@ public class StripePayer implements Payer {
 
   @Override
   public void refundCharge(String chargeId, float refundAmount, String reason) throws OneRoadTripException {
-    RequestOptions options = new RequestOptionsBuilder().setApiKey(apiKey).build();
+    RequestOptions options = new RequestOptionsBuilder().setApiKey(config.stripeSecureKey).build();
     Map<String, Object> refundParams = Maps.newHashMap();
     refundParams.put("amount", (long) (refundAmount * 100));
     refundParams.put("charge", chargeId);
