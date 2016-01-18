@@ -184,10 +184,10 @@ function TourCtrl($scope, $http, $modal, $state, $rootScope, Controller, TourInf
 				obj.itinerary.edge = TourInfo.itinerary.edge;
 				// console.log(JSON.stringify(obj));
 				//Now the shit
-				var objcopy = _.clone(obj.itinerary);
-				objcopy.city_plan = _.clone(objcopy.city);
-				$http.post(Controller.base() + 'api/guide', objcopy).then(function(res){
-					parseGuideInfo(res.data.guide_plan);
+				// var objcopy = _.clone(obj.itinerary);
+				// objcopy.city_plan = _.clone(objcopy.city);
+				$http.post(Controller.base() + 'api/guide', obj).then(function(res){
+					parseGuideInfo(res.data.itinerary);
 				}) 					
 			} else {
 				console.log(res.data.status);
@@ -211,7 +211,7 @@ function TourCtrl($scope, $http, $modal, $state, $rootScope, Controller, TourInf
 	function parseGuideInfo(data){
 		_.each(data, function(item) {
 			if (item.guide_plan_type === "ONE_GUIDE_FOR_EACH_CITY") {
-				$scope.guideInfo_Multi = item.city_plan;
+				$scope.guideInfo_Multi = item.city;
 			} else if(item.guide_plan_type === "ONE_GUIDE_FOR_THE_WHOLE_TRIP") {
 				$scope.guideInfo = item.guide_for_whole_trip;
 			}
@@ -276,12 +276,13 @@ function TourCtrl($scope, $http, $modal, $state, $rootScope, Controller, TourInf
 		$scope.quotes = [];
 		// console.log(JSON.stringify(obj));
 		$http.post(Controller.base() + 'api/quote', obj).then(function(res){
-			TourInfo.itinerary = res.data.itinerary;
-			if(obj.guide_plan_type = "ONE_GUIDE_FOR_EACH_CITY") {
-				$scope.quotes = res.data.itinerary.quote_for_multiple_guides.cost_usd;
-			} else {
-				$scope.quotes = res.data.itinerary.guide_for_whole_trip.cost_usd;
-			}
+			TourInfo.itinerary = res.data.itinerary[0];
+			$scope.quotes = res.data.itinerary[0].quote.cost_usd;
+			// if(obj.guide_plan_type = "ONE_GUIDE_FOR_EACH_CITY") {
+			// 	$scope.quotes = res.data.itinerary.quote_for_multiple_guides.cost_usd;
+			// } else {
+			// 	$scope.quotes = res.data.itinerary.guide_for_whole_trip.cost_usd;
+			// }
 			$scope.showQuoteView = true;
 			$scope.quoteToPay = "预览最终行程并支付";
 		}).catch(function(e){

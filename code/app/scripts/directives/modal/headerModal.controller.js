@@ -53,6 +53,18 @@ function HeaderModalCtrl($scope, $modal, $modalInstance, $http, $cookies, $windo
        toastr.error(err.status);  
     })
   }
+
+  $scope.getpassword = function(){
+    var email = $scope.forms.email;
+    User.resetPassword(email)
+    .then(function(res) {
+      console.log(res);
+      $scope.closeModal();
+      toastr.success('密码重置邮件发送成功!'); 
+    })
+  }
+
+
   var $scopeParent = $scope.$parent;
   $scope.oauthThroughQQ = function(){
       //应用的APPID，请改为你自己的

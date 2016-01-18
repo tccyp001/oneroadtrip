@@ -108,10 +108,22 @@
   cursor: pointer;
 }
 
+.modal-password {
+  font-size: 1.3rem;
+  margin: 0 auto;
+  span {
+    cursor: pointer;
+
+    color: $traverllerOrange;
+  }
+
+}
+
 .modal-aggrement {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   opacity: 0.6;
   cursor: pointer;
+  margin-top: 10px;
   margin-bottom: 20px;
 }
 

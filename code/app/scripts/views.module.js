@@ -51,8 +51,13 @@ function DashboardConfig ($stateProvider) {
         controller: 'OauthModalCtrl'
     });
 
+    $stateProvider.state('resetpwd', {
+        url: '/reset_pwd=:accessToken',
+        templateUrl: 'scripts/views/resetpwd/resetpwd.tpl.html',
+        controller: 'ResetPwdCtrl'
+    });
 
-    
+
 }
 
 }());
