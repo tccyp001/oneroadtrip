@@ -157,7 +157,7 @@ public class GuidePlanner {
       List<Long> orderedCandidates = sortCandidates(candidates,
           Sets.newTreeSet(Util.getInterestIds(builder.getTopic(), interestNameToId)));
 
-      int querySize = Math.min(orderedCandidates.size(), config.guideReservationQueryLimit);
+      int querySize = Math.min(orderedCandidates.size(), config.singleGuideLimit);
       orderedCandidates = orderedCandidates.subList(0, querySize);
       long cutoffTimestamp = System.currentTimeMillis()
           - TimeUnit.SECONDS.toMillis(config.guideReservedSecondsForBook);
@@ -203,7 +203,7 @@ public class GuidePlanner {
             Lists.newArrayList(city.getCity().getCityId()), city.getExcludedGuideIdList());
         List<Long> orderedCandidates = sortCandidates(candidates, interests);
         List<Long> cutoffCandidates = orderedCandidates.subList(0,
-            Math.min(orderedCandidates.size(), config.guideReservationQueryLimit));
+            Math.min(orderedCandidates.size(), config.multiGuideLimit));
         guides.add(cutoffCandidates);
         allCandidates.addAll(cutoffCandidates);
       }
