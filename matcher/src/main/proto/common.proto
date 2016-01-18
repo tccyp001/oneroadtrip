@@ -53,6 +53,9 @@ enum Status {
   ERR_GET_USER_ID = 121;
   ERR_PATH_NOT_FOUND = 122;
 
+  // Util errors
+  ERR_NO_GUIDE_FOR_ITINERARY = 2000;
+
   // Status for testing.
   ERR_TESTING_VALIDATE_RESERVED_GUIDES = 1000;
   ERR_TESTING_VALIDATE_ORDER_STATUS = 1001;
@@ -181,6 +184,12 @@ message Order {
   optional string refund_reason = 9;
 }
 
+enum GuidePlanType {
+  ONE_GUIDE_FOR_EACH_CITY = 1;
+  ONE_GUIDE_FOR_THE_WHOLE_TRIP = 2;
+  BOTH = 3;
+}
+
 // next tag: 17
 message Itinerary {
   // wipe-out the id
@@ -220,12 +229,17 @@ message Itinerary {
   optional string topic = 13;
   optional int32 hotel = 14;
 
-  optional GuideInfo guide_for_whole_trip = 15;
-  optional Quote quote_for_one_guide = 17;
-  optional Quote quote_for_multiple_guides = 18;
-  optional bool choose_one_guide_solution = 19 [default = false];
+  // For Guide request / response
+  optional GuidePlanType guide_plan_type = 15 [ default = ONE_GUIDE_FOR_EACH_CITY ];
+  optional Status plan_status = 16;
+  repeated GuideInfo guide_for_whole_trip = 17;
+  repeated int64 excluded_guide_id = 18;
 
-  optional int64 itinerary_id = 20;
+  // For Quote request
+  optional Quote quote = 19;
+
+  // For booking / order
+  optional int64 itinerary_id = 20;  // 其实itinerary应该存到redis中
   repeated int64 reservation_id = 21;
   optional Order order = 22;
 }

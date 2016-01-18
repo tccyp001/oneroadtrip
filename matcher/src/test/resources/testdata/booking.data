@@ -29,14 +29,8 @@ itinerary {
       guide_id: 1
     }
   }
-  choose_one_guide_solution: false
-  quote_for_one_guide {
-    cost_usd: 4900.0
-    route_cost: 3000.0
-    hotel_cost: 1400.0
-    hotel_cost_for_guide: 500.0
-  }
-  quote_for_multiple_guides {
+  guide_plan_type: ONE_GUIDE_FOR_EACH_CITY
+  quote {
     cost_usd: 5000.0
     route_cost: 3000.0
     hotel_cost: 1700.0
@@ -67,19 +61,13 @@ itinerary {
       guide_id: 1
     }
   }
-  quote_for_one_guide {
-    cost_usd: 4900.0
-    route_cost: 3000.0
-    hotel_cost: 1400.0
-    hotel_cost_for_guide: 500.0
-  }
-  quote_for_multiple_guides {
+  guide_plan_type: ONE_GUIDE_FOR_EACH_CITY
+  quote {
     cost_usd: 5000.0
     route_cost: 3000.0
     hotel_cost: 1700.0
     hotel_cost_for_guide: 300.0
   }
-  choose_one_guide_solution: false
   itinerary_id: 1
   reservation_id: 1
   reservation_id: 2

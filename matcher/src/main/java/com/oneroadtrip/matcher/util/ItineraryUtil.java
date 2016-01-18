@@ -6,8 +6,7 @@ import com.oneroadtrip.matcher.proto.Itinerary;
 public class ItineraryUtil {
 
   public static float getCostUsd(Itinerary itin) {
-    return itin.getChooseOneGuideSolution() ?
-        itin.getQuoteForOneGuide().getCostUsd() : itin.getQuoteForMultipleGuides().getCostUsd();
+    return itin.getQuote().getCostUsd();
   }
 
   public static long getGuideId(GuideInfo guideForWholeTrip) {

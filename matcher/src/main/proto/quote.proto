@@ -9,11 +9,11 @@ option java_outer_classname = "QuoteProtos";
 import "common.proto";
 
 message QuoteRequest {
-  optional Itinerary itinerary = 1;
+  repeated Itinerary itinerary = 1;
 }
 
 message QuoteResponse {
   optional Status status = 1 [ default = SUCCESS ];
 
-  optional Itinerary itinerary = 2;
+  repeated Itinerary itinerary = 2;
 }

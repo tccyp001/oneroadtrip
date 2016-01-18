@@ -21,6 +21,8 @@ import com.google.common.collect.Maps;
 import com.oneroadtrip.matcher.common.OneRoadTripException;
 import com.oneroadtrip.matcher.proto.CityInfo;
 import com.oneroadtrip.matcher.proto.ErrorInfo;
+import com.oneroadtrip.matcher.proto.GuideInfo;
+import com.oneroadtrip.matcher.proto.GuidePlanType;
 import com.oneroadtrip.matcher.proto.Itinerary;
 import com.oneroadtrip.matcher.proto.SpotInfo;
 import com.oneroadtrip.matcher.proto.Status;
@@ -158,19 +160,27 @@ public class Util {
     return result;
   }
 
-  public static List<Pair<Long, Integer>> getGuideReservationMap(Itinerary itin) {
-    List<Pair<Long, Integer>> result = Lists.newArrayList();
-    for (VisitCity visit : itin.getCityList()) {
-      for (int i = 0; i < visit.getNumDays(); ++i) {
-        int date = Util.advanceDays(visit.getStartDate(), i);
-        if (itin.getChooseOneGuideSolution()) {
-          result.add(Pair.with(ItineraryUtil.getGuideId(itin.getGuideForWholeTrip()), date));
-        } else {
-          result.add(Pair.with(ItineraryUtil.getGuideId(visit.getGuide(0)), date));
+  public static List<Pair<Long, Integer>> getGuideReservationMap(Itinerary itin) throws OneRoadTripException {
+    try {
+      List<Pair<Long, Integer>> result = Lists.newArrayList();
+      long oneGuideId = 0L;
+      if (itin.getGuidePlanType() == GuidePlanType.ONE_GUIDE_FOR_THE_WHOLE_TRIP) {
+        oneGuideId = ItineraryUtil.getGuideId(itin.getGuideForWholeTrip(0));
+      }
+      for (VisitCity visit : itin.getCityList()) {
+        for (int i = 0; i < visit.getNumDays(); ++i) {
+          int date = Util.advanceDays(visit.getStartDate(), i);
+          if (itin.getGuidePlanType() == GuidePlanType.ONE_GUIDE_FOR_THE_WHOLE_TRIP) {
+            result.add(Pair.with(oneGuideId, date));
+          } else {
+            result.add(Pair.with(ItineraryUtil.getGuideId(visit.getGuide(0)), date));
+          }
         }
       }
+      return result;
+    } catch (IndexOutOfBoundsException e) {
+      throw new OneRoadTripException(Status.ERR_NO_GUIDE_FOR_ITINERARY, e);
     }
-    return result;
   }
   
   public static String getQuestionMarksForSql(int n) {
