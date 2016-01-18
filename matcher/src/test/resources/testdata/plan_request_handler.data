@@ -85,6 +85,8 @@ itinerary {
 =RESPONSE
 status: SUCCESS
 itinerary {
+  startdate: 20151201
+  enddate: 20151210
   start_city {
     city_id: 1
     name: "San Diego"
@@ -178,6 +180,7 @@ itinerary {
     distance: 0
     hours: 0
   }
+  keep_order_of_via_cities: false
   suggest_city {
     city {
       city_id: 3
@@ -223,6 +226,10 @@ itinerary {
     num_days: 2
     suggest_rate: 0.44169098
   }
+  num_people: 2
+  num_room: 3
+  topic: "蜜月"
+  hotel: 3
 }
 
 ==========
@@ -262,6 +269,8 @@ itinerary {
 =RESPONSE
 status: SUCCESS
 itinerary {
+  startdate: 20151201
+  enddate: 20151210
   start_city {
     city_id: 1
     name: "San Diego"
@@ -355,6 +364,7 @@ itinerary {
     distance: 0
     hours: 0
   }
+  keep_order_of_via_cities: false
   suggest_city {
     city {
       city_id: 3
@@ -364,6 +374,10 @@ itinerary {
     num_days: 2
     suggest_rate: 1.0
   }
+  num_people: 2
+  num_room: 3
+  topic: "蜜月"
+  hotel: 3
 }
 
 ==========
@@ -396,6 +410,8 @@ itinerary {
 =RESPONSE
 status: SUCCESS
 itinerary {
+  startdate: 20151225
+  enddate: 20160110
   start_city {
     city_id: 8
     name: "San Francisco"
@@ -466,6 +482,7 @@ itinerary {
     distance: 120
     hours: 2
   }
+  keep_order_of_via_cities: false
   suggest_city {
     city {
       city_id: 2
@@ -594,6 +611,8 @@ itinerary {
 =RESPONSE
 status: SUCCESS
 itinerary {
+  startdate: 20151225
+  enddate: 20160110
   start_city {
     city_id: 8
     name: "San Francisco"
@@ -756,6 +775,7 @@ itinerary {
     distance: 120
     hours: 2
   }
+  keep_order_of_via_cities: false
   suggest_city {
     city {
       city_id: 3
@@ -842,6 +862,8 @@ itinerary {
 =RESPONSE
 status: SUCCESS
 itinerary {
+  startdate: 20151225
+  enddate: 20160110
   start_city {
     city_id: 8
     name: "San Francisco"
@@ -981,6 +1003,7 @@ itinerary {
     distance: 0
     hours: 0
   }
+  keep_order_of_via_cities: true
   suggest_city {
     city {
       city_id: 3
@@ -1031,6 +1054,8 @@ itinerary {
 =RESPONSE
 status: SUCCESS
 itinerary {
+  startdate: 20151225
+  enddate: 20160110
   start_city {
     city_id: 8
     name: "San Francisco"
@@ -1101,6 +1126,7 @@ itinerary {
     distance: 120
     hours: 2
   }
+  keep_order_of_via_cities: false
   suggest_city {
     city {
       city_id: 2
@@ -1176,6 +1202,8 @@ itinerary {
 =RESPONSE
 status: SUCCESS
 itinerary {
+  startdate: 20151201
+  enddate: 20151210
   start_city {
     city_id: 1
     name: "San Diego"
@@ -1269,6 +1297,7 @@ itinerary {
     distance: 0
     hours: 0
   }
+  keep_order_of_via_cities: false
   suggest_city {
     city {
       city_id: 3
@@ -1314,4 +1343,8 @@ itinerary {
     num_days: 2
     suggest_rate: 0.44169098
   }
+  num_people: 2
+  num_room: 3
+  topic: "蜜月"
+  hotel: 3
 }

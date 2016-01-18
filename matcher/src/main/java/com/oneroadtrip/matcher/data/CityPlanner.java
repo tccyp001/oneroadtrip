@@ -129,10 +129,10 @@ public class CityPlanner {
     return adjustedDays;
   }
 
-  PlanResponse buildResponse(int totalDays, long startCityId, long endCityId, List<VisitCity> visitCities,
+  PlanResponse buildResponse(Itinerary itin, int totalDays, long startCityId, long endCityId, List<VisitCity> visitCities,
       long minDistance, List<Long> path, Map<Long, SuggestCityInfo> suggestCityToData) throws OneRoadTripException {
-    Itinerary.Builder builder = Itinerary.newBuilder().setStartCity(getCityInfo(startCityId))
-        .setEndCity(getCityInfo(endCityId));
+    Itinerary.Builder builder = Itinerary.newBuilder(cleanupCityPlanRelatedFields(itin))
+        .setStartCity(getCityInfo(startCityId)).setEndCity(getCityInfo(endCityId));
 
     List<Integer> numDaysForVisit = calculateDaysForVisit(totalDays, visitCities);
     Preconditions.checkArgument(numDaysForVisit.size() == visitCities.size());
@@ -259,7 +259,11 @@ public class CityPlanner {
     Map<Long, SuggestCityInfo> suggestCityToData = chooseOtherCities(minDistance, minDistancePath);
     int totalDays = Util.calculateDaysByStartEndDate(itin.getStartdate(), itin.getEnddate());
 
-    return buildResponse(totalDays, startCityId, endCityId, orderedVisits, minDistance,
+    return buildResponse(itin, totalDays, startCityId, endCityId, orderedVisits, minDistance,
         minDistancePath, suggestCityToData);
+  }
+
+  public static Itinerary cleanupCityPlanRelatedFields(Itinerary oriItin) {
+    return Itinerary.newBuilder(oriItin).clearCity().clearEdge().clearSuggestCity().build();
   }
 }

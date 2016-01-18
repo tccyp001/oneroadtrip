@@ -30,7 +30,7 @@ public class PlanRequestHandlerTest extends DbTest {
       TextFormat.merge(entry.getValue1(), respBuilder);
       PlanRequestHandler handler = injector.getInstance(PlanRequestHandler.class);
       Assert.assertEquals(handler.process(reqBuilder.build()), respBuilder.build());
-      //      LOG.info("\n==========\n==TESTCASE_DATA==\n\n=REQUEST\n{}=RESPONSE\n{}",
+//      LOG.info("\n==========\n==TESTCASE_DATA==\n\n=REQUEST\n{}=RESPONSE\n{}",
 //          TextFormat.printToUnicodeString(reqBuilder.build()),
 //          TextFormat.printToUnicodeString(handler.process(reqBuilder.build())));
     }

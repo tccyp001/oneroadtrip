@@ -133,8 +133,11 @@ public class CityPlannerTest {
   @Test
   public void testBuildResponse() throws Exception {
     CityPlanner cityPlanner = injector.getInstance(CityPlanner.class);
+    Itinerary oriItin = Itinerary.newBuilder().setEndCity(CityInfo.newBuilder().setCityId(1))
+        .setNumPeople(2).setNumRoom(2).setHotel(5).setStartdate(20160121).setEnddate(20160128)
+        .addCity(createVisitCity(1L, 2, 1.0f)).build();
 
-    Itinerary itin = Itinerary.newBuilder()
+    Itinerary itin = Itinerary.newBuilder(CityPlanner.cleanupCityPlanRelatedFields(oriItin))
         .setStartCity(getCityInfo(1L))
         .setEndCity(getCityInfo(2L))
         .addCity(createVisitCity(1L, 2, 1.0f))
@@ -155,6 +158,7 @@ public class CityPlannerTest {
         .build();
     Assert.assertEquals(
         cityPlanner.buildResponse(
+            CityPlanner.cleanupCityPlanRelatedFields(oriItin),
             100,
             1L,
             2L,
