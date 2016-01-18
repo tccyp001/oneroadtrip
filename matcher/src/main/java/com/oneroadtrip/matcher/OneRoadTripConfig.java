@@ -27,6 +27,10 @@ public class OneRoadTripConfig {
   @Parameter(names = "--guide_reservation_query_limit",
       description = "最多可以查询预留时间的导游的数目", required = false)
   public Integer guideReservationQueryLimit = 20;
+  
+  @Parameter(names = "--stripe_secure_key",
+      description = "Secure Key of Stripe", required = false)
+  public String stripeSecureKey = "sk_test_CWZPSjduJUAArcBrrIZplPRU";
 
   @Parameter(names = { "-h", "--help" }, description = "print help message", required = false)
   public boolean help = false;

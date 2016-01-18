@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 
 import com.google.common.collect.Lists;
 import com.oneroadtrip.matcher.proto.GuideInfo;
+import com.oneroadtrip.matcher.proto.GuidePlanType;
 import com.oneroadtrip.matcher.proto.Itinerary;
 import com.oneroadtrip.matcher.proto.VisitCity;
 import com.oneroadtrip.matcher.util.Util;
@@ -37,8 +38,9 @@ public class DatabaseAccessorTest {
     }
 
     {
-      Itinerary itin2 = Itinerary.newBuilder(itin).setChooseOneGuideSolution(true)
-          .setGuideForWholeTrip(GuideInfo.newBuilder().setGuideId(3L)).build();
+      Itinerary itin2 = Itinerary.newBuilder(itin)
+          .setGuidePlanType(GuidePlanType.ONE_GUIDE_FOR_THE_WHOLE_TRIP)
+          .addGuideForWholeTrip(GuideInfo.newBuilder().setGuideId(3L)).build();
       List<Pair<Long, Integer>> expected = Lists.newArrayList();
       for (int i = 0; i < dates.length; ++i) {
         expected.add(Pair.with(3L, dates[i]));

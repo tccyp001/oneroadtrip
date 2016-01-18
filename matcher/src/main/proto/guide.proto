@@ -4,42 +4,54 @@ package match;
 
 option java_package = "com.oneroadtrip.matcher.proto";
 option java_multiple_files = true;
+option java_outer_classname = "GuideProtos";
 
 import "common.proto";
 
-enum GuidePlanType {
-  ONE_GUIDE_FOR_THE_WHOLE_TRIP = 1;
-  ONE_GUIDE_FOR_EACH_CITY = 2;
-  BOTH = 3;
-}
-
 message GuidePlanRequest {
   optional GuidePlanType request_guide_plan_type = 1 [ default = BOTH ];
-  optional int32 start_date = 2;
-  repeated VisitCity city_plan = 3;
-  repeated int64 interest_id = 4;
-  repeated int64 excluded_guide_id = 5;
-
-  optional int32 num_people = 6;
-  optional int32 num_room = 7;
-  optional int32 hotel = 8;  // Level of hotel.
-}
-
-message GuidePlan {
-  optional Status plan_status = 1;
-  optional GuidePlanType guide_plan_type = 2;
-  repeated VisitCity city_plan = 3;
-
-  // 如果我们需要，我们可以返回
-  repeated GuideInfo guide_for_whole_trip = 4;
+  optional Itinerary itinerary = 2;
 }
 
 message GuidePlanResponse {
-  optional Status status = 1 [ default = SUCCESS ];
-  repeated GuidePlan guide_plan = 2;
+  optional Status status = 1;
+  repeated Itinerary itinerary = 2;
 }
+
+// enum GuidePlanType {
+//   ONE_GUIDE_FOR_THE_WHOLE_TRIP = 1;
+//   ONE_GUIDE_FOR_EACH_CITY = 2;
+//   BOTH = 3;
+// }
+//
+// message GuidePlanRequest {
+//   optional GuidePlanType request_guide_plan_type = 1 [ default = BOTH ];
+//   optional int32 start_date = 2;
+//   repeated VisitCity city_plan = 3;
+//   repeated int64 interest_id = 4;
+//   repeated int64 excluded_guide_id = 5;
+//
+//   optional int32 num_people = 6;
+//   optional int32 num_room = 7;
+//   optional int32 hotel = 8;  // Level of hotel.
+// }
+//
+// message GuidePlan {
+//   optional Status plan_status = 1;
+//   optional GuidePlanType guide_plan_type = 2;
+//   repeated VisitCity city_plan = 3;
+
+//   // 如果我们需要，我们可以返回
+//   repeated GuideInfo guide_for_whole_trip = 4;
+// }
+
+// message GuidePlanResponse {
+//   optional Status status = 1 [ default = SUCCESS ];
+//   repeated GuidePlan guide_plan = 2;
+// }
 
 message GuideInfoResponse {
   optional Status status = 1 [ default = SUCCESS ];
   optional GuideInfo info = 2;
 }
+

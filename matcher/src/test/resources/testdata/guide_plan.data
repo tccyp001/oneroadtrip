@@ -65,16 +65,17 @@ INSERT INTO GuideReservations (guide_id, reserved_date, is_permanent) VALUES
 ==TESTCASE_DATA==
 =REQUEST
 request_guide_plan_type: BOTH
-start_date: 20151225
-city_plan { city { city_id: 1 } num_days: 2 }
-city_plan { city { city_id: 2 } num_days: 1 }
-interest_id: 1
+itinerary {
+  startdate: 20151225
+  city { city { city_id: 1 } num_days: 2 }
+  city { city { city_id: 2 } num_days: 1 }
+  topic: "浪漫"
+}
 =RESPONSE
 status: SUCCESS
-guide_plan {
-  plan_status: SUCCESS
-  guide_plan_type: ONE_GUIDE_FOR_EACH_CITY
-  city_plan {
+itinerary {
+  startdate: 20151225
+  city {
     city {
       city_id: 1
       name: "San Diego"
@@ -156,7 +157,7 @@ guide_plan {
       }
     }
   }
-  city_plan {
+  city {
     city {
       city_id: 2
       name: "Los Angels"
@@ -309,30 +310,27 @@ guide_plan {
       }
     }
   }
+  topic: "浪漫"
+  guide_plan_type: ONE_GUIDE_FOR_EACH_CITY
+  plan_status: SUCCESS
 }
-guide_plan {
-  plan_status: ERROR_IN_GUIDE_PLAN
-  guide_plan_type: ONE_GUIDE_FOR_THE_WHOLE_TRIP
-  city_plan {
+itinerary {
+  startdate: 20151225
+  city {
     city {
       city_id: 1
-      name: "San Diego"
-      cn_name: "圣地亚哥"
-      suggest: 2
-      min: 1
     }
     num_days: 2
     start_date: 20151225
   }
-  city_plan {
+  city {
     city {
       city_id: 2
-      name: "Los Angels"
-      cn_name: "洛杉矶"
-      suggest: 3
-      min: 2
     }
     num_days: 1
     start_date: 20151227
   }
+  topic: "浪漫"
+  guide_plan_type: ONE_GUIDE_FOR_THE_WHOLE_TRIP
+  plan_status: ERROR_IN_GUIDE_PLAN
 }

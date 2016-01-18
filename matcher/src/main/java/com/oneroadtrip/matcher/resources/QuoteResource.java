@@ -14,8 +14,8 @@ import com.googlecode.protobuf.format.JsonFormat;
 import com.googlecode.protobuf.format.JsonFormat.ParseException;
 import com.oneroadtrip.matcher.common.OneRoadTripException;
 import com.oneroadtrip.matcher.data.QuoteCalculator;
+import com.oneroadtrip.matcher.proto.GuidePlanType;
 import com.oneroadtrip.matcher.proto.Itinerary;
-import com.oneroadtrip.matcher.proto.Quote;
 import com.oneroadtrip.matcher.proto.QuoteRequest;
 import com.oneroadtrip.matcher.proto.QuoteResponse;
 import com.oneroadtrip.matcher.proto.Status;
@@ -46,26 +46,22 @@ public class QuoteResource {
 
   public QuoteResponse process(QuoteRequest request) {
     // TODO(xfguo): Should catch exception in the function.
+    QuoteResponse.Builder builder = QuoteResponse.newBuilder().setStatus(Status.SUCCESS);
     try {
-      Itinerary unquotedItinerary = request.getItinerary();
-      Itinerary.Builder builder = Itinerary.newBuilder(unquotedItinerary);
-      Quote multiQuote = quoteCalculator.makeQuoteForMultipleGuides(unquotedItinerary);
-      if (multiQuote != null) {
-        builder.setQuoteForMultipleGuides(multiQuote);
+      for (Itinerary itin : request.getItineraryList()) {
+        Itinerary.Builder itinBuilder = Itinerary.newBuilder(itin);
+        if (itin.getGuidePlanType() == GuidePlanType.ONE_GUIDE_FOR_THE_WHOLE_TRIP) {
+          itinBuilder.setQuote(quoteCalculator.makeQuoteForOneGuide(itin));
+        } else if (itin.getGuidePlanType() == GuidePlanType.ONE_GUIDE_FOR_EACH_CITY) {
+          itinBuilder.setQuote(quoteCalculator.makeQuoteForMultipleGuides(itin));
+        }
+        builder.addItinerary(itinBuilder);
       }
-
-      Quote singleQuote = quoteCalculator.makeQuoteForOneGuide(unquotedItinerary);
-      if (singleQuote != null) {
-        builder.setQuoteForOneGuide(singleQuote);
-      }
-      QuoteResponse response = QuoteResponse.newBuilder().setItinerary(builder)
-          .setStatus(Status.SUCCESS).build();
-      return LogUtil.logAndReturnResponse("/api/quote", request, response);
     } catch (OneRoadTripException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-      return QuoteResponse.newBuilder().setStatus(e.getStatus()).build();
+      builder.clear().setStatus(e.getStatus());
     }
+    QuoteResponse response = builder.build();
+    return LogUtil.logAndReturnResponse("/api/quote", request, response);
   }
 
 }

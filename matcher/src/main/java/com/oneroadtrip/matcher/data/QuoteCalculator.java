@@ -55,7 +55,7 @@ public class QuoteCalculator {
 
 
   public Quote makeQuoteForOneGuide(Itinerary itinerary) throws OneRoadTripException {
-    if (!itinerary.hasGuideForWholeTrip()) {
+    if (itinerary.getGuideForWholeTripCount() == 0) {
       return null;
     }
 
@@ -70,7 +70,7 @@ public class QuoteCalculator {
       }
       long startCityId = edges.get(0).getFromCity().getCityId();
       long endCityId = edges.get(edges.size() - 1).getToCity().getCityId();
-      long guideCityId = itinerary.getGuideForWholeTrip().getHostCity().getCityId();
+      long guideCityId = itinerary.getGuideForWholeTrip(0).getHostCity().getCityId();
       distance += getConnectionDistance(guideCityId, startCityId);
       distance += getConnectionDistance(endCityId, guideCityId);
 
