@@ -73,6 +73,7 @@ itinerary {
 }
 =RESPONSE
 status: SUCCESS
+status: SUCCESS
 itinerary {
   startdate: 20151225
   city {
@@ -122,38 +123,6 @@ itinerary {
         cn_name: "盐湖城"
         suggest: 2
         min: 1
-      }
-    }
-    guide {
-      guide_id: 5
-      name: "EE"
-      description: "旧金山导游"
-      max_people: 7
-      has_car: false
-      score: 5.0
-      topic: "摄影"
-      topic: "拍照"
-      phone: 5105857097
-      host_city {
-        city_id: 8
-        name: "San Francisco"
-        cn_name: "旧金山"
-        suggest: 3
-        min: 1
-      }
-      cover_city {
-        city_id: 1
-        name: "San Diego"
-        cn_name: "圣地亚哥"
-        suggest: 2
-        min: 1
-      }
-      cover_city {
-        city_id: 3
-        name: "Las Vegas"
-        cn_name: "拉斯维加斯"
-        suggest: 3
-        min: 2
       }
     }
   }
@@ -267,46 +236,6 @@ itinerary {
         cn_name: "洛杉矶"
         suggest: 3
         min: 2
-      }
-    }
-    guide {
-      guide_id: 7
-      name: "GG"
-      description: "旧金山导游"
-      max_people: 60
-      has_car: false
-      score: 3.0
-      topic: "历史"
-      topic: "商务"
-      topic: "家庭"
-      phone: 4154898122
-      host_city {
-        city_id: 8
-        name: "San Francisco"
-        cn_name: "旧金山"
-        suggest: 3
-        min: 1
-      }
-      cover_city {
-        city_id: 2
-        name: "Los Angels"
-        cn_name: "洛杉矶"
-        suggest: 3
-        min: 2
-      }
-      cover_city {
-        city_id: 3
-        name: "Las Vegas"
-        cn_name: "拉斯维加斯"
-        suggest: 3
-        min: 2
-      }
-      cover_city {
-        city_id: 4
-        name: "Phoenix"
-        cn_name: "菲尼克斯"
-        suggest: 1
-        min: 1
       }
     }
   }
