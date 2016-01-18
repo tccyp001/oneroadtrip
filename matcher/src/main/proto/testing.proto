@@ -4,6 +4,10 @@ package match;
 
 option java_package = "com.oneroadtrip.matcher.proto.testing";
 option java_multiple_files = true;
+option java_outer_classname = "TestingProtos";
+
+import "common.proto";
+import "signup.proto";
 
 // Legacy protobuf, testing only
 message CityRequest {
@@ -17,4 +21,9 @@ message CurlResponse {
   // Weibo OAuth
   optional string name = 3;
   optional string profile_image_url = 4;
+}
+
+message TestingMessage {
+  optional SignupRequest signup = 1;
+  repeated Itinerary itinerary = 2;
 }

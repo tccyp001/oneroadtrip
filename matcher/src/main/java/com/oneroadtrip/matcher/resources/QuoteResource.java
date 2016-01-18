@@ -25,7 +25,7 @@ import com.oneroadtrip.matcher.util.ProtoUtil;
 @Path("quote")
 public class QuoteResource {
   private static final Logger LOG = LogManager.getLogger();
-  
+
   @Inject
   QuoteCalculator quoteCalculator;
 

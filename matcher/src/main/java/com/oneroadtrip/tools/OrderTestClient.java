@@ -1,5 +1,6 @@
 package com.oneroadtrip.tools;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Map;
@@ -20,6 +21,7 @@ import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.google.common.io.Files;
 import com.google.protobuf.TextFormat;
 import com.googlecode.protobuf.format.JsonFormat;
 import com.oneroadtrip.matcher.proto.BookingRequest;
@@ -27,6 +29,12 @@ import com.oneroadtrip.matcher.proto.BookingResponse;
 import com.oneroadtrip.matcher.proto.Itinerary;
 import com.oneroadtrip.matcher.proto.OrderRequest;
 import com.oneroadtrip.matcher.proto.OrderResponse;
+import com.oneroadtrip.matcher.proto.SignupRequest;
+import com.oneroadtrip.matcher.proto.SignupResponse;
+import com.oneroadtrip.matcher.proto.Status;
+import com.oneroadtrip.matcher.proto.testing.TestingMessage;
+import com.oneroadtrip.matcher.util.HashUtil.Hasher;
+import com.oneroadtrip.matcher.util.HashUtil.HasherImpl;
 import com.stripe.exception.APIConnectionException;
 import com.stripe.exception.APIException;
 import com.stripe.exception.AuthenticationException;
@@ -42,20 +50,13 @@ public class OrderTestClient {
   private static class Config {
     @Parameter(names = "--api_url", description = "API prefix", required = false)
     public String apiUrl = "http://127.0.0.1:8080/api";
+    
+    @Parameter(names = "--proto_path", description = "Protobuf text file path", required = false)
+    public String protoPath = "src/test/resources/testclient/case1.data";
 
     @Parameter(names = { "-h", "--help" }, description = "print help message", required = false)
     public boolean help = false;
   }
-
-  static final String ITINERARY_TEXT = "" + "  city {" + "    num_days: 2"
-      + "    start_date: 20151229" + "    guide {" + "      guide_id: 1" + "    }" + "  }"
-      + "  city {" + "    num_days: 3" + "    start_date: 20151231" + "    guide {"
-      + "      guide_id: 2" + "    }" + "  }" + "  city {" + "    num_days: 2"
-      + "    start_date: 20160103" + "    guide {" + "      guide_id: 1" + "    }" + "  }"
-      + "  choose_one_guide_solution: false" + "  quote_for_one_guide {" + "    cost_usd: 4900.0"
-      + "    route_cost: 3000.0" + "    hotel_cost: 1400.0" + "    hotel_cost_for_guide: 500.0"
-      + "  }" + "  quote_for_multiple_guides {" + "    cost_usd: 5000.0" + "    route_cost: 3000.0"
-      + "    hotel_cost: 1700.0" + "    hotel_cost_for_guide: 300.0" + "  }";
 
   static String createStripeToken() throws AuthenticationException, InvalidRequestException,
       APIConnectionException, CardException, APIException {
@@ -91,11 +92,34 @@ public class OrderTestClient {
       return;
     }
 
-    Itinerary.Builder itinBuilder = Itinerary.newBuilder();
-    TextFormat.merge(ITINERARY_TEXT, itinBuilder);
-    BookingRequest request = BookingRequest.newBuilder().setItinerary(itinBuilder).build();
+    String itineraryContent = Files.toString(new File(config.protoPath), Charsets.UTF_8);
+    TestingMessage.Builder msgBuilder = TestingMessage.newBuilder();
+    TextFormat.merge(itineraryContent, msgBuilder);
 
+    Hasher hasher = new HasherImpl();
+    String userName =  String.format("test_%s", hasher.getRandomString(50));
+    SignupRequest signup = SignupRequest.newBuilder(msgBuilder.getSignup())
+        .setUsername(userName).build();
     try (CloseableHttpClient client = HttpClients.createDefault()) {
+      SignupResponse.Builder signupRespBuilder = SignupResponse.newBuilder();
+      {
+        HttpPost post = new HttpPost(String.format("%s/signup", config.apiUrl));
+        post.setEntity(new StringEntity(JsonFormat.printToString(signup),
+            ContentType.APPLICATION_JSON));
+        LOG.info("http post request: \n'{}'", post);
+        HttpResponse response = client.execute(post);
+        Preconditions.checkArgument(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK);
+        try (InputStream bodyStream = response.getEntity().getContent()) {
+          JsonFormat.merge(new InputStreamReader(bodyStream, Charsets.UTF_8), signupRespBuilder);
+          Preconditions.checkArgument(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK);
+          LOG.info("signup response: \n'{}'", signupRespBuilder.build());
+        }
+      }
+
+      String userToken = signupRespBuilder.getToken();
+      Itinerary itin = Itinerary.newBuilder(msgBuilder.getItinerary(0))
+          .setUserToken(userToken).build();
+      BookingRequest request = BookingRequest.newBuilder().setItinerary(itin).build();
       BookingResponse.Builder respBuilder = BookingResponse.newBuilder();
       {
         HttpPost post = new HttpPost(String.format("%s/booking", config.apiUrl));
@@ -106,10 +130,12 @@ public class OrderTestClient {
         Preconditions.checkArgument(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK);
         try (InputStream bodyStream = response.getEntity().getContent()) {
           JsonFormat.merge(new InputStreamReader(bodyStream, Charsets.UTF_8), respBuilder);
+          Preconditions.checkArgument(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK);
           LOG.info("booking response: \n'{}'", respBuilder.build());
         }
       }
 
+      Preconditions.checkArgument(respBuilder.getStatus() == Status.SUCCESS);
       Itinerary.Builder orderItinBuilder = Itinerary.newBuilder(respBuilder.getItinerary());
       orderItinBuilder.getOrderBuilder().setDescription("testing")
           .setToken(createStripeToken());
@@ -126,6 +152,7 @@ public class OrderTestClient {
         }
       }
 
+      Preconditions.checkArgument(orderRespBuilder.getStatus() == Status.SUCCESS);
       Itinerary.Builder refundItinBuilder = Itinerary.newBuilder(orderRespBuilder.getItinerary());
       OrderResponse.Builder refundRespBuilder = OrderResponse.newBuilder();
       {
@@ -139,6 +166,7 @@ public class OrderTestClient {
           LOG.info("refund response: \n'{}'", refundRespBuilder);
         }
       }
+      Preconditions.checkArgument(refundRespBuilder.getStatus() == Status.SUCCESS);
     }
   }
 }

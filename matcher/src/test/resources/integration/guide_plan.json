@@ -1,60 +1,29 @@
 [
-    {
-        "request": "guide",
-        "one_guide_for_whole_trip": "BOTH",
-        "start_date": 20151225,
-        "hotel": 3,
-        "num_people": 7,
-        "num_room": 3,
-        "city_plan": [
-            {
-              "city": { "city_id": 1 },
-                "num_days": 2
-            },
-            {
-              "city": { "city_id": 2 },
-                "num_days": 1
-            }
-        ],
-        "interest_id": 1
-    },
-    {
-        "status": "SUCCESS",
-        "guide_plan": [
-            {
-                "plan_status": "SUCCESS",
-                "guide_plan_type": "ONE_GUIDE_FOR_EACH_CITY",
-                "city_plan": [
-                    {
-                      "city": { "city_id": 1 },
-                        "start_date": 20151225,
-                        "num_days": 2,
-                        "guide_id": [2,5]
-                    },
-                    {
-                      "city": { "city_id": 2 },
-                        "start_date": 20151227,
-                        "num_days": 1,
-                        "guide_id": [1,6,4,7]
-                    }
-                ]
-            },
-            {
-                "plan_status": "ERROR_IN_GUIDE_PLAN",
-                "guide_plan_type": "ONE_GUIDE_FOR_THE_WHOLE_TRIP",
-                "city_plan": [
-                    {
-                        "city": { "city_id": 1 },
-                        "start_date": 20151225,
-                        "num_days": 2
-                    },
-                    {
-                      "city": { "city_id": 2 },
-                        "start_date": 20151227,
-                        "num_days": 1
-                    }
-                ]
-            }
-        ]
+  {
+    "request": "guide",
+    "request_guide_plan_type": "BOTH",
+    "itinerary": {
+      "startdate": 20151225,
+      "hotel": 3,
+      "num_people": 7,
+      "num_room": 3,
+      "city": [
+        {
+          "city": {
+            "city_id": 1
+          },
+          "num_days": 2
+        },
+        {
+          "city": {
+            "city_id": 2
+          },
+          "num_days": 1
+        }
+      ],
+      "topic": "浪漫"
     }
+  },
+  {
+  }
 ]

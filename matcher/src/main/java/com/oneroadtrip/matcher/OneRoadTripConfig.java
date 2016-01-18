@@ -31,6 +31,7 @@ public class OneRoadTripConfig {
   @Parameter(names = "--stripe_secure_key",
       description = "Secure Key of Stripe", required = false)
   public String stripeSecureKey = "sk_test_CWZPSjduJUAArcBrrIZplPRU";
+  // My key "sk_test_x7J2qxqTLBNo4WQoYkRNMEGx"
 
   @Parameter(names = { "-h", "--help" }, description = "print help message", required = false)
   public boolean help = false;

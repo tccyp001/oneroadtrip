@@ -40,6 +40,8 @@ public class StripePayer implements Payer {
       builder.setIdempotencyKey(idempotencyKey);
     }
 
+    LOG.info("xfguo: config = {}", config);
+    LOG.info("xfguo: idempotencyKey = {}, stripeSecureKey = {}", idempotencyKey, config.stripeSecureKey);
     RequestOptions options = new RequestOptionsBuilder().setIdempotencyKey(idempotencyKey)
         .setApiKey(config.stripeSecureKey).build();
 
@@ -47,7 +49,9 @@ public class StripePayer implements Payer {
     chargeParams.put("amount", (long) (order.getCostUsd() * 100));
     chargeParams.put("currency", "usd");
     chargeParams.put("source", order.getToken());
-    chargeParams.put("description", order.getDescription());
+    if (!order.getDescription().isEmpty()) {
+      chargeParams.put("description", order.getDescription());
+    }
 
     try {
       Charge charge = Charge.create(chargeParams, options);

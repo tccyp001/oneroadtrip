@@ -1,0 +1,550 @@
+[
+  {
+    "request": "order",
+    "itinerary": {
+      "user_token": "dnf58dmgci7vlnkhumc2uk2j6h74665rovn8ld34",
+      "city": [
+        {
+          "city": {
+            "city_id": 1
+          },
+          "num_days": 1,
+          "guide": [
+            {
+              "host_city": {
+                "city_id": 8
+              }
+            }
+          ],
+          "plans": [
+            {
+              "day_id": 1,
+              "spot": [
+                {
+                  "hours": 2,
+                  "info": {
+                    "spot_id": 14,
+                    "city_id": 1,
+                    "name": "中途岛航母博物馆",
+                    "description": "",
+                    "hours": 2,
+                    "score": 9,
+                    "topics": [
+                      "家庭",
+                      "商务"
+                    ]
+                  }
+                },
+                {
+                  "hours": 1,
+                  "info": {
+                    "spot_id": 15,
+                    "city_id": 1,
+                    "name": "圣地亚哥动物园",
+                    "description": "",
+                    "hours": 1,
+                    "score": 9,
+                    "topics": [
+                      "家庭",
+                      "商务",
+                      "浪漫"
+                    ]
+                  }
+                },
+                {
+                  "hours": 1,
+                  "info": {
+                    "spot_id": 16,
+                    "city_id": 1,
+                    "name": "巴波亚公园",
+                    "description": "",
+                    "hours": 1,
+                    "score": 9,
+                    "topics": [
+                      "家庭",
+                      "浪漫"
+                    ]
+                  }
+                },
+                {
+                  "hours": 2,
+                  "info": {
+                    "spot_id": 17,
+                    "city_id": 1,
+                    "name": "托里派因斯州立公园",
+                    "description": "",
+                    "hours": 2,
+                    "score": 9,
+                    "topics": [
+                      "家庭",
+                      "浪漫"
+                    ]
+                  }
+                },
+                {
+                  "hours": 1,
+                  "info": {
+                    "spot_id": 18,
+                    "city_id": 1,
+                    "name": "La Jolla Cove (拉荷亚)",
+                    "description": "",
+                    "hours": 1,
+                    "score": 9,
+                    "topics": [
+                      "家庭",
+                      "浪漫"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "city": {
+            "city_id": 2
+          },
+          "num_days": 2,
+          "guide": [
+            {
+              "host_city": {
+                "city_id": 8
+              }
+            }
+          ],
+          "plans": [
+            {
+              "day_id": 1,
+              "spot": [
+                {
+                  "hours": 3,
+                  "info": {
+                    "spot_id": 23,
+                    "city_id": 2,
+                    "name": "盖蒂中心",
+                    "description": "",
+                    "hours": 3,
+                    "score": 10,
+                    "topics": [
+                      "家庭",
+                      "浪漫"
+                    ]
+                  }
+                },
+                {
+                  "hours": 3,
+                  "info": {
+                    "spot_id": 28,
+                    "city_id": 2,
+                    "name": "Nethercutt Museum",
+                    "description": "",
+                    "hours": 3,
+                    "score": 10,
+                    "topics": [
+                      "家庭",
+                      "浪漫"
+                    ]
+                  }                },
+                {
+                  "hours": 1,
+                  "info": {
+                    "spot_id": 39,
+                    "city_id": 2,
+                    "name": "好莱坞标志",
+                    "description": "",
+                    "hours": 1,
+                    "score": 8,
+                    "topics": [
+                      "家庭",
+                      "浪漫",
+                      "商务"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "day_id": 2,
+              "spot": [
+                {
+                  "hours": 2,
+                  "info": {
+                    "spot_id": 24,
+                    "city_id": 2,
+                    "name": "格里菲斯天文台",
+                    "description": "",
+                    "hours": 2,
+                    "score": 9,
+                    "topics": [
+                      "家庭",
+                      "浪漫"
+                    ]
+                  }
+                },
+                {
+                  "hours": 4,
+                  "info": {
+                    "spot_id": 25,
+                    "city_id": 2,
+                    "name": "好莱坞环球影城",
+                    "description": "",
+                    "hours": 4,
+                    "score": 9,
+                    "topics": [
+                      "家庭",
+                      "浪漫",
+                      "商务"
+                    ]
+                  }
+                }
+              ],
+              "error_info": [
+                "LEFT_HOURS"
+              ]
+            }
+          ]
+        },
+        {
+          "city": {
+            "city_id": 8
+          },
+          "num_days": 2,
+          "guide": [
+            {
+              "host_city": {
+                "city_id": 8
+              }
+            }
+          ],
+          "plans": [
+            {
+              "day_id": 1,
+              "spot": [
+                {
+                  "hours": 2,
+                  "info": {
+                    "spot_id": 1,
+                    "city_id": 8,
+                    "name": "金门大桥",
+                    "description": "",
+                    "hours": 2,
+                    "score": 10,
+                    "topics": [
+                      "浪漫",
+                      "家庭",
+                      "商务"
+                    ]
+                  }
+                },
+                {
+                  "hours": 1,
+                  "info": {
+                    "spot_id": 4,
+                    "city_id": 8,
+                    "name": "艺术宫",
+                    "description": "",
+                    "hours": 1,
+                    "score": 10,
+                    "topics": [
+                      "浪漫",
+                      "家庭",
+                      "商务"
+                    ]
+                  }
+                },
+                {
+                  "hours": 2,
+                  "info": {
+                    "spot_id": 5,
+                    "city_id": 8,
+                    "name": "渔人码头",
+                    "description": "",
+                    "hours": 2,
+                    "score": 10,
+                    "topics": [
+                      "浪漫",
+                      "家庭",
+                      "商务"
+                    ]
+                  }
+                },
+                {
+                  "hours": 1,
+                  "info": {
+                    "spot_id": 11,
+                    "city_id": 8,
+                    "name": "金银岛",
+                    "description": "",
+                    "hours": 1,
+                    "score": 10,
+                    "topics": [
+                      "浪漫",
+                      "家庭",
+                      "商务"
+                    ]
+                  }
+                },
+                {
+                  "hours": 1,
+                  "info": {
+                    "spot_id": 3,
+                    "city_id": 8,
+                    "name": "九曲花街",
+                    "description": "",
+                    "hours": 1,
+                    "score": 8,
+                    "topics": [
+                      "浪漫",
+                      "家庭",
+                      "商务"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "day_id": 2,
+              "spot": [
+                {
+                  "hours": 2,
+                  "info": {
+                    "spot_id": 2,
+                    "city_id": 8,
+                    "name": "金门公园",
+                    "description": "",
+                    "hours": 2,
+                    "score": 8,
+                    "topics": [
+                      "浪漫",
+                      "家庭",
+                      "商务"
+                    ]
+                  }
+                },
+                {
+                  "hours": 1,
+                  "info": {
+                    "spot_id": 6,
+                    "city_id": 8,
+                    "name": "双子峰",
+                    "description": "",
+                    "hours": 1,
+                    "score": 8,
+                    "topics": [
+                      "浪漫",
+                      "家庭",
+                      "商务"
+                    ]
+                  }
+                },
+                {
+                  "hours": 1,
+                  "info": {
+                    "spot_id": 7,
+                    "city_id": 8,
+                    "name": "市政厅",
+                    "description": "",
+                    "hours": 1,
+                    "score": 8,
+                    "topics": [
+                      "商务",
+                      "家庭"
+                    ]
+                  }
+                },
+                {
+                  "hours": 2,
+                  "info": {
+                    "spot_id": 8,
+                    "city_id": 8,
+                    "name": "联合广场",
+                    "description": "",
+                    "hours": 2,
+                    "score": 8,
+                    "topics": [
+                      "浪漫",
+                      "家庭"
+                    ]
+                  }
+                },
+                {
+                  "hours": 1,
+                  "info": {
+                    "spot_id": 9,
+                    "city_id": 8,
+                    "name": "亚洲艺术博物馆",
+                    "description": "",
+                    "hours": 1,
+                    "score": 8,
+                    "topics": [
+                      "家庭",
+                      "商务"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "edge": [
+        {
+          "from_city": {
+            "city_id": 1,
+            "name": "San Diego",
+            "cn_name": "圣地亚哥"
+          },
+          "to_city": {
+            "city_id": 1,
+            "name": "San Diego",
+            "cn_name": "圣地亚哥"
+          },
+          "distance": 0,
+          "hours": 0
+        },
+        {
+          "from_city": {
+            "city_id": 1,
+            "name": "San Diego",
+            "cn_name": "圣地亚哥"
+          },
+          "to_city": {
+            "city_id": 2,
+            "name": "Los Angels",
+            "cn_name": "洛杉矶"
+          },
+          "distance": 120,
+          "hours": 2
+        },
+        {
+          "from_city": {
+            "city_id": 2,
+            "name": "Los Angels",
+            "cn_name": "洛杉矶"
+          },
+          "to_city": {
+            "city_id": 8,
+            "name": "San Francisco",
+            "cn_name": "旧金山"
+          },
+          "distance": 383,
+          "hours": 7
+        },
+        {
+          "from_city": {
+            "city_id": 8,
+            "name": "San Francisco",
+            "cn_name": "旧金山"
+          },
+          "to_city": {
+            "city_id": 8,
+            "name": "San Francisco",
+            "cn_name": "旧金山"
+          },
+          "distance": 0,
+          "hours": 0
+        }
+      ],
+      "guide_for_whole_trip": [
+        {
+          "guide_id": 200,
+          "name": "董琪",
+          "description": "旧金山",
+          "max_people": 7,
+          "has_car": true,
+          "score": 9,
+          "topic": [
+            "浪漫",
+            "商务",
+            "家庭"
+          ],
+          "phone": 4155280389,
+          "host_city": {
+            "city_id": 8,
+            "name": "San Francisco",
+            "cn_name": "旧金山",
+            "suggest": 3,
+            "min": 1,
+            "alias": [
+              "San Francisco",
+              "旧金山",
+              "SF",
+              "JJS",
+              "JIUJINGSHAN",
+              "SFO"
+            ]
+          },
+          "cover_city": [
+            {
+              "city_id": 1,
+              "name": "San Diego",
+              "cn_name": "圣地亚哥",
+              "suggest": 2,
+              "min": 1,
+              "alias": [
+                "San Diego",
+                "圣地亚哥",
+                "SD",
+                "SDYG",
+                "SHIDIYAGE",
+                "SAN"
+              ]
+            },
+            {
+              "city_id": 2,
+              "name": "Los Angels",
+              "cn_name": "洛杉矶",
+              "suggest": 3,
+              "min": 2,
+              "alias": [
+                "Los Angels",
+                "洛杉矶",
+                "LA",
+                "LUOSANJI",
+                "LDJ",
+                "LAX"
+              ]
+            },
+            {
+              "city_id": 8,
+              "name": "San Francisco",
+              "cn_name": "旧金山",
+              "suggest": 3,
+              "min": 1,
+              "alias": [
+                "San Francisco",
+                "旧金山",
+                "SF",
+                "JJS",
+                "JIUJINGSHAN",
+                "SFO"
+              ]
+            }
+          ]
+        }
+      ],
+      "quote": {
+        "cost_usd": 2709,
+        "route_cost": 1509,
+        "hotel_cost": 900,
+        "hotel_cost_for_guide": 300
+      },
+      "itinerary_id": 24,
+      "reservation_id": [
+        208,
+        209,
+        210,
+        211,
+        212
+      ],
+      "order": {
+        "order_id": 30,
+        "cost_usd": 2709,
+        "token": "tok_17UjhaIDEI818jWpLC4T1Js1"
+      }
+    }
+  },
+  {
+    
+  }
+]

@@ -43,6 +43,8 @@ public class App {
       jc.usage();
       return;
     }
+    
+    LOG.info("config.stripe_secure_key = {}", config.stripeSecureKey);
 
     Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
       @Override

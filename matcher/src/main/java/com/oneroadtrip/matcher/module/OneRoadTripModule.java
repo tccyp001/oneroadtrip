@@ -39,7 +39,7 @@ public class OneRoadTripModule extends AbstractModule {
     LOG.info("mysql connect: {}", config.connectionUri);
 
     bind(OneRoadTripConfig.class).toInstance(config);
-
+    
     install(new AbstractModule() {
       // DB required info module
       @Override
