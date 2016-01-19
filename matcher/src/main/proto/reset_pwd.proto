@@ -1,0 +1,22 @@
+syntax = "proto2";
+
+package match;
+
+option java_package = "com.oneroadtrip.matcher.proto";
+option java_multiple_files = true;
+option java_outer_classname = "ResetPwdProtos";
+
+import "common.proto";
+
+message ResetPwdRequest {
+  // For tradition login
+  optional string usermail = 1;
+  optional string token = 2;
+  optional string password = 3;
+  optional int32 step = 4;
+}
+
+message ResetPwdResponse {
+  optional Status status = 1 [default = SUCCESS];
+  optional string message = 2;
+}

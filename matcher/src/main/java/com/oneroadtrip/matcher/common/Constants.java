@@ -16,4 +16,6 @@ public class Constants {
   public static final String GUIDE_TO_INTERESTS = "guide_to_interests";
   public static final String GUIDE_TO_SCORE = "guide_to_score";
   public static final String TOKEN_TO_USER_ID = "token_to_user_id";
+  public static final String TOKEN_TYPE_SIGNIN = "signin";
+  public static final String TOKEN_TYPE_RESET = "reset";
 }

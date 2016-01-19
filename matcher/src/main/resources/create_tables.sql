@@ -39,7 +39,8 @@ CREATE TABLE Tokens (
   token VARCHAR(40),
   user_id BIGINT,
   expired_ts TIMESTAMP,
-  is_expired BOOLEAN
+  is_expired BOOLEAN,
+  type VARCHAR(20),
 ) DEFAULT CHARSET=utf8;
 CREATE INDEX TokensToken ON Tokens(token);
 CREATE INDEX TokensUserId ON Tokens(user_id);

@@ -18,11 +18,5 @@ public class CityResource {
   public String get() {
     return handler.handleGet();
   }
-  
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path("/test")
-  public String gettest() {
-	    return handler.handleGet();
-  }
+
 }

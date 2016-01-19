@@ -74,7 +74,7 @@
         <artifactId>maven-protoc-plugin</artifactId>
         <version>0.1.11-SNAPSHOT</version>
         <configuration>
-          <protocExecutable>/usr/local/bin/protoc</protocExecutable>
+          <protocExecutable>/usr/bin/protoc</protocExecutable>
           <protoSourceRoot>${project.basedir}/src/main/proto</protoSourceRoot>
         </configuration>
         <executions>

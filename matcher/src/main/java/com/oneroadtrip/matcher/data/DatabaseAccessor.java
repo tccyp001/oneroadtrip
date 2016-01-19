@@ -26,6 +26,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.protobuf.TextFormat;
+import com.oneroadtrip.matcher.common.Constants;
 import com.oneroadtrip.matcher.common.OneRoadTripException;
 import com.oneroadtrip.matcher.proto.GuideInfo;
 import com.oneroadtrip.matcher.proto.Itinerary;
@@ -151,11 +152,12 @@ public class DatabaseAccessor {
   }
   
   private static final String GET_USER_ID_BY_TOKEN = "SELECT user_id FROM Tokens "
-      + "WHERE token = ? AND is_expired = false AND expired_ts > ?";
-  private static long getUserId(Connection conn, String userToken) throws OneRoadTripException {
+      + "WHERE token = ? AND is_expired = false AND expired_ts > ? AND type = ?";
+  private static long getUserId(Connection conn, String userToken, String type) throws OneRoadTripException {
     try (PreparedStatement pStmt = conn.prepareStatement(GET_USER_ID_BY_TOKEN)) {
       pStmt.setString(1, userToken);
       pStmt.setTimestamp(2, SqlUtil.getTimestampToNow(0));
+      pStmt.setString(3, type);
       try (ResultSet rs = pStmt.executeQuery()) {
         Preconditions.checkArgument(rs.next());
         long userId = rs.getLong(1);
@@ -165,6 +167,13 @@ public class DatabaseAccessor {
     } catch (IllegalArgumentException| SQLException e) {
       throw new OneRoadTripException(Status.ERR_GET_USER_ID, e);
     }
+  }
+  private static long getUserId(Connection conn, String userToken) throws OneRoadTripException {
+	  return getUserId(conn, userToken, Constants.TOKEN_TYPE_SIGNIN);
+  }
+  
+  private static long getUserIdResetPwd(Connection conn, String userToken) throws OneRoadTripException {
+	  return getUserId(conn, userToken, Constants.TOKEN_TYPE_RESET);
   }
 
   private static final String RESERVER_GUIDES_PERMANENTLY = "INSERT INTO GuideReservations "
@@ -267,6 +276,7 @@ public class DatabaseAccessor {
       throw new OneRoadTripException(Status.ERR_ADD_USER, e);
     }
   }
+  
 
   public UserInfo addOAuthUser(UserInfo oauthUser, SignupType type, String accessToken,
       String uniqueId) throws OneRoadTripException {
@@ -356,6 +366,19 @@ public class DatabaseAccessor {
     }
   }
 
+  private static final String LOOKUP_USER_BY_EMAIL = "SELECT user_id, user_name, nick_name, password, picture_url "
+	      + "FROM Users WHERE email = ?";
+
+  public UserInfo lookupUserByEmail(String email) throws OneRoadTripException {
+    try (Connection conn = dataSource.getConnection();
+        PreparedStatement pStmt = conn.prepareStatement(LOOKUP_USER_BY_EMAIL)) {
+      pStmt.setString(1, email);
+      return getUserBySql(pStmt);
+    } catch (SQLException e) {
+      throw new OneRoadTripException(Status.ERROR_IN_SQL, e);
+    }
+  }
+	  
   private static final String EXPIRE_ALL_TOKENS_OF_USER = "UPDATE Tokens SET is_expired = True "
       + "WHERE user_id = ?";
 
@@ -376,9 +399,17 @@ public class DatabaseAccessor {
   }
 
   private static final String INSERT_ONE_TOKEN_FOR_USER = "INSERT INTO Tokens "
-      + "(token, user_id, expired_ts, is_expired) VALUES (?, ?, ?, false)";
+      + "(token, user_id, expired_ts, is_expired, type) VALUES (?, ?, ?, false, ?)";
 
+  private int insertOneTokenForResetPwd(Connection conn, UserInfo user, String token)
+	      throws OneRoadTripException {
+	  return insertOneTokenForUser(conn, user, token, "ResetPwd");
+  }
   private int insertOneTokenForUser(Connection conn, UserInfo user, String token)
+	      throws OneRoadTripException {
+	  return insertOneTokenForUser(conn, user, token, "SignIn");
+  }
+  private int insertOneTokenForUser(Connection conn, UserInfo user, String token, String type)
       throws OneRoadTripException {
     try (PreparedStatement pStmt = conn.prepareStatement(INSERT_ONE_TOKEN_FOR_USER)) {
       pStmt.setString(1, token);

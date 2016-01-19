@@ -24,13 +24,9 @@ public class CityRequestHandler implements RequestHandler {
 
   // TODO(xfguo): (P4) in case we use grpc in the future.
   public String handleGet() {
-	  processtest();
-	  return "aaa";
-    //return JsonFormat.printToString(process());
+	return JsonFormat.printToString(process());
   }
-  public void processtest(){
-	  EmailUtil.sendPwdResetEmail();
-  }
+
   public CityResponse process() {
     CityResponse.Builder respBuilder = CityResponse.newBuilder().setStatus(Status.SUCCESS);
     try {
