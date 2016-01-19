@@ -104,6 +104,8 @@ public class DatabaseAccessor {
       + "VALUES (?, ?, ?, false, default)";
   private static final String ADD_ORDER = "INSERT INTO Orders "
       + "(user_id, itinerary_id, cost_usd) VALUES (?, ?, ?)";
+  
+  
 
   public static Triplet<Long, Long, List<Long>> prepareForOrder(Itinerary itin, Connection conn)
       throws OneRoadTripException {
@@ -111,13 +113,14 @@ public class DatabaseAccessor {
     Long itineraryId = null;
     try (PreparedStatement pStmt = conn.prepareStatement(ADD_ITINERARY,
         Statement.RETURN_GENERATED_KEYS)) {
-      pStmt.setString(1, TextFormat.printToUnicodeString(itin));
+      pStmt.setString(1, Util.cutoffString(TextFormat.printToUnicodeString(itin), 1000));
       itineraryId = SqlUtil.executeStatementAndReturnId(pStmt);
     } catch (SQLException e) {
       throw new OneRoadTripException(Status.ERR_ADD_ITINERARY_FOR_ORDER, e);
     }
 
     // 3. add reservations
+    List<Pair<Long, Integer>> guideReservations = Util.getGuideReservationMap(itin);
     List<Long> reservedGuideIds = Lists.newArrayList();
     for (Pair<Long, Integer> guideAndDate : Util.getGuideReservationMap(itin)) {
       try (PreparedStatement pStmt = conn.prepareStatement(ADD_RESERVATION,

@@ -205,4 +205,11 @@ public class Util {
       throw new OneRoadTripException(Status.ERROR_IN_GUIDE_PLAN, e);
     }
   }
+
+  public static String cutoffString(String str, int maxLength) {
+    if (str.length() < maxLength) {
+      return str;
+    }
+    return str.substring(0, maxLength);
+  }
 }
