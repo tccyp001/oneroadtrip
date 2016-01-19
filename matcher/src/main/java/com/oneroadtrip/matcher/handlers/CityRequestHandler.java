@@ -13,6 +13,7 @@ import com.googlecode.protobuf.format.JsonFormat;
 import com.oneroadtrip.matcher.proto.CityInfo;
 import com.oneroadtrip.matcher.proto.CityResponse;
 import com.oneroadtrip.matcher.proto.Status;
+import com.oneroadtrip.matcher.util.EmailUtil;
 import com.oneroadtrip.matcher.util.LogUtil;
 
 public class CityRequestHandler implements RequestHandler {
@@ -23,9 +24,13 @@ public class CityRequestHandler implements RequestHandler {
 
   // TODO(xfguo): (P4) in case we use grpc in the future.
   public String handleGet() {
-    return JsonFormat.printToString(process());
+	  processtest();
+	  return "aaa";
+    //return JsonFormat.printToString(process());
   }
-
+  public void processtest(){
+	  EmailUtil.sendPwdResetEmail();
+  }
   public CityResponse process() {
     CityResponse.Builder respBuilder = CityResponse.newBuilder().setStatus(Status.SUCCESS);
     try {

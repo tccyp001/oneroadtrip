@@ -13,8 +13,10 @@ public class OneRoadTripConfig {
   public String jdbcDriver = "com.mysql.jdbc.Driver";
   
   @Parameter(names = "--connectionUri", description = "DB connection Uri", required = false)
-  public String connectionUri = "jdbc:mysql://tech-meetup.com:4407/oneroadtrip"
-        + "?characterEncoding=UTF-8&user=oneroadtrip&password=oneroadtrip123";
+  public String connectionUri = "jdbc:mysql://54.213.193.97:3306/onemoretrip"
+	        + "?characterEncoding=UTF-8&user=onetrip&password=onetrip123";
+  //public String connectionUri = "jdbc:mysql://tech-meetup.com:4407/oneroadtrip"
+    //    + "?characterEncoding=UTF-8&user=oneroadtrip&password=oneroadtrip123";
 
   @Parameter(names = "--preload_period_in_second",
       description = "Period in second for preloading DB data", required = false)

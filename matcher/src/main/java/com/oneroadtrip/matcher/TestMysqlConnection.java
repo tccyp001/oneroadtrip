@@ -28,7 +28,9 @@ public class TestMysqlConnection {
     }
 
     Connection conn = DriverManager
-        .getConnection("jdbc:mysql://tech-meetup.com:4407/oneroadtrip?user=oneroadtrip&password=oneroadtrip123");
+    		 .getConnection("jdbc:mysql://54.213.193.97:3306/onemoretrip?user=onetrip&password=onetrip123");
+       // .getConnection("jdbc:mysql://tech-meetup.com:4407/oneroadtrip?user=oneroadtrip&password=oneroadtrip123");
+    		
     
     if (conn == null) {
       LOG.info("xfguo: null mysql connection");
