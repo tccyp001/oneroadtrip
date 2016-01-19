@@ -13,7 +13,7 @@ angular.module('app.directives', [])
 }]);
 
 function linkFunc (scope, elem, attrs) {
-	var element = angular.element($('.header-dropdown-toggle'))
+	var element = angular.element($('.dropdown-flag'))
 
 	element.mouseenter(function(e){
 		angular.element($('.header-dropdown-manu')).css('display', 'block');

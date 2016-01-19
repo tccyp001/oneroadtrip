@@ -1,0 +1,25 @@
+@import 'variables';
+
+.confirmpage {
+	width: 50%;
+	margin: 0 auto;
+	min-height: 600px;
+	font-size: 3rem;
+	padding-top:100px;
+	div {
+		margin-bottom: 50px;
+		text-align: center;
+		button {
+			background:  $traverllerOrange;
+			a {
+				color: white;
+				font-weight: 500;
+				&:hover {
+					text-decoration: none;
+					opacity: 0.6;
+					cursor: pointer;
+				}
+			}
+		}
+	}
+}

@@ -11,11 +11,12 @@ angular.module('app.controllers')
     'toastr',
     'Controller',
     'TourInfo',
+    'CitiInfo',
     BannerCtrl
 ]);
 
 
-function BannerCtrl($scope, $http, $state, toastr, Controller, TourInfo) {
+function BannerCtrl($scope, $http, $state, toastr, Controller, TourInfo, CitiInfo) {
 
 	$scope.options = {};
 
@@ -92,21 +93,22 @@ function BannerCtrl($scope, $http, $state, toastr, Controller, TourInfo) {
 
     $scope.submitTour = function() {
 
-    	$scope.tourForm.visit_city = $scope.tourForm.visit_city || [];
-    		var start_obj = {"city": {"city_id":$scope.tourForm.start_city_id}};
-    		var end_obj = {"city": {"city_id":$scope.tourForm.end_city_id}};
-    		var start_index = _($scope.tourForm.visit_city).map(function(city) {
-    			return city.city.city_id === $scope.tourForm.start_city_id;
-    		}).compact().value();
-    		var end_index = _($scope.tourForm.visit_city).map(function(city) {
-    			return city.city.city_id === $scope.tourForm.end_city_id;
-    		}).compact().value();
+    	$scope.tourForm.city = _.clone($scope.tourForm.city_plan) || [];
+		
+		var start_obj = {"city": {"city_id":$scope.tourForm.start_city_id}};
+		var end_obj = {"city": {"city_id":$scope.tourForm.end_city_id}};
+		var start_index = _($scope.tourForm.city_plan).map(function(city) {
+			return city.city.city_id === $scope.tourForm.start_city_id;
+		}).compact().value();
+		var end_index = _($scope.tourForm.city_plan).map(function(city) {
+			return city.city.city_id === $scope.tourForm.end_city_id;
+		}).compact().value();
 
     	if ($scope.tourForm.start_city_id && start_index.length === 0) {   		
-			$scope.tourForm.visit_city.unshift(start_obj);    		
+			$scope.tourForm.city.unshift(start_obj);    		
     	}
     	if ($scope.tourForm.end_city_id && end_index.length === 0) {
-			$scope.tourForm.visit_city.push(end_obj);    		
+			$scope.tourForm.city.push(end_obj);    		
     	}
 
     	$scope.tourForm.keep_order_of_via_cities = false;
@@ -121,31 +123,48 @@ function BannerCtrl($scope, $http, $state, toastr, Controller, TourInfo) {
     	$scope.tourForm.num_people = parseInt($scope.tourForm.num_people);
     	$scope.tourForm.num_room = parseInt($scope.tourForm.num_room);
     	$scope.tourForm.hotel = parseInt($scope.tourForm.hotel);
+    	$scope.tourForm.one_guide_for_whole_trip = 'BOTH';
+    	$scope.tourForm.start_city = start_obj.city;
+		$scope.tourForm.end_city = end_obj.city;
 
+    	$scope.tourForm = {
+			"start_city_id": 1,
+			"city": [{
+				"city": {
+					"city_id": 1
+				}
+			}, {
+				"city": {
+					"city_id": 8
+				}
+			}, {
+				"city": {
+					"city_id": 2
+				}
+			}],
+			"end_city_id": 2,
+			"keep_order_of_via_cities": false,
+			"startdate": 20160116,
+			"enddate": 20160122,
+			"date": $scope.datePicker.date,
+			"num_people": 3,
+			"num_room": 3,
+			"hotel": 3,
+			"one_guide_for_whole_trip": "BOTH",
+			"start_city": {
+				"city_id": 1
+			},
+			"end_city": {
+				"city_id": 2
+			}
+		}
 
-   //  	$scope.tourForm = {
-   //  		"end_city_id": 8,
-			// "enddate": 20160113,
-			// "hotel": 5,
-			// "keep_order_of_via_cities": false,
-			// "num_people": 3,
-			// "num_room": 2,
-			// "start_city_id": 1,
-			// "startdate": 20160107,
-			// "visit_city": [
-			// 	{ "city": {"city_id": 1} },
-		 //      	{ "city": {"city_id": 2} },
-		 //      	{ "city": {"city_id": 8} }
-		 //      	],
-			// "date": $scope.datePicker.date
-   //  	}
-
-		$http.post(Controller.base() + 'api/plan', $scope.tourForm).then(function(res){
-			$scope.tourForm.visit_city = [];
+		$http.post(Controller.base() + 'api/plan', {'itinerary': $scope.tourForm}).then(function(res){
+			$scope.tourForm.city = [];
 			if (res.data && res.data.status === 'SUCCESS') {
 				toastr.success('订制成功!');
-				TourInfo.data = res.data;
-				TourInfo.requestData = $scope.tourForm;
+				TourInfo.itinerary = res.data.itinerary;
+				TourInfo.requestData = {'itinerary': $scope.tourForm}
 				$state.go('tour');				
 			} else {
 				toastr.error('订制失败，请重新尝试');
@@ -168,8 +187,8 @@ function BannerCtrl($scope, $http, $state, toastr, Controller, TourInfo) {
 	  $scope.myDate.getDate());
 
 	$scope.onlyWeekendsPredicate = function(date) {
-	var day = date.getDay();
-	return day === 0 || day === 6;
+		var day = date.getDay();
+		return day === 0 || day === 6;
 	}
 
 }

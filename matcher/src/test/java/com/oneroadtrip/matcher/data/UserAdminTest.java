@@ -30,13 +30,12 @@ public class UserAdminTest {
         SignupResponse.Builder respBuilder = SignupResponse.newBuilder();
         TextFormat.merge(entry.getValue1(), respBuilder);
         SignupResponse actual = userAdmin.signUp(reqBuilder.build());
-        Assert.assertEquals(respBuilder.build(), actual);
+        Assert.assertEquals(actual, respBuilder.build());
       }
     }
   }
   
   public static class Login extends DbTest {
-
     @Test
     public void testLogin() throws Exception {
       TestingDataProcessor processor = TestingDataProcessor.loadData(h2Info.connection.get(),

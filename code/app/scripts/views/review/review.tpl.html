@@ -3,11 +3,23 @@
 	旅行行程
 	</div>
 
+	<div ng-repeat="city in itinerary.city">
+		<div>城市: {{city.city.city_id}}</div>
+		<div>停留时间: {{city.num_days}} 天</div>
+		<div ng-repeat="plan in city.plans">
+			<div> Day {{plan.day_id}} </div>
+			<div ng-repeat="spot in plan.spot">
+				{{spot.hours}} {{spot.info.name}}
+			</div>
+		</div>
+
+	</div>
+
 	<div>
 		选择支付方式
 	</div>
 
-	<div>
+<!-- 	<div>
 		<form ng-submit="paymentThroughStripe()">
 		  <script
 		    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
@@ -20,15 +32,17 @@
 		  </script>
 		</form>
 
-	</div>
+	</div> -->
 
 	<div><button class="btn" stripe-checkout="doCheckout"
-            data-key="pk_test_o8vBSoWdOOXImHqSIPJvufTV"
-            data-name="Simple Example"
-            data-description="Five dollahs!"
-            data-amount="500"
+            data-key="pk_test_AaRZsutnFQGtp5rrZ6T7FvuI"
+            data-name="OneRoadTrip"
+            data-description="Pay Your trip"
+            data-amount="{{TourInfo.itinerary.order.cost_usd * 100}}"
            	data-currency="usd"
-		    data-alipay="true">支付</button></div>
+		    data-alipay="true">国际信用卡支付</button>
+	</div>
+
 
 
 

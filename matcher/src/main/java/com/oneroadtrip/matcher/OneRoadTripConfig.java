@@ -26,9 +26,17 @@ public class OneRoadTripConfig {
       description = "Period in second for preloading DB data", required = false)
   public Long guideReservedSecondsForBook = TimeUnit.MINUTES.toSeconds(5);
 
-  @Parameter(names = "--guide_reservation_query_limit",
+  @Parameter(names = "--multiple_guide_limit",
       description = "最多可以查询预留时间的导游的数目", required = false)
-  public Integer guideReservationQueryLimit = 20;
+  public Integer multiGuideLimit = 4;
+  
+  @Parameter(names = "--single_guide_limit", description = "最多可以查询预留时间的一个导游到底的导游数目", required = false)
+  public Integer singleGuideLimit = 8;
+  
+  @Parameter(names = "--stripe_secure_key",
+      description = "Secure Key of Stripe", required = false)
+  public String stripeSecureKey = "sk_test_CWZPSjduJUAArcBrrIZplPRU";
+  // My key "sk_test_x7J2qxqTLBNo4WQoYkRNMEGx"
 
   @Parameter(names = { "-h", "--help" }, description = "print help message", required = false)
   public boolean help = false;

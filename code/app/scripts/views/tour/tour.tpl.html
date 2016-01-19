@@ -24,7 +24,7 @@
 					<div class="head-right">
 						<div>{{tour.city.cn_name}}</div>
 						<div>
-							<i class="fa fa-plus-circle" ng-click="planPlus(tour)"></i> {{tour.num_days}} <i class="fa fa-minus-circle" ng-click="planMinus(tour)"></i> <i class="fa fa-trash-o" ng-click="deletePlan(tour)"></i>
+							<i class="fa fa-minus-circle" ng-click="planMinus(tour)"></i> {{tour.num_days}} <i class="fa fa-plus-circle" ng-click="planPlus(tour)"></i> <i class="fa fa-trash-o" ng-click="deletePlan(tour)"></i>
 						</div>
 					</div>	
 				</div>
@@ -250,11 +250,14 @@
 			</div>
 		</div>
 		<div class="quoteView" ng-if="showQuoteView">
-			<div ng-repeat="quote in quotes" class="priceinfo" ng-click="gotoReview(quote)">
-				￥ {{quote.value}} 人
+			<div class="priceinfo" ng-click="gotoReview()">
+				￥ {{quotes}}
 			</div>
 		</div>
-		<div class="guide-content-footer" ng-click="getQuote()">
+		<div class="guide-content-footer" ng-click="getQuote()" ng-if="!showQuoteView">
+			<div class="content">{{quoteToPay}}</div>
+		</div>
+		<div class="guide-content-footer" ng-click="gotoReview()" ng-if="showQuoteView">
 			<div class="content">{{quoteToPay}}</div>
 		</div>
 	</div>

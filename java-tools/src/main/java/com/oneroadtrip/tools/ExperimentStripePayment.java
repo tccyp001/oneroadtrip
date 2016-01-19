@@ -7,7 +7,8 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.oneroadtrip.matcher.data.OrderProcessor;
+import com.oneroadtrip.matcher.data.Payer;
+import com.oneroadtrip.matcher.data.StripePayer;
 import com.oneroadtrip.matcher.proto.Itinerary;
 import com.oneroadtrip.matcher.proto.Order;
 import com.stripe.model.Token;
@@ -39,7 +40,8 @@ public class ExperimentStripePayment {
     Order order = Order.newBuilder().setCostUsd(3.00f).setToken(token.getId())
         .setDescription("test xfguo").build();
     Itinerary itin = Itinerary.newBuilder().setOrder(order).build();
-    Order newOrder = OrderProcessor.makePayment(itin);
+    Payer payer = new StripePayer();
+    Order newOrder = payer.makePayment(order);
     LOG.info("xfguo: origin order: \n{}", order);
     LOG.info("xfguo: returned order:\n{}", newOrder);
   }

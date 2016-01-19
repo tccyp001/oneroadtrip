@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.StringJoiner;
 
 import javax.inject.Inject;
 import javax.sql.DataSource;
@@ -19,6 +18,7 @@ import org.testng.Assert;
 import com.google.common.base.Preconditions;
 import com.google.protobuf.TextFormat;
 import com.google.protobuf.TextFormat.ParseException;
+import com.oneroadtrip.matcher.common.OneRoadTripException;
 import com.oneroadtrip.matcher.proto.Itinerary;
 import com.oneroadtrip.matcher.util.ItineraryUtil;
 import com.oneroadtrip.matcher.util.SqlUtil;
@@ -37,7 +37,9 @@ public class TestingDataAccessor {
       + "FROM GuideReservations " + "WHERE update_timestamp >= (?) AND reservation_id IN (%s)";
   private static final String SELECT_ORDER_BY_ID = "SELECT order_id, user_id, itinerary_id, cost_usd "
       + "FROM Orders WHERE order_id = ?";
-  public void validateBooking(Itinerary itin, long orderId, long itinId, List<Long> reservationIds) {
+
+  public void validateBooking(Itinerary itin, long orderId, long itinId, List<Long> reservationIds)
+      throws OneRoadTripException {
     try (Connection conn = dataSource.getConnection()) {
       try (PreparedStatement pStmt = conn.prepareStatement(SELECT_ITINERARY_BY_ID)) {
         pStmt.setLong(1, itinId);

@@ -1,0 +1,19 @@
+syntax = "proto2";
+
+package match;
+
+option java_package = "com.oneroadtrip.matcher.proto";
+option java_multiple_files = true;
+option java_outer_classname = "UserInfoProtos";
+
+import "common.proto";
+
+message UserInfoRequest {
+  optional string user_token = 1;
+}
+
+message UserInfoResponse {
+  optional Status status = 1;
+  optional UserInfo user_info = 2;
+  repeated Order order = 4;
+}

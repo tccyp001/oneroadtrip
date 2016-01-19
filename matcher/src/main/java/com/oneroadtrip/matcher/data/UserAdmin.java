@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.oneroadtrip.matcher.common.OneRoadTripException;
 import com.oneroadtrip.matcher.proto.LoginRequest;
@@ -25,10 +26,10 @@ public class UserAdmin {
 
   @Inject
   private DatabaseAccessor dbAccessor;
-  
+
   @Inject
   private Curl curl;
-  
+
   @Inject
   private Hasher hasher;
 
@@ -40,7 +41,7 @@ public class UserAdmin {
       return LoginResponse.newBuilder().setStatus(e.getStatus()).build();
     }
   }
-  
+
   private LoginResponse internalLogin(LoginRequest request) throws OneRoadTripException {
     try {
       // 1. Lookup user
@@ -53,10 +54,20 @@ public class UserAdmin {
       } else if (!user.getPassword().equals(HashUtil.getOneWayHash(request.getPassword()))) {
         throw new OneRoadTripException(Status.INCORRECT_PASSWORD, null);
       }
-      return LoginResponse.newBuilder().setStatus(Status.SUCCESS).setToken(login(user)).build();
+      // wipe out password
+      return LoginResponse.newBuilder().setStatus(Status.SUCCESS).setToken(refreshToken(user))
+          .setUserInfo(UserInfo.newBuilder(user).clearPassword().build()).build();
     } catch (NoSuchAlgorithmException e) {
-      throw new OneRoadTripException(Status.SERVER_ERROR, e);
+      throw new OneRoadTripException(Status.ERR_IN_PASSWORD_ENCODING, e);
     }
+  }
+
+  private String refreshToken(UserInfo user) throws OneRoadTripException {
+    // 1. Set all current avail tokens expired
+    // 2. Create one token and add it as a valid one.
+    // 3. Returns it.
+    dbAccessor.expireTokensOfUser(user);
+    return dbAccessor.addOneValidToken(hasher, user);
   }
 
   public SignupResponse signUp(SignupRequest request) {
@@ -76,15 +87,31 @@ public class UserAdmin {
     // Should not reach here.
     return SignupResponse.newBuilder().setStatus(Status.SHOULD_NOT_REACH).build();
   }
+  
+  private static final String QQ_OAUTH_FORMAT = "https://graph.qq.com/user/get_user_info?"
+      + "access_token=%s&oauth_consumer_key=%s&openid=%s";
+  private static final String WEIBO_OAUTH_FORMAT = "https://api.weibo.com/2/users/show.json?"
+      + "access_token=%s&uid=%s";
 
-  String getFormatByType(SignupType type) {
-    if (type.getNumber() == SignupType.QQ_OAUTH_VALUE) {
-      return "https://graph.qq.com/user/get_user_info?"
-          + "access_token=%s&oauth_consumer_key=%s&openid=%s";
-    } else if (type.getNumber() == SignupType.WEIBO_OAUTH_VALUE) {
-      return "";
+  private String getOAuthUrl(SignupRequest request) throws OneRoadTripException {
+    switch (request.getType().getNumber()) {
+    case SignupType.QQ_OAUTH_VALUE:
+      return String.format(QQ_OAUTH_FORMAT, request.getAccessToken(), request.getClientId(),
+          request.getOpenId());
+    case SignupType.WEIBO_OAUTH_VALUE:
+      return String.format(WEIBO_OAUTH_FORMAT, request.getAccessToken(), request.getUid());
     }
-    return "";
+    throw new OneRoadTripException(Status.INCORRECT_OAUTH_REQUEST, null);
+  }
+  
+  private String getUniqueIdOfRequest(SignupRequest request) throws OneRoadTripException {
+    switch (request.getType().getNumber()) {
+    case SignupType.QQ_OAUTH_VALUE:
+      return String.format("%s|%s", request.getClientId(), request.getOpenId());
+    case SignupType.WEIBO_OAUTH_VALUE:
+      return request.getUid();
+    }
+    throw new OneRoadTripException(Status.INCORRECT_OAUTH_REQUEST, null);
   }
 
   public SignupResponse oauthSignup(SignupRequest request) throws OneRoadTripException {
@@ -95,33 +122,47 @@ public class UserAdmin {
     // - If found, go to next step.
     // 3. Go to login and return the token.
     try {
-      String oauthResp = curl.curl(String.format(getFormatByType(request.getType()),
-          request.getAccessToken(), request.getClientId(), request.getOpenId()));
-      String nickname = getNicknameByOauthResponse(request.getType(), oauthResp);
+      String oauthResp = curl.curl(getOAuthUrl(request));
+      UserInfo oauthUserInfo = getNicknameByOauthResponse(request.getType(), oauthResp);
 
-      UserInfo user = dbAccessor.lookupOAuthUser(request.getClientId(), request.getOpenId());
-
+      String uniqueId = getUniqueIdOfRequest(request);
+      UserInfo user = dbAccessor.lookupOAuthUser(request.getType(), uniqueId);
       if (user == null) {
-        // TODO(xfguo): 其实我们不需要保留accessToken，这里的保留只是第一次顺便做的。如果需要保留，
-        // DB里面需要有个ts域来保留存入accessToken的时间。
-        user = dbAccessor.addOAuthUser(nickname, request.getType(), request.getAccessToken(),
-            request.getClientId(), request.getOpenId());
+        user = dbAccessor.addOAuthUser(oauthUserInfo, request.getType(), request.getAccessToken(),
+            uniqueId);
+      } else if (!user.getNickName().equals(oauthUserInfo.getNickName())
+          || !user.getPictureUrl().equals(oauthUserInfo.getPictureUrl())) {
+        // 当获取的用户信息跟数据库中不一致的时候，即刻更改数据库，保持一致。
+        user = dbAccessor.updateUser(UserInfo.newBuilder(user)
+            .setNickName(oauthUserInfo.getNickName()).setPictureUrl(oauthUserInfo.getPictureUrl())
+            .build());
       }
 
-      String token = login(user);
-      return SignupResponse.newBuilder().setStatus(Status.SUCCESS).setToken(token).build();
+      return SignupResponse.newBuilder().setStatus(Status.SUCCESS).setToken(refreshToken(user))
+          .setUserInfo(UserInfo.newBuilder(user).clearPassword().build()).build();
     } catch (IOException e) {
       throw new OneRoadTripException(Status.ERROR_IN_OAUTH_CONFIRMATION, e);
     }
   }
 
-  private String getNicknameByOauthResponse(SignupType type, String oauthResp)
+  private UserInfo getNicknameByOauthResponse(SignupType type, String oauthResp)
       throws OneRoadTripException {
-    if (type.equals(SignupType.QQ_OAUTH)) {
-      return new JsonParser().parse(oauthResp).getAsJsonObject().get("nickname").getAsString();
-    }
-    // TODO(xfguo): Add other cases, for example weibo.
-    throw new OneRoadTripException(Status.SHOULD_NOT_REACH, null);
+    JsonObject obj = new JsonParser().parse(oauthResp).getAsJsonObject();
+    UserInfo.Builder builder = UserInfo.newBuilder();
+    switch (type.getNumber()) {
+    case SignupType.QQ_OAUTH_VALUE:
+      builder.setNickName(obj.get("nickname").getAsString());
+      builder.setPictureUrl(obj.get("figureurl_qq_1").getAsString());
+      break;
+    case SignupType.WEIBO_OAUTH_VALUE:
+      builder.setNickName(obj.get("name").getAsString());
+      builder.setPictureUrl(obj.get("profile_image_url").getAsString());
+      break;
+    default:
+      // TODO(xfguo): Add other cases, for example weibo.
+      throw new OneRoadTripException(Status.SHOULD_NOT_REACH, null);
+    }      
+    return builder.build();
   }
 
   private SignupResponse traditionalSignup(SignupRequest request) throws OneRoadTripException {
@@ -134,26 +175,12 @@ public class UserAdmin {
       if (user != null) {
         throw new OneRoadTripException(Status.INCORRECT_USER_NAME, null);
       }
-      user = dbAccessor.addUser(request.getUsername(), request.getNickname(),
+      user = dbAccessor.addUser(request.getUsername(), request.getNickname(), "",
           HashUtil.getOneWayHash(request.getPassword()));
-      return SignupResponse.newBuilder().setStatus(Status.SUCCESS).setToken(login(user)).build();
+      return SignupResponse.newBuilder().setStatus(Status.SUCCESS).setToken(refreshToken(user))
+          .setUserInfo(UserInfo.newBuilder(user).clearPassword().build()).build();
     } catch (NoSuchAlgorithmException e) {
-      throw new OneRoadTripException(Status.SERVER_ERROR, e);
+      throw new OneRoadTripException(Status.ERR_IN_PASSWORD_ENCODING, e);
     }
   }
-
-  /**
-   * Login and return a new token for the user.
-   * 
-   * @return
-   * @throws OneRoadTripException 
-   */
-  private String login(UserInfo user) throws OneRoadTripException {
-    // 1. Set all current avail tokens expired
-    // 2. Create one token and add it as a valid one.
-    // 3. Returns it.
-    dbAccessor.expireTokensOfUser(user);
-    return dbAccessor.addOneValidToken(hasher, user);
-  }
-
 }

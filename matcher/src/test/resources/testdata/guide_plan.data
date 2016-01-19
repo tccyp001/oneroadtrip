@@ -65,16 +65,18 @@ INSERT INTO GuideReservations (guide_id, reserved_date, is_permanent) VALUES
 ==TESTCASE_DATA==
 =REQUEST
 request_guide_plan_type: BOTH
-start_date: 20151225
-city_plan { city { city_id: 1 } num_days: 2 }
-city_plan { city { city_id: 2 } num_days: 1 }
-interest_id: 1
+itinerary {
+  startdate: 20151225
+  city { city { city_id: 1 } num_days: 2 }
+  city { city { city_id: 2 } num_days: 1 }
+  topic: "浪漫"
+}
 =RESPONSE
 status: SUCCESS
-guide_plan {
-  plan_status: SUCCESS
-  guide_plan_type: ONE_GUIDE_FOR_EACH_CITY
-  city_plan {
+status: SUCCESS
+itinerary {
+  startdate: 20151225
+  city {
     city {
       city_id: 1
       name: "San Diego"
@@ -123,40 +125,8 @@ guide_plan {
         min: 1
       }
     }
-    guide {
-      guide_id: 5
-      name: "EE"
-      description: "旧金山导游"
-      max_people: 7
-      has_car: false
-      score: 5.0
-      topic: "摄影"
-      topic: "拍照"
-      phone: 5105857097
-      host_city {
-        city_id: 8
-        name: "San Francisco"
-        cn_name: "旧金山"
-        suggest: 3
-        min: 1
-      }
-      cover_city {
-        city_id: 1
-        name: "San Diego"
-        cn_name: "圣地亚哥"
-        suggest: 2
-        min: 1
-      }
-      cover_city {
-        city_id: 3
-        name: "Las Vegas"
-        cn_name: "拉斯维加斯"
-        suggest: 3
-        min: 2
-      }
-    }
   }
-  city_plan {
+  city {
     city {
       city_id: 2
       name: "Los Angels"
@@ -268,71 +238,28 @@ guide_plan {
         min: 2
       }
     }
-    guide {
-      guide_id: 7
-      name: "GG"
-      description: "旧金山导游"
-      max_people: 60
-      has_car: false
-      score: 3.0
-      topic: "历史"
-      topic: "商务"
-      topic: "家庭"
-      phone: 4154898122
-      host_city {
-        city_id: 8
-        name: "San Francisco"
-        cn_name: "旧金山"
-        suggest: 3
-        min: 1
-      }
-      cover_city {
-        city_id: 2
-        name: "Los Angels"
-        cn_name: "洛杉矶"
-        suggest: 3
-        min: 2
-      }
-      cover_city {
-        city_id: 3
-        name: "Las Vegas"
-        cn_name: "拉斯维加斯"
-        suggest: 3
-        min: 2
-      }
-      cover_city {
-        city_id: 4
-        name: "Phoenix"
-        cn_name: "菲尼克斯"
-        suggest: 1
-        min: 1
-      }
-    }
   }
+  topic: "浪漫"
+  guide_plan_type: ONE_GUIDE_FOR_EACH_CITY
+  plan_status: SUCCESS
 }
-guide_plan {
-  plan_status: ERROR_IN_GUIDE_PLAN
-  guide_plan_type: ONE_GUIDE_FOR_THE_WHOLE_TRIP
-  city_plan {
+itinerary {
+  startdate: 20151225
+  city {
     city {
       city_id: 1
-      name: "San Diego"
-      cn_name: "圣地亚哥"
-      suggest: 2
-      min: 1
     }
     num_days: 2
     start_date: 20151225
   }
-  city_plan {
+  city {
     city {
       city_id: 2
-      name: "Los Angels"
-      cn_name: "洛杉矶"
-      suggest: 3
-      min: 2
     }
     num_days: 1
     start_date: 20151227
   }
+  topic: "浪漫"
+  guide_plan_type: ONE_GUIDE_FOR_THE_WHOLE_TRIP
+  plan_status: ERROR_IN_GUIDE_PLAN
 }

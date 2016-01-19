@@ -1,0 +1,137 @@
+[
+  {
+    "request": "quote",
+    "itinerary": {
+      "end_date": 20160107,
+      "start_date": 20160107,
+      "hotel": 5,
+      "num_people": 3,
+      "num_room": 2,
+      "city": [
+        {
+          "city": {
+            "city_id": 1
+          },
+          "num_days": 2,
+          "guide": {
+            "host_city": {
+              "city_id": 8
+            }
+          }
+        },
+        {
+          "city": {
+            "city_id": 2
+          },
+          "num_days": 3,
+          "guide": {
+            "host_city": {
+              "city_id": 8
+            }
+          }
+        },
+        {
+          "city": {
+            "city_id": 8
+          },
+          "num_days": 3,
+          "guide": {
+            "host_city": {
+              "city_id": 8
+            }
+          }
+        }
+      ],
+      "edge": [
+        {
+          "from_city": {
+            "city_id": 1,
+            "name": "San Diego",
+            "cn_name": "圣地亚哥"
+          },
+          "to_city": {
+            "city_id": 8,
+            "name": "San Francisco",
+            "cn_name": "旧金山"
+          },
+          "distance": 503,
+          "hours": 9
+        }
+      ]
+    },
+    "guide_plan_type": "ONE_GUIDE_FOR_THE_WHOLE_TRIP",
+    "guide_for_whole_trip": {
+      "host_city": {
+        "city_id": 8
+      }
+    }
+  },
+  {
+    "status": "ERR_NO_GUIDE_FOR_ITINERARY"
+  },
+  {
+    "request": "quote",
+    "itinerary": {
+      "end_date": 20160107,
+      "start_date": 20160107,
+      "hotel": 5,
+      "num_people": 3,
+      "num_room": 2,
+      "city": [
+        {
+          "city": {
+            "city_id": 1
+          },
+          "num_days": 2,
+          "guide": {
+            "host_city": {
+              "city_id": 8
+            }
+          }
+        },
+        {
+          "city": {
+            "city_id": 2
+          },
+          "num_days": 3,
+          "guide": {
+            "host_city": {
+              "city_id": 8
+            }
+          }
+        },
+        {
+          "city": {
+            "city_id": 8
+          },
+          "num_days": 3,
+          "guide": {
+            "host_city": {
+              "city_id": 8
+            }
+          }
+        }
+      ],
+      "edge": [
+        {
+          "from_city": {
+            "city_id": 1,
+            "name": "San Diego",
+            "cn_name": "圣地亚哥"
+          },
+          "to_city": {
+            "city_id": 8,
+            "name": "San Francisco",
+            "cn_name": "旧金山"
+          },
+          "distance": 503,
+          "hours": 9
+        }
+      ],
+      "guide_plan_type": "ONE_GUIDE_FOR_EACH_CITY"
+    }
+  },
+  {
+    "status": "ERR_NO_GUIDE_FOR_ITINERARY"
+  }
+]

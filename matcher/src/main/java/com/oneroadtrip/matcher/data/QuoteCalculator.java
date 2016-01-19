@@ -55,8 +55,8 @@ public class QuoteCalculator {
 
 
   public Quote makeQuoteForOneGuide(Itinerary itinerary) throws OneRoadTripException {
-    if (!itinerary.hasGuideForWholeTrip()) {
-      return null;
+    if (itinerary.getGuideForWholeTripCount() == 0) {
+      throw new OneRoadTripException(Status.ERR_NO_GUIDE_FOR_ITINERARY, null);
     }
 
     try {
@@ -70,7 +70,7 @@ public class QuoteCalculator {
       }
       long startCityId = edges.get(0).getFromCity().getCityId();
       long endCityId = edges.get(edges.size() - 1).getToCity().getCityId();
-      long guideCityId = itinerary.getGuideForWholeTrip().getHostCity().getCityId();
+      long guideCityId = itinerary.getGuideForWholeTrip(0).getHostCity().getCityId();
       distance += getConnectionDistance(guideCityId, startCityId);
       distance += getConnectionDistance(endCityId, guideCityId);
 
@@ -103,11 +103,11 @@ public class QuoteCalculator {
     if (itinerary.getEdgeCount() != itinerary.getCityCount() + 1) {
       LOG.info("incorrect request: {}", itinerary);
       // We don't have a correct connection.
-      return null;
+      throw new OneRoadTripException(Status.ERR_NO_GUIDE_FOR_ITINERARY, null);
     }
     if (itinerary.getCityCount() == 1) {
       LOG.info("Only one city, please use the one guide solution: {}", itinerary);
-      return null;
+      throw new OneRoadTripException(Status.ERR_NO_GUIDE_FOR_ITINERARY, null);
     }
 
     try {

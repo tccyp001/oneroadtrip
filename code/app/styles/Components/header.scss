@@ -7,16 +7,106 @@ header {
   }
   display: flex;
   flex-direction: column;
-  .header-top {
-    background: $traverllerOrange;
-    padding-right: 120px;
-    margin-top: -5px;
-    .nav-modify li a {
-      color: white;
-      height: 40px;
+}
+
+.header-top {
+  background: $traverllerOrange;
+  padding-right: 120px;
+  margin-top: -5px;
+
+}
+
+.nav-modify {
+  display: flex;
+  padding: 10px;
+  align-items: center;
+  a {
+    color: white;
+    text-decoration: none;
+    div {
+        width: 70px;
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 500;
+        border: 2px solid $traverllerOrange;
     }
   }
+
+  &>div {
+    margin-right: 30px;
+
+  }
+  div {
+      font-size: 1.5rem;
+      color: $traverllerOrange;
+      &:hover {
+        cursor: pointer;
+      }
+  }
+  div.hidecontent {
+      display: none;
+  }
+
+ .header-dropdown-manu {
+      display: none;
+      position: absolute;
+      font-size: 1.3rem;
+      width: 150px;
+      cursor: pointer;
+      z-index: 999;
+      div {
+        width: 80%;
+        text-align: center;
+        font-weight: 500;
+        border: 1px solid $traverllerOrange;
+        padding: 10px;
+        background: white;
+        &:hover {
+          color: white;
+          background: $traverllerOrange;
+          a {
+            color: white;
+            text-decoration:none;
+          }
+        }
+        a {
+          color: $traverllerOrange;
+        }
+      }
+    }
+    .header-dropdown-toggle {
+      display: flex;
+      align-items: center;
+      .header-dropdown {
+        width: 100%;
+      }
+      i {
+        color: white;
+        font-size: 2rem;
+        margin-right: 20px;
+      }
+      img {
+        width: 20px;
+        margin-right: 10px;
+      }
+    }
+
+  .headerbutton {
+    color: white;
+    border-radius: 20px;
+    background: $traverllerOrange;
+    border: 2px solid white;
+  }
+
+  .headerbutton2 {
+    border: 2px solid $traverllerOrange;
+    color: $traverllerOrange;
+    border-radius: 20px;
+    background: white;
+  }
+  
 }
+
 
 header .navbar-modified .container-fuild-modified{
   background: $traverllerOrange;
@@ -38,83 +128,9 @@ header .navbar-modified .navbar-right li a{
   font-weight: 500;
 }
 
-.nav-modify li a:hover {
-	background: none;
-  color: $traverllerOrange;
-}
 
-.nav-modify {
-  li.hidecontent {
-      display: none;
-  }
-}
 
-.nav-modify li {
-    font-size: 1.5rem;
-    color: $traverllerOrange;
-    &:hover {
-      cursor: pointer;
-    }
-    .header-dropdown-manu {
-      display: none;
-      position: absolute;
-      font-size: 1.3rem;
-      width: 80%;
-      cursor: pointer;
-      z-index: 999;
-      div {
-        width: 80%;
-        text-align: center;
-        font-weight: 500;
-        border: 1px solid $traverllerOrange;
-        padding: 10px;
-        background: white;
-      }
-    }
-    .header-dropdown {
-      width: 100%;
-      margin-left: 50px;
-      img {
-        width: 10%;
-      }
-    }
 
-    div {
-      cursor: pointer;
-      width: 80%;
-      div{
-        width: 70%;
-        &:hover {
-          background: $traverllerOrange;
-          color: white
-        }
-      }
-    }
-
-   .headerbutton {
-    color: white;
-    border-radius: 20px;
-    background: $traverllerOrange;
-    border: 2px solid white;
-  }
-
-  .headerbutton2 {
-    border: 2px solid $traverllerOrange;
-    color: $traverllerOrange;
-    border-radius: 20px;
-    background: white;
-  }
-  a {
-    padding: 10px;
-      div {
-        width: 70px;
-        text-align: center;
-        font-size: 1.5rem;
-        font-weight: 500;
-        border: 2px solid $traverllerOrange;
-    }
-  }
-}
 
 .nav-modify li:first-child {
   padding-top: 2px;

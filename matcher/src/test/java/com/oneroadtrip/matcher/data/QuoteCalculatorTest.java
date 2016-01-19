@@ -78,7 +78,7 @@ public class QuoteCalculatorTest {
       edges.add(newEdge(visits.get(visits.size() - 1), endCity));
 
       return Itinerary.newBuilder().addAllCity(cities).addAllEdge(edges).setNumRoom(numRoom)
-          .setGuideForWholeTrip(guideForWholeTrip).build();
+          .addGuideForWholeTrip(guideForWholeTrip).build();
     }
 
     private Edge newEdge(long x, long y) {

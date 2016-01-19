@@ -51,7 +51,8 @@ function HeaderCtrl($scope, $modal, $cookieStore, $location, $window, $rootScope
         $scope.isLoggin = false;
       }
 
-      $scope.loginName = $cookieStore.get('username');
+      $scope.loginName = $cookieStore.get('nickname') || $cookieStore.get('username');
+      $scope.userImage = $cookieStore.get('userimage');     
       // if($cookies.get('is_admin') === 'true') {
       //   $scope.isAdmin = true;
       // } else {
@@ -63,8 +64,10 @@ function HeaderCtrl($scope, $modal, $cookieStore, $location, $window, $rootScope
   };
 
   $scope.logout = function(){
-    User.logout();
-    $window.location.reload();
+    User.logout().then(function(){
+          $window.location.reload();
+        }
+      )
   }
     
 

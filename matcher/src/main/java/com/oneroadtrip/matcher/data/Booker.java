@@ -14,6 +14,7 @@ import com.oneroadtrip.matcher.proto.BookingResponse;
 import com.oneroadtrip.matcher.proto.Itinerary;
 import com.oneroadtrip.matcher.proto.Order;
 import com.oneroadtrip.matcher.proto.Status;
+import com.oneroadtrip.matcher.util.ItineraryUtil;
 import com.oneroadtrip.matcher.util.SqlUtil;
 
 public class Booker {
@@ -24,8 +25,10 @@ public class Booker {
     try {
       Triplet<Long, Long, List<Long>> result = SqlUtil.executeTransaction(dataSource,
           (Connection conn) -> DatabaseAccessor.prepareForOrder(request.getItinerary(), conn));
-      Itinerary itin = Itinerary.newBuilder(request.getItinerary())
-          .setOrder(Order.newBuilder().setOrderId(result.getValue0()))
+      Itinerary origItin = request.getItinerary();
+      Order order = Order.newBuilder().setCostUsd(ItineraryUtil.getCostUsd(origItin))
+          .setOrderId(result.getValue0()).build();
+      Itinerary itin = Itinerary.newBuilder(origItin).setOrder(order)
           .setItineraryId(result.getValue1()).addAllReservationId(result.getValue2()).build();
       return BookingResponse.newBuilder().setStatus(Status.SUCCESS).setItinerary(itin).build();
     } catch (NullPointerException e) {
@@ -35,5 +38,4 @@ public class Booker {
       return BookingResponse.newBuilder().setStatus(e.getStatus()).build();
     }
   }
-
 }

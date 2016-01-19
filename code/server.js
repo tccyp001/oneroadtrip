@@ -8,8 +8,8 @@ var path = require('path');
 var favicon = require('serve-favicon');
 
 var bodyParser = require('body-parser');
-var config = require('./server/config/config')[env];
-
+// var config = require('./server/config/config')[env];
+var port = 9000;
 // require('./server/config/express')(app, config);
 
 // require('./server/config/mongoose')(config);
@@ -36,5 +36,5 @@ app.get('/bower_components/*', function(req, res) {
 	res.sendFile(__dirname + '/bower_components/' + req.params[0]);
 })
 
-app.listen(config.port);
-console.log('Listening on port ' + config.port + '...');
+app.listen(port);
+console.log('Listening on port ' + port + '...');

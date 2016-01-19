@@ -4,27 +4,29 @@
  */
 CREATE TABLE Users(
   user_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  user_name VARCHAR(100),
-  nick_name VARCHAR(100),
-  email VARCHAR(100),
-  password CHAR(64)
+  user_name VARCHAR(100) DEFAULT '',
+  nick_name VARCHAR(100) DEFAULT '',
+  email VARCHAR(100) DEFAULT '',
+  password CHAR(64) DEFAULT '',
+  misc VARCHAR(16384) DEFAULT '',
+  picture_url VARCHAR(1024) DEFAULT ''
 ) DEFAULT CHARSET=utf8;
 CREATE INDEX UsersUserName ON Users(user_name);
 
 /*
  * source -- QQ / Weibo or others.
+ * unique_id -- 不同的平台，可以有不同的unique_id，譬如qq的，可以用client_id + open_id作为unique_id.
  */
 CREATE TABLE OAuthUsers(
   oauth_user_id BIGINT PRIMARY KEY AUTO_INCREMENT,
   user_id BIGINT,
   source INT,
-  access_token VARCHAR(80),
-  client_id VARCHAR(80),
-  openid VARCHAR(80)
+  unique_id VARCHAR(80),
+  access_token VARCHAR(80)
 ) DEFAULT CHARSET=utf8;
 CREATE INDEX OAuthUsersUserId ON OAuthUsers(user_id);
 CREATE INDEX OAuthUsersAccessToken ON OAuthUsers(access_token);
-CREATE INDEX OAuthUsersClientId ON OAuthUsers(client_id);
+CREATE INDEX OAuthUsersUniqueId ON OAuthUsers(unique_id);
 
 /*
  * About user expiration: 对于一个用户而言，有可能对应有多个tokens，有些过期了，有些没有。
@@ -72,7 +74,7 @@ CREATE TABLE Spots (
   spot_id BIGINT PRIMARY KEY AUTO_INCREMENT,
   city_id BIGINT,
   name VARCHAR(100),
-  description VARCHAR(200),
+  description VARCHAR(2048),
   hours INT,
   score FLOAT,
   interests VARCHAR(100)
@@ -110,6 +112,7 @@ CREATE TABLE GuideReservations (
   itinerary_id BIGINT,
 	reserved_date INT,
   is_permanent BOOLEAN,
+  is_cancel BOOLEAN DEFAULT false,
   location_id BIGINT,  -- DEPRECATING...
   update_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) DEFAULT CHARSET=utf8;
@@ -140,7 +143,9 @@ CREATE TABLE Orders (
   status INT DEFAULT 1,
   cost_usd FLOAT,
   cost FLOAT,
-  currency_id BIGINT
+  currency_id BIGINT,
+  charge_id VARCHAR(100),
+  is_cancel BOOLEAN DEFAULT false
 ) DEFAULT CHARSET=utf8;
 CREATE INDEX OrdersUserId ON Orders(user_id);
 CREATE INDEX OrdersItineraryId ON Orders(itinerary_id);

@@ -32,6 +32,7 @@ function HeaderModalCtrl($scope, $modal, $modalInstance, $http, $cookies, $windo
 
 	$scope.signup = function() {
 		var forms = _.clone($scope.forms);
+    forms.type = 'TRADITIONAL';
 		User.signup(forms).then(function(){
         $modalInstance.close();
         $scope.$parent.updateHeader();
@@ -40,7 +41,6 @@ function HeaderModalCtrl($scope, $modal, $modalInstance, $http, $cookies, $windo
         toastr.error(err.status);  
       })
 	}
-
 
   $scope.login = function() {
     var forms = _.clone($scope.forms);
@@ -54,7 +54,18 @@ function HeaderModalCtrl($scope, $modal, $modalInstance, $http, $cookies, $windo
     })
   }
 
+  $scope.getpassword = function(){
+    var email = $scope.forms.email;
+    User.resetPassword(email)
+    .then(function(res) {
+      console.log(res);
+      $scope.closeModal();
+      toastr.success('密码重置邮件发送成功!'); 
+    })
+  }
 
+
+  var $scopeParent = $scope.$parent;
   $scope.oauthThroughQQ = function(){
       //应用的APPID，请改为你自己的
       var appID = "101277978";
@@ -66,9 +77,19 @@ function HeaderModalCtrl($scope, $modal, $modalInstance, $http, $cookies, $windo
         var queryParams = ['client_id=' + appID,'redirect_uri=' + redirectURI, 'scope=' + 'get_user_info,list_album,upload_pic,add_feeds,do_like','response_type=token', 'state=qq'];
         var query = queryParams.join('&');
         var url = path + query;
-        $window.open(url, 'C-Sharpcorner', 'width=500,height=400');
-
-        $modalInstance.close();
+        var openwindow = $window.open(url, 'C-Sharpcorner', 'width=500,height=400');
+        var interval = $window.setInterval(function() {
+            try {
+                if (openwindow == null || openwindow.closed) {
+                    window.clearInterval(interval);
+                    $scopeParent.updateHeader();
+                    $modalInstance.close();
+                }
+            }
+            catch (e) {
+              console.log(e);
+            }
+        }, 1000);
     }
 
 
@@ -83,8 +104,19 @@ function HeaderModalCtrl($scope, $modal, $modalInstance, $http, $cookies, $windo
       var queryParams = ['client_id=' + appID,'redirect_uri=' + redirectURI, 'response_type=token', 'forcelogin=false', 'state=weibo'];
       var query = queryParams.join('&');
       var url = path + query;
-      $window.open(url, 'C-Sharpcorner', 'width=500,height=400');
-      $modalInstance.close();
+      var openwindow = $window.open(url, 'C-Sharpcorner', 'width=500,height=400');
+      var interval = $window.setInterval(function() {
+          try {
+              if (openwindow == null || openwindow.closed) {
+                  window.clearInterval(interval);
+                  $scopeParent.updateHeader();
+                  $modalInstance.close();
+              }
+          }
+          catch (e) {
+            console.log(e);
+          }
+      }, 1000);
     }
 
 

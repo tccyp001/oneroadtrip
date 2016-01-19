@@ -13,15 +13,19 @@ import com.google.inject.Provides;
 import com.oneroadtrip.matcher.OneRoadTripConfig;
 import com.oneroadtrip.matcher.common.Constants;
 import com.oneroadtrip.matcher.data.PreloadedDataModule;
+import com.oneroadtrip.matcher.resources.BookingResource;
 import com.oneroadtrip.matcher.resources.CityResource;
 import com.oneroadtrip.matcher.resources.GuideInfoResource;
 import com.oneroadtrip.matcher.resources.GuidePlanResource;
 import com.oneroadtrip.matcher.resources.LoginResource;
+import com.oneroadtrip.matcher.resources.OrderResource;
 import com.oneroadtrip.matcher.resources.PlanResource;
 import com.oneroadtrip.matcher.resources.QuoteResource;
+import com.oneroadtrip.matcher.resources.RefundResource;
 import com.oneroadtrip.matcher.resources.SignupResource;
 import com.oneroadtrip.matcher.resources.SpotInfoResource;
 import com.oneroadtrip.matcher.resources.SpotResource;
+import com.oneroadtrip.matcher.resources.UserInfoResource;
 
 public class OneRoadTripModule extends AbstractModule {
   private static final Logger LOG = LogManager.getLogger();
@@ -36,7 +40,7 @@ public class OneRoadTripModule extends AbstractModule {
     LOG.info("mysql connect: {}", config.connectionUri);
 
     bind(OneRoadTripConfig.class).toInstance(config);
-
+    
     install(new AbstractModule() {
       // DB required info module
       @Override
@@ -67,14 +71,18 @@ public class OneRoadTripModule extends AbstractModule {
     install(new ServingToolModule());
 
     // Bind application resources
+    bind(BookingResource.class);
     bind(CityResource.class);
-    bind(PlanResource.class);
-    bind(GuidePlanResource.class);
-    bind(SpotResource.class);
-    bind(LoginResource.class);
-    bind(SignupResource.class);
     bind(GuideInfoResource.class);
-    bind(SpotInfoResource.class);
+    bind(GuidePlanResource.class);
+    bind(LoginResource.class);
+    bind(OrderResource.class);
+    bind(PlanResource.class);
     bind(QuoteResource.class);
+    bind(RefundResource.class);
+    bind(SignupResource.class);
+    bind(SpotInfoResource.class);
+    bind(SpotResource.class);
+    bind(UserInfoResource.class);
   }
 }

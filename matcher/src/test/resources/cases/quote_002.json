@@ -1,0 +1,238 @@
+[
+  {
+    "request": "quote",
+    "itinerary": {
+      "enddate": 20160107,
+      "startdate": 20160107,
+      "hotel": 5,
+      "num_people": 3,
+      "num_room": 2,
+      "keep_order_of_via_cities": false,
+      "city": [
+        {
+          "city": {
+            "city_id": 1
+          },
+          "num_days": 3,
+          "guide": {
+            "host_city": {
+              "city_id": 8
+            }
+          }
+        },
+        {
+          "city": {
+            "city_id": 2
+          },
+          "num_days": 3,
+          "guide": {
+            "host_city": {
+              "city_id": 8
+            }
+          }
+        },
+        {
+          "city": {
+            "city_id": 8
+          },
+          "num_days": 3,
+          "guide": {
+            "host_city": {
+              "city_id": 8
+            }
+          }
+        }
+      ],
+      "edge": [
+        {
+          "from_city": {
+            "city_id": 1,
+            "name": "San Diego",
+            "cn_name": "圣地亚哥"
+          },
+          "to_city": {
+            "city_id": 1,
+            "name": "San Diego",
+            "cn_name": "圣地亚哥"
+          },
+          "distance": 0,
+          "hours": 0
+        },
+        {
+          "from_city": {
+            "city_id": 1,
+            "name": "San Diego",
+            "cn_name": "圣地亚哥"
+          },
+          "to_city": {
+            "city_id": 2,
+            "name": "Los Angels",
+            "cn_name": "洛杉矶"
+          },
+          "distance": 120,
+          "hours": 2
+        },
+        {
+          "from_city": {
+            "city_id": 2,
+            "name": "Los Angels",
+            "cn_name": "洛杉矶"
+          },
+          "to_city": {
+            "city_id": 8,
+            "name": "San Francisco",
+            "cn_name": "旧金山"
+          },
+          "distance": 383,
+          "hours": 7
+        },
+        {
+          "from_city": {
+            "city_id": 8,
+            "name": "San Francisco",
+            "cn_name": "旧金山"
+          },
+          "to_city": {
+            "city_id": 8,
+            "name": "San Francisco",
+            "cn_name": "旧金山"
+          },
+          "distance": 0,
+          "hours": 0
+        }
+      ],
+      "guide_plan_type": "ONE_GUIDE_FOR_EACH_CITY",
+      "guide_for_whole_trip": {
+        "host_city": {
+          "city_id": 8
+        }
+      }
+    }
+  },
+  {
+    "status": "SUCCESS",
+    "itinerary": [
+      {
+        "startdate": 20160107,
+        "enddate": 20160107,
+        "city": [
+          {
+            "city": {
+              "city_id": 1
+            },
+            "num_days": 3,
+            "guide": [
+              {
+                "host_city": {
+                  "city_id": 8
+                }
+              }
+            ]
+          },
+          {
+            "city": {
+              "city_id": 2
+            },
+            "num_days": 3,
+            "guide": [
+              {
+                "host_city": {
+                  "city_id": 8
+                }
+              }
+            ]
+          },
+          {
+            "city": {
+              "city_id": 8
+            },
+            "num_days": 3,
+            "guide": [
+              {
+                "host_city": {
+                  "city_id": 8
+                }
+              }
+            ]
+          }
+        ],
+        "edge": [
+          {
+            "from_city": {
+              "city_id": 1,
+              "name": "San Diego",
+              "cn_name": "圣地亚哥"
+            },
+            "to_city": {
+              "city_id": 1,
+              "name": "San Diego",
+              "cn_name": "圣地亚哥"
+            },
+            "distance": 0,
+            "hours": 0
+          },
+          {
+            "from_city": {
+              "city_id": 1,
+              "name": "San Diego",
+              "cn_name": "圣地亚哥"
+            },
+            "to_city": {
+              "city_id": 2,
+              "name": "Los Angels",
+              "cn_name": "洛杉矶"
+            },
+            "distance": 120,
+            "hours": 2
+          },
+          {
+            "from_city": {
+              "city_id": 2,
+              "name": "Los Angels",
+              "cn_name": "洛杉矶"
+            },
+            "to_city": {
+              "city_id": 8,
+              "name": "San Francisco",
+              "cn_name": "旧金山"
+            },
+            "distance": 383,
+            "hours": 7
+          },
+          {
+            "from_city": {
+              "city_id": 8,
+              "name": "San Francisco",
+              "cn_name": "旧金山"
+            },
+            "to_city": {
+              "city_id": 8,
+              "name": "San Francisco",
+              "cn_name": "旧金山"
+            },
+            "distance": 0,
+            "hours": 0
+          }
+        ],
+        "keep_order_of_via_cities": false,
+        "num_people": 3,
+        "num_room": 2,
+        "hotel": 5,
+        "guide_plan_type": "ONE_GUIDE_FOR_EACH_CITY",
+        "guide_for_whole_trip": [
+          {
+            "host_city": {
+              "city_id": 8
+            }
+          }
+        ],
+        "quote": {
+          "cost_usd": 4809.0,
+          "route_cost": 1509.0,
+          "hotel_cost": 2700.0,
+          "hotel_cost_for_guide": 600.0
+        }
+      }
+    ]
+  }
+]

@@ -30,7 +30,7 @@ public class OrderResource {
   @Produces(MediaType.APPLICATION_JSON)
   public String post(String post) {
     try {
-      LOG.info("/api/quote: '{}'", post);
+      LOG.info("/api/order: '{}'", post);
       OrderRequest request = ProtoUtil.GetRequest(post, OrderRequest.newBuilder());
       return JsonFormat.printToString(stripeProcessor.process(request));
     } catch (ParseException e) {

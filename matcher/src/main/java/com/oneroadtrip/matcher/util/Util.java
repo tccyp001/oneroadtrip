@@ -1,5 +1,7 @@
 package com.oneroadtrip.matcher.util;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
@@ -16,10 +18,14 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.oneroadtrip.matcher.common.OneRoadTripException;
 import com.oneroadtrip.matcher.proto.CityInfo;
 import com.oneroadtrip.matcher.proto.ErrorInfo;
+import com.oneroadtrip.matcher.proto.GuideInfo;
+import com.oneroadtrip.matcher.proto.GuidePlanType;
 import com.oneroadtrip.matcher.proto.Itinerary;
 import com.oneroadtrip.matcher.proto.SpotInfo;
+import com.oneroadtrip.matcher.proto.Status;
 import com.oneroadtrip.matcher.proto.VisitCity;
 import com.oneroadtrip.matcher.proto.VisitSpot;
 import com.oneroadtrip.matcher.proto.internal.CityConnectionInfo;
@@ -154,19 +160,27 @@ public class Util {
     return result;
   }
 
-  public static List<Pair<Long, Integer>> getGuideReservationMap(Itinerary itin) {
-    List<Pair<Long, Integer>> result = Lists.newArrayList();
-    for (VisitCity visit : itin.getCityList()) {
-      for (int i = 0; i < visit.getNumDays(); ++i) {
-        int date = Util.advanceDays(visit.getStartDate(), i);
-        if (itin.getChooseOneGuideSolution()) {
-          result.add(Pair.with(ItineraryUtil.getGuideId(itin.getGuideForWholeTrip()), date));
-        } else {
-          result.add(Pair.with(ItineraryUtil.getGuideId(visit.getGuide(0)), date));
+  public static List<Pair<Long, Integer>> getGuideReservationMap(Itinerary itin) throws OneRoadTripException {
+    try {
+      List<Pair<Long, Integer>> result = Lists.newArrayList();
+      long oneGuideId = 0L;
+      if (itin.getGuidePlanType() == GuidePlanType.ONE_GUIDE_FOR_THE_WHOLE_TRIP) {
+        oneGuideId = ItineraryUtil.getGuideId(itin.getGuideForWholeTrip(0));
+      }
+      for (VisitCity visit : itin.getCityList()) {
+        for (int i = 0; i < visit.getNumDays(); ++i) {
+          int date = Util.advanceDays(visit.getStartDate(), i);
+          if (itin.getGuidePlanType() == GuidePlanType.ONE_GUIDE_FOR_THE_WHOLE_TRIP) {
+            result.add(Pair.with(oneGuideId, date));
+          } else {
+            result.add(Pair.with(ItineraryUtil.getGuideId(visit.getGuide(0)), date));
+          }
         }
       }
+      return result;
+    } catch (IndexOutOfBoundsException e) {
+      throw new OneRoadTripException(Status.ERR_NO_GUIDE_FOR_ITINERARY, e);
     }
-    return result;
   }
   
   public static String getQuestionMarksForSql(int n) {
@@ -175,5 +189,27 @@ public class Util {
       joiner.add("?");
     }
     return joiner.toString();
+  }
+  
+  public static LocalDate getDateByInt(int date) {
+    return LocalDate.of(date / 10000, date / 100 % 100, date % 100);
+  }
+
+  public static int calculateDaysByStartEndDate(int startdate, int enddate) throws OneRoadTripException {
+    try {
+      LocalDate start = getDateByInt(startdate);
+      LocalDate end = getDateByInt(enddate);
+
+      return (int) ChronoUnit.DAYS.between(start, end) + 1;
+    } catch (RuntimeException e) {
+      throw new OneRoadTripException(Status.ERROR_IN_GUIDE_PLAN, e);
+    }
+  }
+
+  public static String cutoffString(String str, int maxLength) {
+    if (str.length() < maxLength) {
+      return str;
+    }
+    return str.substring(0, maxLength);
   }
 }

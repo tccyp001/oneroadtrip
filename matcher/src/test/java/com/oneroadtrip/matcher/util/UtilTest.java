@@ -73,4 +73,10 @@ public class UtilTest {
     Assert.assertEquals(Util.advanceDays(20151225, 2), 20151227);
     Assert.assertEquals(Util.advanceDays(20151225, 10), 20160104);
   }
+  
+  @Test
+  public void calculateDaysByStartEndDate() throws Exception {
+    Assert.assertEquals(Util.calculateDaysByStartEndDate(20151225, 20160103), 10);
+    Assert.assertEquals(Util.calculateDaysByStartEndDate(20160225, 20160302), 7);
+  }
 }

@@ -23,6 +23,9 @@ public class OrderProcessor {
 
   @Inject
   DataSource dataSource;
+  
+  @Inject
+  DatabaseAccessor dbAccessor;
 
   @Inject
   Payer payer;
@@ -42,9 +45,11 @@ public class OrderProcessor {
       guideReservationIds.addAll(SqlUtil.executeTransaction(dataSource,
           (Connection c) -> DatabaseAccessor.reserveGuides(itin, c)));
       order = payer.makePayment(itin.getOrder());
-      int updatedRows = SqlUtil.executeTransaction(dataSource,
-          (Connection c) -> DatabaseAccessor.updateOrder(itin, c));
-      LOG.info("updated rows: {}, order: \n'{}'", updatedRows, order);
+      dbAccessor.updateOrder(order.getOrderId(), order.getStripeChargeId());
+
+      Itinerary newItin = Itinerary.newBuilder(request.getItinerary())
+          .addAllReservationId(guideReservationIds).setOrder(order).build();
+      return OrderResponse.newBuilder().setStatus(Status.SUCCESS).setItinerary(newItin).build();
     } catch (OneRoadTripException e) {
       try {
         int revertRows = SqlUtil.executeTransaction(dataSource,
@@ -57,9 +62,19 @@ public class OrderProcessor {
       }
       return OrderResponse.newBuilder().setStatus(e.getStatus()).build();
     }
-
-    Itinerary newItin = Itinerary.newBuilder(request.getItinerary())
-        .addAllReservationId(guideReservationIds).setOrder(order).build();
-    return OrderResponse.newBuilder().setStatus(Status.SUCCESS).setItinerary(newItin).build();
+  }
+  
+  public OrderResponse refund(OrderRequest request) {
+    Itinerary itin = request.getItinerary();
+    Order order = itin.getOrder();
+    try {
+      String chargeId = dbAccessor.getChargeId(order.getOrderId());
+      payer.refundCharge(chargeId, order.hasRefundUsd() ? order.getRefundUsd()
+          : order.getCostUsd(), order.getRefundReason());
+      dbAccessor.cancelOrder(order);
+      return OrderResponse.newBuilder().setStatus(Status.SUCCESS).build();
+    } catch (OneRoadTripException e) {
+      return OrderResponse.newBuilder().setStatus(e.getStatus()).build();
+    }
   }
 }

@@ -23,6 +23,7 @@ import com.oneroadtrip.matcher.handlers.DbTest;
 import com.oneroadtrip.matcher.proto.Itinerary;
 import com.oneroadtrip.matcher.proto.OrderRequest;
 import com.oneroadtrip.matcher.proto.OrderResponse;
+import com.oneroadtrip.matcher.proto.Status;
 import com.oneroadtrip.matcher.testutil.TestingDataProcessor;
 import com.oneroadtrip.matcher.util.SqlUtil;
 import com.oneroadtrip.matcher.util.Util;
@@ -92,7 +93,7 @@ public class OrderProcessorTest {
   private static final String VALIDATE_RESERVED_GUIDES = "SELECT guide_id, reserved_date "
       + "FROM GuideReservations WHERE is_permanent = true AND itinerary_id = ?";
   static List<Pair<Long, Integer>> validateReserveGuide(Itinerary itin, Connection conn)
-      throws SQLException {
+      throws OneRoadTripException {
     List<Pair<Long, Integer>> actual = Lists.newArrayList();
     try (PreparedStatement pStmt = conn.prepareStatement(VALIDATE_RESERVED_GUIDES)) {
       pStmt.setLong(1, itin.getItineraryId());
@@ -100,12 +101,14 @@ public class OrderProcessorTest {
       while (rs.next()) {
         actual.add(Pair.with(rs.getLong(1), rs.getInt(2)));
       }
+    } catch (SQLException e) {
+      throw new OneRoadTripException(Status.ERR_TESTING_VALIDATE_RESERVED_GUIDES, e);
     }
     return actual;
   }
 
   private static final String VALIDATE_ORDER_STATUS = "SELECT status FROM Orders WHERE order_id = ?";
-  static int validateOrderStatus(long orderId, Connection conn) throws SQLException {
+  static int validateOrderStatus(long orderId, Connection conn) throws OneRoadTripException {
     try (PreparedStatement pStmt = conn.prepareStatement(VALIDATE_ORDER_STATUS)) {
       pStmt.setLong(1, orderId);
       ResultSet rs = pStmt.executeQuery();
@@ -113,6 +116,8 @@ public class OrderProcessorTest {
       int status = rs.getInt(1);
       Assert.assertFalse(rs.next());
       return status;
+    } catch (SQLException e) {
+      throw new OneRoadTripException(Status.ERR_TESTING_VALIDATE_ORDER_STATUS, e);
     }
   }
 }

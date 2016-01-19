@@ -12,6 +12,7 @@ import com.oneroadtrip.matcher.data.GuidePlanner;
 import com.oneroadtrip.matcher.proto.GuidePlanRequest;
 import com.oneroadtrip.matcher.proto.GuidePlanResponse;
 import com.oneroadtrip.matcher.proto.GuidePlanType;
+import com.oneroadtrip.matcher.proto.Itinerary;
 import com.oneroadtrip.matcher.proto.Status;
 import com.oneroadtrip.matcher.proto.VisitCity;
 import com.oneroadtrip.matcher.util.LogUtil;
@@ -41,13 +42,14 @@ public class GuidePlanRequestHandler implements RequestHandler {
   GuidePlanResponse process(GuidePlanRequest request) {
     GuidePlanResponse.Builder builder = GuidePlanResponse.newBuilder().setStatus(Status.SUCCESS);
     try {
+      Itinerary itinerary = request.getItinerary();
       GuidePlanType type = request.getRequestGuidePlanType();
-      GuidePlanRequest processedRequest = processRequest(request);
+      Itinerary processedItin = processRequestItinerary(itinerary);
       if (type == GuidePlanType.ONE_GUIDE_FOR_EACH_CITY || type == GuidePlanType.BOTH) {
-        builder.addGuidePlan(guidePlanner.makeMultiGuidePlan(processedRequest));
+        builder.addItinerary(guidePlanner.makeMultiGuidePlan(processedItin));
       }
       if (type == GuidePlanType.ONE_GUIDE_FOR_THE_WHOLE_TRIP || type == GuidePlanType.BOTH) {
-        builder.addGuidePlan(guidePlanner.makeSingleGuidePlan(processedRequest));
+        builder.addItinerary(guidePlanner.makeSingleGuidePlan(processedItin));
       }
     } catch (OneRoadTripException e) {
       LOG.error("OneRoadTrip exception: ", e);
@@ -56,16 +58,15 @@ public class GuidePlanRequestHandler implements RequestHandler {
     return LogUtil.logAndReturnResponse("/api/guide", request, builder.build());
   }
 
-  private GuidePlanRequest processRequest(GuidePlanRequest request) throws OneRoadTripException {
-    GuidePlanRequest.Builder builder = GuidePlanRequest.newBuilder(request);
-    if (!request.hasStartDate()) {
+  private Itinerary processRequestItinerary(Itinerary itinerary) throws OneRoadTripException {
+    Itinerary.Builder builder = Itinerary.newBuilder(itinerary);
+    if (!builder.hasStartdate()) {
       throw new OneRoadTripException(Status.INCORRECT_REQUEST, null);
     }
-    int currentDate = request.getStartDate();
-    for (int i = 0; i < builder.getCityPlanCount(); ++i) {
-      VisitCity.Builder sub = builder.getCityPlanBuilder(i);
-      sub.setStartDate(currentDate);
-      currentDate = Util.advanceDays(currentDate, sub.getNumDays());
+    int currentDate = builder.getStartdate();
+    for (VisitCity.Builder cityBuilder : builder.getCityBuilderList()) {
+      cityBuilder.setStartDate(currentDate);
+      currentDate = Util.advanceDays(currentDate, cityBuilder.getNumDays());
     }
     return builder.build();
   }

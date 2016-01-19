@@ -31,7 +31,7 @@ public class BookingResource {
   @Produces(MediaType.APPLICATION_JSON)
   public String post(String post) {
     try {
-      LOG.info("/api/quote: '{}'", post);
+      LOG.info("/api/booking: '{}'", post);
       BookingRequest request = ProtoUtil.GetRequest(post, BookingRequest.newBuilder());
       return JsonFormat.printToString(LogUtil.logAndReturnResponse("/api/booking", request,
           booker.process(request)));

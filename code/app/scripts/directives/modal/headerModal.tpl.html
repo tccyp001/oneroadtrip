@@ -20,18 +20,22 @@
                 <span ng-click="changeStatus('signup')" ng-class="{'modalTitleRed': userStatus === 'signup'}">注册</span>/
                 <span ng-click="changeStatus('login')" ng-class="{'modalTitleRed': userStatus === 'login'}">登陆</span>
             </div>
-            <div class="modal-form-input">
+            <div class="modal-form-input" ng-if="userStatus === 'signup' || userStatus === 'login'">
                 <input type="text" class="form-control" ng-model="forms.username" placeholder="用户名">
             </div>
-            <div class="modal-form-input" ng-if="userStatus === 'signup'">
+            <div class="modal-form-input" ng-if="userStatus === 'signup' || userStatus === 'password'">
                 <input type="email" class="form-control" ng-model="forms.email" placeholder="邮箱">
             </div>
-            <div class="modal-form-input">
+            <div class="modal-form-input" ng-if="userStatus === 'signup' || userStatus === 'login'">
                 <input type="password" class="form-control" ng-model="forms.password" placeholder="密码">
             </div>
             <div class="modal-submit" ng-if="userStatus === 'login'" ng-click="login()">登陆</div>
             <div class="modal-submit" ng-if="userStatus === 'signup'" ng-click="signup()">注册</div>
-            <div class="modal-aggrement">点击注册代表您同意并遵守一路游 用户使用协议</div>
+            <div class="modal-submit" ng-if="userStatus === 'password'" ng-click="getpassword()">发送密码重置链接</div>
+            <div class="modal-password" ng-if="userStatus === 'signup' || userStatus === 'login'">忘记密码？点击<span ng-click="changeStatus('password')">找回密码</span></div>
+            <div class="modal-aggrement" ng-if="userStatus === 'signup' || userStatus === 'login'">点击注册代表您同意并遵守一路游 用户使用协议</div>
+            <div class="modal-aggrement" ng-if="userStatus === 'password'">请输入与您的账号关联的电子邮件地址，我们将通过电子邮件给您发送重置密码的链接。</div>
+
 
         </div>
         <div class="modal-close">

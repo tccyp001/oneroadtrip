@@ -12,7 +12,7 @@ angular.module('app.controllers')
 
 
 function UserCtrl($scope, $http) {
-
+	$scope.$parent.showfooter = true;
 
 
 }
