@@ -62,9 +62,9 @@ INSERT INTO Orders (user_id, itinerary_id, status, cost_usd, is_cancel) VALUES
   
 INSERT INTO GuideReservations 
   (itinerary_id, guide_id, reserved_date, is_permanent, is_cancel, update_timestamp) VALUES
-  (1, 1, 20151225, true, false, TIMESTAMP '2105-12-31 23:59:59'),
-  (1, 2, 20151226, true, false, TIMESTAMP '2105-12-31 23:59:59'),
-  (2, 3, 20151228, true, false, TIMESTAMP '2105-12-31 23:59:59');
+  (1, 1, 20151225, true, false, PARSEDATETIME('2105-12-31 -0700', 'yyyy-MM-dd Z')),
+  (1, 2, 20151226, true, false, PARSEDATETIME('2105-12-31 -0700', 'yyyy-MM-dd Z')),
+  (2, 3, 20151228, true, false, PARSEDATETIME('2105-12-31 -0700', 'yyyy-MM-dd Z'));
 ==========
 ==TESTCASE_DATA==
 
@@ -106,7 +106,7 @@ order {
     reserved_date: 20151225
     is_cancel: false
     is_permanent: true
-    expired_ts: 4291718399000
+    expired_ts: 4291686000000
   }
   reservation {
     reservation_id: 2
@@ -131,7 +131,7 @@ order {
     reserved_date: 20151226
     is_cancel: false
     is_permanent: true
-    expired_ts: 4291718399000
+    expired_ts: 4291686000000
   }
 }
 order {
@@ -163,7 +163,7 @@ order {
     reserved_date: 20151228
     is_cancel: false
     is_permanent: true
-    expired_ts: 4291718399000
+    expired_ts: 4291686000000
   }
 }
 
