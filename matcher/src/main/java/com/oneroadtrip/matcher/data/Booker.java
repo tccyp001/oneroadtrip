@@ -28,7 +28,7 @@ public class Booker {
       Itinerary origItin = request.getItinerary();
       Order order = Order.newBuilder().setCostUsd(ItineraryUtil.getCostUsd(origItin))
           .setOrderId(result.getValue0()).build();
-      Itinerary itin = Itinerary.newBuilder(request.getItinerary()).setOrder(order)
+      Itinerary itin = Itinerary.newBuilder(origItin).setOrder(order)
           .setItineraryId(result.getValue1()).addAllReservationId(result.getValue2()).build();
       return BookingResponse.newBuilder().setStatus(Status.SUCCESS).setItinerary(itin).build();
     } catch (NullPointerException e) {

@@ -21,17 +21,21 @@ import org.javatuples.Pair;
 import org.javatuples.Triplet;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.protobuf.TextFormat;
 import com.oneroadtrip.matcher.common.OneRoadTripException;
+import com.oneroadtrip.matcher.proto.GuideInfo;
 import com.oneroadtrip.matcher.proto.Itinerary;
 import com.oneroadtrip.matcher.proto.Order;
 import com.oneroadtrip.matcher.proto.OrderStatus;
+import com.oneroadtrip.matcher.proto.Reservation;
 import com.oneroadtrip.matcher.proto.SignupType;
 import com.oneroadtrip.matcher.proto.Status;
 import com.oneroadtrip.matcher.proto.UserInfo;
+import com.oneroadtrip.matcher.proto.UserInfoResponse;
 import com.oneroadtrip.matcher.util.HashUtil.Hasher;
 import com.oneroadtrip.matcher.util.ItineraryUtil;
 import com.oneroadtrip.matcher.util.SqlUtil;
@@ -42,6 +46,9 @@ public class DatabaseAccessor {
 
   @Inject
   DataSource dataSource;
+  
+  @Inject
+  ImmutableMap<Long, GuideInfo> guideIdToInfo;
 
   private static final String LOAD_GUIDE_RESERVE_DAYS = "SELECT guide_id, reserved_date FROM GuideReservations "
       + "WHERE (is_permanent = true OR update_timestamp >= ?) AND guide_id IN (%s)";
@@ -425,6 +432,103 @@ public class DatabaseAccessor {
       }
     } catch (SQLException e) {
       throw new OneRoadTripException(Status.ERR_GET_CHARGE_ID, e);
+    }
+  }
+  
+  // UserInfo
+  public UserInfoResponse retrieveUserInfo(String userToken) throws OneRoadTripException {
+    try (Connection conn = dataSource.getConnection()) {
+      long userId = getUserId(conn, userToken);
+      UserInfo userInfo = lookupUser(conn, userId);
+      List<Order> orders = retrieveUserOrders(conn, userId);
+      return UserInfoResponse.newBuilder().addAllOrder(orders).setUserInfo(userInfo).build();
+    } catch (SQLException e) {
+      throw new OneRoadTripException(Status.NO_DB_CONNECTION, e);
+    }
+  }
+  
+  private static final String LOOKUP_USER_BY_ID = "SELECT user_id, user_name, nick_name, password, picture_url "
+      + "FROM Users WHERE user_id = ?";
+  private UserInfo lookupUser(Connection conn, long userId) throws OneRoadTripException {
+    try (PreparedStatement pStmt = conn.prepareStatement(LOOKUP_USER_BY_ID)) {
+      pStmt.setLong(1, userId);
+      return getUserBySql(pStmt);
+    } catch (SQLException e) {
+      throw new OneRoadTripException(Status.ERR_QUERY_USER_INFO, e);
+    }
+  }
+
+  private static final String QUERY_USER_ORDER_INFO = "SELECT "
+      +"  o.order_id, "
+      +"  o.status, "
+      +"  o.cost_usd, "
+      +"  o.is_cancel, "
+      +"  gs.reservation_id, "
+      +"  gs.guide_id, "
+      +"  gs.reserved_date, "
+      +"  gs.is_cancel, "
+      +"  gs.is_permanent, "
+      +"  gs.update_timestamp "
+      +"FROM "
+      +"  Orders o "
+      +"  INNER JOIN GuideReservations gs ON (o.itinerary_id = gs.itinerary_id) "
+      +"WHERE o.user_id = ? "
+      +"ORDER BY 1";
+  private List<Order> retrieveUserOrders(Connection conn, long userId) throws OneRoadTripException {
+    try (PreparedStatement pStmt = conn.prepareStatement(QUERY_USER_ORDER_INFO)) {
+      pStmt.setLong(1, userId);
+      try (ResultSet rs = pStmt.executeQuery()) {
+        List<Order> orders = Lists.newArrayList();
+        Order.Builder order = Order.newBuilder();
+        List<Reservation> reservations = Lists.newArrayList();
+        while (rs.next()) {
+          long orderId = rs.getLong(1);
+          if (!order.hasOrderId()) {
+            // Get order data
+            order.setOrderId(orderId);
+            order.setOrderStatus(OrderStatus.valueOf(rs.getInt(2)));
+            order.setCostUsd(rs.getFloat(3));
+            order.setIsCancelled(rs.getBoolean(4));
+          }
+          
+          if (orderId != order.getOrderId()) {
+            order.addAllReservation(reservations);
+            orders.add(order.build());
+            
+            // Clear and restart
+            order.clear();
+            order.setOrderId(orderId);
+            order.setOrderStatus(OrderStatus.valueOf(rs.getInt(2)));
+            order.setCostUsd(rs.getFloat(3));
+            order.setIsCancelled(rs.getBoolean(4));
+            reservations.clear();
+          }
+          
+          long guideId = rs.getLong(6);
+          GuideInfo guideInfo = guideIdToInfo.get(guideId);
+          if (guideInfo == null) {
+            guideInfo = GuideInfo.newBuilder().setGuideId(guideId).build();
+          }
+          
+          Reservation reservation = Reservation.newBuilder()
+              .setReservationId(rs.getLong(5))
+              .setGuide(guideInfo)
+              .setReservedDate(rs.getInt(7))
+              .setIsCancel(rs.getBoolean(8))
+              .setIsPermanent(rs.getBoolean(9))
+              .setExpiredTs(rs.getTimestamp(10).getTime())
+              .build();
+          reservations.add(reservation);
+        }
+        if (order.hasOrderId() && order.getOrderId() > 0) {
+          order.addAllReservation(reservations);
+          orders.add(order.build());
+        }
+        return orders;
+      }
+    } catch (NullPointerException | SQLException e) {
+      e.printStackTrace();
+      throw new OneRoadTripException(Status.ERR_QUERY_USER_INFO, e);
     }
   }
 }

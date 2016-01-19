@@ -53,12 +53,15 @@ enum Status {
   ERR_GET_USER_ID = 121;
   ERR_PATH_NOT_FOUND = 122;
 
-  // Util errors
-  ERR_NO_GUIDE_FOR_ITINERARY = 2000;
+  // UserInfo
+  ERR_QUERY_USER_INFO = 900;
 
   // Status for testing.
   ERR_TESTING_VALIDATE_RESERVED_GUIDES = 1000;
   ERR_TESTING_VALIDATE_ORDER_STATUS = 1001;
+
+  // Util errors
+  ERR_NO_GUIDE_FOR_ITINERARY = 2000;
 
   // Internal status
   //
@@ -169,6 +172,15 @@ message Quote {
   optional float hotel_cost_for_guide = 6;
 }
 
+message Reservation {
+  optional int64 reservation_id = 1;
+  optional GuideInfo guide = 2;
+  optional int32 reserved_date = 3;
+  optional bool is_cancel = 4;
+  optional bool is_permanent = 5;
+  optional int64 expired_ts = 6;
+}
+
 message Order {
   optional int64 order_id = 1;
 
@@ -182,6 +194,11 @@ message Order {
   optional string stripe_charge_id = 7;
   optional float refund_usd = 8;  // Possible to be partial of the cost, default is fully-refund.
   optional string refund_reason = 9;
+
+  // TODO(xfguo): merge reservation_id in Itinerary here.
+  optional OrderStatus order_status = 10;
+  optional bool is_cancelled = 11;
+  repeated Reservation reservation = 12;
 }
 
 enum GuidePlanType {

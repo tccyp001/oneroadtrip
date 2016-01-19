@@ -25,6 +25,7 @@ import com.oneroadtrip.matcher.resources.RefundResource;
 import com.oneroadtrip.matcher.resources.SignupResource;
 import com.oneroadtrip.matcher.resources.SpotInfoResource;
 import com.oneroadtrip.matcher.resources.SpotResource;
+import com.oneroadtrip.matcher.resources.UserInfoResource;
 
 public class OneRoadTripModule extends AbstractModule {
   private static final Logger LOG = LogManager.getLogger();
@@ -82,5 +83,6 @@ public class OneRoadTripModule extends AbstractModule {
     bind(SignupResource.class);
     bind(SpotInfoResource.class);
     bind(SpotResource.class);
+    bind(UserInfoResource.class);
   }
 }

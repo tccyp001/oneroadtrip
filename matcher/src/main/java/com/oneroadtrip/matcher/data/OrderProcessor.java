@@ -46,6 +46,10 @@ public class OrderProcessor {
           (Connection c) -> DatabaseAccessor.reserveGuides(itin, c)));
       order = payer.makePayment(itin.getOrder());
       dbAccessor.updateOrder(order.getOrderId(), order.getStripeChargeId());
+
+      Itinerary newItin = Itinerary.newBuilder(request.getItinerary())
+          .addAllReservationId(guideReservationIds).setOrder(order).build();
+      return OrderResponse.newBuilder().setStatus(Status.SUCCESS).setItinerary(newItin).build();
     } catch (OneRoadTripException e) {
       try {
         int revertRows = SqlUtil.executeTransaction(dataSource,
@@ -58,10 +62,6 @@ public class OrderProcessor {
       }
       return OrderResponse.newBuilder().setStatus(e.getStatus()).build();
     }
-
-    Itinerary newItin = Itinerary.newBuilder(request.getItinerary())
-        .addAllReservationId(guideReservationIds).setOrder(order).build();
-    return OrderResponse.newBuilder().setStatus(Status.SUCCESS).setItinerary(newItin).build();
   }
   
   public OrderResponse refund(OrderRequest request) {

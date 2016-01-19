@@ -4,11 +4,11 @@
  */
 CREATE TABLE Users(
   user_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  user_name VARCHAR(100),
-  nick_name VARCHAR(100),
-  email VARCHAR(100),
-  password CHAR(64),
-  misc VARCHAR(16384),
+  user_name VARCHAR(100) DEFAULT '',
+  nick_name VARCHAR(100) DEFAULT '',
+  email VARCHAR(100) DEFAULT '',
+  password CHAR(64) DEFAULT '',
+  misc VARCHAR(16384) DEFAULT '',
   picture_url VARCHAR(1024) DEFAULT ''
 ) DEFAULT CHARSET=utf8;
 CREATE INDEX UsersUserName ON Users(user_name);
