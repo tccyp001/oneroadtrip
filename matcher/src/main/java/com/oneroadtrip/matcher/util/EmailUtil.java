@@ -4,7 +4,7 @@ import javax.mail.*;
 import javax.mail.internet.*;
 import javax.activation.*;
 public class EmailUtil {
-	public static void sendPwdResetEmail() {
+	public static void sendPwdResetEmail(String token) {
 		final String username = "tccyp86@gmail.com";
 		final String password = "Cypinto_001";
 		
@@ -40,7 +40,7 @@ public class EmailUtil {
 	         message.setSubject("This is the Subject Line!");
 	 
 	         // 设置消息体
-	         message.setText("This is actual message");
+	         message.setText("This is actual message" + token);
 	 
 	         // 发送消息
 	         Transport.send(message);

@@ -48,30 +48,32 @@ public class ResetPwdRequestHandler  implements RequestHandler {
 		     LOG.error("failed to parse the json: {}", post, e);
 		     return JsonFormat.printToString(GuidePlanResponse.newBuilder()
 		          .setStatus(Status.INCORRECT_REQUEST).build());
-		}
-	}
-	ResetPwdResponse process(ResetPwdRequest request) {
-		String userToken = "aaa";
-		int ret;
-		try {
-			ret = SqlUtil.executeTransaction(dataSource,
-			        (Connection c) -> DatabaseAccessor.checkToken(c, userToken));
 		} catch (OneRoadTripException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		    return JsonFormat.printToString(GuidePlanResponse.newBuilder()
+			          .setStatus(Status.INCORRECT_REQUEST).build());
 		}
-
+	}
+	ResetPwdResponse process(ResetPwdRequest request) throws OneRoadTripException {
+		if(request.getStep() == 1) {
+			processStepOne(request.getUsermail());
+		}
+		else {
+			processStepTwo(request.getToken(), request.getPassword());
+		}
+		
 		
 		ResetPwdResponse.Builder builder = ResetPwdResponse.newBuilder().setStatus(Status.SUCCESS);
-		 return LogUtil.logAndReturnResponse("/api/resetpwd", request, builder.build());
+		return LogUtil.logAndReturnResponse("/api/resetpwd", request, builder.build());
 	}
 	
 	private void processStepOne(String useremail) throws OneRoadTripException {
 		UserInfo userInfo = dbAccessor.lookupUserByEmail(useremail);
 		HashUtil.HasherImpl hasher = new HashUtil.HasherImpl();
-		String token = hasher.getRandomString();
-		EmailUtil.sendPwdResetEmail();
-		dbAccessor.addOneValidToken(hasher, userInfo, Constants.TOKEN_TYPE_RESET);
+		String token = dbAccessor.addOneValidToken(hasher, userInfo, Constants.TOKEN_TYPE_RESET);
+		EmailUtil.sendPwdResetEmail(token);
+		
 		
 	}
 	private void processStepTwo(String token, String password) throws OneRoadTripException {

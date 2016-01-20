@@ -3,6 +3,7 @@ package com.oneroadtrip.matcher.data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
@@ -299,8 +300,16 @@ public class DatabaseAccessor {
       if (!rs.next()) {
         return null;
       }
+      ResultSetMetaData rsMetaData = rs.getMetaData();
+      int numberOfColumns = rsMetaData.getColumnCount();
+      // TODO should add email to all query related to user table
+      String email = "";
+      if(numberOfColumns == 6) {
+    	  email = rs.getString(6);
+      }
       UserInfo user = UserInfo.newBuilder().setUserId(rs.getLong(1)).setUserName(rs.getString(2))
-          .setNickName(rs.getString(3)).setPassword(rs.getString(4)).setPictureUrl(rs.getString(5))
+          .setNickName(rs.getString(3) == null?"":rs.getString(3)).setPassword(rs.getString(4)).setPictureUrl(rs.getString(5))
+          .setEmail(email)
           .build();
       Preconditions.checkArgument(!rs.next());
       return user;
@@ -366,7 +375,7 @@ public class DatabaseAccessor {
     }
   }
 
-  private static final String LOOKUP_USER_BY_EMAIL = "SELECT user_id, user_name, nick_name, password, picture_url "
+  private static final String LOOKUP_USER_BY_EMAIL = "SELECT user_id, user_name, nick_name, password, picture_url, email "
 	      + "FROM Users WHERE email = ?";
 
   public UserInfo lookupUserByEmail(String email) throws OneRoadTripException {
@@ -477,7 +486,7 @@ public class DatabaseAccessor {
     }
   }
   
-  private static final String LOOKUP_USER_BY_ID = "SELECT user_id, user_name, nick_name, password, picture_url "
+  private static final String LOOKUP_USER_BY_ID = "SELECT user_id, user_name, nick_name, password, picture_url, email "
       + "FROM Users WHERE user_id = ?";
   public UserInfo lookupUser(Connection conn, long userId) throws OneRoadTripException {
     try (PreparedStatement pStmt = conn.prepareStatement(LOOKUP_USER_BY_ID)) {
