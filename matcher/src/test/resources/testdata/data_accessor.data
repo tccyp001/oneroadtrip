@@ -1,7 +1,7 @@
 ==INSERT_DATA==
 INSERT INTO Users (user_id, user_name, nick_name) VALUES (1, 'test', 'testnick');
-INSERT INTO Tokens (token_id, token, user_id, is_expired, expired_ts) VALUES
-  (1, 'usertokenabc', 1, false, TIMESTAMP '2105-12-31 23:59:59');
+INSERT INTO Tokens (token_id, token, user_id, is_expired, expired_ts, token_type) VALUES
+  (1, 'usertokenabc', 1, false, TIMESTAMP '2105-12-31 23:59:59', 'signin');
 
 ==========
 ==TESTCASE_DATA==

@@ -152,7 +152,7 @@ public class DatabaseAccessor {
   }
   
   private static final String GET_USER_ID_BY_TOKEN = "SELECT user_id FROM Tokens "
-      + "WHERE token = ? AND is_expired = false AND expired_ts > ? AND type = ?";
+      + "WHERE token = ? AND is_expired = false AND expired_ts > ? AND token_type = ? ";
   private static long getUserId(Connection conn, String userToken, String type) throws OneRoadTripException {
     try (PreparedStatement pStmt = conn.prepareStatement(GET_USER_ID_BY_TOKEN)) {
       pStmt.setString(1, userToken);
@@ -172,10 +172,10 @@ public class DatabaseAccessor {
 	  return getUserId(conn, userToken, Constants.TOKEN_TYPE_SIGNIN);
   }
   
-  private static long getUserIdResetPwd(Connection conn, String userToken) throws OneRoadTripException {
+  public static long getUserIdResetPwd(Connection conn, String userToken) throws OneRoadTripException {
 	  return getUserId(conn, userToken, Constants.TOKEN_TYPE_RESET);
   }
-
+  
   private static final String RESERVER_GUIDES_PERMANENTLY = "INSERT INTO GuideReservations "
       + "(guide_id, itinerary_id, reserved_date, is_permanent) VALUES " + "(?, ?, ?, true)";
 
@@ -399,34 +399,30 @@ public class DatabaseAccessor {
   }
 
   private static final String INSERT_ONE_TOKEN_FOR_USER = "INSERT INTO Tokens "
-      + "(token, user_id, expired_ts, is_expired, type) VALUES (?, ?, ?, false, ?)";
+      + "(token, user_id, expired_ts, is_expired, token_type) VALUES (?, ?, ?, false, ?)";
 
-  private int insertOneTokenForResetPwd(Connection conn, UserInfo user, String token)
-	      throws OneRoadTripException {
-	  return insertOneTokenForUser(conn, user, token, "ResetPwd");
-  }
-  private int insertOneTokenForUser(Connection conn, UserInfo user, String token)
-	      throws OneRoadTripException {
-	  return insertOneTokenForUser(conn, user, token, "SignIn");
-  }
+
   private int insertOneTokenForUser(Connection conn, UserInfo user, String token, String type)
       throws OneRoadTripException {
     try (PreparedStatement pStmt = conn.prepareStatement(INSERT_ONE_TOKEN_FOR_USER)) {
       pStmt.setString(1, token);
       pStmt.setLong(2, user.getUserId());
       pStmt.setTimestamp(3, SqlUtil.getTimestampToNow((int) TimeUnit.DAYS.toSeconds(30)));
+      pStmt.setString(4, type);
       return pStmt.executeUpdate();
     } catch (SQLException e) {
       throw new OneRoadTripException(Status.ERR_INSERT_TOKEN, e);
     }
   }
-
   public String addOneValidToken(Hasher hasher, UserInfo user) throws OneRoadTripException {
+	  return addOneValidToken(hasher, user,  Constants.TOKEN_TYPE_SIGNIN);
+  }
+  public String addOneValidToken(Hasher hasher, UserInfo user, String type) throws OneRoadTripException {
     try {
       Preconditions.checkArgument(user.hasUserId());
       String token = hasher.getRandomString();
       int insertRows = SqlUtil.executeTransaction(dataSource,
-          (Connection conn) -> insertOneTokenForUser(conn, user, token));
+          (Connection conn) -> insertOneTokenForUser(conn, user, token, type));
       Preconditions.checkArgument(insertRows > 0);
       return token;
     } catch (IllegalArgumentException e) {
@@ -483,7 +479,7 @@ public class DatabaseAccessor {
   
   private static final String LOOKUP_USER_BY_ID = "SELECT user_id, user_name, nick_name, password, picture_url "
       + "FROM Users WHERE user_id = ?";
-  private UserInfo lookupUser(Connection conn, long userId) throws OneRoadTripException {
+  public UserInfo lookupUser(Connection conn, long userId) throws OneRoadTripException {
     try (PreparedStatement pStmt = conn.prepareStatement(LOOKUP_USER_BY_ID)) {
       pStmt.setLong(1, userId);
       return getUserBySql(pStmt);

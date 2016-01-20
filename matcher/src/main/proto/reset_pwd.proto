@@ -9,7 +9,7 @@ option java_outer_classname = "ResetPwdProtos";
 import "common.proto";
 
 message ResetPwdRequest {
-  // For tradition login
+
   optional string usermail = 1;
   optional string token = 2;
   optional string password = 3;

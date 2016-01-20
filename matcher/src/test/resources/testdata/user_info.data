@@ -51,9 +51,9 @@ INSERT INTO Users (user_id, user_name, nick_name, email) VALUES
   (102, 'test', 'test123', 'test@test.com'),
   (103, 'error', '', 'error@test.com');
   
-INSERT INTO Tokens (user_id, token, expired_ts, is_expired) VALUES 
-  (101, 'abcdefg', TIMESTAMP '2105-12-31 23:59:59', false),
-  (102, 'qwertyu', TIMESTAMP '2105-12-31 23:59:59', false);
+INSERT INTO Tokens (user_id, token, expired_ts, is_expired, token_type) VALUES 
+  (101, 'abcdefg', TIMESTAMP '2105-12-31 23:59:59', false, 'signin'),
+  (102, 'qwertyu', TIMESTAMP '2105-12-31 23:59:59', false, 'signin');
 
 INSERT INTO Orders (user_id, itinerary_id, status, cost_usd, is_cancel) VALUES
   (101, 1, 1, 100.0, false),
