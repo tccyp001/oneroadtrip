@@ -46,23 +46,26 @@ public class ResetPwdRequestHandler  implements RequestHandler {
 			 return JsonFormat.printToString(process(request));
 		} catch (ParseException e) {
 		     LOG.error("failed to parse the json: {}", post, e);
-		     return JsonFormat.printToString(GuidePlanResponse.newBuilder()
+		     return JsonFormat.printToString(ResetPwdResponse.newBuilder()
 		          .setStatus(Status.INCORRECT_REQUEST).build());
 		} catch (OneRoadTripException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		    return JsonFormat.printToString(GuidePlanResponse.newBuilder()
+		    return JsonFormat.printToString(ResetPwdResponse.newBuilder()
 			          .setStatus(Status.INCORRECT_REQUEST).build());
 		}
 	}
 	ResetPwdResponse process(ResetPwdRequest request) throws OneRoadTripException {
-		if(request.getStep() == 1) {
+		if(request.getToken().isEmpty() && !request.getUsermail().isEmpty()) {
 			processStepOne(request.getUsermail());
 		}
-		else {
+		else if (!request.getToken().isEmpty() && !request.getPassword().isEmpty()){
 			processStepTwo(request.getToken(), request.getPassword());
 		}
-		
+		else {
+		    return ResetPwdResponse.newBuilder()
+	          .setStatus(Status.INCORRECT_REQUEST).build();
+		}
 		
 		ResetPwdResponse.Builder builder = ResetPwdResponse.newBuilder().setStatus(Status.SUCCESS);
 		return LogUtil.logAndReturnResponse("/api/resetpwd", request, builder.build());
@@ -72,9 +75,8 @@ public class ResetPwdRequestHandler  implements RequestHandler {
 		UserInfo userInfo = dbAccessor.lookupUserByEmail(useremail);
 		HashUtil.HasherImpl hasher = new HashUtil.HasherImpl();
 		String token = dbAccessor.addOneValidToken(hasher, userInfo, Constants.TOKEN_TYPE_RESET);
-		EmailUtil.sendPwdResetEmail(token);
 		
-		
+		EmailUtil.sendPwdResetEmail(token, useremail);
 	}
 	private void processStepTwo(String token, String password) throws OneRoadTripException {
 		long userId = 0;
@@ -91,8 +93,6 @@ public class ResetPwdRequestHandler  implements RequestHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 	}
 	  
 }
